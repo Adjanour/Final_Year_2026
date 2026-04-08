@@ -1,0 +1,3011 @@
+[
+  {
+    "title": "OpenKE: An Open Toolkit for Knowledge Embedding",
+    "file": "sun2018-openke.pdf",
+    "picked": {
+      "title": "OpenKE: An Open Toolkit for Knowledge Embedding",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/d18-2024",
+      "container": "Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing: System Demonstrations",
+      "score": 2.35,
+      "years": [
+        2018,
+        2019,
+        2018
+      ]
+    },
+    "candidates": [
+      {
+        "title": "OpenKE: An Open Toolkit for Knowledge Embedding",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/d18-2024",
+        "container": "Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing: System Demonstrations",
+        "score": 2.35,
+        "years": [
+          2018,
+          2019,
+          2018
+        ]
+      },
+      {
+        "title": "A Knowledge Management Toolkit based on Open Source",
+        "type": "proceedings-article",
+        "DOI": "10.5220/0005610302070215",
+        "container": "Proceedings of the 7th International Joint Conference on Knowledge Discovery, Knowledge Engineering and Knowledge Management",
+        "score": 0.95,
+        "years": [
+          2015,
+          2015,
+          2015
+        ]
+      },
+      {
+        "title": "Open Knowledge Graph Link Prediction with Segmented Embedding",
+        "type": "proceedings-article",
+        "DOI": "10.1109/ijcnn55064.2022.9891940",
+        "container": "2022 International Joint Conference on Neural Networks (IJCNN)",
+        "score": 0.95,
+        "years": [
+          2022,
+          2022,
+          2022
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Subgraph Retrieval Enhanced Model for Multi-hop Knowledge Base Question Answering",
+    "file": "zhang2022-subgraph-retrieval-enhanced-model.pdf",
+    "picked": {
+      "title": "Subgraph Retrieval Enhanced Model for Multi-hop Knowledge Base Question Answering",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2022.acl-long.396",
+      "container": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+      "score": 2.35,
+      "years": [
+        2022,
+        2022,
+        2022
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Subgraph Retrieval Enhanced Model for Multi-hop Knowledge Base Question Answering",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2022.acl-long.396",
+        "container": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+        "score": 2.35,
+        "years": [
+          2022,
+          2022,
+          2022
+        ]
+      },
+      {
+        "title": "Multi-hop knowledge base question answering by case retrieval",
+        "type": "proceedings-article",
+        "DOI": "10.1117/12.2684740",
+        "container": "3rd International Conference on Artificial Intelligence, Automation, and High-Performance Computing (AIAHPC 2023)",
+        "score": 1.65,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "Subgraph retrieval and link scoring model for multi-hop question answering in knowledge graphs",
+        "type": "journal-article",
+        "DOI": "10.1007/s10489-024-05935-8",
+        "container": "Applied Intelligence",
+        "score": 1.15,
+        "years": [
+          2025,
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "KEPLER: A Unified Model for Knowledge Embedding and Pre-trained Language Representation",
+    "file": "wang2021-kepler.pdf",
+    "picked": {
+      "title": "KEPLER: A Unified Model for Knowledge Embedding and Pre-trained Language Representation",
+      "type": "journal-article",
+      "DOI": "10.1162/tacl_a_00360",
+      "container": "Transactions of the Association for Computational Linguistics",
+      "score": 2.35,
+      "years": [
+        2021,
+        2021,
+        2021,
+        2021
+      ]
+    },
+    "candidates": [
+      {
+        "title": "KEPLER: A Unified Model for Knowledge Embedding and Pre-trained Language Representation",
+        "type": "journal-article",
+        "DOI": "10.1162/tacl_a_00360",
+        "container": "Transactions of the Association for Computational Linguistics",
+        "score": 2.35,
+        "years": [
+          2021,
+          2021,
+          2021,
+          2021
+        ]
+      },
+      {
+        "title": "CokeBERT: Contextual knowledge selection and embedding towards enhanced pre-trained language models",
+        "type": "journal-article",
+        "DOI": "10.1016/j.aiopen.2021.06.004",
+        "container": "AI Open",
+        "score": 1.906,
+        "years": [
+          2021,
+          2021,
+          2021
+        ]
+      },
+      {
+        "title": "Pre-training language model incorporating domain-specific heterogeneous knowledge into a unified representation",
+        "type": "journal-article",
+        "DOI": "10.1016/j.eswa.2022.119369",
+        "container": "Expert Systems with Applications",
+        "score": 1.617,
+        "years": [
+          2023,
+          2022,
+          2023
+        ]
+      }
+    ]
+  },
+  {
+    "title": "PullNet: Open Domain Question Answering with Iterative Retrieval on Knowledge Bases and Text",
+    "file": "sun2019-pullnet.pdf",
+    "picked": {
+      "title": "PullNet: Open Domain Question Answering with Iterative Retrieval on Knowledge Bases and Text",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/d19-1242",
+      "container": "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)",
+      "score": 2.35,
+      "years": [
+        2019,
+        2019,
+        2019
+      ]
+    },
+    "candidates": [
+      {
+        "title": "PullNet: Open Domain Question Answering with Iterative Retrieval on Knowledge Bases and Text",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/d19-1242",
+        "container": "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)",
+        "score": 2.35,
+        "years": [
+          2019,
+          2019,
+          2019
+        ]
+      },
+      {
+        "title": "Open Domain Question Answering Using Early Fusion of Knowledge Bases and Text",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/d18-1455",
+        "container": "Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing",
+        "score": 2.05,
+        "years": [
+          2018,
+          2019,
+          2018
+        ]
+      },
+      {
+        "title": "Never-Ending Learning for Open-Domain Question Answering over Knowledge Bases",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3178876.3186004",
+        "container": "Proceedings of the 2018 World Wide Web Conference on World Wide Web - WWW '18",
+        "score": 1.55,
+        "years": [
+          2018,
+          2018,
+          2018
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Rethinking Knowledge Graph Evaluation Under the Open-World Assumption",
+    "file": "he2022-rethinking-kg-evaluation.pdf",
+    "picked": {
+      "title": "Rethinking Knowledge Graph Evaluation Under the Open-World Assumption",
+      "type": "proceedings-article",
+      "DOI": "10.52202/068431-0609",
+      "container": "Advances in Neural Information Processing Systems 35",
+      "score": 2.35,
+      "years": [
+        2022,
+        2026,
+        2022
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Rethinking Knowledge Graph Evaluation Under the Open-World Assumption",
+        "type": "proceedings-article",
+        "DOI": "10.52202/068431-0609",
+        "container": "Advances in Neural Information Processing Systems 35",
+        "score": 2.35,
+        "years": [
+          2022,
+          2026,
+          2022
+        ]
+      },
+      {
+        "title": "Competent Triple Identification for Knowledge Graph Completion under the Open-World Assumption",
+        "type": "journal-article",
+        "DOI": "10.1587/transinf.2021edp7148",
+        "container": "IEICE Transactions on Information and Systems",
+        "score": 2.1,
+        "years": [
+          2022,
+          2022,
+          2022
+        ]
+      },
+      {
+        "title": "Open-World Knowledge Graph Completion",
+        "type": "journal-article",
+        "DOI": "10.1609/aaai.v32i1.11535",
+        "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "score": 1.85,
+        "years": [
+          2018,
+          2022,
+          2018
+        ]
+      }
+    ]
+  },
+  {
+    "title": "ReaRev: Adaptive Reasoning for Question Answering over Knowledge Graphs",
+    "file": "mavromatis2022-rearev.pdf",
+    "picked": {
+      "title": "ReaRev: Adaptive Reasoning for Question Answering over Knowledge Graphs",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2022.findings-emnlp.181",
+      "container": "Findings of the Association for Computational Linguistics: EMNLP 2022",
+      "score": 2.35,
+      "years": [
+        2022,
+        2023,
+        2022
+      ]
+    },
+    "candidates": [
+      {
+        "title": "ReaRev: Adaptive Reasoning for Question Answering over Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2022.findings-emnlp.181",
+        "container": "Findings of the Association for Computational Linguistics: EMNLP 2022",
+        "score": 2.35,
+        "years": [
+          2022,
+          2023,
+          2022
+        ]
+      },
+      {
+        "title": "E-ReaRev: Adaptive Reasoning for\u00a0Question Answering over\u00a0Incomplete Knowledge Graphs by\u00a0Edge and\u00a0Meaning Extensions",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-3-031-70242-6_9",
+        "container": "Lecture Notes in Computer Science Natural Language Processing and Information Systems",
+        "score": 1.35,
+        "years": [
+          2024,
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Semantic-enhanced reasoning question answering over temporal knowledge graphs",
+        "type": "journal-article",
+        "DOI": "10.1007/s10844-024-00840-5",
+        "container": "Journal of Intelligent Information Systems",
+        "score": 1.1,
+        "years": [
+          2024,
+          2024,
+          2024,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Go for a Walk and Arrive at the Answer: Reasoning over Paths in Knowledge Bases using Reinforcement Learning",
+    "file": "das2018-minerva-go-for-a-walk.pdf",
+    "picked": null,
+    "candidates": [
+      {
+        "title": "Learning to Answer Complex Questions over Knowledge Bases with Query Composition",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3357384.3358033",
+        "container": "Proceedings of the 28th ACM International Conference on Information and Knowledge Management",
+        "score": 1.367,
+        "years": [
+          2019,
+          2019,
+          2019,
+          2019
+        ]
+      },
+      {
+        "title": "Reasoning Over Paths via Knowledge Base Completion",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/d19-5320",
+        "container": "Proceedings of the Thirteenth Workshop on Graph-Based Methods for Natural Language Processing (TextGraphs-13)",
+        "score": 1.283,
+        "years": [
+          2019,
+          2019,
+          2019
+        ]
+      },
+      {
+        "title": "Multi-hop reasoning over paths in temporal knowledge graphs using reinforcement learning",
+        "type": "journal-article",
+        "DOI": "10.1016/j.asoc.2021.107144",
+        "container": "Applied Soft Computing",
+        "score": 0.85,
+        "years": [
+          2021,
+          2021,
+          2021
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Lexically Constrained Decoding for Sequence Generation Using Grid Beam Search",
+    "file": "hokamp2017-grid-beam-search.pdf",
+    "picked": {
+      "title": "Lexically Constrained Decoding for Sequence Generation Using Grid Beam Search",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/p17-1141",
+      "container": "Proceedings of the 55th Annual Meeting of the Association for\n          Computational Linguistics (Volume 1: Long Papers)",
+      "score": 2.35,
+      "years": [
+        2017,
+        2017,
+        2017
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Lexically Constrained Decoding for Sequence Generation Using Grid Beam Search",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/p17-1141",
+        "container": "Proceedings of the 55th Annual Meeting of the Association for\n          Computational Linguistics (Volume 1: Long Papers)",
+        "score": 2.35,
+        "years": [
+          2017,
+          2017,
+          2017
+        ]
+      },
+      {
+        "title": "Fast Lexically Constrained Decoding with Dynamic Beam Allocation for\n            Neural Machine Translation",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/n18-1119",
+        "container": "Proceedings of the 2018 Conference of the North American Chapter of\n          the Association for Computational Linguistics: Human Language\n          Technologies, Volume 1 (Long Papers)",
+        "score": 1.45,
+        "years": [
+          2018,
+          2018,
+          2018
+        ]
+      },
+      {
+        "title": "Negative Lexically Constrained Decoding for Paraphrase Generation",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/p19-1607",
+        "container": "Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics",
+        "score": 0.85,
+        "years": [
+          2019,
+          2019,
+          2019
+        ]
+      }
+    ]
+  },
+  {
+    "title": "NeuroLogic Decoding: (Un)supervised Neural Text Generation with Predicate Logic Constraints",
+    "file": "lu2021-neurologic-decoding.pdf",
+    "picked": {
+      "title": "NeuroLogic Decoding: (Un)supervised Neural Text Generation with Predicate Logic Constraints",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2021.naacl-main.339",
+      "container": "Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+      "score": 2.35,
+      "years": [
+        2021,
+        2021,
+        2021
+      ]
+    },
+    "candidates": [
+      {
+        "title": "NeuroLogic Decoding: (Un)supervised Neural Text Generation with Predicate Logic Constraints",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2021.naacl-main.339",
+        "container": "Proceedings of the 2021 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+        "score": 2.35,
+        "years": [
+          2021,
+          2021,
+          2021
+        ]
+      },
+      {
+        "title": "NeuroLogic A*esque Decoding: Constrained Text Generation with Lookahead Heuristics",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2022.naacl-main.57",
+        "container": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+        "score": 1.35,
+        "years": [
+          2022,
+          2022,
+          2022
+        ]
+      },
+      {
+        "title": "NEUROSTRUCTURAL DECODING: Neural Text Generation with Structural Constraints",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2023.acl-long.528",
+        "container": "Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+        "score": 0.85,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Guided Open Vocabulary Image Captioning with Constrained Beam Search",
+    "file": "anderson2017-guided-open-vocabulary-captioning.pdf",
+    "picked": {
+      "title": "Guided Open Vocabulary Image Captioning with Constrained Beam Search",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/d17-1098",
+      "container": "Proceedings of the 2017 Conference on Empirical Methods in Natural\n          Language Processing",
+      "score": 2.35,
+      "years": [
+        2017,
+        2018,
+        2017
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Guided Open Vocabulary Image Captioning with Constrained Beam Search",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/d17-1098",
+        "container": "Proceedings of the 2017 Conference on Empirical Methods in Natural\n          Language Processing",
+        "score": 2.35,
+        "years": [
+          2017,
+          2018,
+          2017
+        ]
+      },
+      {
+        "title": "Meshed Context-Aware Beam Search for Image Captioning",
+        "type": "journal-article",
+        "DOI": "10.3390/e26100866",
+        "container": "Entropy",
+        "score": 0.85,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Optimal transformers based image captioning using beam search",
+        "type": "journal-article",
+        "DOI": "10.1007/s11042-023-17359-6",
+        "container": "Multimedia Tools and Applications",
+        "score": 0.85,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Synchromesh: Reliable Code Generation from Pre-trained Language Models",
+    "file": "poesia2022-synchromesh.pdf",
+    "picked": {
+      "title": "Code Execution with Pre-trained Language Models",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2023.findings-acl.308",
+      "container": "Findings of the Association for Computational Linguistics: ACL 2023",
+      "score": 1.575,
+      "years": [
+        2023,
+        2023,
+        2023
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Code Execution with Pre-trained Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2023.findings-acl.308",
+        "container": "Findings of the Association for Computational Linguistics: ACL 2023",
+        "score": 1.575,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "Attribute Alignment: Controlling Text Generation from Pre-trained Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2021.findings-emnlp.194",
+        "container": "Findings of the Association for Computational Linguistics: EMNLP 2021",
+        "score": 1.575,
+        "years": [
+          2021,
+          2021,
+          2021
+        ]
+      },
+      {
+        "title": "Controllable Generation from Pre-trained Language Models via Inverse Prompting",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3447548.3467418",
+        "container": "Proceedings of the 27th ACM SIGKDD Conference on Knowledge Discovery &amp; Data Mining",
+        "score": 1.575,
+        "years": [
+          2021,
+          2021,
+          2021,
+          2021
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Tractable Control for Autoregressive Language Generation",
+    "file": "zhang2023-tractable-control-autoregressive-generation.pdf",
+    "picked": {
+      "title": "Natural language processing as autoregressive generation",
+      "type": "dissertation",
+      "DOI": "10.32657/10356/168487",
+      "container": null,
+      "score": 1.7,
+      "years": [
+        2023
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Natural language processing as autoregressive generation",
+        "type": "dissertation",
+        "DOI": "10.32657/10356/168487",
+        "container": null,
+        "score": 1.7,
+        "years": [
+          2023
+        ]
+      },
+      {
+        "title": "Crystal structure generation with autoregressive large language modeling",
+        "type": "journal-article",
+        "DOI": "10.1038/s41467-024-54639-7",
+        "container": "Nature Communications",
+        "score": 1.55,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Tractable Bayesian estimation of smooth transition vector autoregressive models",
+        "type": "journal-article",
+        "DOI": "10.1093/ectj/utae009",
+        "container": "The Econometrics Journal",
+        "score": 1.35,
+        "years": [
+          2024,
+          2024,
+          2024,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    "file": "wei2022-chain-of-thought.pdf",
+    "picked": {
+      "title": "Chain-Of-Thought Prompting Elicits Reasoning in Large Language Models",
+      "type": "proceedings-article",
+      "DOI": "10.52202/068431-1800",
+      "container": "Advances in Neural Information Processing Systems 35",
+      "score": 2.35,
+      "years": [
+        2022,
+        2026,
+        2022
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Chain-Of-Thought Prompting Elicits Reasoning in Large Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.52202/068431-1800",
+        "container": "Advances in Neural Information Processing Systems 35",
+        "score": 2.35,
+        "years": [
+          2022,
+          2026,
+          2022
+        ]
+      },
+      {
+        "title": "Enhancing Chain of Thought Prompting in Large Language Models via Reasoning Patterns",
+        "type": "journal-article",
+        "DOI": "10.1609/aaai.v39i24.34793",
+        "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "score": 1.225,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Automatic contrastive chain-of-thought prompting: Learning from reasoning errors of large language models",
+        "type": "journal-article",
+        "DOI": "10.1016/j.eswa.2025.130919",
+        "container": "Expert Systems with Applications",
+        "score": 1.225,
+        "years": [
+          2026,
+          2025,
+          2026
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Self-Consistency Improves Chain of Thought Reasoning in Language Models",
+    "file": "wang2023-self-consistency.pdf",
+    "picked": {
+      "title": "Chain-of-Thought Reasoning in Tabular Language Models",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2023.findings-emnlp.734",
+      "container": "Findings of the Association for Computational Linguistics: EMNLP 2023",
+      "score": 1.975,
+      "years": [
+        2023,
+        2023,
+        2023
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Chain-of-Thought Reasoning in Tabular Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2023.findings-emnlp.734",
+        "container": "Findings of the Association for Computational Linguistics: EMNLP 2023",
+        "score": 1.975,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "Soft Self-Consistency Improves Language Models Agents",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2024.acl-short.28",
+        "container": "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers)",
+        "score": 1.575,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Multimodal Chain-of-Thought Reasoning in Language Models",
+        "type": "posted-content",
+        "DOI": "10.59350/73qcj-wyt28",
+        "container": null,
+        "score": 0.725,
+        "years": [
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+    "file": "yao2023-tree-of-thought.pdf",
+    "picked": {
+      "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+      "type": "proceedings-article",
+      "DOI": "10.52202/075280-0517",
+      "container": "Advances in Neural Information Processing Systems 36",
+      "score": 2.35,
+      "years": [
+        2023,
+        2026,
+        2023
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.52202/075280-0517",
+        "container": "Advances in Neural Information Processing Systems 36",
+        "score": 2.35,
+        "years": [
+          2023,
+          2026,
+          2023
+        ]
+      },
+      {
+        "title": "Automatic Bug Fixing via Deliberate Problem Solving with Large Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.1109/issrew60843.2023.00040",
+        "container": "2023 IEEE 34th International Symposium on Software Reliability Engineering Workshops (ISSREW)",
+        "score": 2.1,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "Tree of Uncertain Thoughts Reasoning for Large Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.1109/icassp48485.2024.10448355",
+        "container": "ICASSP 2024 - 2024 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)",
+        "score": 1.575,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Reasoning on Graphs: Faithful and Interpretable Large Language Model Reasoning",
+    "file": "luo2024-rog.pdf",
+    "picked": {
+      "title": "LLMRG: Improving Recommendations through Large Language Model Reasoning Graphs",
+      "type": "journal-article",
+      "DOI": "10.1609/aaai.v38i17.29887",
+      "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "score": 2.064,
+      "years": [
+        2024,
+        2024,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "LLMRG: Improving Recommendations through Large Language Model Reasoning Graphs",
+        "type": "journal-article",
+        "DOI": "10.1609/aaai.v38i17.29887",
+        "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "score": 2.064,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Language Model Guided Interpretable Video Action Reasoning",
+        "type": "proceedings-article",
+        "DOI": "10.1109/cvpr52733.2024.01786",
+        "container": "2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+        "score": 1.921,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Making Natural Language Reasoning Explainable and Faithful",
+        "type": "journal-article",
+        "DOI": "10.1609/aaai.v38i20.30280",
+        "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "score": 1.779,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "GNN-RAG: Graph Neural Retrieval for Large Language Model Reasoning",
+    "file": "mavromatis2024-gnn-rag.pdf",
+    "picked": {
+      "title": "GNN-RAG: Graph Neural Retrieval for Efficient Large Language Model Reasoning on Knowledge Graphs",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2025.findings-acl.856",
+      "container": "Findings of the Association for Computational Linguistics: ACL 2025",
+      "score": 1.95,
+      "years": [
+        2025,
+        2025,
+        2025
+      ]
+    },
+    "candidates": [
+      {
+        "title": "GNN-RAG: Graph Neural Retrieval for Efficient Large Language Model Reasoning on Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2025.findings-acl.856",
+        "container": "Findings of the Association for Computational Linguistics: ACL 2025",
+        "score": 1.95,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Open-RAG: Enhanced Retrieval Augmented Reasoning with Open-Source Large Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2024.findings-emnlp.831",
+        "container": "Findings of the Association for Computational Linguistics: EMNLP 2024",
+        "score": 1.906,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Retrieval-Augmented Generation (RAG) Large Language Model For Educational Chatbot",
+        "type": "proceedings-article",
+        "DOI": "10.1109/icic64337.2024.10957676",
+        "container": "2024 Ninth International Conference on Informatics and Computing (ICIC)",
+        "score": 1.906,
+        "years": [
+          2024,
+          2025,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "StructGPT: A General Framework for Large Language Model to Reason over Structured Data",
+    "file": "jiang2023-structgpt.pdf",
+    "picked": {
+      "title": "StructGPT: A General Framework for Large Language Model to Reason over Structured Data",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2023.emnlp-main.574",
+      "container": "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing",
+      "score": 2.35,
+      "years": [
+        2023,
+        2023,
+        2023
+      ]
+    },
+    "candidates": [
+      {
+        "title": "StructGPT: A General Framework for Large Language Model to Reason over Structured Data",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2023.emnlp-main.574",
+        "container": "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing",
+        "score": 2.35,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "Large Language Model-Driven Structured Output: A Comprehensive Benchmark and Spatial Data Generation Framework",
+        "type": "journal-article",
+        "DOI": "10.3390/ijgi13110405",
+        "container": "ISPRS International Journal of Geo-Information",
+        "score": 1.55,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "SUQL: Conversational Search over Structured and Unstructured Data with Large Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2024.findings-naacl.283",
+        "container": "Findings of the Association for Computational Linguistics: NAACL 2024",
+        "score": 1.45,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph",
+    "file": "sun2024-think-on-graph.pdf",
+    "picked": {
+      "title": "Large Language Model and Knowledge Graph Entangled Logical Reasoning",
+      "type": "proceedings-article",
+      "DOI": "10.1109/ickg63256.2024.00061",
+      "container": "2024 IEEE International Conference on Knowledge Graph (ICKG)",
+      "score": 2.017,
+      "years": [
+        2024,
+        2025,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Large Language Model and Knowledge Graph Entangled Logical Reasoning",
+        "type": "proceedings-article",
+        "DOI": "10.1109/ickg63256.2024.00061",
+        "container": "2024 IEEE International Conference on Knowledge Graph (ICKG)",
+        "score": 2.017,
+        "years": [
+          2024,
+          2025,
+          2024
+        ]
+      },
+      {
+        "title": "Fast Think-on-Graph: Wider, Deeper and Faster Reasoning of Large Language Model on Knowledge Graph",
+        "type": "journal-article",
+        "DOI": "10.1609/aaai.v39i23.34635",
+        "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "score": 1.728,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Paths-over-Graph: Knowledge Graph Empowered Large Language Model Reasoning",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3696410.3714892",
+        "container": "Proceedings of the ACM on Web Conference 2025",
+        "score": 1.617,
+        "years": [
+          2025,
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Knowledge-Driven CoT: Exploring Faithful Reasoning in LLMs for Knowledge-intensive Question Answering",
+    "file": "wang2023-kd-cot.pdf",
+    "picked": {
+      "title": "Faithful Knowledge Graph Explanations in Commonsense Question Answering",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2022.emnlp-main.743",
+      "container": "Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing",
+      "score": 1.75,
+      "years": [
+        2022,
+        2023,
+        2022
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Faithful Knowledge Graph Explanations in Commonsense Question Answering",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2022.emnlp-main.743",
+        "container": "Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing",
+        "score": 1.75,
+        "years": [
+          2022,
+          2023,
+          2022
+        ]
+      },
+      {
+        "title": "Causal-driven Large Language Models with Faithful Reasoning for Knowledge Question Answering",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3664647.3681263",
+        "container": "Proceedings of the 32nd ACM International Conference on Multimedia",
+        "score": 1.55,
+        "years": [
+          2024,
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Augmenting Reasoning Capabilities of LLMs with Graph Structures in Knowledge Base Question Answering",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2024.findings-emnlp.699",
+        "container": "Findings of the Association for Computational Linguistics: EMNLP 2024",
+        "score": 1.45,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Autoregressive Entity Retrieval",
+    "file": "decao2021-genre-autoregressive-entity-retrieval.pdf",
+    "picked": {
+      "title": "Multilingual Autoregressive Entity Linking",
+      "type": "journal-article",
+      "DOI": "10.1162/tacl_a_00460",
+      "container": "Transactions of the Association for Computational Linguistics",
+      "score": 1.617,
+      "years": [
+        2022,
+        2022,
+        2022,
+        2022
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Multilingual Autoregressive Entity Linking",
+        "type": "journal-article",
+        "DOI": "10.1162/tacl_a_00460",
+        "container": "Transactions of the Association for Computational Linguistics",
+        "score": 1.617,
+        "years": [
+          2022,
+          2022,
+          2022,
+          2022
+        ]
+      },
+      {
+        "title": "Entity Retrieval",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-1-4614-8265-9_80724",
+        "container": "Encyclopedia of Database Systems",
+        "score": 1.017,
+        "years": [
+          2018,
+          2018,
+          2018,
+          2018
+        ]
+      },
+      {
+        "title": "Entity Retrieval",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-1-4899-7993-3_80724-1",
+        "container": "Encyclopedia of Database Systems",
+        "score": 1.017,
+        "years": [
+          2017,
+          2017,
+          2017,
+          2017
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Tree-of-Traversals: A Zero-Shot Reasoning Algorithm for Augmenting Black-box Language Models with Knowledge Graphs",
+    "file": "markowitz2024-tree-of-traversals.pdf",
+    "picked": {
+      "title": "Tree-of-Traversals: A Zero-Shot Reasoning Algorithm for Augmenting Black-box Language Models with Knowledge Graphs",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2024.acl-long.665",
+      "container": "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+      "score": 2.35,
+      "years": [
+        2024,
+        2024,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Tree-of-Traversals: A Zero-Shot Reasoning Algorithm for Augmenting Black-box Language Models with Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2024.acl-long.665",
+        "container": "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+        "score": 2.35,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Zero-Shot Link Prediction in Knowledge Graphs with Large Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.1109/icdm59182.2024.00088",
+        "container": "2024 IEEE International Conference on Data Mining (ICDM)",
+        "score": 1.812,
+        "years": [
+          2024,
+          2025,
+          2024
+        ]
+      },
+      {
+        "title": "Zero-Shot Object Navigation with Vision-Language Models Reasoning",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-3-031-78456-9_25",
+        "container": "Lecture Notes in Computer Science Pattern Recognition",
+        "score": 1.735,
+        "years": [
+          2025,
+          2024,
+          2024,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "EffiQA: Efficient Question-Answering with Strategic Multi-Model Collaboration on Knowledge Graphs",
+    "file": "dong2024-effiqa.pdf",
+    "picked": {
+      "title": "Multi-Hop Question Answering over Knowledge Graphs",
+      "type": "journal-article",
+      "DOI": "10.4038/icter.v17i2.7281",
+      "container": "International Journal on Advances in ICT for Emerging Regions (ICTer)",
+      "score": 1.85,
+      "years": [
+        2024,
+        2024,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Multi-Hop Question Answering over Knowledge Graphs",
+        "type": "journal-article",
+        "DOI": "10.4038/icter.v17i2.7281",
+        "container": "International Journal on Advances in ICT for Emerging Regions (ICTer)",
+        "score": 1.85,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Multi-granularity Temporal Question Answering over Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2023.acl-long.637",
+        "container": "Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+        "score": 1.45,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "Multi-granularity Complex Question Answering Over Temporal Knowledge Graphs",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-981-95-4367-0_26",
+        "container": "Lecture Notes in Computer Science Neural Information Processing",
+        "score": 1.45,
+        "years": [
+          2026,
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Unifying Large Language Models and Knowledge Graphs: A Roadmap",
+    "file": "pan2024-unifying-llms-and-kgs-survey.pdf",
+    "picked": {
+      "title": "Unifying Large Language Models and Knowledge Graphs: A Roadmap",
+      "type": "journal-article",
+      "DOI": "10.1109/tkde.2024.3352100",
+      "container": "IEEE Transactions on Knowledge and Data Engineering",
+      "score": 2.35,
+      "years": [
+        2024,
+        2024,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Unifying Large Language Models and Knowledge Graphs: A Roadmap",
+        "type": "journal-article",
+        "DOI": "10.1109/tkde.2024.3352100",
+        "container": "IEEE Transactions on Knowledge and Data Engineering",
+        "score": 2.35,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Unifying Local and Global Knowledge: Empowering Large Language Models as Political Experts with Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3589334.3645616",
+        "container": "Proceedings of the ACM Web Conference 2024",
+        "score": 2.207,
+        "years": [
+          2024,
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Unifying Large Language Models and Knowledge Graphs: A Roadmap_supp1-3352100.pdf",
+        "type": "component",
+        "DOI": "10.1109/tkde.2024.3352100/mm1",
+        "container": null,
+        "score": 2.0,
+        "years": [
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering",
+    "file": "he2024-g-retriever.pdf",
+    "picked": {
+      "title": "G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering",
+      "type": "proceedings-article",
+      "DOI": "10.52202/079017-4224",
+      "container": "Advances in Neural Information Processing Systems 37",
+      "score": 2.35,
+      "years": [
+        2024,
+        2025,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering",
+        "type": "proceedings-article",
+        "DOI": "10.52202/079017-4224",
+        "container": "Advances in Neural Information Processing Systems 37",
+        "score": 2.35,
+        "years": [
+          2024,
+          2025,
+          2024
+        ]
+      },
+      {
+        "title": "Document Knowledge Graph to Enhance Question Answering with Retrieval Augmented Generation",
+        "type": "proceedings-article",
+        "DOI": "10.1109/etfa61755.2024.10711054",
+        "container": "2024 IEEE 29th International Conference on Emerging Technologies and Factory Automation (ETFA)",
+        "score": 1.95,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Knowledge graph-extended retrieval augmented generation for question answering",
+        "type": "journal-article",
+        "DOI": "10.1007/s10489-025-06885-5",
+        "container": "Applied Intelligence",
+        "score": 1.55,
+        "years": [
+          2025,
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Constructing a Multi-hop QA Dataset for Comprehensive Evaluation of Reasoning Steps",
+    "file": "ho2020-2wikimultihop.pdf",
+    "picked": {
+      "title": "Constructing A Multi-hop QA Dataset for Comprehensive Evaluation of Reasoning Steps",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2020.coling-main.580",
+      "container": "Proceedings of the 28th International Conference on Computational Linguistics",
+      "score": 2.35,
+      "years": [
+        2020,
+        2021,
+        2020
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Constructing A Multi-hop QA Dataset for Comprehensive Evaluation of Reasoning Steps",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2020.coling-main.580",
+        "container": "Proceedings of the 28th International Conference on Computational Linguistics",
+        "score": 2.35,
+        "years": [
+          2020,
+          2021,
+          2020
+        ]
+      },
+      {
+        "title": "Avoiding Reasoning Shortcuts: Adversarial Evaluation, Training, and Model Development for Multi-Hop QA",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/p19-1262",
+        "container": "Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics",
+        "score": 1.506,
+        "years": [
+          2019,
+          2019,
+          2019
+        ]
+      },
+      {
+        "title": "Multi-Hop Arabic LLM Reasoning in Complex QA",
+        "type": "journal-article",
+        "DOI": "10.1016/j.procs.2024.10.179",
+        "container": "Procedia Computer Science",
+        "score": 0.794,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Self-RAG: Learning to Retrieve, Generate, and Critique Through Self-Reflection",
+    "file": "asai2024-self-rag.pdf",
+    "picked": null,
+    "candidates": [
+      {
+        "title": "Learning to Retrieve, Generate, and Compress: A Unified View of Efficient RAG",
+        "type": "posted-content",
+        "DOI": "10.20944/preprints202508.1211.v1",
+        "container": null,
+        "score": 1.271,
+        "years": [
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Rediscovering the Self Through Self-Reflection and Transformative Learning",
+        "type": "journal-article",
+        "DOI": "10.36510/learnland.v9i1.755",
+        "container": "LEARNing Landscapes",
+        "score": 0.779,
+        "years": [
+          2015,
+          2019,
+          2015
+        ]
+      },
+      {
+        "title": "ENHANCEMENT OF STUDENT LEARNING THROUGH SELF-REFLECTION",
+        "type": "journal-article",
+        "DOI": "10.24908/pceea.vi0.13716",
+        "container": "Proceedings of the Canadian Engineering Education Association (CEEA)",
+        "score": 0.779,
+        "years": [
+          2019,
+          2020,
+          2019
+        ]
+      }
+    ]
+  },
+  {
+    "title": "StructLM: Towards Building Generalist Models for Structured Knowledge Grounding",
+    "file": "zhuang2024-structlm.pdf",
+    "picked": {
+      "title": "KIMedQA: towards building knowledge-enhanced medical QA models",
+      "type": "journal-article",
+      "DOI": "10.1007/s10844-024-00844-1",
+      "container": "Journal of Intelligent Information Systems",
+      "score": 1.85,
+      "years": [
+        2024,
+        2024,
+        2024,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "KIMedQA: towards building knowledge-enhanced medical QA models",
+        "type": "journal-article",
+        "DOI": "10.1007/s10844-024-00844-1",
+        "container": "Journal of Intelligent Information Systems",
+        "score": 1.85,
+        "years": [
+          2024,
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "UnifiedSKG: Unifying and Multi-Tasking Structured Knowledge Grounding with Text-to-Text Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2022.emnlp-main.39",
+        "container": "Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing",
+        "score": 1.45,
+        "years": [
+          2022,
+          2023,
+          2022
+        ]
+      },
+      {
+        "title": "Towards Generalist Robot Policies: What Matters in Building Vision-Language-Action Models",
+        "type": "posted-content",
+        "DOI": "10.21203/rs.3.rs-5770637/v1",
+        "container": null,
+        "score": 1.2,
+        "years": [
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Knowledge-Augmented Language Model Prompting for Zero-Shot Knowledge Graph Question Answering",
+    "file": "baek2023-knowledge-augmented-llms-for-kgqa.pdf",
+    "picked": {
+      "title": "Knowledge-Augmented Language Model Prompting for Zero-Shot Knowledge Graph Question Answering",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2023.matching-1.7",
+      "container": "Proceedings of the First Workshop on Matching From Unstructured and Structured Data (MATCHING 2023)",
+      "score": 2.35,
+      "years": [
+        2023,
+        2023,
+        2023
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Knowledge-Augmented Language Model Prompting for Zero-Shot Knowledge Graph Question Answering",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2023.matching-1.7",
+        "container": "Proceedings of the First Workshop on Matching From Unstructured and Structured Data (MATCHING 2023)",
+        "score": 2.35,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "Knowledge-Augmented Language Model Prompting for Zero-Shot Knowledge Graph Question Answering",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2023.nlrse-1.7",
+        "container": "Proceedings of the 1st Workshop on Natural Language Reasoning and Structured Explanations (NLRSE)",
+        "score": 2.35,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "Ophthalmic Disease Zero-Shot Question Answering Through Knowledge Triple Augmented Language Model Prompting",
+        "type": "proceedings-article",
+        "DOI": "10.1109/mlnlp63328.2024.10800230",
+        "container": "2024 7th International Conference on Machine Learning and Natural Language Processing (MLNLP)",
+        "score": 1.85,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Knowledge Graphs, Large Language Models, and Hallucinations: An NLP Perspective",
+    "file": "lavrinovics2025-kg-llm-hallucinations-nlp-perspective.pdf",
+    "picked": {
+      "title": "Knowledge Graphs, Large Language Models, and Hallucinations: An NLP Perspective",
+      "type": "journal-article",
+      "DOI": "10.1016/j.websem.2024.100844",
+      "container": "Journal of Web Semantics",
+      "score": 2.35,
+      "years": [
+        2025,
+        2024,
+        2025
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Knowledge Graphs, Large Language Models, and Hallucinations: An NLP Perspective",
+        "type": "journal-article",
+        "DOI": "10.1016/j.websem.2024.100844",
+        "container": "Journal of Web Semantics",
+        "score": 2.35,
+        "years": [
+          2025,
+          2024,
+          2025
+        ]
+      },
+      {
+        "title": "Bridging Knowledge Graphs and Large Language Models",
+        "type": "book-chapter",
+        "DOI": "10.4324/9781003659143-6",
+        "container": "AI-Driven Digital Transformation",
+        "score": 1.975,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Enhancing Mathematical Knowledge Graphs with Large Language Models",
+        "type": "journal-article",
+        "DOI": "10.3390/modelling6030053",
+        "container": "Modelling",
+        "score": 1.975,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "TruthfulQA: Measuring How Models Mimic Human Falsehoods",
+    "file": "lin2022-truthfulqa.pdf",
+    "picked": {
+      "title": "TruthfulQA: Measuring How Models Mimic Human Falsehoods",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2022.acl-long.229",
+      "container": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+      "score": 2.35,
+      "years": [
+        2022,
+        2022,
+        2022
+      ]
+    },
+    "candidates": [
+      {
+        "title": "TruthfulQA: Measuring How Models Mimic Human Falsehoods",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2022.acl-long.229",
+        "container": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+        "score": 2.35,
+        "years": [
+          2022,
+          2022,
+          2022
+        ]
+      },
+      {
+        "title": "Models as Felicitous Falsehoods",
+        "type": "journal-article",
+        "DOI": "10.5007/1808-1711.2022.e84576",
+        "container": "Principia: an international journal of epistemology",
+        "score": 1.636,
+        "years": [
+          2022,
+          2022,
+          2022
+        ]
+      },
+      {
+        "title": "Models as Felicitous Falsehoods",
+        "type": "book-chapter",
+        "DOI": "10.7551/mitpress/15707.003.0013",
+        "container": "Epistemic Ecology",
+        "score": 0.636,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Active Retrieval Augmented Generation",
+    "file": "jiang2023-active-retrieval-augmented-generation.pdf",
+    "picked": {
+      "title": "Active Retrieval Augmented Generation",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2023.emnlp-main.495",
+      "container": "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing",
+      "score": 2.35,
+      "years": [
+        2023,
+        2023,
+        2023
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Active Retrieval Augmented Generation",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2023.emnlp-main.495",
+        "container": "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing",
+        "score": 2.35,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "Unified Active Retrieval for Retrieval Augmented Generation",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2024.findings-emnlp.999",
+        "container": "Findings of the Association for Computational Linguistics: EMNLP 2024",
+        "score": 1.95,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Retrieval-Augmented Generation",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-3-031-65647-7_7",
+        "container": "Large Language Models: A Deep Dive",
+        "score": 1.7,
+        "years": [
+          2024,
+          2024,
+          2024,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Experiments with text-to-SPARQL based on ChatGPT",
+    "file": "avila2024-experiments-text-to-sparql-chatgpt.pdf",
+    "picked": {
+      "title": "Experiments with text-to-SPARQL based on ChatGPT",
+      "type": "proceedings-article",
+      "DOI": "10.1109/icsc59802.2024.00050",
+      "container": "2024 IEEE 18th International Conference on Semantic Computing (ICSC)",
+      "score": 2.35,
+      "years": [
+        2024,
+        2024,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Experiments with text-to-SPARQL based on ChatGPT",
+        "type": "proceedings-article",
+        "DOI": "10.1109/icsc59802.2024.00050",
+        "container": "2024 IEEE 18th International Conference on Semantic Computing (ICSC)",
+        "score": 2.35,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "SPARQL-to-Text Question Generation for Knowledge-Based Conversational Applications",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2022.aacl-main.11",
+        "container": "Proceedings of the 2nd Conference of the Asia-Pacific Chapter of the Association for Computational Linguistics and the 12th International Joint Conference on Natural Language Processing (Volume 1: Long Papers)",
+        "score": 1.95,
+        "years": [
+          2022,
+          2024,
+          2022
+        ]
+      },
+      {
+        "title": "LLM Agent Based Text-to-SPARQL Framework with Question Decomposition",
+        "type": "journal-article",
+        "DOI": "10.13088/jiis.2025.31.4.421",
+        "container": "Journal of Intelligence and Information Systems",
+        "score": 1.55,
+        "years": [
+          2025,
+          2026,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Direct Evaluation of Chain-of-Thought in Multi-hop Reasoning with Knowledge Graphs",
+    "file": "nguyen2024-direct-evaluation-cot-multihop-kg.pdf",
+    "picked": {
+      "title": "Direct Evaluation of Chain-of-Thought in Multi-hop Reasoning with Knowledge Graphs",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2024.findings-acl.168",
+      "container": "Findings of the Association for Computational Linguistics ACL 2024",
+      "score": 2.35,
+      "years": [
+        2024,
+        2024,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Direct Evaluation of Chain-of-Thought in Multi-hop Reasoning with Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2024.findings-acl.168",
+        "container": "Findings of the Association for Computational Linguistics ACL 2024",
+        "score": 2.35,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Towards Multi-Relational Multi-Hop Reasoning over Dense Temporal Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2024.findings-acl.853",
+        "container": "Findings of the Association for Computational Linguistics ACL 2024",
+        "score": 1.906,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Multi-hop reasoning of knowledge chain over fuzzy spatiotemporal knowledge graphs with box embeddings",
+        "type": "journal-article",
+        "DOI": "10.1016/j.engappai.2026.114443",
+        "container": "Engineering Applications of Artificial Intelligence",
+        "score": 1.017,
+        "years": [
+          2026,
+          2026,
+          2026
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Knowledge Solver: Teaching LLMs to Search for Domain Knowledge from Knowledge Graphs",
+    "file": "feng2023-knowledge-solver.pdf",
+    "picked": null,
+    "candidates": [
+      {
+        "title": "Knowledge Graphs and Search",
+        "type": "book-chapter",
+        "DOI": "10.1145/3674127.3674134",
+        "container": "Information Retrieval",
+        "score": 1.379,
+        "years": [
+          2024,
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Cross-Domain Knowledge Transfer using LLMs and Domain-Specific Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.1109/mpseciceta64837.2025.11118450",
+        "container": "2025 IEEE International Conference on Emerging Technologies and Applications (MPSec ICETA)",
+        "score": 0.921,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Domain-Specific Knowledge Graphs in RAG-Enhanced Healthcare LLMS",
+        "type": "proceedings-article",
+        "DOI": "10.1109/bigdata66926.2025.11400857",
+        "container": "2025 IEEE International Conference on Big Data (BigData)",
+        "score": 0.921,
+        "years": [
+          2025,
+          2026,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Validating ChatGPT Facts through RDF Knowledge Graphs and Sentence Similarity",
+    "file": "mountantonakis2023-validating-chatgpt-facts-rdf-kg.pdf",
+    "picked": {
+      "title": "Using Multiple RDF Knowledge Graphs for\u00a0Enriching ChatGPT Responses",
+      "type": "book-chapter",
+      "DOI": "10.1007/978-3-031-43430-3_24",
+      "container": "Lecture Notes in Computer Science Machine Learning and Knowledge Discovery in Databases: Applied Data Science and Demo Track",
+      "score": 1.85,
+      "years": [
+        2023,
+        2023,
+        2023,
+        2023
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Using Multiple RDF Knowledge Graphs for\u00a0Enriching ChatGPT Responses",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-3-031-43430-3_24",
+        "container": "Lecture Notes in Computer Science Machine Learning and Knowledge Discovery in Databases: Applied Data Science and Demo Track",
+        "score": 1.85,
+        "years": [
+          2023,
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "Semantic SPARQL similarity search over RDF knowledge graphs",
+        "type": "journal-article",
+        "DOI": "10.14778/2983200.2983201",
+        "container": "Proceedings of the VLDB Endowment",
+        "score": 0.85,
+        "years": [
+          2016,
+          2016,
+          2016,
+          2016
+        ]
+      },
+      {
+        "title": "DistSim - Scalable Distributed in-Memory Semantic Similarity Estimation for RDF Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.1109/icsc50631.2021.00062",
+        "container": "2021 IEEE 15th International Conference on Semantic Computing (ICSC)",
+        "score": 0.85,
+        "years": [
+          2021,
+          2021,
+          2021
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Hallucination is Inevitable: An Innate Limitation of Large Language Models",
+    "file": "xu2025-hallucination-is-inevitable.pdf",
+    "picked": {
+      "title": "Exploring Hallucination in Large Language Models",
+      "type": "journal-article",
+      "DOI": "10.14569/ijacsa.2025.0161023",
+      "container": "International Journal of Advanced Computer Science and Applications",
+      "score": 1.85,
+      "years": [
+        2025,
+        2025,
+        2025
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Exploring Hallucination in Large Language Models",
+        "type": "journal-article",
+        "DOI": "10.14569/ijacsa.2025.0161023",
+        "container": "International Journal of Advanced Computer Science and Applications",
+        "score": 1.85,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Hallucination Mitigation Techniques in Large Language Models",
+        "type": "journal-article",
+        "DOI": "10.21608/ijicis.2024.336135.1365",
+        "container": "International Journal of Intelligent Computing and Information Sciences",
+        "score": 1.85,
+        "years": [
+          2024,
+          2024,
+          2025,
+          2024
+        ]
+      },
+      {
+        "title": "Hallucination as an Inevitable Byproduct of Intelligence in Large Language Models",
+        "type": "posted-content",
+        "DOI": "10.31234/osf.io/q2c94_v1",
+        "container": null,
+        "score": 1.725,
+        "years": [
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Knowledge Graphs Meet Multi-Modal Learning: A Comprehensive Survey",
+    "file": "chen2024-kg-multimodal-learning-survey.pdf",
+    "picked": {
+      "title": "A Survey of Multi-modal Knowledge Graphs: Technologies and Trends",
+      "type": "journal-article",
+      "DOI": "10.1145/3656579",
+      "container": "ACM Computing Surveys",
+      "score": 1.975,
+      "years": [
+        2024,
+        2024,
+        2024,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "A Survey of Multi-modal Knowledge Graphs: Technologies and Trends",
+        "type": "journal-article",
+        "DOI": "10.1145/3656579",
+        "container": "ACM Computing Surveys",
+        "score": 1.975,
+        "years": [
+          2024,
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Knowledge Graphs for Multi-Modal Learning: Survey and Perspective",
+        "type": "posted-content",
+        "DOI": "10.2139/ssrn.5044404",
+        "container": null,
+        "score": 1.85,
+        "years": [
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Knowledge Graphs for Multi-modal Learning: Survey and Perspective",
+        "type": "journal-article",
+        "DOI": "10.1016/j.inffus.2025.103124",
+        "container": "Information Fusion",
+        "score": 1.7,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "From human experts to machines: An LLM supported approach to ontology and knowledge graph construction",
+    "file": "kommineni2024-llm-supported-ontology-kg-construction.pdf",
+    "picked": {
+      "title": "An LLM supported approach to ontology and knowledge graph construction",
+      "type": "proceedings-article",
+      "DOI": "10.1109/bibm62325.2024.10822222",
+      "container": "2024 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)",
+      "score": 2.05,
+      "years": [
+        2024,
+        2025,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "An LLM supported approach to ontology and knowledge graph construction",
+        "type": "proceedings-article",
+        "DOI": "10.1109/bibm62325.2024.10822222",
+        "container": "2024 IEEE International Conference on Bioinformatics and Biomedicine (BIBM)",
+        "score": 2.05,
+        "years": [
+          2024,
+          2025,
+          2024
+        ]
+      },
+      {
+        "title": "Ontology-guided Knowledge Graph Construction from Maintenance Short Texts",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2024.kallm-1.8",
+        "container": "Proceedings of the 1st Workshop on Knowledge Graphs and Large Language Models (KaLLM 2024)",
+        "score": 1.75,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Docs2KG: A Human-LLM Collaborative Approach to Unified Knowledge Graph Construction from Heterogeneous Documents",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3701716.3715309",
+        "container": "Companion Proceedings of the ACM on Web Conference 2025",
+        "score": 1.55,
+        "years": [
+          2025,
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Text-to-SPARQL Goes Beyond English: Multilingual Question Answering Over Knowledge Graphs through Human-Inspired Reasoning",
+    "file": "perevalov2025-multilingual-text-to-sparql.pdf",
+    "picked": {
+      "title": "Language Models as\u00a0SPARQL Query Filtering for\u00a0Improving the\u00a0Quality of\u00a0Multilingual Question Answering over\u00a0Knowledge Graphs",
+      "type": "book-chapter",
+      "DOI": "10.1007/978-3-031-62362-2_1",
+      "container": "Lecture Notes in Computer Science Web Engineering",
+      "score": 1.45,
+      "years": [
+        2024,
+        2024,
+        2024,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Language Models as\u00a0SPARQL Query Filtering for\u00a0Improving the\u00a0Quality of\u00a0Multilingual Question Answering over\u00a0Knowledge Graphs",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-3-031-62362-2_1",
+        "container": "Lecture Notes in Computer Science Web Engineering",
+        "score": 1.45,
+        "years": [
+          2024,
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Semantic-enhanced reasoning question answering over temporal knowledge graphs",
+        "type": "journal-article",
+        "DOI": "10.1007/s10844-024-00840-5",
+        "container": "Journal of Intelligent Information Systems",
+        "score": 1.379,
+        "years": [
+          2024,
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Enhancing Multilingual Accessibility of Question Answering over Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3487553.3524197",
+        "container": "Companion Proceedings of the Web Conference 2022",
+        "score": 0.779,
+        "years": [
+          2022,
+          2022,
+          2022,
+          2022
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Context-aware Inductive Knowledge Graph Completion with Latent Type Constraints and Subgraph Reasoning",
+    "file": "li2025-context-aware-inductive-kg-completion.pdf",
+    "picked": {
+      "title": "Context-aware Inductive Knowledge Graph Completion with Latent Type Constraints and Subgraph Reasoning",
+      "type": "journal-article",
+      "DOI": "10.1609/aaai.v39i11.33318",
+      "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "score": 2.35,
+      "years": [
+        2025,
+        2025,
+        2025
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Context-aware Inductive Knowledge Graph Completion with Latent Type Constraints and Subgraph Reasoning",
+        "type": "journal-article",
+        "DOI": "10.1609/aaai.v39i11.33318",
+        "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "score": 2.35,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Ontology-enhanced subgraph reasoning with prompt learning for inductive knowledge graph completion",
+        "type": "journal-article",
+        "DOI": "10.1016/j.eswa.2026.131944",
+        "container": "Expert Systems with Applications",
+        "score": 1.495,
+        "years": [
+          2026,
+          2026,
+          2026
+        ]
+      },
+      {
+        "title": "One Subgraph for All: Efficient Reasoning on Opening Subgraphs for Inductive Knowledge Graph Completion",
+        "type": "journal-article",
+        "DOI": "10.1109/tkde.2024.3432767",
+        "container": "IEEE Transactions on Knowledge and Data Engineering",
+        "score": 1.495,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Constrained Language Generation with Discrete Diffusion Models",
+    "file": "cardei2025-constrained-language-generation-discrete-diffusion.pdf",
+    "picked": {
+      "title": "Classifiers Guided Controllable Text Generation for\u00a0Discrete Diffusion Language Models",
+      "type": "book-chapter",
+      "DOI": "10.1007/978-981-97-9437-9_11",
+      "container": "Lecture Notes in Computer Science Natural Language Processing and Chinese Computing",
+      "score": 2.183,
+      "years": [
+        2025,
+        2024,
+        2024,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Classifiers Guided Controllable Text Generation for\u00a0Discrete Diffusion Language Models",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-981-97-9437-9_11",
+        "container": "Lecture Notes in Computer Science Natural Language Processing and Chinese Computing",
+        "score": 2.183,
+        "years": [
+          2025,
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Type-Constrained Code Generation with Language Models",
+        "type": "journal-article",
+        "DOI": "10.1145/3729274",
+        "container": "Proceedings of the ACM on Programming Languages",
+        "score": 2.017,
+        "years": [
+          2025,
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Structure-Preserving Discrete Diffusion Models for Verified Code Generation",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3785706.3785940",
+        "container": "Proceedings of the 2025 2nd International Conference on Digital Economy and Computer Science",
+        "score": 2.017,
+        "years": [
+          2025,
+          2026,
+          2026,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Decoding on Graphs: Faithful and Sound Reasoning on Knowledge Graphs through Generation of Well-Formed Chains",
+    "file": "li2024-decoding-on-graphs.pdf",
+    "picked": {
+      "title": "Decoding on Graphs: Faithful and Sound Reasoning on Knowledge Graphs through Generation of Well-Formed Chains",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2025.acl-long.1186",
+      "container": "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+      "score": 1.95,
+      "years": [
+        2025,
+        2025,
+        2025
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Decoding on Graphs: Faithful and Sound Reasoning on Knowledge Graphs through Generation of Well-Formed Chains",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2025.acl-long.1186",
+        "container": "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+        "score": 1.95,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Advancing Abductive Reasoning in Knowledge Graphs through Complex Logical Hypothesis Generation",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2024.acl-long.72",
+        "container": "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+        "score": 1.75,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "GRASP: Generic Reasoning And SPARQL Generation Across Knowledge Graphs",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-3-032-09527-5_15",
+        "container": "Lecture Notes in Computer Science The Semantic Web \u2013 ISWC 2025",
+        "score": 1.35,
+        "years": [
+          2026,
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Efficient Guided Generation for Large Language Models",
+    "file": "willard2023-efficient-guided-generation-llms.pdf",
+    "picked": {
+      "title": "Large Language Models guided Generative Prompt for Dialogue Generation",
+      "type": "proceedings-article",
+      "DOI": "10.1109/cyberc58899.2023.00013",
+      "container": "2023 International Conference on Cyber-Enabled Distributed Computing and Knowledge Discovery (CyberC)",
+      "score": 2.183,
+      "years": [
+        2023,
+        2024,
+        2023
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Large Language Models guided Generative Prompt for Dialogue Generation",
+        "type": "proceedings-article",
+        "DOI": "10.1109/cyberc58899.2023.00013",
+        "container": "2023 International Conference on Cyber-Enabled Distributed Computing and Knowledge Discovery (CyberC)",
+        "score": 2.183,
+        "years": [
+          2023,
+          2024,
+          2023
+        ]
+      },
+      {
+        "title": "Multi-stage guided code generation for Large Language Models",
+        "type": "journal-article",
+        "DOI": "10.1016/j.engappai.2024.109491",
+        "container": "Engineering Applications of Artificial Intelligence",
+        "score": 1.783,
+        "years": [
+          2025,
+          2024,
+          2025
+        ]
+      },
+      {
+        "title": "Guided Profile Generation Improves Personalization with Large Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2024.findings-emnlp.231",
+        "container": "Findings of the Association for Computational Linguistics: EMNLP 2024",
+        "score": 1.783,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "KG-o1: Enhancing Multi-hop Question Answering in Large Language Models via Knowledge Graph Integration",
+    "file": "wang2025-kg-o1.pdf",
+    "picked": {
+      "title": "Enhancing Temporal Knowledge Graph Question Answering via Multi-level Temporal Knowledge Retrieval with Large Language Models",
+      "type": "proceedings-article",
+      "DOI": "10.1109/bigdia68682.2025.11382820",
+      "container": "2025 11th International Conference on Big Data and Information Analytics (BigDIA)",
+      "score": 2.042,
+      "years": [
+        2025,
+        2026,
+        2025
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Enhancing Temporal Knowledge Graph Question Answering via Multi-level Temporal Knowledge Retrieval with Large Language Models",
+        "type": "proceedings-article",
+        "DOI": "10.1109/bigdia68682.2025.11382820",
+        "container": "2025 11th International Conference on Big Data and Information Analytics (BigDIA)",
+        "score": 2.042,
+        "years": [
+          2025,
+          2026,
+          2025
+        ]
+      },
+      {
+        "title": "Harnessing Large Language Models for Knowledge Graph Question Answering via Adaptive Multi-Aspect Retrieval-Augmentation",
+        "type": "journal-article",
+        "DOI": "10.1609/aaai.v39i24.34747",
+        "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "score": 1.965,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Knowledge Graph Question Answering and Large Language Models",
+        "type": "book-chapter",
+        "DOI": "10.3233/faia250220",
+        "container": "Frontiers in Artificial Intelligence and Applications Handbook on Neurosymbolic AI and Knowledge Graphs",
+        "score": 1.888,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "From Discrimination to Generation: Knowledge Graph Completion with Generative Transformer",
+    "file": "xie2023-from-discrimination-to-generation.pdf",
+    "picked": {
+      "title": "Generative Transformer with Knowledge-Guided Decoding for Academic Knowledge Graph Completion",
+      "type": "journal-article",
+      "DOI": "10.3390/math11051073",
+      "container": "Mathematics",
+      "score": 2.064,
+      "years": [
+        2023,
+        2023,
+        2023
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Generative Transformer with Knowledge-Guided Decoding for Academic Knowledge Graph Completion",
+        "type": "journal-article",
+        "DOI": "10.3390/math11051073",
+        "container": "Mathematics",
+        "score": 2.064,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "From Discrimination to Generation: Knowledge Graph Completion with Generative Transformer",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3487553.3524238",
+        "container": "Companion Proceedings of the Web Conference 2022",
+        "score": 1.95,
+        "years": [
+          2022,
+          2022,
+          2022,
+          2022
+        ]
+      },
+      {
+        "title": "Transformer-based Temporal Knowledge Graph Completion",
+        "type": "proceedings-article",
+        "DOI": "10.1109/ccai57533.2023.10201286",
+        "container": "2023 IEEE 3rd International Conference on Computer Communication and Artificial Intelligence (CCAI)",
+        "score": 1.921,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Graph-constrained Reasoning: Faithful Reasoning on Knowledge Graphs with Large Language Models",
+    "file": "luo2025-graph-constrained-reasoning.pdf",
+    "picked": {
+      "title": "FiDeLiS: Faithful Reasoning in Large Language Models for Knowledge Graph Question Answering",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2025.findings-acl.436",
+      "container": "Findings of the Association for Computational Linguistics: ACL 2025",
+      "score": 2.128,
+      "years": [
+        2025,
+        2025,
+        2025
+      ]
+    },
+    "candidates": [
+      {
+        "title": "FiDeLiS: Faithful Reasoning in Large Language Models for Knowledge Graph Question Answering",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2025.findings-acl.436",
+        "container": "Findings of the Association for Computational Linguistics: ACL 2025",
+        "score": 2.128,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Knowledge Graph-Based Reasoning in Large Language Models",
+        "type": "book-chapter",
+        "DOI": "10.3233/faia250219",
+        "container": "Frontiers in Artificial Intelligence and Applications Handbook on Neurosymbolic AI and Knowledge Graphs",
+        "score": 2.017,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Reflection on Knowledge Graph for Large Language Models Reasoning",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2025.findings-acl.1221",
+        "container": "Findings of the Association for Computational Linguistics: ACL 2025",
+        "score": 2.017,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Guiding LLMs The Right Way: Fast, Non-Invasive Constrained Generation",
+    "file": "beurer-kellner2024-guiding-llms-the-right-way.pdf",
+    "picked": null,
+    "candidates": [
+      {
+        "title": "Non-invasive diagnosis of the solitary pulmonary nodule: which way is right?",
+        "type": "journal-article",
+        "DOI": "10.21037/asj-22-41",
+        "container": "AME Surgical Journal",
+        "score": 1.394,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "The right way or the fast way",
+        "type": "journal-article",
+        "DOI": "10.1121/10.0038026",
+        "container": "The Journal of the Acoustical Society of America",
+        "score": 1.283,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Two Shots are Enough: Reliable Constrained Generation with LLMs",
+        "type": "proceedings-article",
+        "DOI": "10.1109/bigdata66926.2025.11402199",
+        "container": "2025 IEEE International Conference on Big Data (BigData)",
+        "score": 1.283,
+        "years": [
+          2025,
+          2026,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Identifying an Undergraduate Research Gap at the Intersection of Knowledge Graphs, LLMs, and Constraint-Aware Content Generation",
+    "file": "researchgap2025-kg-llm-constraint-aware-content-generation.pdf",
+    "picked": {
+      "title": "Leveraging Knowledge Graphs and LLMs for Context-Aware Messaging",
+      "type": "proceedings-article",
+      "DOI": "10.1109/mpseciceta64837.2025.11118478",
+      "container": "2025 IEEE International Conference on Emerging Technologies and Applications (MPSec ICETA)",
+      "score": 1.658,
+      "years": [
+        2025,
+        2025,
+        2025
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Leveraging Knowledge Graphs and LLMs for Context-Aware Messaging",
+        "type": "proceedings-article",
+        "DOI": "10.1109/mpseciceta64837.2025.11118478",
+        "container": "2025 IEEE International Conference on Emerging Technologies and Applications (MPSec ICETA)",
+        "score": 1.658,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Leveraging knowledge graphs and LLMs for content-based reviewer assignment",
+        "type": "journal-article",
+        "DOI": "10.1007/s10844-025-01004-9",
+        "container": "Journal of Intelligent Information Systems",
+        "score": 1.658,
+        "years": [
+          2026,
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Leveraging Knowledge Graphs and\u00a0LLMs for\u00a0Structured Generation of\u00a0Misinformation",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-3-032-00639-4_19",
+        "container": "Lecture Notes in Computer Science Availability, Reliability and Security",
+        "score": 1.658,
+        "years": [
+          2025,
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Large-Scale Constraint Generation: Can LLMs Parse Hundreds of Constraints?",
+    "file": "boffa2025-large-scale-constraint-generation.pdf",
+    "picked": {
+      "title": "Can LLMs Help Uncover Insights about LLMs? A Large-Scale, Evolving Literature Analysis of Frontier LLMs",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2025.acl-long.998",
+      "container": "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+      "score": 1.794,
+      "years": [
+        2025,
+        2025,
+        2025
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Can LLMs Help Uncover Insights about LLMs? A Large-Scale, Evolving Literature Analysis of Frontier LLMs",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2025.acl-long.998",
+        "container": "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+        "score": 1.794,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "LLMs and Prompting for Unit Test Generation: A Large-Scale Evaluation",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3691620.3695330",
+        "container": "Proceedings of the 39th IEEE/ACM International Conference on Automated Software Engineering",
+        "score": 1.394,
+        "years": [
+          2024,
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Optimal relays coordination in large-scale networks with hundreds of constraints using savannah bengal tiger optimizer",
+        "type": "journal-article",
+        "DOI": "10.1007/s11227-026-08341-8",
+        "container": "The Journal of Supercomputing",
+        "score": 1.394,
+        "years": [
+          2026,
+          2026,
+          2026
+        ]
+      }
+    ]
+  },
+  {
+    "title": "RouterKGQA: Specialized-General Model Routing for Constraint-Aware Knowledge Graph Question Answering",
+    "file": "RouterKGQA.pdf",
+    "picked": null,
+    "candidates": [
+      {
+        "title": "Reinforcement Learning for Constraint-Aware Knowledge Base Question Answering",
+        "type": "journal-article",
+        "DOI": "10.1109/access.2025.3606830",
+        "container": "IEEE Access",
+        "score": 1.405,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Benchmarking Knowledge Graph Question Answering via\u00a0Complexity-Aware Queries",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-3-031-94931-9_3",
+        "container": "Lecture Notes in Business Information Processing Advanced Information Systems Engineering Workshops",
+        "score": 1.405,
+        "years": [
+          2025,
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Knowledge Graph Based Question Routing for\u00a0Community Question Answering",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-3-319-70139-4_73",
+        "container": "Lecture Notes in Computer Science Neural Information Processing",
+        "score": 0.805,
+        "years": [
+          2017,
+          2017,
+          2017,
+          2017
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Do Large Language Models Know What They Don\u2019t Know?",
+    "file": "do-llms-know-what-they-know.pdf",
+    "picked": {
+      "title": "Do Large Language Models Know What They Don\u2019t Know?",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2023.findings-acl.551",
+      "container": "Findings of the Association for Computational Linguistics: ACL 2023",
+      "score": 2.35,
+      "years": [
+        2023,
+        2023,
+        2023
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Do Large Language Models Know What They Don\u2019t Know?",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2023.findings-acl.551",
+        "container": "Findings of the Association for Computational Linguistics: ACL 2023",
+        "score": 2.35,
+        "years": [
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "Do Large Language Models Know What Humans Know?",
+        "type": "journal-article",
+        "DOI": "10.1111/cogs.13309",
+        "container": "Cognitive Science",
+        "score": 2.1,
+        "years": [
+          2023,
+          2023,
+          2023,
+          2023
+        ]
+      },
+      {
+        "title": "Large Language Models Must Be Taught to Know What They Don\u2019t Know",
+        "type": "proceedings-article",
+        "DOI": "10.52202/079017-2729",
+        "container": "Advances in Neural Information Processing Systems 37",
+        "score": 1.825,
+        "years": [
+          2024,
+          2025,
+          2024
+        ]
+      }
+    ]
+  },
+  {
+    "title": "ULTRABENCH: Benchmarking LLMs under Extreme Fine-grained Text Generation",
+    "file": "yun2025-ultrabench.pdf",
+    "picked": {
+      "title": "ULTRABENCH: Benchmarking LLMs under Extreme Fine-grained Text Generation",
+      "type": "proceedings-article",
+      "DOI": "10.18653/v1/2025.findings-emnlp.835",
+      "container": "Findings of the Association for Computational Linguistics: EMNLP 2025",
+      "score": 2.35,
+      "years": [
+        2025,
+        2025,
+        2025
+      ]
+    },
+    "candidates": [
+      {
+        "title": "ULTRABENCH: Benchmarking LLMs under Extreme Fine-grained Text Generation",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2025.findings-emnlp.835",
+        "container": "Findings of the Association for Computational Linguistics: EMNLP 2025",
+        "score": 2.35,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Fg-T2M++: LLMs-Augmented Fine-Grained Text Driven Human Motion Generation",
+        "type": "journal-article",
+        "DOI": "10.1007/s11263-025-02392-9",
+        "container": "International Journal of Computer Vision",
+        "score": 1.906,
+        "years": [
+          2025,
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "TextToucher: Fine-Grained Text-to-Touch Generation",
+        "type": "journal-article",
+        "DOI": "10.1609/aaai.v39i7.32802",
+        "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+        "score": 1.794,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Enhancing Factuality in LLMs via Heuristic Look-Ahead Decoding on Domain-Specific Knowledge Graphs",
+    "file": "enhancing-factuality-llms-domain-kg-lookahead-decoding.pdf",
+    "picked": {
+      "title": "Cross-Domain Knowledge Transfer using LLMs and Domain-Specific Knowledge Graphs",
+      "type": "proceedings-article",
+      "DOI": "10.1109/mpseciceta64837.2025.11118450",
+      "container": "2025 IEEE International Conference on Emerging Technologies and Applications (MPSec ICETA)",
+      "score": 1.805,
+      "years": [
+        2025,
+        2025,
+        2025
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Cross-Domain Knowledge Transfer using LLMs and Domain-Specific Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.1109/mpseciceta64837.2025.11118450",
+        "container": "2025 IEEE International Conference on Emerging Technologies and Applications (MPSec ICETA)",
+        "score": 1.805,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Domain-Specific Knowledge Graphs in RAG-Enhanced Healthcare LLMS",
+        "type": "proceedings-article",
+        "DOI": "10.1109/bigdata66926.2025.11400857",
+        "container": "2025 IEEE International Conference on Big Data (BigData)",
+        "score": 1.805,
+        "years": [
+          2025,
+          2026,
+          2025
+        ]
+      },
+      {
+        "title": "Towards Compact and Efficient Vietnamese Domain-Specific LLMs via Knowledge Distillation",
+        "type": "book-chapter",
+        "DOI": "10.1007/978-981-95-4957-3_22",
+        "container": "Lecture Notes in Computer Science Multi-disciplinary Trends in Artificial Intelligence",
+        "score": 1.714,
+        "years": [
+          2026,
+          2025,
+          2025,
+          2025
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Development of a Fact-Grounded Diagnostic Assistant for Mission-Critical Power Infrastructure using Constraint-Aware Knowledge Graphs",
+    "file": "fact-grounded-diagnostic-assistant-constraint-aware-kg.pdf",
+    "picked": {
+      "title": "Inquiry Assistant Using LLM-Generated Knowledge Graphs",
+      "type": "proceedings-article",
+      "DOI": "10.1145/3726302.3731956",
+      "container": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+      "score": 1.581,
+      "years": [
+        2025,
+        2025,
+        2025,
+        2025
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Inquiry Assistant Using LLM-Generated Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3726302.3731956",
+        "container": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+        "score": 1.581,
+        "years": [
+          2025,
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Fact Verification in Knowledge Graphs Using LLMs",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3726302.3730142",
+        "container": "Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+        "score": 1.581,
+        "years": [
+          2025,
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Context-aware Outstanding Fact Mining from Knowledge Graphs",
+        "type": "proceedings-article",
+        "DOI": "10.1145/3447548.3467272",
+        "container": "Proceedings of the 27th ACM SIGKDD Conference on Knowledge Discovery &amp; Data Mining",
+        "score": 0.658,
+        "years": [
+          2021,
+          2021,
+          2021,
+          2021
+        ]
+      }
+    ]
+  },
+  {
+    "title": "GPT-4 Technical Report",
+    "file": "gpt-technical-report.pdf",
+    "picked": {
+      "title": "Peer review of GPT-4 technical report and systems card",
+      "type": "journal-article",
+      "DOI": "10.1371/journal.pdig.0000417",
+      "container": "PLOS Digital Health",
+      "score": 2.35,
+      "years": [
+        2024,
+        2024,
+        2024
+      ]
+    },
+    "candidates": [
+      {
+        "title": "Peer review of GPT-4 technical report and systems card",
+        "type": "journal-article",
+        "DOI": "10.1371/journal.pdig.0000417",
+        "container": "PLOS Digital Health",
+        "score": 2.35,
+        "years": [
+          2024,
+          2024,
+          2024
+        ]
+      },
+      {
+        "title": "Chat GPT: Growth and challenges in technical education",
+        "type": "book-chapter",
+        "DOI": "10.1201/9781003650010-69",
+        "container": "Progressive Computational Intelligence, Information Technology and Networking",
+        "score": 1.45,
+        "years": [
+          2025,
+          2025,
+          2025
+        ]
+      },
+      {
+        "title": "Cross-Domain Detection of GPT-2-Generated Technical Text",
+        "type": "proceedings-article",
+        "DOI": "10.18653/v1/2022.naacl-main.88",
+        "container": "Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies",
+        "score": 0.85,
+        "years": [
+          2022,
+          2022,
+          2022
+        ]
+      }
+    ]
+  }
+]

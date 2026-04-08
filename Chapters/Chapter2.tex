@@ -1,0 +1,456 @@
+% =============================================================================
+% CHAPTER 2: LITERATURE REVIEW
+% =============================================================================
+
+\chapter{LITERATURE REVIEW}
+
+
+While large language models (LLMs) are good at many tasks, their use of autoregressive generation makes them likely to produce fluent but incorrect information~\citep{ji2023survey}. For knowledge-intensive question answering, this unreliability is a major roadblock: the ability to verify reasoning against external facts is essential. To tackle this issue, recent studies have focused on grounding models in structured external facts through knowledge graphs. Still, keeping a model strictly aligned with these graphs during generation, without losing its natural flow, is a difficult challenge.
+
+This literature review looks at the current research on these challenges and examines how knowledge graph constraints might help ensure factual accuracy during multi-hop reasoning. Instead of immediately discussing the proposed solution, this chapter outlines the connections between language model hallucination, multi-step validation, and structured grounding. By assessing current strategies to reduce errors, from improved prompting to fixed decoding, this chapter shows where soft-grounding methods do not meet expectations, highlighting the specific technical gaps this project addresses.
+
+
+% -----------------------------------------------------------------------------
+\section{Large Language Models}
+\label{sec:llms}
+% -----------------------------------------------------------------------------
+
+To understand how knowledge graph constraints can be used with language models, we first need to grasp how these models generate language. Large language models (LLMs) are the main systems powering today’s natural language processing. This section describes the structure and generation features of LLMs. It focuses on the autoregressive process that leads to their smooth reasoning abilities and their risk of producing false information.
+
+\subsection{Transformer Architecture}
+
+Modern LLMs are built upon the Transformer architecture, introduced by \citet{vaswani2017attention}. At its core, the Transformer relies on a scaled dot-product self-attention mechanism that allows the model to dynamically weigh the importance of different tokens in an input sequence regardless of their positional distance. Formally, for a set of queries $Q$, keys $K$, and values $V$, the attention output is computed as:
+\begin{equation}
+  \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\end{equation}
+where $d_k$ represents the dimensionality of the keys. This marked a significant change from earlier recurrent architectures. It allowed for highly parallel training and the capturing of long-range dependencies. Initially, the framework suggested an encoder-decoder setup for translation tasks. However, the field has mostly moved toward decoder-only models for text generation. In a decoder-only model, self-attention is causally masked. This means that when the model computes the representation for a specific token, it can only focus on previous tokens and not future ones. This strictly left-to-right processing fits well with the task of predicting the next word in a sequence. The Llama-3.1-8B model~\citep{dubey2024llama3} is a prominent example of this decoder-only, causally-masked transformer design, and has been adopted as the backbone in recent KG-constrained decoding work~\citep{luo2025-graph-constrained-reasoning}.
+
+\subsection{Autoregressive Generation}
+
+The text production process in these models is fundamentally autoregressive. Given a vocabulary $\mathcal{V}$, an input sequence $x$, and previously generated output tokens $y_{<t}$, the model computes a probability distribution over the entire vocabulary for the next token: $P(y_t | y_{<t}, x)$. Since the generation condition includes all previously generated tokens, each new word becomes part of the context for the next word. Decoding strategies, such as beam search and nucleus sampling~\citep{holtzman2020curious}, determine how a specific token is chosen from this calculated distribution. Importantly, because this distribution is always computed over the full vocabulary, any mathematically possible token has a positive, non-zero chance of being generated at any step. This autoregressive nature is what creates fluent, coherent text. However, since each step relies on prior outputs without an external verifier, it also directly causes hallucination.
+
+
+
+\subsection{Large-Scale Pretraining}
+
+Large language models emerged through a fundamental shift in scale: current models are trained on vastly larger datasets using billions more parameters than earlier transformers. Foundational models are pretrained on vast amounts of unlabelled text using a simple self-supervised goal, usually predicting the next token. The GPT series (\citealt{brown2020gpt3}; \citealt{openai2024gpt4technicalreport}) and the open-weight Llama series (\citealt{touvron2023llama}; \citealt{dubey2024llama3}) show that scaling this simple task leads to powerful downstream capabilities, including few-shot learning and broad world knowledge. During pretraining, the model internalizes patterns, facts, and logical structures found in its training data. However, this memory is fundamentally static and statistical. While increasing the size of models improves their fluency, syntax, and ability to recall common facts, it does not address the underlying generation process. The model still lacks a way to interact with dynamic external facts or ensure that its statistical outputs reflect verified truths in the real world.
+
+\subsection{Instruction Following and Chain-of-Thought}
+
+To better align these pretrained base models with user intent, they go through post-training processes like instruction tuning and reinforcement learning from human feedback (RLHF). This alignment lets models engage in dialogue and follow complex instructions. One of the key abilities of aligned LLMs is multi-step reasoning, often prompted through Chain-of-Thought (CoT; \citealt{wei2022cot}). As surveyed by \citet{huang2023towards}, CoT prompting encourages the model to produce intermediate reasoning steps before reaching a final answer, effectively breaking down complex problems. While CoT greatly enhances performance on logic and reasoning tasks, it suffers from the same autoregressive limitation: each intermediate reasoning step is generated using only the model’s internal statistical distributions. So, while CoT helps structure a language model’s reasoning, it cannot logically connect those outputs to verifiable sources. This ongoing lack of factual grounding shows the need for stricter interventions, such as knowledge graph-constrained decoding.
+
+% -----------------------------------------------------------------------------
+\section{Hallucination in Large Language Models}
+\label{sec:hallucination}
+% -----------------------------------------------------------------------------
+
+\subsection{Definition and Taxonomy}
+
+Hallucination in natural language generation refers to the production of content that is fluent and internally coherent yet factually unsupported by or in outright contradiction with verifiable sources~\citep{ji2023survey}. \citet{huang2023hallucination} refine this definition into a two-part taxonomy. \textit{Intrinsic hallucination} happens when the model output directly contradicts material present in the provided source context. \textit{Extrinsic hallucination} occurs when the output contains claims that cannot be verified against any external source, even if it does not directly contradict a specific reference.
+
+Both types are documented at non-trivial rates in deployed systems. \citet{ji2023survey} survey over 30 works across summarization, dialogue, and question answering, finding hallucination rates ranging from 15\% to over 60\% depending on task type and measurement methodology. In the specific context of knowledge graph question answering, \citet{luo2025-graph-constrained-reasoning} report that retrieval-augmented reasoning approaches produce hallucinated reasoning steps in approximately one-third of cases even when provided direct access to a supporting knowledge graph, underscoring that the problem is not simply one of insufficient external knowledge.
+
+\subsection{Structural Causes: The Autoregressive Generation Mechanism}
+
+The primary cause of hallucination is the autoregressive generation process found in all modern large language models. At each generation step, the model computes a probability distribution over its vocabulary based on the input and all previously generated tokens. Three structural aspects of this mechanism make hallucination an ongoing risk rather than just a rare failure.
+
+First, the generation distribution is based entirely on learned parameters, with no part that corresponds to factual verification against an external source. The model has no mechanism to ``check'' a candidate token against a knowledge base before selecting it. Second, errors propagate forward: because each step is conditioned on all prior output, a hallucinated token at step $t$ becomes part of the conditioning context for step $t{+}1$, producing fluent and internally consistent continuations of an already-incorrect chain. Third, the distribution is defined over the full vocabulary at every step, meaning that any token has a positive chance of being selected at any point, regardless of factual correctness~\citep{brown2020gpt3,huang2023hallucination,ji2023survey}.
+
+\subsection{The Scaling Paradox}
+
+A common argument against the severity of the hallucination issue is that large models should eventually achieve enough factual reliability. However, evidence does not support this view. \citet{lin2022truthfulqa} introduce TruthfulQA, a benchmark for questions that often produce plausible but false responses. Their main finding is that larger models do not perform better than smaller models in terms of truthfulness and in some categories show \textit{inverse scaling}. In other words, larger models can do worse because they reproduce widespread but incorrect beliefs from their training data more effectively.
+
+\citet{perez2022sycophancy} identify a compounding issue in models trained with reinforcement learning from human feedback: these models learn to generate confident-sounding responses that align with apparent user expectations rather than verifiable facts, separating confidence from accuracy. \citet{kandpal2023large} show that while larger models memorize more training-data facts and improve on frequently-seen entity combinations, they do not improve on compositional questions requiring combinations of facts not seen during training. This precisely mirrors the structure of multi-hop knowledge graph questions. \citet{mallen2023not} confirm significant hallucination rates for GPT-4 on questions involving tail entities, regardless of model size. Together, these findings show that hallucination is a structural feature of the autoregressive mechanism, not a scaling issue with a simple solution.
+
+% -----------------------------------------------------------------------------
+\section{Multi-Step Reasoning: Chain-of-Thought and Its Limits}
+\label{sec:cot}
+% -----------------------------------------------------------------------------
+
+\subsection{Chain-of-Thought Prompting}
+
+Chain-of-thought (CoT) prompting, introduced by \citet{wei2022cot}, is the dominant paradigm for eliciting multi-step reasoning from large language models. By including worked examples in the prompt that show intermediate reasoning steps, the model learns to decompose complex problems into a sequence of simpler sub-problems before producing a final answer. \citet{wei2022cot} demonstrate substantial accuracy improvements on arithmetic, commonsense, and multi-hop question answering benchmarks, with the capability emerging at approximately 100 billion parameters. Zero-shot chain-of-thought~\citep{kojima2022zero} achieves similar benefits without worked examples by adding the phrase ``Let's think step by step'' to the prompt, demonstrating that the underlying capability is latent in sufficiently large models and requires only elicitation.
+
+Despite these improvements, CoT has a fundamental structural limitation: each intermediate step is generated by the same autoregressive mechanism described in the previous section. An incorrect intermediate step propagates forward as conditioning context, and no mechanism verifies that any step corresponds to a fact in an external knowledge source. A CoT chain can be entirely fluent and internally coherent while containing one or more steps that are factually fabricated.
+
+\subsection{Extensions: Self-Consistency and Tree-of-Thought}
+
+Two major extensions of chain-of-thought tackle its reliability issues without fixing its structural faithfulness problem. Self-consistency~\citep{wang2023selfconsistency} samples several independent CoT chains and chooses the final answer based on majority vote, minimizing individual chain errors. This method significantly improves accuracy on benchmarks like GSM8K and multi-hop QA by reducing sensitivity to individual hallucinated chains. However, it does not guarantee that any single chain is factually accurate. A majority of independently hallucinated chains can still produce an incorrect majority-vote answer, especially on deep multi-hop questions where error rates increase.
+
+Tree-of-Thought~\citep{yao2023tree} treats generation as a search through a tree of partial reasoning sequences. It uses the language model both as a generator and as an evaluator to trim unpromising branches. This approach enhances performance on tasks that need backtracking and exploration. However, the key limitation persists: pruning decisions are made by the model itself, relying on its own parameters as the only evaluator, without any outside verification of the factual accuracy of candidate reasoning steps.
+
+\subsection{The Faithfulness Ceiling of Prompting-Based Approaches}
+
+The main limitation of all prompting-based methods, such as few-shot, chain-of-thought, self-consistency, tree-of-thought, and their combinations, is that they modify the \textit{input} to the language model without modifying the \textit{generation mechanism}. Since decoding happens over the full vocabulary, each token has a strictly positive probability at every step. True structural faithfulness means ensuring that each generated token matches a verified external fact. To achieve this, invalid tokens must be given exactly zero probability. This can only happen by directly changing the decoding algorithm. This is the purpose of constrained decoding methods~\citep{geng2023grammarconstrained, willard2023outlines}.
+
+% -----------------------------------------------------------------------------
+\section{Knowledge Graphs and Knowledge Graph Question Answering}
+\label{sec:kgqa}
+% -----------------------------------------------------------------------------
+
+\subsection{Knowledge Graphs}
+
+A knowledge graph is a structured database of verified facts, represented as a set of directed, labelled triplets $(e, r, e')$ where $e, e' \in \mathcal{E}$ are entities and $r \in \mathcal{R}$ is a relation type. Each triplet encodes a single human-verified fact: for example, (\textit{Marie Curie}, \textit{award\_received}, \textit{Nobel\_Prize\_Physics}) or (\textit{Blue\_Hawaii}, \textit{film.film.featured\_film\_location}, \textit{Hawaii}). Figure~\ref{fig:kg_example} illustrates a simplified fragment of such a structure, demonstrating how these triplets interlink to form a broader network. Freebase~\citep{bollacker2008freebase}, the knowledge graph underlying the evaluation benchmarks used in this work, encodes tens of millions of such triplets across geography, history, entertainment, and science, and has been widely adopted as the standard resource for KGQA research~\citep{yih2016websqp, talmor2018cwq}.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Figures/kg_example.png}
+  \caption[Simplified Example of a Knowledge Graph Fragment]{A simplified example of a knowledge graph fragment.}
+  \label{fig:kg_example}
+\end{figure}
+
+The critical distinction between a knowledge graph and an unstructured text corpus is that every triplet in the KG has been explicitly verified and is machine-readable in a deterministic, unambiguous form. This property makes KGs suitable as sources for hard constraints on generation: a candidate token can be verified against the KG via an exact lookup, rather than via probabilistic semantic matching against raw text. A multi-hop reasoning path of length $L$ through the KG is a sequence $(e_0, r_1, e_1, \ldots, r_L, e_L)$ in which each consecutive triplet $(e_{i-1}, r_i, e_i)$ is a verified member of $\mathcal{T}$~\citep{lan2022kgqa}.
+
+\subsection{Knowledge Graph Question Answering}
+
+Knowledge graph question answering (KGQA) requires a system to identify the answer entity $e_L$ to a natural language question $q$ by reasoning through a chain of verified KG triplets. The task is formally defined as: given question $q$ with associated question entities $\mathcal{E}_q \subseteq \mathcal{E}$ identified by entity linking, identify the terminal entity of the correct reasoning path in $\mathcal{G}$~\citep{lan2022kgqa}.
+
+Early KGQA approaches relied on either semantic parsing (converting questions to structured SPARQL queries) or information retrieval over KG subgraphs~\citep{lan2022kgqa}. More recent approaches use large language models as retrievers, agents iteratively querying the KG, or generators conditioned on retrieved subgraph context~\citep{jiang2023structgpt, jin2024graphcot, luo2024rog}. The move toward LLM-based KGQA has improved fluency and coverage, but it has also brought back the risk of hallucination that structured methods avoided. LLM-generated reasoning chains are not guaranteed to match confirmed KG paths.
+
+\subsection{Evaluation Benchmarks}
+
+Two benchmark datasets provide the evaluation framework for KGQA research. WebQSP~\citep{yih2016websqp} comes from the WebQuestions dataset. It contains 4,737 questions based on Freebase, with reasoning depths of one to two hops. These questions include SPARQL queries and are evaluated using Hits@1 and F1. ComplexWebQuestions (CWQ;~\citealt{talmor2018cwq}) builds on WebQSP by transforming questions through conjunction, composition, and comparative operations, resulting in about 34,000 questions that require up to four reasoning hops. WebQSP illustrates a case where the valid paths are relatively few. In contrast, CWQ shows a case with many valid paths, making it harder to find the correct path among structurally valid options.
+
+\subsection{Multi-Hop Complexity}
+
+The complexity of multi-hop KGQA rises sharply with hop depth. For an entity with an average out-degree $d$ in the KG, the number of valid paths of length $L$ from the question entities increases as $|\mathcal{E}_q| \times d^L$. For well-connected Freebase entities where $d$ is around 20 and a question may have up to three question entities, a three-hop question can generate up to 24{,}000 structurally valid paths, but only one leads to the correct answer~\citep{he2021multihop, lan2022kgqa}. This rapid growth has real implications for any method that needs to distinguish between candidate paths. At each step, the model must choose the correct next token from a vast array of valid yet incorrect options, relying on its parametric knowledge to do so.
+
+% -----------------------------------------------------------------------------
+\section{Constrained Decoding for Faithful Text Generation}
+\label{sec:constrained}
+% -----------------------------------------------------------------------------
+
+Constrained decoding restricts generation to a predefined valid set at each step by directly intervening in the decoding mechanism. Unlike prompting, which changes the input to the LLM, constrained decoding alters the token selection process itself. Invalid tokens receive zero probability before sampling, making their generation structurally impossible.
+
+\subsection{Logit Masking}
+
+The main mechanism of constrained decoding is logit masking, formally described in \citet{geng2023grammarconstrained} and \citet{willard2023outlines}. This technique works by computing a binary mask over the vocabulary at each generation step, setting the log-probability of invalid tokens to $-\infty$ before the softmax, thereby forcing their selection probability to exactly zero. This ensures that invalid tokens are structurally impossible to generate, rather than merely discouraged. The following subsections examine two concrete instantiations of logit masking: first for enforcing syntactic and formal correctness, then for enforcing knowledge graph path validity.
+
+\subsection{Grammar-Constrained Decoding}
+
+\citet{geng2023grammarconstrained} introduce Grammar-Constrained Decoding (GCD), which constrains generation to strings conforming to a context-free grammar, using an Earley parser as the oracle. The valid next-token set at each step is the set of tokens that extend the current partial string as a valid grammar prefix. GCD additionally introduces input-dependent grammars, in which the grammar is parameterized by the input question, representing a partial step toward context-sensitive constraints. \citet{willard2023outlines} address the computational cost of constrained decoding with an efficient finite-state machine formulation. By precomputing an index from automaton states to valid vocabulary subsets, the valid token set can be retrieved in amortized constant time at each generation step, making constrained decoding practical at inference speed.
+
+The shared limitation of these format-constraint approaches is that they enforce structural validity of the output format (such as grammatical correctness or schema conformance) without enforcing factual correctness. A grammatically valid output can contain entirely hallucinated facts. The transition from format constraints to factual constraints requires a constraint oracle that verifies tokens against a knowledge source rather than against a grammar.
+
+\subsection{Knowledge Graph-Constrained Decoding}
+
+Applying constrained decoding to knowledge graph faithfulness is a more recent development. The central idea is to use the KG itself as the constraint oracle. At each generation step, only tokens that correspond to valid continuations of a KG reasoning path are allowed. This method guarantees structural faithfulness, meaning every generated token matches a verified KG triplet, making hallucination of KG facts structurally impossible.
+
+\textbf{Graph-Constrained Reasoning (GCR)}~\citep{luo2025-graph-constrained-reasoning} is the leading work in this area. GCR builds a KG-Trie (a prefix tree of all KG paths within $L$ hops of the question entities, created by breadth-first search before generation begins) and uses it as the constraint oracle during beam-search decoding. The trie is queried at each step to provide valid next tokens. GCR achieves 92.6 Hits@1 on WebQSP and 75.8 on CWQ with verified 100\% structural faithfulness, using a Llama-3.1-8B backbone. One important feature is that the trie is created once before generation and remains unchanged: the valid token set is fixed no matter what has been generated.
+
+\textbf{Decoding on Graphs (DoG)}~\citep{li2024-decoding-on-graphs} presents step-wise trie expansion as a partial solution to GCR's static oracle. DoG defines \textit{well-formed chains} as sequences of KG triplets where each triplet exists in the KG, and each entity is connected to the previous triplet or is a question entity. It enforces this rule through step-wise expansion. After locking in an entity, the constraint trie is expanded with all KG neighbors of that entity. This makes the oracle topologically dynamic, growing as reasoning moves through the graph. DoG achieves 90.99 Hits@1 on WebQSP and 76.08 on CWQ with 100\% structural faithfulness, and it is training-free, needing no fine-tuning. However, the expansion rule includes all KG neighbors of each visited entity, regardless of their relevance to the question or current reasoning direction. Additionally, constructing the trie step-by-step compromises the efficiency of the precomputed constraint structures.
+
+\textbf{RouterKGQA}~\citep{yuan2026routerkgqa} takes a different approach by routing between a specialized KG-reasoning model and a general LLM based on question complexity. It uses semantic filtering with SBERT embeddings (specifically \texttt{nomic-embed-text-v1}) to select candidate answers after generation, achieving competitive accuracy while lowering inference costs. RouterKGQA's semantic scoring operates at the answer selection level, rather than at the token constraint level. Paths are created first and filtered afterward, instead of being constrained during generation.
+
+\subsection{Beam Search and Trie-Based Constraints}
+
+To understand how knowledge graph constraints are applied during generation, it is important to look at the two main search algorithms and data structures involved: beam search and the prefix trie.
+
+\textbf{Beam Search.} First introduced in the HARPY speech recognition system~\citep{lowerre1976harpy}, beam search is a heuristic search algorithm used in natural language processing to decode sequences from probabilistic models. Unlike greedy decoding, which only picks the single most probable token at each step and risks creating sub-optimal global sequences, beam search keeps a set of the $k$ most promising partial hypotheses (or ``beams'') at all times. At each generation step, the algorithm expands all $k$ current hypotheses by scoring their potential continuations, ranks the resulting sequences based on their total log-probability, and reduces the search space back to the top $k$ candidates~\citep{holtzman2020curious}. This method reduces the chance of early errors multiplying while still being computationally viable. Thus, it is the primary decoding strategy for tasks that need structured and coherent output.
+
+\textbf{The Prefix Trie.} A trie, originating from the concept of ``trie memory'' (retrieval) introduced by \citet{fredkin1960trie}, is a deterministic tree-based data structure used to store a changing set of sequences, usually strings. In a trie, no single node holds a complete string. Instead, a node's position in the tree indicates the exact prefix it represents. The branches from any node show the set of valid next characters or tokens. In constrained decoding, a pre-computed trie acts as a highly efficient constraint oracle. Given the current sequence prefix, navigating the trie to the correct node yields the specific subset of valid next tokens in constant time, $O(1)$, concerning vocabulary size. This operation is significantly quicker than continuous dynamic parser evaluations, making trie lookups the most scalable option for applying firm factual constraints at inference speed~\citep{willard2023outlines}.
+
+\textbf{The KG-Trie.} For knowledge graph-constrained generation, models like Graph-Constrained Reasoning (GCR) use a specific adaptation known as the KG-Trie~\citep{luo2025-graph-constrained-reasoning}. A KG-Trie serializes structurally verified multi-hop paths from the knowledge graph into string formats and maps them across the language model's precise token vocabulary. Rather than nodes representing single alphabetical characters, each edge in the KG-Trie represents a specific valid token in the LLM's vast vocabulary space.
+
+When beam search is merged with a KG-Trie oracle as visualized in Figure~\ref{fig:kg_trie_search}, the decoding process transforms into a strictly bounded traversal of the prefix tree.
+\begin{figure}[H]
+  \centering
+  \resizebox{0.7\textwidth}{!}{
+    \begin{tikzpicture}[
+      node distance=1.2cm and 1.0cm,
+      trie/.style={circle, draw, minimum size=1.1cm, inner sep=1pt, align=center, font=\scriptsize\ttfamily},
+      leaf/.style={circle, draw, fill=gray!20, minimum size=1.1cm, inner sep=1pt, align=center, font=\scriptsize\ttfamily},
+      arrow/.style={-{Stealth[scale=1.0]}, thick},
+      invalid/.style={circle, draw, dashed, text=gray, minimum size=1.1cm, inner sep=1pt, align=center, font=\scriptsize\ttfamily},
+      invalidarrow/.style={-{Stealth[scale=1.0]}, dashed, draw=gray}
+      ]
+
+      % Root
+      \node[trie, fill=blue!10] (root) {State\\$s_0$};
+
+      % Level 1
+      \node[trie, below left=1.2cm and 1.5cm of root] (t1) {$\langle$par$\rangle$};
+      \node[trie, below right=1.2cm and 1.5cm of root, fill=blue!10] (t2) {Paris};
+
+      \node[invalid, left=0.6cm of t1] (inv1) {London};
+
+      % Level 2
+      \node[trie, below=1.2cm of t2, fill=blue!10] (t3) {\_is};
+      \node[trie, right=1.5cm of t2] (t4) {\_has};
+
+      % Level 3
+      \node[trie, below=1.2cm of t3, fill=blue!10] (t5) {\_in};
+      \node[leaf, below=1.2cm of t4] (t6) {$\langle$/par$\rangle$};
+
+      % Level 4
+      \node[leaf, below=1.2cm of t5, fill=blue!10] (t7) {France};
+
+      % Edges
+      \draw[invalidarrow] (root) -- node[above left, sloped, font=\scriptsize, gray] {$P=0$} (inv1);
+      \draw[arrow] (root) -- node[above left, font=\scriptsize] {"$\langle$par"} (t1);
+      \draw[arrow] (root) -- node[above right, font=\scriptsize] {"Par"} (t2);
+
+      \draw[arrow] (t2) -- node[left, font=\scriptsize] {" is"} (t3);
+      \draw[arrow] (t2) -- node[above right, font=\scriptsize] {" has"} (t4);
+
+      \draw[arrow] (t3) -- node[left, font=\scriptsize] {" in"} (t5);
+      \draw[arrow] (t4) -- node[right, font=\scriptsize] {" $\langle$/"} (t6);
+
+      \draw[arrow] (t5) -- node[left, font=\scriptsize] {" Fran"} (t7);
+
+      % Annotations
+      \node[above=0.3cm of root, font=\footnotesize\bfseries] {Beam Search Hypothesis Path};
+    \end{tikzpicture}
+  }
+  \caption[Visualization of KG-Trie Constrained Generation]{Visualization of KG-Trie Constrained Generation.}
+  \label{fig:kg_trie_search}
+\end{figure}
+
+At each autoregressive step, the current beam hypotheses map to specific states in the KG-Trie. The language model calculates a probability distribution over its entire vocabulary, but a mathematical mask forces the probability of any candidate token not validly present as a child node in the trie to exactly zero ($-\infty$ prior to softmax normalization). The beam search then advances strictly down the permissible branches, functionally restricting the LLM's autoregressive generation to a set of pre-verified deterministic paths while still allowing the model to express internal preference (via log-probabilities) among those factually valid chains.
+
+
+
+% -----------------------------------------------------------------------------
+\section{Retrieval-Augmented Generation}
+\label{sec:rag}
+% -----------------------------------------------------------------------------
+
+Retrieval-augmented generation (RAG), introduced by \citet{lewis2020rag} in 2020, is the leading approach for grounding LLM outputs in external knowledge. A dense retriever picks relevant passages from an external source based on embedding similarity. A reader LLM then generates the answer based on the retrieved context and the question. Fusion-in-Decoder, proposed by \citet{izacard2021leveraging} in 2021, enhances this by encoding multiple retrieved passages separately and merging them in the decoder, which improves coverage.
+
+\subsection{KG-Augmented Retrieval}
+
+Several studies enhance RAG with knowledge graph (KG)-structured context. \citet{he2021multihop} retrieve KG subgraphs and use attention on retrieved facts to aid multi-hop reasoning. \citet{yasunaga2021qagnn} combine retrieved text passages and KG neighborhoods through graph neural networks. \citet{shi2021kgpath} retrieve KG paths as natural language context strings, providing path-shaped input to the reader. G-Retriever, developed by \citet{he2024gretriever} in 2024, applies RAG specifically to textual graph understanding, retrieving graph-structured context for question-answering tasks.
+
+\subsection{RAG Variants}
+
+Recent RAG variants focus on the timing and accuracy of retrieval. Self-RAG~\citep{asai2024selfrag} adds reflection tokens that allow the model to decide when retrieval is necessary and whether retrieved passages support the generated claim. This improves retrieval precision and citation accuracy. FLARE~\citep{jiang2023flare} uses the model's next-token prediction confidence as a trigger for retrieval, obtaining new context when confidence drops below a certain threshold. IRCoT~\citep{trivedi2022ircot} mixes retrieval with chain-of-thought steps, fetching relevant context at each reasoning step, significantly improving multi-hop accuracy. GraphRAG~\citep{edge2024graphrag} builds community-structured knowledge graphs from document collections and retrieves community summaries for complex relational queries. This approach uses graph structure to boost coverage.
+
+\subsection{The Structural Limitation of Soft Grounding}
+
+Despite their empirical improvements, all RAG approaches share a structural limitation: retrieved context is a soft influence on generation. The retriever determines what the LLM sees; it does not determine what the LLM is permitted to generate. Because the LLM's generation mechanism remains unchanged (the distribution over the full vocabulary is computed autoregressively), there exists a nonzero probability of generating any token at any step, including tokens that correspond to no verified KG fact. Structural faithfulness with probability one, which guarantees that every generated token corresponds to a verified fact, cannot be achieved under any architecture that modifies only the input context without modifying the token selection mechanism~\citep{luo2025-graph-constrained-reasoning, geng2023grammarconstrained}.
+
+\begin{figure}[H]
+  \centering
+  \resizebox{\textwidth}{!}{
+    \begin{tikzpicture}[>=latex, font=\sffamily\footnotesize]
+      % Styles
+      \tikzstyle{block} = [draw, rectangle, rounded corners, minimum height=1cm, minimum width=2.5cm, align=center, fill=blue!5]
+      \tikzstyle{data} = [draw, fill=gray!10, rounded corners, inner sep=5pt, align=center]
+      \tikzstyle{redanno} = [text=red!80!black, font=\sffamily\footnotesize\bfseries, align=center]
+      \tikzstyle{greenanno} = [text=green!60!black, font=\sffamily\footnotesize\bfseries, align=center]
+
+      % LEFT PANEL: RAG
+      \node[font=\sffamily\normalsize\bfseries] at (-3, 3.5) {RAG Pipeline};
+      \node[data] (q_left) at (-3, 2.3) {Question $q$};
+      \node[block, fill=orange!10] (ret) at (-5.5, 1.2) {Retriever \\ (Soft Context)};
+      \node[data] (ctx) at (-5.5, -0.5) {Retrieved \\ Subgraph/Text};
+      \node[block] (llm_left) at (-3, -2) {LLM \\ (Autoregressive)};
+
+      \draw[->, thick] (q_left) -| (ret);
+      \draw[->, thick] (ret) -- (ctx);
+      \draw[->, thick] (ctx) |- (llm_left);
+      \draw[->, thick] (q_left) -- (llm_left);
+
+      \node[data] (out_left) at (-3, -4) {Any token $v \in \mathcal{V}$ \\ possible};
+      \draw[->, thick] (llm_left) -- (out_left);
+
+      % \node[redanno] at (-3, -4.5) {Soft Influence:\\ Faithfulness Not Guaranteed};
+
+      % RIGHT PANEL: Constrained Decoding
+      \node[font=\sffamily\normalsize\bfseries] at (4, 3.5) {Constrained Decoding Pipeline};
+      \node[data] (q_right) at (4, 2.3) {Question $q$ \\ \& Prefix $y_{<t}$};
+      \node[block, fill=teal!10] (oracle) at (1.5, 1) {Constraint Oracle \\ (KG-Trie)};
+      \node[block] (llm_right) at (6.5, 1) {LLM \\ (Raw Logits)};
+
+      \node[data] (mask) at (1.5, -0.9) {Binary Mask \\ $\alpha_t \in \{0, -\infty\}$};
+      \node[data] (logits) at (6.5, -0.9) {Logits \\ $P(v \mid y_{<t}, x)$};
+      \node[draw, circle, inner sep=3pt, fill=blue!10] (mul) at (4, -0.9) {\textbf{+}};
+
+      \draw[->, thick] (q_right) -| (oracle);
+      \draw[->, thick] (q_right) -| (llm_right);
+      \draw[->, thick] (oracle) -- (mask);
+      \draw[->, thick] (llm_right) -- (logits);
+      \draw[->, thick] (mask) -- (mul);
+      \draw[->, thick] (logits) -- (mul);
+
+      \node[data] (out_right) at (4, -4) {Only valid KG tokens \\ $v \in \mathcal{W}_{\text{val}}(t)$ possible};
+      \draw[->, thick] (mul) -- (4, -1.2) -- (out_right);
+      \node[anchor=west, font=\scriptsize] at (4.1, -1.8) {Masked Logits};
+
+      % \node[greenanno] at (4, -4.5) {Hard Constraint:\\ Structural Faithfulness Guaranteed};
+
+      % Divider
+      \draw[dashed, gray, thick] (-0.5, -5) -- (-0.5, 4);
+
+    \end{tikzpicture}
+  }
+  \caption[Standard RAG vs. KG-Constrained Decoding]{Comparison of standard RAG (left) and KG-constrained decoding (right).}
+  \label{fig:rag_vs_constrained}
+\end{figure}
+
+% -----------------------------------------------------------------------------
+\section{Semantic Relevance Scoring with Sentence Transformers}
+\label{sec:sbert}
+% -----------------------------------------------------------------------------
+
+\subsection{Sentence Transformer Embeddings}
+
+Sentence-BERT~\citep{reimers2019sbert} introduced a class of sentence encoders trained to produce dense vector representations in which semantically similar sentences cluster together and semantically dissimilar sentences are pushed apart. The SBERT architecture applies mean pooling over token representations from a BERT-like transformer encoder, producing a fixed-length embedding. Training uses a siamese network on labelled sentence pairs with a classification objective over entailment, neutral, and contradiction labels. The resulting embedding space supports cosine similarity as a reliable proxy for semantic alignment between sentences, without requiring task-specific fine-tuning at inference time.
+
+\subsection{Applications in Retrieval and Graph Reasoning}
+
+Sentence transformer similarity has been applied extensively in dense retrieval settings. \citet{karpukhin2020dpr} demonstrate that a bi-encoder architecture trained on question-passage pairs produces embeddings that outperform sparse retrieval (BM25) on open-domain QA. \citet{xiong2020adore} refine bi-encoder training, improving coverage of relevant passages. In the KGQA context, \citet{shi2021kgpath} and \citet{saxena2022kgqa} apply semantic similarity to rank candidate KG paths for retrieval, selecting high-scoring paths as soft context for the reader LLM. These approaches use cosine similarity as a soft ranking signal over candidate paths, selecting the top-$k$ for context provision.
+
+\subsection{Encoder Architecture Trade-offs}
+
+Choosing a sentence encoder involves balancing quality and latency, which is particularly important in step-wise constrained decoding, where the encoder is used at each generation step. Larger encoders like all-mpnet-base-v2 (110M parameters) and BGE-M3~\citep{chen2024bge} (568M parameters) perform better on semantic textual similarity benchmarks but significantly increase inference latency. Lexical methods like BM25 work quickly but cannot capture semantic similarity between paraphrase-equivalent paths that lack surface tokens. The all-MiniLM-L6-v2 model~\citep{reimers2019sbert}, with 22M parameters and about 80ms per-query CPU latency, strikes a good balance between semantic quality and inference speed for iterative applications.
+
+% -----------------------------------------------------------------------------
+\section{Related Works}
+\label{sec:related}
+% -----------------------------------------------------------------------------
+This section reviews the broader field of knowledge-augmented reasoning across two complementary research trajectories: (1) \textit{soft-grounding} approaches, which use external knowledge to inform or filter generation without modifying the decoding mechanism, and (2) \textit{hard-constraint} approaches, which restrict generation to verified facts by modifying the token selection process itself. The survey progresses from early structured methods → modern LLM-based soft approaches → semantic relevance techniques → hard-constraint frameworks → concurrent work, establishing how these lines of research have developed largely in parallel without integration at the constraint-oracle level. This progression illuminates the specific technical gaps that motivate the proposed approach.
+
+\subsection{Semantic Parsing and Early Structured KGQA}
+
+Before large language models became mainstream, traditional methods mainly addressed KGQA through semantic parsing or structured representation learning. Two key approaches characterize this period: parsing questions into executable KG queries like SPARQL and aligning question and KG representations into a shared space for reasoning.
+
+In the first group, early semantic parsing relied on fixed question templates to create queries, which required deep domain knowledge~\citep{berant2013,reddy2014,bast2015}. More recent methods use deep learning to automatically generate these logical forms~\citep{yih2015,lan2020sparql}. While these symbolic methods offer high interpretability and precise reasoning, they face major challenges in practice. They need expensive ground-truth logical forms for training, which are hard to obtain, and their performance drops sharply when the KG has missing links. Additionally, model-generated queries often cannot be executed due to small syntax or semantic errors with the underlying graph schema, resulting in no answers and lacking fallback options~\citep{yu2023decaf,luo2025-graph-constrained-reasoning}.
+
+To ease the demand for strict logical forms, the second group of methods integrates text and graph representations into a continuous shared space for reasoning. Some methods match question representations to KG facts~\citep{miller2016,xu2019} or KG structural representations~\citep{zhang2018,sen-etal-2023-knowledge}. Notable examples include GraftNet~\citep{sun2018graftnet}, PullNet~\citep{sun2019pullnet}, and NSM~\citep{he2021nsm}, which enhance reasoning through deep graph-based approaches. Incomplete graphs have also been explored, where missing links are inferred using KG embeddings~\citep{saxena2020}. While these structured techniques avoid hallucination by operating over confirmed data, their expressiveness is limited compared to the generative flexibility and complex multi-step reasoning that modern LLMs provide.
+
+\subsection{Retrieval-Based KGQA}
+
+Earlier KGQA methods relied on structured retrieval from the knowledge graph instead of LLM generation. These methods prevent LLM hallucination by avoiding freeform generative models and working within the structured limits of the KG. The following works cover the main techniques in this area, including semantic parsing, embedding-based retrieval, graph neural network propagation, and path-level supervision.
+
+\citet{yih2016websqp} created the WebQSP benchmark and introduced a semantic parsing method that converts natural language questions into SPARQL queries to be executed against Freebase. This method offers exact symbolic faithfulness by limiting answer derivation to formally verified SPARQL execution. However, it has a key limitation: the parsing step is fragile. Small changes in question phrasing can lead to incorrect parses, resulting in structurally valid but semantically wrong SPARQL queries. Additionally, this method requires extensive annotation of SPARQL queries for training, which is costly and hard to scale for complex compositional questions.
+
+\citet{talmor2018cwq} introduced ComplexWebQuestions and a related compositional semantic parsing method that breaks down complex questions into simpler sub-questions before generating SPARQL. This decomposition technique expands the coverage of semantic parsing for compositional queries, but it does not fix the fragility issue. Errors during decomposition can accumulate across sub-questions, causing the final SPARQL query to be structurally valid but answer a subtly different question than the one asked.
+
+\citet{he2021multihop} suggested a multi-hop KGQA method that learns intermediate supervision signals to guide path selection through the KG. They showed that explicit intermediate supervision at each hop significantly enhances performance at deeper reasoning levels. By training the model to predict correct intermediate entities, this approach helps ease the combinatorial difficulties of multi-hop searches. Yet, its limitation is that these intermediate supervision signals come from annotated answer paths, which are expensive to gather and might not be available for all benchmarks or KGs. Furthermore, this method is limited to a fixed maximum hop depth and does not adjust its reasoning depth based on the complexity of the question.
+
+\citet{yasunaga2021qagnn} introduced QA-GNN, which combines retrieved text passages and KG neighborhood entities in a joint graph neural network. This network propagates information between passage token nodes and KG entity nodes. By reasoning over both types of information, QA-GNN improves performance on questions that require a combination of textual and structured evidence. However, the joint graph mixes verified KG facts with unverified textual claims, meaning noisy or incorrect text passages can distort entity scores derived from the KG structure. The approach also needs to build a joint graph at inference time for each question, leading to significant preprocessing overhead.
+
+\citet{shi2021kgpath} retrieve KG reasoning paths by calculating semantic similarity between the question and natural language descriptions of candidate paths. They provide the top-$k$ highest-scoring paths as context strings to a reader LLM. This retrieval-plus-reading setup separates the structured retrieval step from the natural language generation step. The limitation is that the ranking function relies on soft cosine similarity over surface-form path descriptions, which might give high scores to paths that are lexically similar to the question but semantically incorrect. The reader LLM receives paths as plain text, lacking a way to verify that the provided paths are actual KG edges.
+
+\citet{saxena2022kgqa} used entity and relation embeddings to score and select multi-hop KG paths without using an LLM generator. They learned representations from KG structure with embedding objectives, and computed multi-hop path scores by combining relation embeddings. This method stays entirely within the structured KG and avoids generative hallucination. However, embedding-based path scoring struggles to capture the full semantic complexity of natural language questions. Compositional questions involving negation, comparison, or conjunction are hard to encode accurately as relations, leading to a limit on the types of complex questions it can handle.
+
+\citet{lan2022kgqa} conducted a thorough survey of KGQA methods, analyzing the trade-offs between semantic parsing, embedding-based, and retrieval-based techniques across various benchmarks. They found that retrieval-based approaches often have difficulty with tail entities and rare relation types that are not well-represented in training data. They also noted that no single retrieval method excels across all question types and hop depths. This survey supports the shift toward LLM-based methods as more adaptable alternatives.
+
+\citet{sun2019pullnet} developed PullNet, which iteratively gathers relevant KG facts and text passages into a dynamically built evidence graph. It performs inference over this graph to answer multi-hop questions. The iterative method allows PullNet to gather evidence at various depths without setting a hop depth in advance. However, its limitation is that the evidence graph combines KG and text sources without assessing their reliability, and the iterative process introduces latency that increases with question complexity.
+
+\citet{das2017go} presented ``Go for a Walk and Arrive at the Answer,'' an end-to-end path-finding approach that trains a policy to navigate the KG from a question entity to the answer entity. Reinforcement learning uses the correctness of answers as a reward to train the policy. This method directly models the reasoning process as graph traversal and yields interpretable paths. Its limitation is that reinforcement learning with sparse correctness rewards is quite unstable during training, needing careful reward shaping. The policy also does not generalize well to question types not adequately represented in the training data.
+
+\citet{zhang2022subgraph} proposed subgraph-based reasoning that focuses on extracting a relevant subgraph from the full KG. They perform message passing over this subgraph before selecting the answer entity. By limiting reasoning to a local subgraph, this method significantly reduces both the search space and the cost of inference. The subgraph boundary is determined by how close entities are to the question entity, which creates a ceiling on recall. Answer entities that are topologically farther from the question entity in the KG might be left out of the subgraph, even if they are the correct answer. This issue is closely tied to the hop-depth assumptions built into subgraph extraction methods.
+
+These retrieval-based methods prevent LLM hallucination by working within the structured KG rather than generating freely. However, they share a limitation in expressiveness. They are usually restricted to fixed path structures, fixed hop depths, or fixed retrieval limits and do not take advantage of the flexible multi-step reasoning capabilities of modern LLMs. The shift to LLM-based methods in more recent research improved the naturalness and coverage for complex compositional questions, but this came at the expense of the structural faithfulness guarantees provided by retrieval-based methods.
+
+\subsection{Knowledge Graph-Enhanced LLM Reasoning}
+
+More recent advances focus on the joint use of KGs and LLMs for KGQA, leveraging the sophisticated capabilities of LLMs for enhanced reasoning while mitigating hallucinations and knowledge gaps. A foundational observation is that pure prompting-based approaches (such as Chain-of-Thought (CoT)~\citep{wei2022cot}, Plan-and-solve~\citep{wang2023c}, DecomP~\citep{khot2023decomposed}, Self-consistency~\citep{wang2023-self-consistency}, and Tree-of-Thought (ToT)~\citep{yao2023-tree-of-thought}) achieve multi-step reasoning but not structural faithfulness to external facts. Fine-tuning approaches extending to reinforcement learning (e.g., OpenAI o1)~\citep{hoffman2024} improve reasoning quality but still lack hard guarantees against hallucination. Consequently, the field has shifted toward integrating KG access directly into the generation process.
+
+\textbf{Agent-based and exploratory approaches.} Several methods treat LLMs as agents that iteratively query KGs, such as ReACT~\citep{yao2022react}, StructGPT~\citep{jiang2023structgpt}, and ToG~\citep{sun2024tog}. These methods prompt the LLM to explore relevant facts hop-by-hop using beam search on the KG, combining the LLM's reasoning capacity with the KG's structural grounding.\textbf{Path retrieval for intermediate supervision.} Others use explicit retrieval of intermediate facts to guide generation. Methods like KD-CoT~\citep{wang2023knowledgedrivencotexploringfaithful} and RR~\citep{he2022rethinking} retrieve facts to guide generative plans. \citet{jin2024graphcot} propose Graph Chain-of-Thought (GraphCoT) to explicitly retrieve graph neighborhood information at every intermediate CoT step, making the connection between reasoning and KG structure explicit.
+
+\textbf{Specialized encoders and fusion architectures.} More sophisticated approaches use graph neural networks and specialized encoders to bridge text and graph modalities. GNN-RAG~\citep{mavromatis2024gnnrag} and GFM-RAG~\citep{luo2025gfmrag} adopt graph neural networks to capture relational structure. \citet{luo2024rog} introduce Reasoning on Graphs (RoG), a planning-retrieval-reasoning framework that retrieves reasoning paths for faithful reasoning. StructLM~\citep{zhuang2024structlm} fine-tunes models over large structured datasets, while DECAF~\citep{yu2023decaf} merges semantic parsing and LLM reasoning. These approaches achieve higher empirical performance but often depend on instruction-following or require fine-tuning, creating barriers to practical deployment.
+
+\textbf{Methods emphasizing complete graph exploration.} In contrast to methods that retrieve subgraphs, recent work such as Decoding on Graphs (DoG)~\citep{li2024-decoding-on-graphs} and Tree-of-Traversals~\citep{markowitz-etal-2024-tree} reason over the full accessible KG without filtering, enabling complete coverage at the cost of increased search space.
+
+\textbf{Shared limitation: KG knowledge as soft guidance.} Despite architectural diversity, most reviewed methods treat KG knowledge as a suggestion rather than a strict constraint. For example, UniKGQA~\citep{jiang2022unikgqa} unifies retrieval and reasoning through shared representations but introduces entanglement between the two failure modes. Methods using embedding-based approaches (OpenKE~\citep{sun2018openke}) internalize KG knowledge as parametric memory, losing hard faithfulness guarantees. Subgraph-based methods~\citep{zhang2022subgraph, wang2021kepler, sun2019pullnet, he2022rethinkingKG, mavromatis2022rearev} provide KG context but cannot prevent the LLM from generating beyond it. Even with perfect retrieval, the absence of hard structural constraints means the LLM can still ignore or contradict provided facts during generation.
+
+A direct measurement of this limitation comes from \citet{luo2025-graph-constrained-reasoning}, who find that even the most effective KG-enhanced methods produce hallucinated reasoning steps in approximately one-third of cases. This empirically establishes that soft KG grounding has a systematic performance ceiling.
+
+\subsection{Semantic Similarity in Graph Reasoning}
+
+Several studies use semantic similarity signals to guide reasoning over knowledge graphs. \citet{shi2021kgpath} rank candidate KG paths based on the semantic similarity between the question and path descriptions, retrieving high-scoring paths as evidence. \citet{saxena2022kgqa} learn embeddings for KG entities and relations to support similarity-based multi-hop path selection. \citet{he2021multihop} use attention-guided traversal over retrieved KG subgraphs, with attention weights indicating how relevant each subgraph region is to the question. PathRetriever~\citep{asai2019learning} learns to find reasoning paths from evidence graphs by scoring paths using a recurrent model with their node sequences.
+
+These studies show that semantic similarity can effectively tell apart relevant and irrelevant KG paths in a retrieval setting. The main difference in architecture is that semantic similarity serves as a soft ranking signal. Candidate paths receive scores, and the highest-scoring ones are presented to the LLM as context or selected among the generated candidates. No existing work treats semantic similarity as a hard binary criterion that determines which tokens the LLM can generate at each step. The difference between soft retrieval signals and hard generation constraints is significant. Soft signals influence what the LLM sees, while hard constraints dictate what the LLM can produce.
+
+While semantic similarity provides soft ranking signals to guide retrieval and filtering, a complementary research direction pursues hard constraints that structurally restrict generation at each decoding step. Rather than choosing among many candidate outputs after generation, hard constraint approaches eliminate invalid options before they are produced. This distinction, between soft guidance and hard structural restriction, is fundamental and leads to qualitatively different performance guarantees and interpretability.
+
+\subsection{Format-Constrained and Entity-Constrained Generation}
+
+A separate line of research tackles factual accuracy by imposing strict limits on what a generative model can produce, regardless of the input context. Unlike retrieval-based approaches that limit the information available to the model, these studies change the generation mechanism itself. The following cluster follows the development of this approach from early lexical constraints to grammar-based and automaton-based frameworks.
+
+\citet{decao2021autoregressive} introduced autoregressive entity retrieval (GENRE), which limits generation to a specific set of entity names using a trie created from all known entity surface forms. By restricting beam search to valid trie paths, GENRE ensures that each generated token sequence corresponds to a real entity in a fixed vocabulary.
+
+\citet{geng2023grammarconstrained} generalise entity-level trie constraints to arbitrary context-free grammar constraints in Grammar-Constrained Decoding (GCD). GCD uses an Earley parser as the constraint oracle, admitting only tokens that extend the current partial string as a valid grammar prefix. GCD additionally introduces input-dependent grammars parameterised by the input question, allowing the valid token set to depend on question content. GCD establishes that grammar constraints are computationally tractable and empirically improve structured output quality across multiple tasks. The limitation is that a context-free grammar can enforce syntactic or format correctness but cannot encode factual membership in a knowledge graph: a string may conform perfectly to a grammar specification while containing entirely hallucinated entities or relations.
+
+\citet{willard2023outlines} address the computational cost of grammar-constrained decoding with an efficient finite-state machine (FSM) formulation. By precomputing an index from FSM states to valid vocabulary subsets, the valid token set can be retrieved in amortised constant time at each generation step, making constrained decoding practical at inference speed for production systems. This formulation reduces the per-step constraint overhead from the Earley parsing cost (which is cubic in input length) to effectively $O(1)$ amortised lookup. The limitation remains the same as GCD: the FSM encodes structural or format correctness, not factual correctness. An FSM-constrained system can still generate structurally valid outputs that are factually incorrect with respect to any external knowledge source.
+
+\citet{deutsch2019constrained} propose a general algorithm for constrained sequential inference applicable across any structured prediction task, framing constraint enforcement as inference in a product of finite-state automata. This framework unifies a broad range of constraint types under a common algorithmic schema and demonstrates that hard constraint enforcement is compatible with a variety of sequence models. Its limitation for KGQA is that the constraints it enforces are defined over output string structure rather than over external knowledge: the automata encode properties of the output form, not membership in a KG edge set.
+
+\citet{poesia2022synchromesh} introduce Synchromesh, a constrained generation system for program synthesis that uses a completion engine to enforce syntactic validity of generated code. By grounding constraint enforcement in a language-specific parser, Synchromesh ensures that all generated programs are syntactically valid. This work establishes that constraint oracles can be derived from formal language specifications beyond context-free grammars. Applied to KGQA, an analogous approach would enforce syntactic validity of SPARQL queries; however, a syntactically valid SPARQL query may still reference entities or relations absent from the target KG, producing an empty result set rather than a faithfully grounded answer.
+
+\citet{scholak2021picard} present PICARD, a method for parsing SQL queries with constrained autoregressive inference. PICARD uses an incremental parser to reject tokens that would make the partial output unparseable or semantically invalid with respect to a database schema, thereby constraining generation to schema-valid SQL. PICARD demonstrates that schema-grounded constraints substantially reduce invalid query generation in text-to-SQL tasks. The limitation for KG settings is that SQL schema constraints enforce structural consistency with a fixed schema, not factual path traversal through a dynamic relational graph. A schema-valid query may still produce an incorrect answer if the underlying reasoning is unsound.
+
+\citet{anderson2017guided} introduce Guided Open Vocabulary Image Captioning (GOVIC), an early demonstration of constrained beam search for lexically-constrained generation in image captioning, enforcing inclusion of specified words in the output. While the domain differs from KGQA, this work establishes constrained beam search as a practical mechanism for enforcing lexical constraints during generation and demonstrates the feasibility of hard inclusion constraints. Its limitation is that lexical constraints enforce presence of specific surface forms without enforcing their factual correctness or logical coherence with the rest of the generated output.
+
+\citet{hokamp2017lexically} introduce constrained decoding via a grid beam search algorithm that enforces specified lexical constraints in neural machine translation. Grid beam search maintains separate hypothesis sets for each subset of satisfied constraints and merges them to produce outputs satisfying all constraints. This algorithm demonstrates that complex constraint sets can be enforced in polynomial time during beam search. The limitation is that the constraint set must be specified in advance and is fixed throughout generation; there is no mechanism for the constraint oracle to consult an external knowledge source at each step to determine which tokens are valid continuations.
+
+\citet{lu2021neurologic} propose NeuroLogic Decoding, a decoding algorithm that enforces propositional logic constraints over lexical items during generation, extending the class of enforceable constraints beyond simple inclusion to disjunctions, conjunctions, and negations. NeuroLogic demonstrates that logically complex constraints can be enforced efficiently during beam search without prohibitive computational overhead. For KGQA applications, the limitation is that propositional logic constraints over lexical items still operate at the surface-form level: a NeuroLogic constraint can require that a specific entity name appears in the output, but cannot verify that this entity is connected to the preceding entity by a verified KG edge.
+
+\citet{zhang2023tractable} analyse the computational tractability of constrained decoding under various constraint classes, establishing theoretical bounds on the complexity of constraint enforcement as a function of grammar type and vocabulary size. Their analysis confirms that finite-state constraints admit efficient enforcement via precomputed indices, while context-sensitive constraints require per-step evaluation that may be prohibitively slow. This theoretical result directly motivates the design choice in KG-constrained systems of representing valid paths as tries (finite-state structures) rather than as arbitrary graph reachability queries.
+
+These works collectively establish that hard constraints on generation are computationally tractable and empirically beneficial across multiple domains. Their shared limitation for KGQA is that they enforce output \textit{format} rather than \textit{factual content}: constraining generation to grammatically valid strings, schema-valid queries, or lexically specified surface forms does not ensure that the generated strings correspond to verified KG paths. The extension from format constraints to KG path constraints requires a constraint oracle that encodes the relational structure of the knowledge graph itself, mapping valid token sequences not to grammar derivations but to traversable edges in a specific, dynamic knowledge base.
+
+\subsection{Hallucination Mitigation in Knowledge-Intensive Tasks}
+
+Beyond the constrained decoding approach, various methods aim to reduce hallucination in knowledge-intensive tasks. Retrieval-augmented methods, such as RAG~\citep{lewis2020rag}, Self-RAG~\citep{asai2024selfrag}, FLARE~\citep{jiang2023flare}, IRCoT~\citep{trivedi2022ircot}, and GraphRAG~\citep{edge2024graphrag}, address this issue by providing relevant external context. This improves factual coverage without changing the generation mechanism. \citet{wang2023selfconsistency} enhance consistency by majority-voting across multiple Chain-of-Thought (CoT) paths. \citet{huang2024selfcorrect} investigate whether LLMs can self-correct reasoning errors, finding that self-correction is usually ineffective without external feedback. This reinforces the idea that internal knowledge cannot reliably detect its own mistakes.
+
+Post-hoc verification methods~\citep{nakano2021webgpt, gao2023rarr} check generated claims against external sources after generation and either revise or flag unsupported statements. While these methods effectively identify errors, they require a separate verification step and do not prevent hallucination during generation. \citet{agrawal2024mindfulrag} systematically analyze failure modes in RAG systems and find that even when relevant context is provided, LLMs often produce statements not backed by the retrieved evidence.
+
+\subsection{Concurrent Work}
+
+RouterKGQA~\citep{yuan2026routerkgqa} is the work most closely related to this research in terms of shared components. RouterKGQA directs KGQA queries between a specialized KG reasoning model and a general LLM based on question complexity. It applies SBERT-based semantic similarity (using the nomic-embed-text-v1 encoder) to filter candidate reasoning paths. It achieves strong performance with lower inference costs, averaging about 1.15 LLM calls per question.
+
+The key difference in architecture lies in when semantic scoring is applied. RouterKGQA scores complete reasoning paths after they are generated, using similarity to filter among candidates afterward. This method does not alter the token selection process during generation. The LLM generates freely, and semantic similarity is applied post-hoc to select among the outputs. In contrast, this thesis uses semantic similarity as a hard admission criterion at the token-constraint level. In this setup, similarity determines which tokens the LLM can generate at each decoding step, rather than just which completed outputs are kept later. This represents a qualitatively different architectural change that RouterKGQA does not address. RouterKGQA also does not provide a metric for constraint permissiveness and does not measure how much its candidate sets contain valid but semantically irrelevant paths.
+
+% -----------------------------------------------------------------------------
+\section{Synthesis: Three Unresolved Gaps}
+\label{sec:synthesis}
+% -----------------------------------------------------------------------------
+
+The review shows that two different research paths, constrained decoding for structural faithfulness and semantic similarity for relevance-guided reasoning, have developed mainly in parallel without being combined at the constraint-oracle level. Constrained decoding methods~\citep{luo2025-graph-constrained-reasoning, li2024-decoding-on-graphs} achieve structural faithfulness but create their constraint oracles without considering question semantics or the context of generation. This leads to valid token sets that include many irrelevant paths. Semantic similarity methods~\citep{shi2021kgpath, saxena2022kgqa, yuan2026routerkgqa} improve relevance but act as soft signals that affect retrieval or selection after the fact, without changing the generation process.
+
+Three specific gaps emerge from this review.
+
+\textbf{Gap 1: The Permissiveness Problem.} Current KG-constrained decoding frameworks build their constraint oracles based on graph structure and question entities only. They do not consider question semantics or the current generation state. In the case of multi-hop questions, this results in valid token sets with thousands of structurally correct but semantically irrelevant paths at each generation step. The LLM has to sort through these paths using its own knowledge, which reintroduces the risk of hallucination that constrained decoding aimed to eliminate~\citep{luo2025-graph-constrained-reasoning, li2024-decoding-on-graphs}.
+
+\textbf{Gap 2: The Static-Dynamic Efficiency Tradeoff.} GCR's precomputed static trie is efficient in computing but lacks semantic awareness and remains the same at every generation step. DoG's step-wise topological expansion adds some dynamism but requires reconstructing the trie at every step and does not include semantic filtering~\citep{li2024-decoding-on-graphs, willard2023outlines}. No current framework achieves semantic responsiveness, where the valid set narrows progressively as reasoning moves in a specific direction, while also maintaining the efficiency of precomputed constraint structures.
+
+\textbf{Gap 3: The Absence of a Constraint Quality Metric.} No existing work offers a metric that measures constraint permissiveness separately from the accuracy of downstream answers. Without this metric, it is not possible to track progress on reducing irrelevant paths in the valid set or to compare frameworks based on constraint quality without factoring in model quality. These three gaps highlight a key challenge at the intersection of the two research paths discussed in this chapter. This challenge involves integrating semantic relevance scoring directly into the constraint oracle and conditioning the valid token set based on the knowledge graph, question semantics, and the evolving state of generation.
+
+Table~\ref{tab:related_summary} summarizes the key works reviewed in this chapter, categorizing them by their approach, whether they provide structural faithfulness guarantees, and whether they incorporate semantic conditioning into their constraint mechanisms.
+\begin{table}[H]
+  \centering
+  \caption[Summary of Key Related Works]{Summary of Key Related Works}
+  \label{tab:related_summary}
+  \small
+  \resizebox{\textwidth}{!}{%
+    \begin{gridtabular}{l|l|l|l}
+      \gr{\textbf{Work}               & \textbf{Approach}                & \textbf{Structural faithfulness} & \textbf{Semantic conditioning} }
+      \gr{\citet{luo2025-graph-constrained-reasoning}          & Static KG-Trie decoding          & Yes (100\%)                      & No                              }
+      \gr{\citet{li2024-decoding-on-graphs}           & Step-wise topological expansion  & Yes (100\%)                      & No                             }
+      \gr{\citet{yuan2026routerkgqa}  & Routing + post-hoc filtering     & Probabilistic                    & Yes (answer-level)              }
+      \gr{\citet{luo2024rog}          & Reasoning path planning          & No                               & Partial                         }
+      \gr{\citet{jiang2023structgpt}  & LLM over structured data         & No                               & Partial                         }
+      \gr{\citet{jin2024graphcot}     & Graph-augmented CoT              & No                               & Partial                         }
+      \gr{\citet{jiang2022unikgqa}    & Unified retrieval and reasoning  & No                               & Partial                         }
+      \gr{\citet{wang2021kepler}      & KG-pretrained language model     & No                               & Partial                         }
+      \gr{\citet{mavromatis2022rearev}& Iterative reasoning revision     & No                               & Partial                         }
+      \gr{\citet{he2021multihop}      & KG subgraph attention            & No                               & Partial                         }
+      \gr{\citet{yasunaga2021qagnn}   & Text-KG graph neural network     & No                               & Partial                         }
+      \gr{\citet{das2017go}           & RL-based KG path traversal       & No                               & Soft                            }
+      \gr{\citet{saxena2022kgqa}      & Embedding-based path selection   & No                               & Soft                            }
+      \gr{\citet{shi2021kgpath}       & Path retrieval by similarity     & No                               & Soft (retrieval)               }
+      \gr{\citet{asai2024selfrag}     & Retrieval with reflection        & No                               & Soft                            }
+      \gr{\citet{edge2024graphrag}    & Community-structured retrieval   & No                               & Soft                           }
+      \gr{\citet{geng2023grammarconstrained}         & Grammar-constrained decoding     & Format only                      & No                              }
+      \gr{\citet{willard2023outlines} & FSM-indexed constrained decoding & Format only                      & No                              }
+      \gr{\citet{decao2021autoregressive} & Entity trie-constrained decoding & Entity names only             & No                              }
+      \gr{\citet{scholak2021picard}   & Schema-constrained SQL parsing   & Schema only                      & No                              }
+      \gr{\citet{lu2021neurologic}    & Logic-constrained decoding       & Format only                      & No                              }
+    \end{gridtabular}
+  }
+\end{table}
+
+These three gaps collectively identify an open problem at the intersection of the two research trajectories reviewed in this chapter: integrating semantic relevance scoring directly into the constraint oracle, conditioning the valid token set jointly on the knowledge graph, the question semantics, and the evolving generation state.

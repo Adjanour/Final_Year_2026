@@ -1,0 +1,1812 @@
+UNIVERSITY OF MINES AND
+TECHNOLOGY
+TARKWA
+
+FORMAT FOR
+THE PRESENTATION OF
+THESES AND PROJECT REPORTS
+
+MAY 2011
+
+Compiled by
+Prof. Newton Amegbey
+
+(Committee Chairman)
+Prof. D. Mireku-Gyimah
+
+(Member)
+Prof. K. Dzibodi-Adjimah
+
+(Member)
+Dr. Allassan Cobblah
+
+(Member)
+Dr. Victor Amoako Temeng
+
+(Member)
+Mr. Peter Arroja Eshun
+
+(Secretary)
+
+REVISED BY:
+Prof. Raymond Suglo (Committee Chairman)
+Prof. Jerry S. Kuma (Member)
+Prof. I. A. Adetunde (Member)
+Mr. Peter Aroja Eshun (co-opted Member)
+Mr. Osman A. Abengo (Secretary)
+
+1
+
+ITRODUCTIO
+
+This format is intended for students who are preparing project reports, dissertations or theses.
+The intention is to provide a concise guide covering all aspects of research documents. It does
+not, however, aim to provide comprehensive information on detailed stylistic features. There
+are in addition usages which are specific to a given branch of engineering. Candidates should
+therefore consult their supervisors about the specific requirements of their topic and
+discipline.
+The word 'thesis' is used in this document for simplicity, but the information given applies to
+theses, dissertation and project reports.
+
+2
+
+THE STRUCTURE AD FORM OF THESES, DISSERTATIOS AD PROJECT
+REPORTS
+
+This chapter does not aim to provide comprehensive information on all matters relating to
+form and structure in thesis writing. For a detailed guide on presentation the candidate is
+advised to consult a standard text on the subject.
+2.1 The Structure and Form of a Thesis - Preliminaries
+The following essential elements of a thesis are presented in the order in which they should
+normally appear:
+Title and Title page
+Candidate's Declaration
+Abstract
+Dedication (Optional)
+Acknowledgements
+Table of Contents
+List of Figures
+List of Tables
+List of Symbols (Optional)
+Nomenclature (Optional)
+Introductory Chapter
+Central Chapters
+Concluding Chapter
+References
+Appendices
+
+1
+
+2.1.1 Title and Title Page
+A specimen title page is shown in Appendix A. The following information is given on the title
+page.
+Title
+The title should indicate the contents and scope of the thesis in as few words as possible.
+Phrases like 'a report on investigations into…' and 'observations on some aspects of …' add
+nothing significant to the title and should be avoided. While the title should be as brief as
+possible it should be accurate, descriptive and comprehensive, clearly indicating the subject
+of the investigation. It is most important that the title of a thesis be an accurate description of
+the contents of the work.
+The title is best printed in capitals.
+Author's name
+The full forenames followed by the surname are usually given under the title.
+Thesis statement
+The following are examples of the correct wording:
+Doctor of Philosophy:
+‘submitted in fulfilment of the requirement for the award of the degree of Doctor of
+Philosophy in …………………………………………………………………………….'
+Master of Philosophy:
+‘submitted in fulfilment of the requirement for the award of the degree of Master of
+Philosophy in ………………………………………………..…..'
+
+Master of Science:
+‘submitted in partial fulfilment of the requirements for the award of the degree of Master of
+Science in ………………………………………………..…..'
+Bachelor of Science:
+‘submitted in partial fulfilment of the requirements for the award of the degree of Bachelor of
+Science in ………………………………………………………………………….'
+Year when the thesis was completed
+This lowest line should be no more than 25 mm from the foot of the page, and should include
+the place and date of completion of the thesis, e.g. Tarkwa, 2010.
+2
+
+2.1.2 Candidate's Declaration
+An example of the conventional form of declaration is as follows:
+DECLARATIO
+I declare that this project work/thesis is my own work. It is being submitted for the degree of
+………………………………………………………………. in the University of Mines and
+Technology (UMaT), Tarkwa. It has not been submitted for any degree or examination in any
+other University.
+
+………………………………………………
+(Signature of candidate)
+…………… day of ……………………………………….. (year)………………..
+This declaration should appear on a separate page and each copy of the thesis should be
+individually signed by the candidate.
+2.1.3 Abstract
+The abstract is a brief information or summary of not more than 250 words for a project
+report or master’s thesis and not more than 500 words for a doctorate thesis. It outlines the
+objective of the thesis, the research methods and procedure employed, as well as the major
+results and conclusions. The abstract should always start with a topic sentence that is a central
+statement of the major theme of the thesis.
+The abstract is extremely important. It should give as concisely as possible the significant
+facts, especially anything new, the main conclusions and any recommendations. The reader
+can then decide whether or not he/she is interested in reading further. An abstract should be
+written in normal and not telegraphic style.
+2.1.4 Dedication
+This is a brief, optional statement paying tribute to the writer's spouse, family, or other
+associated person. It is typed centrally on a separate page starting on the chapter line and does
+not require a heading, e.g.
+In memory of my mother
+Leticia Aggrey
+2.1.5 Acknowledgements
+Assistance received in carrying out the work in preparing the thesis should be acknowledged,
+although it is not usual to acknowledge routine checking, minor assistance or general advice.
+It is, however, usual to acknowledge the assistance of a supervisor, financial assistance,
+3
+
+permission to publish, as well as special facilities offered by a company, university or
+research institution.
+2.1.6 Table of Contents
+The contents should be given on separate sheets and follow the plan of the structure of the
+thesis (Section 2.1) and the headings in the thesis itself. The contents should only contain the
+first three levels of headings in the thesis. It must also include the relevant page numbers.
+(A specimen contents page is shown in Appendix B.)
+2.1.7 List of Figures
+A list of figures follows the contents on a new page, and precedes a list of tables. (A
+specimen list of figures is shown in Appendix C.)
+2.1.8 List of Tables
+A list of tables follows the list of figures on a new page. (A specimen list of tables is shown in
+Appendix D.)
+2.1.9 List of Symbols
+A list detailing the symbols for physical quantities used may be provided when necessary and
+may be optional. A specimen list of symbols appears in Appendix E. Symbols vary from
+discipline to discipline and candidates should consult their supervisors with regard to the
+correct symbols for their field of research.
+2.1.10 Nomenclature
+Authors should avoid jargons, abbreviations and acronyms which are not in common use in
+the field or which have not been defined. If there are acronyms or unusual technical terms,
+these should be defined in alphabetical order in a list of nomenclature. In any case, each
+symbol or unusual term should be defined when it first occurs in the text.
+2.2 Body of the Thesis
+In most theses the chapters may readily be divided into three categories: the introductory
+chapter or chapters; the central chapters comprising the major report of the study, divided into
+logical chapter divisions; and the concluding chapter, which should contain the findings,
+conclusions, and recommendations of the thesis.
+2.2.1 Introductory Chapter
+The first chapter should contain the following items:
+•
+•
+•
+
+Problem Definition/Definition of the Problem/Statement of the Problem;
+Objectives of Research;
+Methods Used;
+4
+
+•
+
+Organisation of Thesis/Report.
+
+2.2.2 Central Chapters
+Chapters 2 and 3
+Chapter 2 of the thesis should be a résumé of the history and present status of the problem by
+means of a literature survey comprising a brief critical review of previous investigations of
+this and closely related problems. The contribution of each of these to the topic should be
+made clear, together with the fact that the current investigation arises from the inadequacies
+of earlier studies or that the current investigation is adopting an existing methodology for a
+different situation or that a new approach and direction are being presented.
+Chapter 3 should be statement of the source of data, the method of procedure (experimental
+techniques) and the treatment of the findings. In a thesis of an experimental nature, a separate
+chapter is ordinarily devoted to these topics. In a case study, relevant information about the
+project area will constitute this chapter.
+The elements of Chapters 2 and 3 may be reversed depending on the topic. For example, for a
+case study, the relevant information may be the second chapter of thesis with the third chapter
+being dedicated for literature review or experimental procedures.
+Other central chapters
+It is impossible to give specific directions for organising all the studies and findings, because
+of the wide variety of topics investigated, techniques employed, and kinds of data
+accumulated. It suffices to say that the chapters of this portion of the thesis constitute the
+candidate’s contribution to knowledge. All other portions of the manuscript are subordinate to
+what actually has been discovered and is here being made known. The candidate should,
+therefore, take great pains to present his/her material in a clear and orderly fashion, in terms
+that will be readily understood.
+2.2.3 Conclusions and Recommendations
+The concluding chapter should be a summary, restating the developments of previous
+chapters and showing succinctly the more important findings and conclusions of the whole
+study. The author may list unanswered questions that have occurred to him/her but which
+require research beyond the limits of the undertaking reported. Recommendations may be
+offered for the solution of the problem.
+2.3 References and Bibliography
+References should be chosen and cited to:
+•
+
+indicate the source of the writer's statements;
+
+•
+
+acknowledge another person's work;
+
+•
+
+provide a source of additional information.
+5
+
+The relevance of any reference should be carefully considered and the number of references
+kept to a necessary minimum. All references appear together at the end of the thesis/project.
+The citations must be given in sufficient detail for easy retrieval of the information.
+2.3.1 Referencing Systems
+There are a number of different referencing systems. The two most commonly used in
+scientific literature are the Harvard system and the Numerical system. You should note that
+styles for citations vary tremendously from discipline to discipline, and that not all the points
+mentioned (e.g. title of paper, or inclusive pagination) may be necessary. In this University,
+the Harvard style is adopted.
+Harvard system
+The references are cited in the text by the author's surname followed by the year of
+publication separated by a comma and are listed in alphabetical order by year of publication
+in the list of references [e.g. (Cobblah, 1997)]. If a number of articles by the same author are
+cited for a given year the letters a, b, c are used to distinguish the articles. In each case fullpage numbers for the articles must be given in the reference list [e.g. (Amegbey, 1990a) and
+(Amegbey, 1990b)].
+If there are more than three authors, only the first (senior) author's name is given in the text
+followed by 'et al.' [e.g. (Temeng et al., 2000)]. The full list of names is given in the reference
+list. Note the recommended layout of the reference list.
+Specimen text (Harvard system)
+At present Ghana produces gold, bauxite, manganese and diamonds for export. Other
+minerals that can be exploited to advantage include iron ore, limestone, brown clay, kaoline
+and salt (Kesse, 1985). The general trend of gold production from 1880 to 1990 reveals three
+gold booms (Mireku-Gyimah and Suglo, 1993). Tsidzi and Adofo (1993) and DzigbodiAdjimah (1996) have further discussed the visual and chemical impacts of mining in Ghana.
+REFERECES
+Dzibodi-Adjimah, K. (1996), “Environmental Concerns of Ghana’s Gold Boom: Past, Present
+and Future”, Ghana Mining Journal, Vol. 2, No. 1, pp. 21 – 26.
+Kesse, G. O. (1985), The Mineral and Rock Resources of Ghana, A. A. Balkema Publishers,
+Rotterdam, 610 pp.
+Mireku-Gyimah, D. and Suglo, R. S. (1993), “The State of Gold Mining in Ghana”, Trans.
+Instn. Min. Metall. (Sec. A: Mining Industry), Vol. 102, pp. A59 – A67.
+Tsidzi, K. E. N. and Adofo, R. A. (1993), “Some Environmental Aspects of Mining and
+Related Activities in Ghana”, Proceedings of the 1ational Seminar on Current
+Developments in the Minerals Industry of Ghana. Tsidzi, K. E. N. (ed.), IMME, KNUST,
+Kumasi, Ghana, pp. 126 – 131.
+6
+
+1umerical system
+The references are numbered in ascending order in the text, and are listed in that order in the
+list of references. In the text itself, the numerals are typed slightly above the list of the text.
+Specimen text (1umerical system)
+At present Ghana produces gold, bauxite, manganese and diamonds for export. Other
+minerals that can be exploited to advantage include iron ore, limestone, brown clay, kaoline
+and salt (Kesse (1)). Mireku-Gyimah and Suglo(2) have reviewed the general trend of gold
+production from 1880 to 1990 and have defined three gold booms in the past. Tsidzi and
+Adofo(3) and Dzigbodi-Adjimah(4) have discussed the visual and chemical impacts of mining
+in Ghana.
+REFERECES
+1.
+
+Kesse, G. O., The Mineral and Rock Resources of Ghana, A. A. Balkema Publishers,
+Rotterdam, 1985, 610pp.
+
+2.
+
+Mireku-Gyimah, D. and Suglo, R. S., “The State of Gold Mining in Ghana”, Trans. Inst.
+Min. Metall. (Sec. A: Mining Industry), Vol. 102, 1993, pp. A59 – A67.
+
+3.
+
+Tsidzi, K. E. N. and Adofo, R. A., “Some Environmental Aspects of Mining and
+Related Activities in Ghana”, in Proceedings of the 1ational Seminar on Current
+Developments in the Minerals Industry of Ghana. Tsidzi, K. E. N. (ed.), IMME,
+KNUST, Kumasi, Ghana, 1993, pp. 126 – 131.
+
+4.
+
+Dzigbodi-Adjimah, K., “Environmental Concerns of Ghana’s Gold Boom: Past, Present
+and Future”, Ghana Mining Journal, Vol. 2, No. 1, 1996, pp. 21 – 26.
+
+2.3.2 Citations
+The order in which items in the references are listed is as follows:
+Books/Thesis/Project Reports/Lecture 1otes
+•
+•
+•
+•
+•
+•
+•
+•
+
+Authors’ names;
+Year of reference;
+Title of book, thesis, project report or lecture notes (in italics);
+Name of publisher/type of thesis/project report/lecture notes and name of School
+Location of publisher (in the case of a book);
+Edition numbers of book or report number of report;
+Year of reference (numerical system);
+Inclusive page numbers of book, thesis, project report, or lecture notes.
+
+Examples of books:
+Kesse, G. O. (1985), The Mineral and Rock Resources of Ghana, A. A. Balkema Publishers,
+7
+
+Rotterdam, 610 pp.
+Kuma, J. S., Younger, P. L. and Bowell, R. J. (2002), “Hydrogeological Framework for
+Assessing the Possible Environmental Impact of Large-Scale Gold Mines”, Mine Water
+Hydrogeology and Geochemistry, The Geological Society Special Publications 198,
+Younger, P. L. and Robins, N. S. (eds.), pp. 121 – 136.
+Sweigard, R. J. (1992), “Materials Handling: Loading and Haulage”, In Chap. 9.3 of SME
+Mining Engineering Handbook, Hartman, H. L. (ed.), 2nd edition, Vol. 1, SME, Port
+City Press, Inc., pp. 761 – 782.
+Examples of thesis, project reports or lecture notes:
+Eshun, P. A. (1998), “Accounting for Risks in Economic Evaluation of Gold Mining Projects
+in Ghana”, Unpublished BSc Project Report, University of Mines and Technology,
+Tarkwa, 83pp.
+Adetunde, I. A. (2010), “Experimental Design”, Unpublished BSc Lecture 1otes, University
+of Mines and Technology, Tarkwa, 72pp.
+Journal/Bulletin
+•
+•
+•
+•
+•
+•
+
+Authors’ names;
+Year of reference;
+Title of article;
+1ame of journal, bulletin (in italics);
+Volume number, issue number, month (abbreviated);
+Inclusive page numbers of journal/bulletin.
+
+Examples of a journal/bulletin/article:
+Dzigbodi-Adjimah, K. (1996), “Environmental Concerns of Ghana’s Gold Boom: Past,
+Present and Future”, Ghana Mining Journal, Vol. 2, No. 1, pp. 21 – 26. .
+Kuma, J. S. and Younger, P. L. (2004), “Water quality trends in the Tarkwa gold mining
+district, Ghana”, Bulletin of Engineering Geology and the Environment 63, pp. 119 – 132.
+Suglo, R. S., Frimpong, S. and Muirhead, I. R. (2003), “System Drivers in the Performance of
+Auxiliary Ventilation Systems”, CIM Bulletin, Vol. 96, No. 1069, pp. 110 – 115.
+Mireku-Gyimah, D. and Suglo, R. S. (1993), “The State of Gold Mining in Ghana”, Trans.
+Inst. Min. Metall. (Sec. A: Mining Industry), Vol. 102, pp. A59 – A67.
+Conference/Seminar Proceedings/Transactions
+•
+•
+•
+•
+
+Authors’ names;
+Year of reference;
+Title of article;
+Name of conference/transactions or proceedings;
+8
+
+•
+•
+•
+
+Name of editor;
+Location of conference;
+Inclusive page numbers of journal.
+
+Examples of conference proceedings/transactions:
+Eshun, P. A. and Mireku-Gyimah, D. (2002), "Small Scale Mining in the Tarkwa District: A
+Review of its Impacts", SWEMP 2002, 7th International Symposium on Environmental
+Issues and Waste Management in Energy and Mineral Production, Sardinia, Italy, pp. 877
+– 884.
+Tsidzi, K. E. N. and Adofo, R. A. (1993), “Some Environmental Aspects of Mining and
+Related Activities in Ghana”, Proceedings of the 1ational Seminar on Current
+Developments in the Minerals Industry of Ghana. Tsidzi, K. E. N. (ed), IMME, KNUST,
+Kumasi, Ghana, pp. 126 – 131.
+Information from Webpages/Committee Reports/Reports from Organisations
+Committee reports and information from webpages do not usually have a specific author but
+many authors who are often unknown. Thus these are referenced as “Anon.” for
+“Anonymous”. The Referencing format for such sources is:
+• Authors’ names (if known) or “Anon.” or “Anon” (if author(s) is/are unknown);
+• Year of reference;
+• Title of article;
+• Name of webpage address (University of Mines and Technology, Tarkwa webpage);
+• Webpage address;
+• Date on which the information on the webpage was accessed.
+Examples of a webpage information/Committee Reports/Reports from Organisations:
+Anon. (1993), Caterpillar Performance Handbook, 24th ed., Caterpillar Inc., Peoria, USA, pp.
+4-107 - 4-129.
+Anon. (2007), “The Global Mining Initiative”, www.globalmining.com. Accessed: November
+11, 2007.
+Hutson, S. S., Barber, N. L., Kenny, J. F., Linsey, K. S., Lumia, D. S., Maupin, M. A. (2004),
+Estimated use of water in the United States in 2000. US Geol Surv Cir 1268,
+www.pubs.usgs.gov/circ/2004/circ1268. Accessed: December 19, 2005.
+Meaning of page referencing:
+Examples:
+1. Kesse, G. O., The Mineral and Rock Resources of Ghana, A. A. Balkema Publishers,
+Rotterdam, 1985, 610pp.
+Meaning: The “610pp.” means that the number of pages in the book are 610 and that the
+9
+
+references were taken from various sections of the entire book. Occasionally, “610p.” could
+be used in place of the “610pp.”
+2. Kuma, J. S. and Younger, P. L. (2004), “Water quality trends in the Tarkwa gold mining
+district, Ghana”, Bulletin of Engineering Geology and the Environment 63, pp. 119 – 132.
+Meaning: The “pp. 119 - 132” means that the references were taken from pages 119 to 132 of
+the Bulletin of Engineering Geology and the Environment 63.
+2.3.3 Punctuation Guidelines
+The following guidelines are noteworthy:
+•
+•
+•
+•
+
+A comma is inserted after author's surname, but full stops are inserted after author's
+initial(s);
+A comma separates each item of the reference;
+The name title of article, report, thesis or dissertation, are put in inverted commas;
+The following are italicised to show the source of information:
+• The title of a book;
+• The type of thesis/project report or dissertation/lecture notes;
+• 1ame of Journal;
+• 1ame of conference, transactions or proceedings.
+
+2.3.4 Bibliography
+Any supplementary literature not directly referred to in the text, but considered to be relevant
+and of interest, may be put after the references in a bibliography. In this University, however,
+bibliography is not to be used.
+2.4 Appendices
+Appendices are convenient places for recording complicated mathematical or other formulae,
+descriptions of experiments or apparatus, and any other specialised or lengthy material such
+as computer programme listings, copies of spectra or other instrumental outputs that would
+otherwise detract from the readability of the text. The reader should be able to study or refer
+to these later, and only if he/she wishes to do so, after he/she has read the main work.
+Appendices must be numbered or lettered consecutively to facilitate their location in the text.
+Each appendix must start on a new page. The appendices should be placed immediately after
+the list of references.
+3
+
+HEADIGS AD UMBERIG
+
+The arrangement of headings of various levels (hierarchical positions) reflects the
+organisation of the contents of the thesis.
+The levels of headings may be indicated by typeface and format alone. For example, the
+heading 'EVIROMETAL ECOOMICS' is recognisably of higher level than
+'Environmental Economics'.
+10
+
+The decimal numbering of such headings further clarifies the importance, sequence and
+interrelation of the portions of text under each heading. Thus the headings '2
+EVIROMETAL ECOOMICS' and '2.3 Environmental Economics' are even more
+informative than the corresponding unnumbered headings. Numbering also facilitates crossreferencing within the text.
+3.1 Rules of umbering
+The following are the rules of numbering:
+•
+
+Arabic numerals should be used throughout;
+
+•
+
+First level headings (usually chapter headings of a thesis are numbered continuously
+beginning with 1. In this University, the chapter heading will be centred and written
+below the chapter number (see Appendix G). Each new chapter will start on a new
+page;
+
+•
+
+Each main division of text (chapter) may be divided into any reasonable number of
+sub-divisions, having second level headings which are also continuously numbered.
+This method of division and numbering can, in principle, be continuous to any level,
+but tends to become clumsy and confusing at the fourth level and beyond;
+
+•
+
+Numbering should thus be confined to the first three levels. Further (unnumbered)
+levels of headings may be identified by typeface and format (see Section 3.2);
+
+•
+
+The numbers designating headings of different levels are separated by full stops (the
+present document serves as an example). No full stop appears after the last number.
+
+3.2 Typeface and Format
+The typeface and format of all headings should reflect their levels, independently of number.
+The typographical details of the system of headings will be dictated largely by the printing
+system that is used in final production of the thesis. Whatever the typography, it is essential
+that the system be logical and that it be applied consistently.
+Modern practice favours left-hand justification, rather than centred headings. Note also that
+no full stop appears at the end of a heading.
+3.3 Examples of Systems of Headings
+1
+
+FIRST LEVEL HEADIG
+
+1.1 Second Level Heading
+1.1.1 Third Level Heading
+Fourth level heading
+Fifth level heading: Which leads into the text on the same line.
+11
+
+4
+
+STYLE AD PUCTUATIO
+
+4.1 Text Structure
+A good thesis should be comprehensive and precise. To be concise at the same time the writer
+must watch his/her presentation carefully. He/she should read through his/her draft critically
+and eliminate unnecessary material.
+The following are some of the techniques that will help:
+•
+•
+•
+•
+•
+
+Break down complex statements into lists;
+Use the active voice where appropriate;
+Do not use pompous words or jargons where simpler words are equally effective;
+Avoid empty phrases such as 'it is interesting to note that…';
+Avoid unnecessary words, e.g. 'the precipitate was found to be in a wet condition’;
+which means simply that 'the precipitate was wet’.
+
+4.1.1 Word Choice
+The argument against using personal pronouns in theses is that the subject matter is the
+important thing and not the author. This is basically sound as long as it is not carried to
+excess. When, however, it leads to vagueness in phrases like 'it is considered' or to ponderous
+writing 'the author is of the opinion', then it is better to use a personal pronoun, e.g. 'I
+consider' or 'I think'.
+Technical language and jargon
+Technical language is a necessary part of scientific writing. The writer must, however, be
+certain that his/her audience will understand the language he/she uses. Where there is doubt,
+he/she should define his/her terms, either in the text or in a glossary.
+For example, 'The hydrostatic loss appears to be responsible for dumping (or weeping) from
+sieve places…' is acceptable in a thesis intended for people familiar with distillation terms
+and concepts, but the statement becomes a mere jargon where the potential readers may not
+be experts in the field.
+Jargon is often created by introducing strange and unnecessary new words. For example,
+though colonise, oxidise and analyse are acceptable through general usage, blendorise,
+insolubilised and solubilisation are not: however frequently they may be used in a chemical
+laboratory they are unknown outside it.
+4.1.2 Tenses
+A guide like this cannot cover the ramifications of the uses of tenses in thesis writing. The
+following points may help, however, to avoid the more common errors:
+•
+
+Reports of work done are usually written in the past tense (past perfect or past
+participle);
+12
+
+•
+
+Where universal truths such as natural laws are stated, the present tense is generally
+used;
+
+•
+
+Do not change tenses in a sentence unless there is good reason for it. For example, if
+we say. 'The balloon rose because the hydrogen inside it was lighter than air', we may
+mean that this might apply only under the observed conditions' or we may mean that
+the gas used is inherently lighter than air. To make the meaning clear we must mix
+tenses within the sentence, e.g. 'the balloon rose because hydrogen is less dense than
+air'. But complications arise when tenses are changed without the writer having had a
+specific intention in mind.
+
+4.1.3 Sentence Structure
+Active and passive voice
+Traditionally technical writers have regarded the passive voice as the only acceptable form of
+presentation. In modern writing, however, the active voice is used far more often. Phrases like
+'Economy justifies the procedure', are preferred to 'the procedure may be justified in the
+interest of economy'.
+Sentence length
+Long sentences with a number of dependent clauses are difficult to follow, particularly if the
+subject is complex. Reading tests have shown that sentences with more than 25 words are
+generally difficult to comprehend. Unless you are master of the use of the English language,
+avoid long sentences.
+4.1.4 Paragraphing
+Paragraphs are there to help the reader. They do so by breaking up the text into manageable
+sections. The following guidelines will assist in organising paragraphs:
+•
+
+A paragraph should consist of a central statement supported by a group of details;
+
+•
+
+In technical writing the main statement is usually at or near the beginning. For
+arguments of persuasion, however, the central statement is often placed at the end as a
+climax to the supporting details;
+
+•
+
+The transition between paragraphs should be smooth, with some form of connecting
+link in the text;
+
+•
+
+Long unbroken sections of the text are discouraging to the reader and therefore
+paragraphs should not be unduly long. If your writing has many paragraphs exceeding
+100 words, you should examine it critically.
+
+4.1.5 Headers and Footers
+Headers and Footers are not allowed.
+13
+
+4.2 Conventions
+4.2.1 Capitals
+There is much confusion about the use of capitals and authorities differ considerably. The
+modern trend, however, is to use capitals sparingly. The following are some general
+guidelines:
+•
+•
+
+The first word in a sentence and in a direct quotation are capitalised; proper nouns are
+capitalised and common nouns such as river and company are also capitalized when
+they form part of a name e.g. River Amazon.
+Common nouns are capitalized when they are used with a number or letter to
+designate a specific thing, e.g. Laboratory D.
+
+4.2.2 Acronyms
+An acronym is a word formed from the initial letters of a name or by combining initial letters,
+or parts of a series of words, e.g. 'radar': RA(dio) D(etecting) A(nd) R(anging). Certain
+acronyms like, 'radar' have become dictionary words. In general, however, use acronyms
+sparingly and when using them for the first time, spell them out. Where the acronym is not an
+accepted dictionary one it should be in capitals e.g. United Nations (UN), University of Mines
+and Technology (UMaT) and Random Access Memory (RAM).
+4.2.3 Spelling
+In a language as complex as English there is no simple set of rules. When in doubt (e.g., when
+to use 's' and when 'z') consult the Shorter Oxford English Dictionary which gives the
+accepted standard of English spelling (preferred to the American) or the Oxford Dictionary
+for Writers and Editors. This dictionary, in addition to guidance on spelling, gives useful
+information on punctuation. In this era of information technology one can exploit the
+capability of the computer to his/her advantage. In this University, the British English will be
+adopted. However, one should be very consistent when the American English is used.
+4.2.4 Abbreviations
+Use only generally accepted abbreviations and symbols.
+4.2.5 Punctuation
+There are some 36 chief marks of punctuation. However, many of these are used only in
+specialised linguistic contexts and all should be used sparingly. For a concise guide to the use
+of the more common punctuation marks see other relevant literature.
+4.2.6 Pagination
+Pagination should run consecutively through the thesis with all pages in Arabic numerals
+except items preceding the introductory chapter. These are numbered with Roman numerals.
+The page number should be in the footer and aligned right or centre.
+14
+
+5
+
+EXTRA-LIGUISTIC MATERIAL
+
+The customary medium of communication is language. However, in the sciences and
+engineering extra-linguistic material such as numbers, symbols, mathematics, tables, graphs
+and illustrations of various kinds are frequently used. A cardinal principle for such material is
+that it should be used only when it is the most effective means of communication and
+understandable to the target audience.
+5.1 umerals
+The rules for the correct use of numbers are simple and are in the main based on common
+sense. The following are noteworthy:
+•
+
+In the text use words rather than numerals for integers below ten. Exceptions to this
+rule occur in illustrations and tables, or when integers are associated with unit
+symbols. For numerals above ten, use whatever provides optimum clarity and good
+appearance;
+
+•
+
+Where it is necessary to have decimal fractions these should be expressed in
+numerals, e.g. 'The original design required 2.7 times as many components as were
+finally used'. Do not use numerals for numbers which are only approximations. Do not
+begin a sentence with a numeral. This can lead to confusion and is in any event
+displeasing to the eye;
+
+•
+
+Ordinals from 'first' to 'tenth' should be written out. For higher ordinals the author
+should once again use his/her discretion;
+
+•
+
+Avoid writing out large and small numbers by using either accepted prefixes or
+exponential notation, e.g. 253 x 109 or 0.253 × 1012. Where large numbers must be
+written out these should be separated by a small space into groups of three counting
+from the left of the decimal sign, e.g. 5 241.2 or 0.52465. They must never be
+separated by a comma, point or any other means. For numbers less than unity, a zero
+should precede the decimal sign, e.g. 0.352 not .352. When listing numbers - as in a
+table - always align them on the decimal sign.
+
+5.2 Mathematics
+Mathematics included in a text should form an integral part of the argument and should be
+intelligible to the intended readers. Detailed derivations and mathematics beyond the interest
+of the majority of readers should be put in an appendix.
+Mathematics must be carefully presented using printed symbols. The units and symbols used
+should be consistent and follow international practice.
+The form of presentation of a mathematical expression should be such that it:
+•
+
+brings out clearly the structure of the expression;
+
+15
+
+•
+
+is as simple as possible and
+
+•
+
+introduces minimum disturbance in the appearance of the printed page.
+
+To comply with the last two points, algebraic fractions in the text should make use of a
+ax + b
+.
+solidus and not a horizontal bar. Thus write (ax + b)/(cx + d) and not
+ax + d
+However, note that careless use of the solidus can lead to ambiguities. Thus a + b/y means
+b
+a+b
+a + and not
+.
+y
+y
+Such ambiguities can generally be overcome by the use of parentheses, as in (a + b)/y,
+log(a/b) and ( 3 ) x . Be sure that all parentheses and brackets occur in pairs. Exponential
+expressions should be set up as e 2π / 3 y or exp(2πx/3y).
+However, with more complicated expressions the foregoing rules may violate the conditions
+above. It may then be necessary to simplify the expression or set it out on a line all to itself.
+For example in chapter five, the first equation should be numbered as:
+q=
+
+L(t0 − t3 )
+1
+1
+1
+r
++
+ln 2 +
+2πr1h1 2πk r1 2πr2 h2
+
+(5.1)
+
+And the second equation can also be set out as:
+q = L(to- t3)/ΣRt
+
+(5.2)
+
+where, ΣRt = (1/2πr1h1) + (1/2πk)ln(r2r1) + (1/2πr2h2)
+L = length
+to and t3 = initial time and final time respectively
+k = constant
+h1 and h2 = initial height and final height respectively
+r1 and r2 = initial radius and final radius respectively
+Rt = radius of sphere at time t
+Vertical alignment of all equal signs should be achieved where practicable. Where the right
+hand side of an equation is too long to fit on one line, a break should be made before an
+operational sign (e.g. + or –) or at some other logical point, but preferably not within a
+bracketed statement. The next line, starting with an operational sign, should then be placed
+just to the right of the equal sign. It may, however, not always be possible to avoid breaking a
+statement within a bracket. In this case the above rule should be observed as far as possible,
+as illustrated in equation (5.3):
+
+[
+
+∆ω = (i / y ) ∫ f (υ1 A1 )φ1φ2 dV + ∫ f (υ1 A2 )φ1φ2 dV
++ ∫ f (υ2 A1 )φ1φ2 dV + ∫ f (υ2 A2 )φ1φ2 dV
+16
+
+(5.3)
+
+where, y = f (φ1φ2 + φ1φ2 )dV
+Particular care is required in the use of subscripts and superscripts. They should be placed
+next to the main symbol and half a space below or above it respectively. Where both are used
+2
+2
+they must line up vertically, i.e. As2 not As . Thus e x should become exp(x2 )
+and E1 A becomes E1,A. Periods are generally omitted in abbreviations, e.g. Tmax not Tmax.
+Standard symbols should be used wherever possible and the recognised literature in the field
+consulted for references to these.
+
+5.3 SI Units
+See Appendix F for a list of SI units. The magnitude of any physical quantity must always be
+stated as the product of a pure number and an SI unit (Physical quantity = number x unit). The
+following rules should be applied in the use of symbols with SI units.
+1. Leave a space between the numerical value and the unit (80 cm);
+2. Do not use a full stop after a symbol unless it comes at the end of a sentence;
+3. Never add s to a symbol: cm = centimetre or centimeters;
+4. Do not leave a space between a prefix and a symbol: milli-second = ms;
+5. Leave a space between the symbols when two or more symbols are combined to indicate a
+derived unit: metres per second = m s-1 (or m/s). Acceleration is indicated as m/s2 (not as
+m/s/s);
+6. Do not leave a space between the degree sign and the letter C but leave a space between
+the degree sign and the preceding numeral: 20 oC instead of 20oC or 20o C;
+7. Symbols for physical quantities are printed in italics. Symbols for units are printed in
+Roman type. If, on a graph, potential difference (V) measured in volts (V) is to be plotted
+against current (I) in milliamps (mA), the axes should be labelled: either V/V and I/mA or
+V in volts and I in milliamps.
+8. Symbols for vector quantities are printed in bold face italic type (e.g. F for force).
+
+5.4 Tables
+Tables are best used when a number of numerical values are to be compared or contrasted.
+They should be used only where data cannot be clearly presented in graphical form. For
+example, discrete data sets can frequently be compared more effectively by using a bar chart
+than table.
+In one sense a table is a form of graphical presentation. As such it should be kept simple and
+clear. Only relevant information of conclusions should be included. There is no need to put in
+all intermediate steps or results – they only cloud the main issues.
+17
+
+Tables can be arranged either horizontally or vertically. Horizontal tables are those which can
+be read when a page is in the normal position. Clearly they are the most convenient to read.
+Where possible they should be arranged to fit into a single page of the document. Vertical
+tables are used where their size is such that they cannot be fitted into the width of the printed
+page.
+Each table should have a heading and be numbered with Arabic numerals. Tables in theses
+should be numbered as follows: first by the number of the main text division (chapter) in
+which they occur, and secondly, by Arabic numerals running consecutively through that text
+division. The two numbers are separated by a full stop. Thus, the first table in Chapter 2 is
+Table 2.1, the second table in Chapter 2 is Table 2.2, etc. the same principle holds for
+lettered appendices, but the full stop is omitted. Thus the third table in Appendix E is Table
+E3. Tables should be referred to in the text by means of the table number.
+The columns in a table should be arranged for easy comparison, related information being
+brought together. Each column should carry a brief heading and include consistent units
+where relevant. The same symbols, units, and abbreviations should be used in the text. The
+title is placed on top of the table and may be in title case format. Table 5.1 illustrates some of
+these rules.
+In column headings avoid using expressions like x 10-3 m, as these are ambiguous. It is not
+clear whether the figures in the column have already been multiplied by 10-3 or must be
+multiplied by 10-3. Rather use the recognised metric prefixes, e.g. ‘mm’. Where this is not
+possible, make sure the heading is unambiguous even if it appears clumsy.
+For example, use ‘Capital cost R millions’ rather than ‘× 106 = Capital cost in R’
+
+Table 2.4 Summary of Taxes, Royalties and Allowances
+Item
+Royalty
+Income Tax
+Additional Profit Tax
+Capital Allowance: First year
+Subsequent years
+Investment Allowance
+(Source: Anon, 1986)
+
+Rate (%)
+3-6
+35
+25
+75
+50
+5
+
+5.5 Illustrations
+All illustrations (graphs, photographic plates, drawings and diagrams) are referred to as
+Figures (or Figs.). Each has a number and a descriptive title which should be placed below
+the illustration. Numbering follows the same principles as those for tables (see Section 5.3).
+Thus, the first figure in Chapter 2 is Figure 2.1 (or Fig. 2.1), the second Figure 2.2 (or Fig.
+2.2), etc. The third figure in Appendix E is Figure E3 (of Fig. E3). One should be consistent
+when using Figure or Fig.
+
+18
+
+5.5.1 Graphs
+Graphs can take on a number of different forms, e.g. bar charts, divided circles, pictographs,
+or line graphs. The appearance of a graph is its major attribute. It is therefore up to the writer,
+in choosing one of these forms, to decide on the impression he/she wishes to convey. As line
+graphs are most frequently used in scientific and technical work, attention here will be
+directed primarily to this type. Line graphs are mainly used to show the relationship between
+a continuously varying independent variable and one or more of its dependent variable.
+Wherever possible use should be restricted to this purpose. In preparing graphs for inclusion
+in a thesis the following should be borne in mind:
+•
+
+The graphs should illustrate clearly the point which the writer wishes to make;
+
+•
+
+The scale chosen should be such that only the relevant parts of the curve are
+presented, that is, the grid should not be extended unnecessarily beyond the limits of
+the curve to be shown;
+
+•
+
+If it is necessary to suppress the zero this should be clearly shown;
+
+•
+
+The choice of grid size depends on the accuracy required;
+
+•
+
+The scale should be easy to read and be restricted to multiples and submultiples of 10;
+
+•
+
+Units should be clearly stated and written so that they can be easily read;
+
+•
+
+The caption should be brief but self-explanatory and be positioned underneath the
+graph; any notes or supporting documents, if necessary should be placed below the
+title;
+
+•
+
+To ensure clear reproduction graphs should not be overburdened with detail.
+
+Fig. 5.1 is an example of a good graph.
+
+ro
+6
+
+3
+20
+
+70
+
+Or
+
+Fig. 5.1 A Graph of Royalty Rate (ro) Versus Operating Ratio (Or)
+
+19
+
+5.5.2 Drawings, Diagrams and Photographs
+Line drawings and diagrams are made up of lines, words and a few special symbols. They
+must, as far as possible, be kept simple and uncluttered with details; working drawings are
+normally not acceptable. Unless they serve to clarify the verbal content of the report, or
+express an idea more vividly than words, drawings or diagrams serve no purpose. Only
+generally accepted graphic symbols should be used.
+The inclusion of photographs may occasionally prove useful and sometimes even necessary.
+As a rule photographs should not be used unless they show something unusual or include
+features which cannot easily be expressed in words or by means of line drawings. If they are
+to be used they should be taken with care. Cluttered backgrounds and views of unrelated
+equipment should be avoided. Adequate contrast should be provided, and care taken so that
+important details do not fall into shadows or become obscured by the glare of highlights.
+Some sort of scale should be included so that the size of the object is shown. Lettering on
+prints may be necessary, but care should be taken to ensure that the letters stand out.
+Any illustrative material which cannot effectively be reduced to A4 format, but which is
+relevant may be included in a pocket on the inside back cover of the thesis.
+
+6
+
+PRODUCTIO OF THE THESIS
+
+6.1 Word Processing
+6.1.1 Paper Type
+A good quality white bond paper of A4 size should be used and text must be printed on one
+side only.
+6.1.2 Paper Size
+The Paper Size should be A4 (8.27 in × 11.29 in.). When you open a new Microsoft Word
+document, the default Paper Size is Letter, ensure that you choose the correct Paper Size (i.e.
+A4).
+6.1.3 Page Layout
+The main body of the text should be set in one and half or double spacing and generous
+margins should be allowed. Text should be aligned at a distance from the top and the page.
+(A specimen page layout is shown in Appendix G)
+The following are suggested dimensions of margins:
+Top, bottom and right: 2.54 cm or 1″
+Left: 3.05 cm or 1.2″ (to allow for binding)
+Gutter: 0 cm or 0″
+20
+
+Header: 0.0 cm
+Footer: 0.0 cm
+All work should be justified to the margin and should not be indented. Avoid right
+justification of text as it reduces the readability of the thesis. Use a triple space to indicate a
+new paragraph. (See Section 3 for suggested layout and format of the thesis headings and
+paragraphs.)
+6.1.4 Setting the Copy
+Use a clear font type such as Times New Roman, CG Times, Arial, Tahoma or Courier and
+italic script or other unusual typefaces should generally be avoided unless they are necessary
+to emphasise words. In this case use italics or bold to emphasize. A font size of 12 pt is
+recommended. Chapter Number should be given 14 pt and Chapter headings should be given
+a font size of 12 pt.
+
+6.2 Illustrations
+Illustration forms a very important part of a thesis and should be carefully prepared.
+Whatever method of reproduction is to be used for their presentation in the thesis, the
+essential requirements are that a table or illustration should be neat, concise, legible and,
+above all comprehensible. Originals of photographs are not necessarily required but it is
+essential that any reproduction, such as a photocopy, be clear.
+
+6.3 umber of Copies Required
+For BSc project reports, two (2) unbound copies should be submitted for examination and for
+MSc/MPhil thesis, three (3) unbound copies should be submitted for examination. For the
+degree of PhD, five (5) unbound copies of the thesis are required for examination.
+
+6.4 Binding
+Two copies of project reports and three copies of theses should be bound (i.e. BSc Projects =
+2 bound copies; MSc/MPhil Thesis/PhD Thesis = 3 bound copies)
+The covers of bound theses should have the following format:
+
+21
+
+UNIVERSITY OF MINES AND TECHNOLOGY
+TARKWA
+FACULTY OF MINERAL RESOURCES TECHNOLOGY
+MINING ENGINEERING DEPARTMENT
+
+FORMULATION OF AN
+ENVIRONMENTAL MANAGEMENT PLAN IN GHANA
+- A CASE STUDY
+
+BY
+PETER ARROJA ESHUN
+MPHIL
+JUNE 2001
+
+7
+
+EDITIG AD REVISIG
+
+7.1 Checking, Rectifying and Polishing
+Editing the first draft is the author’s responsibility; he/she cannot expect his/her supervisor or
+any outside person to:
+•
+•
+•
+•
+
+determine the accuracy of the information;
+clarify ambiguities;
+emphasise important issues;
+check spelling.
+
+The editing process is essentially one of critical evaluation of the manuscript against the
+requirements set by the objectives of the research. The main requirements are those of
+content, or orientation to the reader and of accuracy, brevity and clarity in the functional
+writing style. The author should evaluate each chapter of his/her thesis and check whether it:
+•
+
+has real content;
+
+•
+
+is free from inaccuracies, ambiguities and biases;
+
+•
+
+emphasises important issues and is free from verbosity, irrelevances and unnecessary
+detail;
+
+•
+
+can be understood readily;
+
+•
+
+is appropriate to the situation.
+
+Before starting the process of checking, rearranging and polishing, the writer should
+preferably leave his/her draft for a few weeks so that he/she can mentally switch to the role of
+22
+
+a critical reader.
+The editing consists of three operations which should be done separately. These are:
+•
+
+The integrity edit;
+
+•
+
+The logical progression edit;
+
+•
+
+The text and language edit.
+
+7.1.1 Integrity Edit
+The contents page should be examined and the following points checked:
+•
+•
+•
+
+Are the headings and sub-headings clear description of what is covered?
+Do they form a recognisable logical pattern and the numbering system used a
+reflection of this pattern?
+Are the headings grammatically parallel?
+
+Next the text should be checked page by page for the following:
+• Are the headings and numbers identical to those used in the list of contents?
+• Are the tables and figures properly numbered and in sequence, and do they have
+informative headings and captions?
+• Are tables, figures and references correctly cited in the text?
+7.1.2 Logical Progression Edit
+Each chapter should be skimmed to:
+•
+•
+•
+
+check that the objective is clearly stated and that the concluding section shows
+whether or not the objective was achieved;
+check that the logical thread is apparent; any jumps or gaps in the progression are
+usually an indication of faulty organisation; mark these, but do not correct at this
+stage;
+check in particular whether sections contain anything which does not belong there.
+
+The conclusions list should arise from the discussion. Structural defects must be corrected
+before the text and language edit.
+7.1.3 Text and Language Edit
+Only when one is satisfied with the basic format of the report should one concentrate on the
+structure of the text and the use of language. The text may include nonverbal components
+such as graphs and illustrations. These should be evaluated as part of the text.
+The criteria for evaluating writing, mentioned before are:
+Content criteria
+(i)
+23
+
+•
+•
+•
+•
+
+Accuracy – sufficient for the needs of the reader;
+Brevity – leaving out irrelevancies and at the same time covering the essential
+adequately;
+Clarity – avoiding vagueness and ambiguity;
+Emphasis – drawing attention to significant information.
+Tonal or attitude criteria
+
+(ii)
+•
+•
+•
+•
+
+Appropriateness to the situation;
+Concern for the needs of the reader;
+Serious treatment of the subject matter;
+Authoritative without being writer-centered.
+
+The specific aspect of language usage discussed in Section 4 should be consulted.
+
+7.2 Graphic Material
+Essentially the same criteria used in the language edit, viz accuracy, brevity, clarity and
+emphasis can be applied to graphic communications. One of the main reasons for using
+graphics is their ability to give an overall view and show relationships. Any graphic material
+which fails in these important areas probably does not justify the extra effort of using it.
+
+7.3 Validity of Data in Time and Space
+Most theses are prepared for consideration within a short time. However, once accepted, a
+thesis becomes part of the body of scientific literature. Writers should therefore draw
+attention to information that is only valid for a short time. Cost data are also subject to
+relevant variation by place and in time, and monetary exchange rates and other relevant
+factors may have to be specified to make matters clear.
+
+7.4 The External Viewpoint
+The author may feel himself to be objective. Usually he/she, is not – at least, not to the extent
+required for a good manuscript. Therefore an external readers viewpoint is needed. This can
+be provided by the supervisor or critical colleague who does not have to be an expert in the
+subject of the manuscript, but who must be able to place himself/herself in the position of the
+intended audience. He/she should be skilled in recognising the errors authors make and
+should annotate the manuscript accordingly and, in addition, suggest ways of improvement.
+The best manuscripts are produced by co-operative interaction of authors, supervisors and
+independent editor.
+
+7.5 Rewriting
+Of all tasks, rewriting a text is the most unpopular, yet if we wish to develop a clear style it is
+usually essential. Editing tends to concentrate on the correction of errors rather than elegance
+of diction. Rewriting all or substantial part of the text is usually the only way of getting an
+elegant well-balanced text.
+24
+
+APPEDIX A
+SPECIME TITLE PAGE
+
+UNIVERSITY OF MINES AND TECHNOLOGY
+TARKWA
+FACULTY OF MINERAL RESOURCES TECHNOLOGY
+DEPARTMENT OF MINING ENGINEERING
+
+A THESIS REPORT ENTITLED
+
+FORMULATION OF AN
+ENVIRONMENTAL MANAGEMENT PLAN IN GHANA
+- A CASE STUDY
+
+BY
+PETER ARROJA ESHUN
+
+SUBMITTED IN FULFILLMENT OF THE REQUIREMENT FOR THE AWARD OF
+THE DEGREE OF MASTER OF PHILOSOPHY IN MINING ENGINEERING
+
+THESIS SUPERVISOR
+
+""""""""""""""""""
+PROF. D. MIREKU-GYIMAH
+
+TARKWA, GHANA
+JUNE 2001
+
+25
+
+APPEDIX B
+SPECIME COTETS OF THESIS PAGES
+TABLE OF COTETS
+Contents
+
+Page
+
+DECLARATIO
+ABSTRACT
+ACKOWLEDGEMETS
+TABLE OF COTETS
+LIST OF FIGURES
+LIST OF TABLES
+
+i
+ii
+iii
+iv
+vii
+viii
+
+CHAPTER 1 ITRODUCTIO
+
+1
+
+1.1
+1.2
+1.3
+1.4
+1.5
+
+Statement of Problem
+Objectives of Thesis
+Methodology and Scope of Study
+Facilities Employed
+Report Organisation
+
+1
+1
+3
+4
+4
+
+CHAPTER 2 LITERATURE REVIEW
+
+5
+
+2.1
+
+Impact of Industrial Activities on the Environment
+2.1.1 Air Pollution
+2.1.2 Water Pollution
+2.1.3 Noise Pollution
+2.1.4 Soil Degradation
+2.1.5 Waste Management and Disposal
+2.1.6 Flora and Fauna Destruction
+2.1.7 Social Impacts
+Environmental Planning and Environmental Management
+Environmental Impact Assessment (EIA) in Ghana
+2.3.1. EIA Procedures and Project Registration in Ghana
+2.2.3 Environmental Audit
+2.2.3 Environmental Reports
+
+5
+5
+13
+20
+24
+25
+30
+33
+35
+36
+36
+47
+48
+
+CHAPTER 3 PHYSICAL EVIROMET, FACILITIES
+AD OPERATIOS OF BOST DEPOTS
+
+49
+
+2.2
+2.3
+
+3.1
+
+3.2
+
+The Accra Plains Depot
+3.1.1 Physical Environment
+3.1.2 Facilities and Operations
+The Mami Water Depot
+3.2.1 Physical Environment
+3.2.2 Facilities and Operations
+.
+
+49
+49
+51
+51
+51
+53
+.
+26
+
+3.6
+
+3.7
+
+The Buipe Depot
+3.6.1 Physical Environment
+3.6.2 Facilities and Operations
+The Bolgatanga Depot
+3.7.1 Physical Environment
+3.7.2 Facilities and Operations
+
+62
+62
+64
+64
+64
+66
+
+CHAPTER 4 IDETIFICATIO OF POTETIAL
+EVIROMETAL IMPACTS
+
+67
+
+4.1
+4.2
+.
+4.5
+4.6
+4.7
+
+67
+68
+.
+68
+68
+69
+
+Air Pollution
+Water Pollution
+Flora and Fauna destruction
+Fire Hazard
+Occupational Accidents, Injuries and Diseases
+
+CHAPTER 5 AUDITIG OF EXISTIG EVIROMETAL
+FACILITIES AD PRACTICES
+
+70
+
+5.1
+5.2
+.
+5.7
+5.8
+
+70
+70
+.
+74
+75
+
+Prevention and Mitigation of Air Pollution
+Prevention and Mitigation of Water Pollution
+Pipeline Protection and Security
+Waste Management and Disposal
+
+CHAPTER 6 ASSESSMET OF CURRET EVIROMETAL
+IMPACTS OF THE DEPOTS
+
+76
+
+6.1 Ambient Air Quality
+6.2 Water Quality
+6.3 Soil Type and Quality
+6.4 Noise Level
+
+76
+76
+78
+80
+
+CHAPTER 7 THE BOST EVIROMETAL POLICY
+
+82
+
+7.1
+7.2
+
+82
+83
+
+Policy Statement
+Specific Objectives
+
+CHAPTER 8 THE BOST EVIROMETAL MAAGEMET PLA
+
+85
+
+8.1 Objectives
+8.2 Against Air Pollution
+8.8 Bulk Oil Spill Contingency Plan
+8.9 Big Fire Contingency Plan
+8.10 Decommissioning Plan
+
+85
+85
+94
+97
+101
+
+27
+
+CHAPTER 9 COCLUSIOS
+
+102
+
+REFERECES
+
+104
+
+APPEDICES
+
+108
+
+APPENDIX A LIST OF UNDERTAKINGS REQUIRING REGISTRATION
+APPENDIX B LIST OF UNDERTAKINGS FOR WHICH EIA IS MANDATORY
+M
+APPENDIX E RESULTS OF SOIL SAMPLE ANALYSES AT BOST DEPOTS
+APPENDIX F BOUNDARY NOISE LEVELS AT BOST DEPOTS
+
+109
+118
+M
+136
+138
+
+28
+
+APPEDIX C
+SPECIME LIST OF FIGURES
+
+LIST OF FIGURES
+Figure or Fig.
+1.1
+2.1
+2.2
+3.1
+.
+.
+3.6
+3.7
+3.8
+
+Title
+Map of Ghana Showing Locations of BOST Depots
+Context of Environmental Assessment in Project Development
+The EIA Procedure in Ghana
+Site Plan of Accra Plains Depot: Installations and Facilities
+
+Site Plan of Kumasi Depot: Installations and Facilities
+Site Plan of Buipe Depot: Installations and Facilities
+Site Plan of Bolgatanga Depot: Installations and Facilities
+
+29
+
+Page
+2
+37
+39
+50
+.
+.
+61
+63
+65
+
+APPEDIX D
+SPECIME LIST OF TABLES
+
+LIST OF TABLES
+Table
+2.1
+2.2
+.
+.
+6.3
+6.4
+
+Title
+Typical Impacts of Activities on Flora and Fauna
+Illustrative Types of Social Impacts
+
+Summary of Soil Sample Analyses at BOST Depots
+Summary of Noise Levels at BOST Depots
+
+30
+
+Page
+31
+34
+.
+.
+80
+81
+
+APPEDIX E
+SPECIME LIST OF SYMBOLS
+LIST OF SYMBOLS
+
+Avogadro constant
+Boltzmann constant
+Elementary charge (charge on proton)
+Faraday constant
+Gravitational constant
+Mass of electron
+Molar gas constant
+Planck constant
+.
+.
+.
+.
+
+L
+K
+e
+F
+g
+m
+R
+h
+.
+.
+.
+.
+
+31
+
+APPEDIX F
+ITERATIOAL SYSTEM OF UITS (SI UITS)
+Quality
+
+Unit
+
+Symbol
+
+Length
+
+millimetre (0.001 m)
+centimetre (0.01 m)
+metre
+kilometre (1000 m)
+
+mm
+cm
+m
+km
+
+Area
+
+square centimetre
+square metre
+hectare
+
+cm2
+m2
+ha
+
+Volume
+
+cubic centimetre
+cubic metre
+
+cm3
+m3
+
+Capacity
+
+millilitre (0.001 I)
+litre
+
+mI
+I
+
+Mass
+
+gramme (0.001 kg)
+kilogramme
+tonne (1000 kg)
+
+g
+kg
+t
+
+Density
+Time
+
+kilogramme per cubic metre
+second
+minute (60 s)
+hour (3600 s)
+day (86400 s)
+
+kg/m3
+s
+min
+h
+d
+
+Speed, Velocity
+
+metre per second
+kilometre per second
+
+m/s
+km/s
+
+Plane angle
+
+radian
+
+rad
+
+Solid angle
+
+steradian
+
+sr
+
+Frequency
+
+hertz
+
+Hz
+
+Force
+
+newton
+
+N
+
+Pressure
+
+pascal
+
+Pa
+
+Energy, work, quantity of heat
+
+joule
+
+j
+
+Electric current
+
+ampere
+
+A
+
+32
+
+APPEDIX F (Cont’d)
+
+Quality
+
+Unit
+
+Symbol
+
+Power, energy flux
+
+watt
+kilowatt
+
+W
+kW
+
+Electric charge
+
+coulomb
+
+C
+
+Electric potential
+
+volt
+
+V
+
+Electric resistance
+
+ohm
+
+Ω
+
+Electric conductance
+
+siemens
+
+S
+
+Electric capacitance
+
+farad
+
+F
+
+Magnetic flux
+
+weber
+
+Wb
+
+Magnetic flux density
+
+tesla
+
+T
+
+Inductance
+
+henry
+
+H
+
+Luminous flux
+
+lumen
+
+Im
+
+Illuminance
+
+lux
+
+Ix
+
+Luminous intensity
+
+candela
+
+cd
+
+Iuminance
+
+candela per square metre
+
+cd/m2
+
+Thermodynamic temp. (T)
+
+kelvin
+
+K
+
+Temperature (t)
+
+degree Celsius
+
+o
+
+Amount of substance
+
+mole
+
+mol
+
+Concentration
+
+mole per cubic metre
+
+mol/m3
+
+33
+
+C
+
+APPEDIX G
+SPECIME PAGE LAYOUT
+
+2.54 cm or 1″
+
+CHAPTER 1
+ITRODUCTIO
+
+1.1 Statement of Definition
+
+3.02
+cm
+or
+1.2″
+
+2.54
+cm
+or
+1″
+
+2.54 cm or 1″
+
+34
+
+

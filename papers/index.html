@@ -1,0 +1,2166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paper Library</title>
+  <style>
+    :root {
+      --bg: #f3f3f1;
+      --bg-alt: #e7e7e3;
+      --panel: rgba(255, 255, 255, 0.94);
+      --panel-soft: rgba(255, 255, 255, 0.78);
+      --panel-strong: #0e0e0f;
+      --line: rgba(0, 0, 0, 0.12);
+      --line-strong: rgba(0, 0, 0, 0.26);
+      --text: #101113;
+      --muted: #5c6066;
+      --soft: #8f949b;
+      --badge: #ededeb;
+      --shadow: 0 16px 36px rgba(0, 0, 0, 0.07);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.6), transparent 15rem),
+        linear-gradient(180deg, #f6f6f4 0%, #ecece8 100%);
+      font-family: "Avenir Next", "Helvetica Neue", "Franklin Gothic Book", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
+      background-size: 26px 26px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.75), transparent);
+    }
+
+    main {
+      position: relative;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 30px 20px 56px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .hero-card,
+    .meta-card,
+    .toolbar-shell,
+    .table-shell {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-card {
+      padding: 24px 26px 22px;
+      border-radius: 6px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent),
+        var(--panel-strong);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #f3f4f6;
+    }
+
+    .meta-card {
+      padding: 18px 20px;
+      border-radius: 6px;
+      display: grid;
+      gap: 0;
+      align-content: start;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(246, 246, 243, 0.94)),
+        var(--panel-soft);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #d8dbe0;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 12px 0 10px;
+      font-family: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      font-size: clamp(1.8rem, 2.7vw, 3.15rem);
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+    }
+
+    .lede {
+      max-width: 70ch;
+      margin: 0;
+      color: rgba(243, 244, 246, 0.78);
+      font-size: 0.86rem;
+      line-height: 1.58;
+    }
+
+    .hero-notes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .note-chip {
+      padding: 10px 10px 9px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .note-label {
+      display: block;
+      margin-bottom: 5px;
+      color: #9aa0a9;
+      font-size: 0.67rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .note-value {
+      color: #f4f4f5;
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+
+    .meta-intro {
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .meta-kicker {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .meta-copy {
+      margin: 8px 0 0;
+      font-family: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+
+    .metric-band {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .metric-block {
+      min-width: 0;
+    }
+
+    .metric-value {
+      display: block;
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 0.94;
+      letter-spacing: -0.04em;
+    }
+
+    .metric-caption {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.67rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .stat-value {
+      font-size: 0.94rem;
+      line-height: 1.45;
+      font-weight: 600;
+    }
+
+    .toolbar-shell {
+      position: sticky;
+      top: 14px;
+      z-index: 4;
+      margin-bottom: 14px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .toolbar-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px 10px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(244, 244, 240, 0.92)),
+        var(--panel-soft);
+    }
+
+    .toolbar-title {
+      margin: 0;
+      font-size: 0.73rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .toolbar-subtitle {
+      margin: 5px 0 0;
+      font-family: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      font-size: 0.95rem;
+    }
+
+    .toolbar-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .results-pill,
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--text);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 200px 170px auto;
+      gap: 12px;
+      padding: 12px 14px 14px;
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .toolbar input,
+    .toolbar select {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 3px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      color: var(--text);
+      font: inherit;
+      font-size: 0.82rem;
+    }
+
+    .view-switch {
+      display: inline-flex;
+      gap: 0;
+      justify-self: end;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .view-button {
+      padding: 8px 10px;
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .view-button:last-child {
+      border-right: 0;
+    }
+
+    .view-button.is-active {
+      background: #111214;
+      color: #f4f4f5;
+    }
+
+    .toolbar input:focus,
+    .toolbar select:focus {
+      outline: 2px solid rgba(0, 0, 0, 0.15);
+      outline-offset: 1px;
+      border-color: var(--line-strong);
+    }
+
+    .table-shell {
+      overflow: hidden;
+      border-radius: 6px;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1160px;
+    }
+
+    thead th {
+      padding: 11px 12px;
+      text-align: left;
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: #efefec;
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    tbody td {
+      padding: 11px 12px;
+      vertical-align: top;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    tbody tr:hover {
+      background: rgba(0, 0, 0, 0.025);
+    }
+
+    .short {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 7px;
+      border-radius: 3px;
+      background: #111214;
+      color: #f5f5f5;
+      font-weight: 700;
+      font-size: 0.71rem;
+      letter-spacing: 0.03em;
+    }
+
+    .title {
+      font-family: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      font-size: 0.92rem;
+      line-height: 1.32;
+      margin: 0 0 6px;
+    }
+
+    .citation {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.77rem;
+      line-height: 1.45;
+    }
+
+    .summary {
+      margin: 0;
+      color: #202226;
+      font-size: 0.79rem;
+      line-height: 1.48;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 4px 8px;
+      border-radius: 3px;
+      background: var(--badge);
+      color: #23262a;
+      font-size: 0.66rem;
+      font-weight: 700;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .file {
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .open-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 66px;
+      padding: 7px 9px;
+      border-radius: 3px;
+      background: var(--text);
+      color: #fafafa;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid #111214;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .open-link:hover {
+      background: #2a2c31;
+    }
+
+    .empty {
+      padding: 28px;
+      color: var(--muted);
+      background: #ffffff;
+    }
+
+    .study-shell {
+      display: none;
+      margin-top: 12px;
+    }
+
+    .study-shell.is-active {
+      display: block;
+    }
+
+    .study-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .study-card {
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.94);
+      padding: 12px 12px 11px;
+      box-shadow: var(--shadow);
+    }
+
+    .study-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .study-meta {
+      color: var(--muted);
+      font-size: 0.77rem;
+      line-height: 1.4;
+    }
+
+    .study-use {
+      margin: 8px 0 0;
+      padding-top: 8px;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      color: #202226;
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.6;
+      padding: 14px 0 0;
+    }
+
+    footer a {
+      color: inherit;
+    }
+
+    @media (max-width: 980px) {
+
+      .hero,
+      .toolbar,
+      .metric-band {
+        grid-template-columns: 1fr;
+      }
+
+      .study-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-notes {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        padding: 24px 14px 42px;
+      }
+
+      .meta-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .toolbar-shell {
+        position: static;
+      }
+
+      .toolbar-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <section class="hero">
+      <article class="hero-card">
+        <span class="eyebrow">Academic Dashboard</span>
+        <h1>Knowledge graph, LLM, and constrained generation research dashboard</h1>
+        <p class="lede">
+          A single-page research catalog for the PDFs in this folder. Use the dashboard controls to
+          filter by title, author, year, topic, filename, or shorthand name, then open any paper or
+          local note directly from the table.
+        </p>
+        <div class="hero-notes">
+          <div class="note-chip">
+            <span class="note-label">Primary Use</span>
+            <span class="note-value">Literature review, topic mapping, and citation triage.</span>
+          </div>
+          <div class="note-chip">
+            <span class="note-label">Visual Mode</span>
+            <span class="note-value">Monochrome academic dashboard with reduced-radius components.</span>
+          </div>
+          <div class="note-chip">
+            <span class="note-label">Curation Policy</span>
+            <span class="note-value">Unique papers are indexed. Duplicate raw downloads are archived separately.</span>
+          </div>
+        </div>
+      </article>
+      <aside class="meta-card">
+        <div class="meta-intro">
+          <p class="meta-kicker">Research Ledger</p>
+          <p class="meta-copy">Built for fast literature review, file opening, and bibliography cleanup.</p>
+        </div>
+        <div class="metric-band">
+          <div class="metric-block">
+            <span class="metric-value" id="paper-count">56</span>
+            <span class="metric-caption">Total papers</span>
+          </div>
+          <div class="metric-block">
+            <span class="metric-value" id="visible-count">56</span>
+            <span class="metric-caption">Visible now</span>
+          </div>
+        </div>
+        <div class="meta-row">
+          <span class="stat-label">Scope</span>
+          <div class="stat-value">KGQA, LLM reasoning, retrieval, decoding, evaluation, and graph-grounded generation.
+          </div>
+        </div>
+        <div class="meta-row">
+          <span class="stat-label">Duplicates</span>
+          <div class="stat-value">7 archived raw-download copies kept outside the active catalog.</div>
+        </div>
+        <div class="meta-row" style="border-bottom: 0; padding-bottom: 0;">
+          <span class="stat-label">Mode</span>
+          <div class="stat-value">Table view for exact lookup, Study view for topic scanning and related-work drafting.
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="toolbar-shell">
+      <div class="toolbar-head">
+        <div>
+          <p class="toolbar-title">Catalog Controls</p>
+          <p class="toolbar-subtitle">Filter the library by topic, year, citation text, filename, or shorthand paper
+            name.</p>
+        </div>
+        <div class="toolbar-meta">
+          <span class="results-pill" id="results-pill">56 visible</span>
+          <span class="filter-pill" id="filter-pill">All topics</span>
+        </div>
+      </div>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Search title, citation, summary, tag, year, or filename" />
+        <select id="sort">
+          <option value="year-desc">Sort: year, newest first</option>
+          <option value="year-asc">Sort: year, oldest first</option>
+          <option value="title-asc">Sort: title A-Z</option>
+          <option value="alias-asc">Sort: short name A-Z</option>
+        </select>
+        <select id="topic">
+          <option value="all">All topics</option>
+        </select>
+        <div class="view-switch" role="tablist" aria-label="View mode">
+          <button class="view-button is-active" id="table-view-button" type="button">Table</button>
+          <button class="view-button" id="study-view-button" type="button">Study View</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="table-shell" id="table-shell">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Short Name</th>
+              <th>Year</th>
+              <th>Paper</th>
+              <th>Summary</th>
+              <th>File</th>
+              <th>Open</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <div id="empty" class="empty" hidden>No papers match the current filters.</div>
+    </section>
+
+    <section class="study-shell" id="study-shell">
+      <div class="study-grid" id="study-grid"></div>
+    </section>
+
+    <footer>
+      The page links to the local PDFs in this directory. Duplicate raw downloads have been moved
+      to <a href="duplicates/">duplicates/</a> and are not double-counted in the table. Two source
+      links from the original list were corrected during earlier curation: ReaRev and EffiQA.
+    </footer>
+  </main>
+
+  <script>
+    let papers = [
+      {
+        alias: "OpenKE",
+        year: 2018,
+        topic: "Toolkit / Embeddings",
+        title: "OpenKE: An Open Toolkit for Knowledge Embedding",
+        citation: "Han et al., EMNLP 2018",
+        summary: "Introduces a reusable toolkit that standardizes training, evaluation, and comparison for a wide range of knowledge graph embedding models.",
+        file: "sun2018-openke.pdf"
+      },
+      {
+        alias: "Subgraph Retrieval",
+        year: 2022,
+        topic: "KGQA / Retrieval",
+        title: "Subgraph Retrieval Enhanced Model for Multi-hop Knowledge Base Question Answering",
+        citation: "Zhang et al., ACL 2022",
+        summary: "Decouples trainable subgraph retrieval from downstream reasoning so KBQA models can reason over better question-specific subgraphs with less bias.",
+        file: "zhang2022-subgraph-retrieval-enhanced-model.pdf"
+      },
+      {
+        alias: "KEPLER",
+        year: 2021,
+        topic: "Embeddings / PLM",
+        title: "KEPLER: A Unified Model for Knowledge Embedding and Pre-trained Language Representation",
+        citation: "Wang et al., TACL 2021",
+        summary: "Jointly optimizes language modeling and knowledge embedding so textual entity descriptions and graph facts improve one another in a single model.",
+        file: "wang2021-kepler.pdf"
+      },
+      {
+        alias: "PullNet",
+        year: 2019,
+        topic: "KGQA / Retrieval",
+        title: "PullNet: Open Domain Question Answering with Iterative Retrieval on Knowledge Bases and Text",
+        citation: "Sun et al., EMNLP 2019",
+        summary: "Builds a question-specific subgraph by iteratively pulling evidence from both text and knowledge bases before reasoning over the combined graph.",
+        file: "sun2019-pullnet.pdf"
+      },
+      {
+        alias: "KG Eval OWA",
+        year: 2022,
+        topic: "Evaluation",
+        title: "Rethinking Knowledge Graph Evaluation Under the Open-World Assumption",
+        citation: "Yang et al., NeurIPS 2022",
+        summary: "Argues that standard link prediction evaluation is distorted by the closed-world assumption and proposes more realistic open-world evaluation settings.",
+        file: "he2022-rethinking-kg-evaluation.pdf"
+      },
+      {
+        alias: "ReaRev",
+        year: 2022,
+        topic: "KGQA / Reasoning",
+        title: "ReaRev: Adaptive Reasoning for Question Answering over Knowledge Graphs",
+        citation: "Mavromatis and Karypis, Findings of EMNLP 2022",
+        summary: "Improves KGQA by adaptively refining question instructions with KG-aware signals and executing them with a breadth-first-search-like graph neural strategy.",
+        file: "mavromatis2022-rearev.pdf"
+      },
+      {
+        alias: "MINERVA",
+        year: 2018,
+        topic: "KGQA / Retrieval",
+        title: "Go for a Walk and Arrive at the Answer: Reasoning over Paths in Knowledge Bases using Reinforcement Learning",
+        citation: "Das et al., ICLR 2018",
+        summary: "Frames KB reasoning as reinforcement learning, where an agent walks through graph paths from a query entity to discover the answer entity.",
+        file: "das2018-minerva-go-for-a-walk.pdf"
+      },
+      {
+        alias: "Grid Beam Search",
+        year: 2017,
+        topic: "Constrained Decoding",
+        title: "Lexically Constrained Decoding for Sequence Generation Using Grid Beam Search",
+        citation: "Hokamp and Liu, ACL 2017",
+        summary: "Extends beam search so generation can satisfy required lexical constraints without retraining the underlying sequence model.",
+        file: "hokamp2017-grid-beam-search.pdf"
+      },
+      {
+        alias: "NeuroLogic",
+        year: 2021,
+        topic: "Constrained Decoding",
+        title: "NeuroLogic Decoding: (Un)supervised Neural Text Generation with Predicate Logic Constraints",
+        citation: "Lu et al., NAACL 2021",
+        summary: "Adds predicate-logic constraints to decoding so neural generation can satisfy richer symbolic requirements than plain lexical inclusion.",
+        file: "lu2021-neurologic-decoding.pdf"
+      },
+      {
+        alias: "Guided Captioning",
+        year: 2017,
+        topic: "Constrained Decoding",
+        title: "Guided Open Vocabulary Image Captioning with Constrained Beam Search",
+        citation: "Anderson et al., EMNLP 2017",
+        summary: "Uses constrained beam search and expanded word embeddings so captioning models can name previously unseen objects without retraining.",
+        file: "anderson2017-guided-open-vocabulary-captioning.pdf"
+      },
+      {
+        alias: "Synchromesh",
+        year: 2022,
+        topic: "Constrained Decoding",
+        title: "Synchromesh: Reliable Code Generation from Pre-trained Language Models",
+        citation: "Poesia et al., ICLR 2022",
+        summary: "Combines example retrieval with constrained semantic decoding to generate code that better respects syntax, scope, and semantic validity.",
+        file: "poesia2022-synchromesh.pdf"
+      },
+      {
+        alias: "GeLaTo",
+        year: 2023,
+        topic: "Constrained Decoding",
+        title: "Tractable Control for Autoregressive Language Generation",
+        citation: "Zhang et al., ICML 2023",
+        summary: "Uses tractable probabilistic models to guide autoregressive generation toward outputs that satisfy lexical constraints more faithfully.",
+        file: "zhang2023-tractable-control-autoregressive-generation.pdf"
+      },
+      {
+        alias: "CoT",
+        year: 2022,
+        topic: "LLM Reasoning",
+        title: "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+        citation: "Wei et al., NeurIPS 2022",
+        summary: "Shows that prompting models with intermediate reasoning steps unlocks much stronger arithmetic, symbolic, and commonsense performance.",
+        file: "wei2022-chain-of-thought.pdf"
+      },
+      {
+        alias: "Self-Consistency",
+        year: 2023,
+        topic: "LLM Reasoning",
+        title: "Self-Consistency Improves Chain of Thought Reasoning in Language Models",
+        citation: "Wang et al., ICLR 2023",
+        summary: "Samples multiple reasoning paths and chooses the most consistent final answer instead of trusting a single greedy chain of thought.",
+        file: "wang2023-self-consistency.pdf"
+      },
+      {
+        alias: "Tree of Thoughts",
+        year: 2023,
+        topic: "LLM Reasoning",
+        title: "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+        citation: "Yao et al., 2023",
+        summary: "Generalizes chain-of-thought prompting into tree search over candidate thoughts so models can explore, backtrack, and evaluate alternatives.",
+        file: "yao2023-tree-of-thought.pdf"
+      },
+      {
+        alias: "RoG",
+        year: 2024,
+        topic: "LLM + KG",
+        title: "Reasoning on Graphs: Faithful and Interpretable Large Language Model Reasoning",
+        citation: "Luo et al., 2024",
+        summary: "Pairs LLM planning with graph-based retrieval and reasoning so answers are grounded in explicit KG paths instead of unsupported free-form generation.",
+        file: "luo2024-rog.pdf"
+      },
+      {
+        alias: "GNN-RAG",
+        year: 2024,
+        topic: "LLM + KG",
+        title: "GNN-RAG: Graph Neural Retrieval for Large Language Model Reasoning",
+        citation: "Mavromatis and Karypis, 2024",
+        summary: "Uses graph neural retrieval to surface relevant KG evidence for LLM reasoning, blending neural graph structure with retrieval-augmented generation.",
+        file: "mavromatis2024-gnn-rag.pdf"
+      },
+      {
+        alias: "StructGPT",
+        year: 2023,
+        topic: "Structured Reasoning",
+        title: "StructGPT: A General Framework for Large Language Model to Reason over Structured Data",
+        citation: "Jiang et al., EMNLP 2023",
+        summary: "Separates structured-data reading from reasoning by letting the LLM call interfaces that fetch evidence from tables, graphs, and databases.",
+        file: "jiang2023-structgpt.pdf"
+      },
+      {
+        alias: "Think-on-Graph",
+        year: 2024,
+        topic: "LLM + KG",
+        title: "Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph",
+        citation: "Sun et al., ICLR 2024",
+        summary: "Treats the LLM as an agent that explores KGs with beam search, aiming for stronger multi-hop reasoning plus traceable evidence paths.",
+        file: "sun2024-think-on-graph.pdf"
+      },
+      {
+        alias: "KD-CoT",
+        year: 2023,
+        topic: "LLM + KG",
+        title: "Knowledge-Driven CoT: Exploring Faithful Reasoning in LLMs for Knowledge-intensive Question Answering",
+        citation: "Wang et al., 2023",
+        summary: "Uses external knowledge sources to verify and revise intermediate chain-of-thought steps so reasoning stays more faithful on knowledge-intensive QA.",
+        file: "wang2023-kd-cot.pdf"
+      },
+      {
+        alias: "GENRE",
+        year: 2021,
+        topic: "Retrieval / Generation",
+        title: "Autoregressive Entity Retrieval",
+        citation: "De Cao et al., ICLR 2021",
+        summary: "Recasts entity retrieval as autoregressive text generation, enabling exact entity prediction without a large conventional classifier head.",
+        file: "decao2021-genre-autoregressive-entity-retrieval.pdf"
+      },
+      {
+        alias: "Tree-of-Traversals",
+        year: 2024,
+        topic: "LLM + KG",
+        title: "Tree-of-Traversals: A Zero-Shot Reasoning Algorithm for Augmenting Black-box Language Models with Knowledge Graphs",
+        citation: "Markowitz et al., 2024",
+        summary: "Lets a black-box LLM perform tree search over thoughts and KG actions, improving question answering without model fine-tuning.",
+        file: "markowitz2024-tree-of-traversals.pdf"
+      },
+      {
+        alias: "EffiQA",
+        year: 2024,
+        topic: "LLM + KG",
+        title: "EffiQA: Efficient Question-Answering with Strategic Multi-Model Collaboration on Knowledge Graphs",
+        citation: "Dong et al., 2024",
+        summary: "Splits work between an LLM for high-level planning and a smaller plug-in model for efficient KG exploration to balance cost and QA accuracy.",
+        file: "dong2024-effiqa.pdf"
+      },
+      {
+        alias: "LLM-KG Roadmap",
+        year: 2024,
+        topic: "Survey",
+        title: "Unifying Large Language Models and Knowledge Graphs: A Roadmap",
+        citation: "Pan et al., 2024",
+        summary: "Surveys the main ways LLMs and knowledge graphs can strengthen each other, from KG-enhanced LLMs to LLM-augmented KG pipelines.",
+        file: "pan2024-unifying-llms-and-kgs-survey.pdf"
+      },
+      {
+        alias: "G-Retriever",
+        year: 2024,
+        topic: "Graph RAG",
+        title: "G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering",
+        citation: "He et al., 2024",
+        summary: "Builds a graph-aware retrieval pipeline so users can ask natural-language questions about textual graphs and receive evidence-grounded answers.",
+        file: "he2024-g-retriever.pdf"
+      },
+      {
+        alias: "2WikiMultiHopQA",
+        year: 2020,
+        topic: "Dataset",
+        title: "Constructing a Multi-hop QA Dataset for Comprehensive Evaluation of Reasoning Steps",
+        citation: "Ho et al., COLING 2020",
+        summary: "Introduces a multi-hop QA dataset with explicit reasoning evidence so models can be evaluated on both final answers and intermediate reasoning steps.",
+        file: "ho2020-2wikimultihop.pdf"
+      },
+      {
+        alias: "Self-RAG",
+        year: 2024,
+        topic: "RAG",
+        title: "Self-RAG: Learning to Retrieve, Generate, and Critique Through Self-Reflection",
+        citation: "Asai et al., 2024",
+        summary: "Trains a model to decide when retrieval is needed, use retrieved evidence, and critique its own output instead of always relying on fixed RAG behavior.",
+        file: "asai2024-self-rag.pdf"
+      },
+      {
+        alias: "StructLM",
+        year: 2024,
+        topic: "Structured Reasoning",
+        title: "StructLM: Towards Building Generalist Models for Structured Knowledge Grounding",
+        citation: "Zhuang et al., 2024",
+        summary: "Creates large-scale instruction tuning data for tables, graphs, and databases to improve LLM performance on structured knowledge grounding tasks.",
+        file: "zhuang2024-structlm.pdf"
+      },
+      {
+        alias: "KA Prompting",
+        year: 2023,
+        topic: "LLM + KG",
+        title: "Knowledge-Augmented Language Model Prompting for Zero-Shot Knowledge Graph Question Answering",
+        citation: "Baek et al., 2023",
+        summary: "Retrieves KG facts relevant to the question and prepends them to the prompt so an LLM can answer KGQA queries in zero-shot settings.",
+        file: "baek2023-knowledge-augmented-llms-for-kgqa.pdf"
+      },
+      {
+        alias: "KG + LLM Hallucinations",
+        year: 2025,
+        topic: "Survey",
+        title: "Knowledge Graphs, Large Language Models, and Hallucinations: An NLP Perspective",
+        citation: "Lavrinovics et al., Web Semantics 2025",
+        summary: "Surveys how knowledge graphs and LLMs interact around factuality, with a focus on hallucination mechanisms and mitigation opportunities.",
+        file: "lavrinovics2025-kg-llm-hallucinations-nlp-perspective.pdf"
+      },
+      {
+        alias: "TruthfulQA",
+        year: 2022,
+        topic: "Benchmark",
+        title: "TruthfulQA: Measuring How Models Mimic Human Falsehoods",
+        citation: "Lin et al., ACL 2022",
+        summary: "Introduces a benchmark of questions where common misconceptions are tempting, testing whether models reproduce human falsehoods.",
+        file: "lin2022-truthfulqa.pdf"
+      },
+      {
+        alias: "Active RAG",
+        year: 2023,
+        topic: "RAG",
+        title: "Active Retrieval Augmented Generation",
+        citation: "Jiang et al., EMNLP 2023",
+        summary: "Trains retrieval-augmented generation to actively decide when and what to retrieve during generation rather than relying on a fixed retrieval stage.",
+        file: "jiang2023-active-retrieval-augmented-generation.pdf"
+      },
+      {
+        alias: "Text-to-SPARQL",
+        year: 2024,
+        topic: "KGQA / Text-to-SPARQL",
+        title: "Experiments with text-to-SPARQL based on ChatGPT",
+        citation: "Avila et al., ICSC 2024",
+        summary: "Empirically studies prompt-based text-to-SPARQL with ChatGPT and analyzes where the approach works and where it breaks down.",
+        file: "avila2024-experiments-text-to-sparql-chatgpt.pdf"
+      },
+      {
+        alias: "CoT Direct Eval",
+        year: 2024,
+        topic: "Evaluation",
+        title: "Direct Evaluation of Chain-of-Thought in Multi-hop Reasoning with Knowledge Graphs",
+        citation: "Nguyen et al., Findings of ACL 2024",
+        summary: "Evaluates chain-of-thought traces directly against KG evidence instead of judging only the final answer in multi-hop reasoning tasks.",
+        file: "nguyen2024-direct-evaluation-cot-multihop-kg.pdf"
+      },
+      {
+        alias: "Knowledge Solver",
+        year: 2023,
+        topic: "LLM + KG",
+        title: "Knowledge Solver: Teaching LLMs to Search for Domain Knowledge from Knowledge Graphs",
+        citation: "Feng et al., 2023",
+        summary: "Teaches LLMs to search domain knowledge graphs for missing facts so domain-specific questions are less likely to trigger hallucinated answers.",
+        file: "feng2023-knowledge-solver.pdf"
+      },
+      {
+        alias: "Fact Validation",
+        year: 2023,
+        topic: "Verification",
+        title: "Validating ChatGPT Facts through RDF Knowledge Graphs and Sentence Similarity",
+        citation: "Mountantonakis and Tzitzikas, 2023",
+        summary: "Cross-checks model claims against RDF knowledge graphs and text similarity signals to validate factual statements automatically.",
+        file: "mountantonakis2023-validating-chatgpt-facts-rdf-kg.pdf"
+      },
+      {
+        alias: "Hallucination Limit",
+        year: 2025,
+        topic: "Hallucination",
+        title: "Hallucination is Inevitable: An Innate Limitation of Large Language Models",
+        citation: "Xu et al., 2025",
+        summary: "Argues that hallucination is not just a training artifact but a fundamental limitation of the autoregressive language modeling setup.",
+        file: "xu2025-hallucination-is-inevitable.pdf"
+      },
+      {
+        alias: "KG x Multimodal Survey",
+        year: 2024,
+        topic: "Survey",
+        title: "Knowledge Graphs Meet Multi-Modal Learning: A Comprehensive Survey",
+        citation: "Chen et al., 2024",
+        summary: "Reviews how knowledge graphs interact with multimodal learning systems, including representation, retrieval, reasoning, and benchmark design.",
+        file: "chen2024-kg-multimodal-learning-survey.pdf"
+      },
+      {
+        alias: "KG Construction",
+        year: 2024,
+        topic: "KG Construction",
+        title: "From human experts to machines: An LLM supported approach to ontology and knowledge graph construction",
+        citation: "Kommineni et al., 2024",
+        summary: "Explores how LLM assistance can reduce manual effort in ontology engineering and knowledge graph construction workflows.",
+        file: "kommineni2024-llm-supported-ontology-kg-construction.pdf"
+      },
+      {
+        alias: "Multilingual SPARQL",
+        year: 2025,
+        topic: "KGQA / Text-to-SPARQL",
+        title: "Text-to-SPARQL Goes Beyond English: Multilingual Question Answering Over Knowledge Graphs through Human-Inspired Reasoning",
+        citation: "Perevalov and Both, 2025",
+        summary: "Extends text-to-SPARQL question answering beyond English and studies reasoning strategies for multilingual KG access.",
+        file: "perevalov2025-multilingual-text-to-sparql.pdf"
+      },
+      {
+        alias: "Inductive KGC",
+        year: 2025,
+        topic: "KG Completion",
+        title: "Context-aware Inductive Knowledge Graph Completion with Latent Type Constraints and Subgraph Reasoning",
+        citation: "Li et al., AAAI 2025",
+        summary: "Combines latent type constraints with subgraph reasoning to improve inductive knowledge graph completion on unseen entities.",
+        file: "li2025-context-aware-inductive-kg-completion.pdf"
+      },
+      {
+        alias: "Constrained Diffusion",
+        year: 2025,
+        topic: "Constrained Generation",
+        title: "Constrained Language Generation with Discrete Diffusion Models",
+        citation: "Cardei et al., 2025",
+        summary: "Adapts discrete diffusion language models to controlled generation where outputs must satisfy explicit constraints.",
+        file: "cardei2025-constrained-language-generation-discrete-diffusion.pdf"
+      },
+      {
+        alias: "Decoding on Graphs",
+        year: 2024,
+        topic: "LLM + KG",
+        title: "Decoding on Graphs: Faithful and Sound Reasoning on Knowledge Graphs through Generation of Well-Formed Chains",
+        citation: "Li et al., 2024",
+        summary: "Constrains generation to well-formed graph chains so reasoning remains both KG-grounded and structurally valid.",
+        file: "li2024-decoding-on-graphs.pdf"
+      },
+      {
+        alias: "Efficient Guidance",
+        year: 2023,
+        topic: "Constrained Generation",
+        title: "Efficient Guided Generation for Large Language Models",
+        citation: "Willard and Louf, 2023",
+        summary: "Reduces the cost of guided decoding so large language models can satisfy external constraints with much lower overhead.",
+        file: "willard2023-efficient-guided-generation-llms.pdf"
+      },
+      {
+        alias: "KG-o1",
+        year: 2025,
+        topic: "LLM + KG",
+        title: "KG-o1: Enhancing Multi-hop Question Answering in Large Language Models via Knowledge Graph Integration",
+        citation: "Wang et al., 2025",
+        summary: "Boosts multi-hop QA by injecting structured KG signals into LLM reasoning for more reliable evidence chaining.",
+        file: "wang2025-kg-o1.pdf"
+      },
+      {
+        alias: "Gen KGC",
+        year: 2023,
+        topic: "KG Completion",
+        title: "From Discrimination to Generation: Knowledge Graph Completion with Generative Transformer",
+        citation: "Xie et al., 2023",
+        summary: "Recasts knowledge graph completion as sequence generation with transformers instead of pure discriminative scoring.",
+        file: "xie2023-from-discrimination-to-generation.pdf"
+      },
+      {
+        alias: "GCR",
+        year: 2025,
+        topic: "LLM + KG",
+        title: "Graph-constrained Reasoning: Faithful Reasoning on Knowledge Graphs with Large Language Models",
+        citation: "Luo et al., 2025",
+        summary: "Uses a trie over KG reasoning paths to constrain decoding, reducing reasoning hallucinations while keeping paths faithful to the graph.",
+        file: "luo2025-graph-constrained-reasoning.pdf"
+      },
+      {
+        alias: "Fast Constraints",
+        year: 2024,
+        topic: "Constrained Generation",
+        title: "Guiding LLMs The Right Way: Fast, Non-Invasive Constrained Generation",
+        citation: "Beurer-Kellner et al., 2024",
+        summary: "Introduces a fast constrained decoding method that enforces formats and formal languages without invasive model changes.",
+        file: "beurer-kellner2024-guiding-llms-the-right-way.pdf"
+      },
+      {
+        alias: "Research Gap Note",
+        year: 2025,
+        topic: "Project Note",
+        title: "Identifying an Undergraduate Research Gap at the Intersection of Knowledge Graphs, LLMs, and Constraint-Aware Content Generation",
+        citation: "Project note, 2025",
+        summary: "Local note mapping the research space at the intersection of KGs, LLMs, and constraint-aware generation.",
+        file: "researchgap2025-kg-llm-constraint-aware-content-generation.pdf"
+      },
+      {
+        alias: "Constraint Scale",
+        year: 2025,
+        topic: "Constrained Generation",
+        title: "Large-Scale Constraint Generation: Can LLMs Parse Hundreds of Constraints?",
+        citation: "Boffa and You, 2025",
+        summary: "Studies how well LLMs handle generation tasks with very large numbers of explicit constraints in a single prompt.",
+        file: "boffa2025-large-scale-constraint-generation.pdf"
+      },
+      {
+        alias: "RouterKGQA",
+        year: 2026,
+        topic: "KGQA / Routing",
+        title: "RouterKGQA: Specialized-General Model Routing for Constraint-Aware Knowledge Graph Question Answering",
+        citation: "Yuan et al., 2026",
+        summary: "Routes queries between a specialized KGQA model and a stronger general model to balance cost, accuracy, and constraint handling.",
+        file: "RouterKGQA.pdf"
+      },
+      {
+        alias: "Self-Knowledge",
+        year: 2023,
+        topic: "Evaluation",
+        title: "Do Large Language Models Know What They Don’t Know?",
+        citation: "Yin et al., 2023",
+        summary: "Measures whether LLMs recognize unanswerable or unknowable questions rather than confidently fabricating answers.",
+        file: "do-llms-know-what-they-know.pdf"
+      },
+      {
+        alias: "ULTRABENCH",
+        year: 2025,
+        topic: "Benchmark",
+        title: "ULTRABENCH: Benchmarking LLMs under Extreme Fine-grained Text Generation",
+        citation: "Yun et al., 2025",
+        summary: "Benchmarks whether models can satisfy dense sets of simultaneous style, content, and structure constraints during generation.",
+        file: "yun2025-ultrabench.pdf"
+      },
+      {
+        alias: "Look-Ahead Decoding",
+        year: 2025,
+        topic: "Project Note",
+        title: "Enhancing Factuality in LLMs via Heuristic Look-Ahead Decoding on Domain-Specific Knowledge Graphs",
+        citation: "Project note, 2025",
+        summary: "Local concept note proposing heuristic look-ahead decoding grounded in a domain-specific KG to improve factuality.",
+        file: "enhancing-factuality-llms-domain-kg-lookahead-decoding.pdf"
+      },
+      {
+        alias: "Diagnostic Assistant",
+        year: 2025,
+        topic: "Project Note",
+        title: "Development of a Fact-Grounded Diagnostic Assistant for Mission-Critical Power Infrastructure using Constraint-Aware Knowledge Graphs",
+        citation: "Project note, 2025",
+        summary: "Local project note on a fact-grounded diagnostic assistant that constrains LLM output with knowledge graph structure.",
+        file: "fact-grounded-diagnostic-assistant-constraint-aware-kg.pdf"
+      },
+      {
+        alias: "GPT-4 Report",
+        year: 2024,
+        topic: "Foundation Model Report",
+        title: "GPT-4 Technical Report",
+        citation: "OpenAI, 2024",
+        summary: "Technical report describing GPT-4 capabilities, evaluations, limitations, and broad high-level system characteristics.",
+        file: "gpt-technical-report.pdf"
+      },
+      {
+        title: "Attention Is All You Need",
+        citation: "Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and Kaiser, Lukasz and Polosukhin, Illia - 2017",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Language Models are Few-Shot Learners",
+        citation: "Brown, Tom B. and Mann, Benjamin and Ryder - 2020",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "LLaMA: Open and Efficient Foundation Language Models",
+        citation: "Touvron, Hugo and Martin, Louis and Stone - 2023",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "The Llama 3 Herd of Models",
+        citation: "Aaron Grattafiori and Abhimanyu Dubey and Abhinav Jauhri and Abhinav Pandey and Abhishek Kadian and Ahmad Al-Dahle and Aiesha Letman and Akhil Mathur and Alan Schelten and Alex Vaughan and Amy Yang and Angela Fan and Anirudh Goyal and Anthony Hartshorn and Aobo Yang and Archi Mitra and Archie Sravankumar and Artem Korenev and Arthur Hinsvark and Arun Rao and Aston Zhang and Aurelien Rodriguez and Austen Gregerson and Ava Spataru and Baptiste Roziere and Bethany Biron and Binh Tang and Bobbie Chern and Charlotte Caucheteux and Chaya Nayak and Chloe Bi and Chris Marra and Chris McConnell and Christian Keller and Christophe Touret and Chunyang Wu and Corinne Wong and Cristian Canton Ferrer and Cyrus Nikolaidis and Damien Allonsius and Daniel Song and Danielle Pintz and Danny Livshits and Danny Wyatt and David Esiobu and Dhruv Choudhary and Dhruv Mahajan and Diego Garcia-Olano and Diego Perino and Dieuwke Hupkes and Egor Lakomkin and Ehab AlBadawy and Elina Lobanova and Emily Dinan and Eric Michael Smith and Filip Radenovic and Francisco Guzmán and Frank Zhang and Gabriel Synnaeve and Gabrielle Lee and Georgia Lewis Anderson and Govind Thattai and Graeme Nail and Gregoire Mialon and Guan Pang and Guillem Cucurell and Hailey Nguyen and Hannah Korevaar and Hu Xu and Hugo Touvron and Iliyan Zarov and Imanol Arrieta Ibarra and Isabel Kloumann and Ishan Misra and Ivan Evtimov and Jack Zhang and Jade Copet and Jaewon Lee and Jan Geffert and Jana Vranes and Jason Park and Jay Mahadeokar and Jeet Shah and Jelmer van der Linde and Jennifer Billock and Jenny Hong and Jenya Lee and Jeremy Fu and Jianfeng Chi and Jianyu Huang and Jiawen Liu and Jie Wang and Jiecao Yu and Joanna Bitton and Joe Spisak and Jongsoo Park and Joseph Rocca and Joshua Johnstun and Joshua Saxe and Junteng Jia and Kalyan Vasuden Alwala and Karthik Prasad and Kartikeya Upasani and Kate Plawiak and Ke Li and Kenneth Heafield and Kevin Stone and Khalid El-Arini and Krithika Iyer and Kshitiz Malik and Kuenley Chiu and Kunal Bhalla and Kushal Lakhotia and Lauren Rantala-Yeary and Laurens van der Maaten and Lawrence Chen and Liang Tan and Liz Jenkins and Louis Martin and Lovish Madaan and Lubo Malo and Lukas Blecher and Lukas Landzaat and Luke de Oliveira and Madeline Muzzi and Mahesh Pasupuleti and Mannat Singh and Manohar Paluri and Marcin Kardas and Maria Tsimpoukelli and Mathew Oldham and Mathieu Rita and Maya Pavlova and Melanie Kambadur and Mike Lewis and Min Si and Mitesh Kumar Singh and Mona Hassan and Naman Goyal and Narjes Torabi and Nikolay Bashlykov and Nikolay Bogoychev and Niladri Chatterji and Ning Zhang and Olivier Duchenne and Onur Çelebi and Patrick Alrassy and Pengchuan Zhang and Pengwei Li and Petar Vasic and Peter Weng and Prajjwal Bhargava and Pratik Dubal and Praveen Krishnan and Punit Singh Koura and Puxin Xu and Qing He and Qingxiao Dong and Ragavan Srinivasan and Raj Ganapathy and Ramon Calderer and Ricardo Silveira Cabral and Robert Stojnic and Roberta Raileanu and Rohan Maheswari and Rohit Girdhar and Rohit Patel and Romain Sauvestre and Ronnie Polidoro and Roshan Sumbaly and Ross Taylor and Ruan Silva and Rui Hou and Rui Wang and Saghar Hosseini and Sahana Chennabasappa and Sanjay Singh and Sean Bell and Seohyun Sonia Kim and Sergey Edunov and Shaoliang Nie and Sharan Narang and Sharath Raparthy and Sheng Shen and Shengye Wan and Shruti Bhosale and Shun Zhang and Simon Vandenhende and Soumya Batra and Spencer Whitman and Sten Sootla and Stephane Collot and Suchin Gururangan and Sydney Borodinsky and Tamar Herman and Tara Fowler and Tarek Sheasha and Thomas Georgiou and Thomas Scialom and Tobias Speckbacher and Todor Mihaylov and Tong Xiao and Ujjwal Karn and Vedanuj Goswami and Vibhor Gupta and Vignesh Ramanathan and Viktor Kerkez and Vincent Gonguet and Virginie Do and Vish Vogeti and Vítor Albiero and Vladan Petrovic and Weiwei Chu and Wenhan Xiong and Wenyin Fu and Whitney Meers and Xavier Martinet and Xiaodong Wang and Xiaofang Wang and Xiaoqing Ellen Tan and Xide Xia and Xinfeng Xie and Xuchao Jia and Xuewei Wang and Yaelle Goldschlag and Yashesh Gaur and Yasmine Babaei and Yi Wen and Yiwen Song and Yuchen Zhang and Yue Li and Yuning Mao and Zacharie Delpierre Coudert and Zheng Yan and Zhengxing Chen and Zoe Papakipos and Aaditya Singh and Aayushi Srivastava and Abha Jain and Adam Kelsey and Adam Shajnfeld and Adithya Gangidi and Adolfo Victoria and Ahuva Goldstand and Ajay Menon and Ajay Sharma and Alex Boesenberg and Alexei Baevski and Allie Feinstein and Amanda Kallet and Amit Sangani and Amos Teo and Anam Yunus and Andrei Lupu and Andres Alvarado and Andrew Caples and Andrew Gu and Andrew Ho and Andrew Poulton and Andrew Ryan and Ankit Ramchandani and Annie Dong and Annie Franco and Anuj Goyal and Aparajita Saraf and Arkabandhu Chowdhury and Ashley Gabriel and Ashwin Bharambe and Assaf Eisenman and Azadeh Yazdan and Beau James and Ben Maurer and Benjamin Leonhardi and Bernie Huang and Beth Loyd and Beto De Paola and Bhargavi Paranjape and Bing Liu and Bo Wu and Boyu Ni and Braden Hancock and Bram Wasti and Brandon Spence and Brani Stojkovic and Brian Gamido and Britt Montalvo and Carl Parker and Carly Burton and Catalina Mejia and Ce Liu and Changhan Wang and Changkyu Kim and Chao Zhou and Chester Hu and Ching-Hsiang Chu and Chris Cai and Chris Tindal and Christoph Feichtenhofer and Cynthia Gao and Damon Civin and Dana Beaty and Daniel Kreymer and Daniel Li and David Adkins and David Xu and Davide Testuggine and Delia David and Devi Parikh and Diana Liskovich and Didem Foss and Dingkang Wang and Duc Le and Dustin Holland and Edward Dowling and Eissa Jamil and Elaine Montgomery and Eleonora Presani and Emily Hahn and Emily Wood and Eric-Tuan Le and Erik Brinkman and Esteban Arcaute and Evan Dunbar and Evan Smothers and Fei Sun and Felix Kreuk and Feng Tian and Filippos Kokkinos and Firat Ozgenel and Francesco Caggioni and Frank Kanayet and Frank Seide and Gabriela Medina Florez and Gabriella Schwarz and Gada Badeer and Georgia Swee and Gil Halpern and Grant Herman and Grigory Sizov and Guangyi and Zhang and Guna Lakshminarayanan and Hakan Inan and Hamid Shojanazeri and Han Zou and Hannah Wang and Hanwen Zha and Haroun Habeeb and Harrison Rudolph and Helen Suk and Henry Aspegren and Hunter Goldman and Hongyuan Zhan and Ibrahim Damlaj and Igor Molybog and Igor Tufanov and Ilias Leontiadis and Irina-Elena Veliche and Itai Gat and Jake Weissman and James Geboski and James Kohli and Janice Lam and Japhet Asher and Jean-Baptiste Gaya and Jeff Marcus and Jeff Tang and Jennifer Chan and Jenny Zhen and Jeremy Reizenstein and Jeremy Teboul and Jessica Zhong and Jian Jin and Jingyi Yang and Joe Cummings and Jon Carvill and Jon Shepard and Jonathan McPhie and Jonathan Torres and Josh Ginsburg and Junjie Wang and Kai Wu and Kam Hou U and Karan Saxena and Kartikay Khandelwal and Katayoun Zand and Kathy Matosich and Kaushik Veeraraghavan and Kelly Michelena and Keqian Li and Kiran Jagadeesh and Kun Huang and Kunal Chawla and Kyle Huang and Lailin Chen and Lakshya Garg and Lavender A and Leandro Silva and Lee Bell and Lei Zhang and Liangpeng Guo and Licheng Yu and Liron Moshkovich and Luca Wehrstedt and Madian Khabsa and Manav Avalani and Manish Bhatt and Martynas Mankus and Matan Hasson and Matthew Lennie and Matthias Reso and Maxim Groshev and Maxim Naumov and Maya Lathi and Meghan Keneally and Miao Liu and Michael L. Seltzer and Michal Valko and Michelle Restrepo and Mihir Patel and Mik Vyatskov and Mikayel Samvelyan and Mike Clark and Mike Macey and Mike Wang and Miquel Jubert Hermoso and Mo Metanat and Mohammad Rastegari and Munish Bansal and Nandhini Santhanam and Natascha Parks and Natasha White and Navyata Bawa and Nayan Singhal and Nick Egebo and Nicolas Usunier and Nikhil Mehta and Nikolay Pavlovich Laptev and Ning Dong and Norman Cheng and Oleg Chernoguz and Olivia Hart and Omkar Salpekar and Ozlem Kalinli and Parkin Kent and Parth Parekh and Paul Saab and Pavan Balaji and Pedro Rittner and Philip Bontrager and Pierre Roux and Piotr Dollar and Polina Zvyagina and Prashant Ratanchandani and Pritish Yuvraj and Qian Liang and Rachad Alao and Rachel Rodriguez and Rafi Ayub and Raghotham Murthy and Raghu Nayani and Rahul Mitra and Rangaprabhu Parthasarathy and Raymond Li and Rebekkah Hogan and Robin Battey and Rocky Wang and Russ Howes and Ruty Rinott and Sachin Mehta and Sachin Siby and Sai Jayesh Bondu and Samyak Datta and Sara Chugh and Sara Hunt and Sargun Dhillon and Sasha Sidorov and Satadru Pan and Saurabh Mahajan and Saurabh Verma and Seiji Yamamoto and Sharadh Ramaswamy and Shaun Lindsay and Shaun Lindsay and Sheng Feng and Shenghao Lin and Shengxin Cindy Zha and Shishir Patil and Shiva Shankar and Shuqiang Zhang and Shuqiang Zhang and Sinong Wang and Sneha Agarwal and Soji Sajuyigbe and Soumith Chintala and Stephanie Max and Stephen Chen and Steve Kehoe and Steve Satterfield and Sudarshan Govindaprasad and Sumit Gupta and Summer Deng and Sungmin Cho and Sunny Virk and Suraj Subramanian and Sy Choudhury and Sydney Goldman and Tal Remez and Tamar Glaser and Tamara Best and Thilo Koehler and Thomas Robinson and Tianhe Li and Tianjun Zhang and Tim Matthews and Timothy Chou and Tzook Shaked and Varun Vontimitta and Victoria Ajayi and Victoria Montanez and Vijai Mohan and Vinay Satish Kumar and Vishal Mangla and Vlad Ionescu and Vlad Poenaru and Vlad Tiberiu Mihailescu and Vladimir Ivanov and Wei Li and Wenchen Wang and Wenwen Jiang and Wes Bouaziz and Will Constable and Xiaocheng Tang and Xiaojian Wu and Xiaolan Wang and Xilun Wu and Xinbo Gao and Yaniv Kleinman and Yanjun Chen and Ye Hu and Ye Jia and Ye Qi and Yenda Li and Yilin Zhang and Ying Zhang and Yossi Adi and Youngjin Nam and Yu and Wang and Yu Zhao and Yuchen Hao and Yundi Qian and Yunlu Li and Yuzi He and Zach Rait and Zachary DeVito and Zef Rosnbrick and Zhaoduo Wen and Zhenyu Yang and Zhiwei Zhao and Zhiyu Ma - 2024",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Survey of Hallucination in Natural Language Generation",
+        citation: "Ji, Ziwei and Lee, Nayeon and Frieske, Rita and Yu, Tiezheng and Su, Dan and Xu, Yan and Ishii, Etsuko and Bang, Yejin and Madotto, Andrea and Fung, Pascale - 2023",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "A Survey on Hallucination in Large Language Models: Principles, Taxonomy, Challenges, and Open Questions",
+        citation: "Huang, Lei and Yu, Weitao and Ma, Weitao and Zhong, Weihong and Feng, Zhen and Wang, Haotian and Chen, Qiang and Peng, Weihua and Feng, Xiaocheng and Qin, Bing and Liu, Ting - 2023",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Freebase: A Collaboratively Created Graph Database for Structuring Human Knowledge",
+        citation: "Bollacker, Kurt and Evans, Colin and Paritosh, Praveen and Sturge, Tim and Taylor, Jamie - 2008",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Wikidata: A Free Collaborative Knowledgebase",
+        citation: "Vrandečić, Denny and Krötzsch, Markus - 2014",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "ConceptNet 5.5: An Open Multilingual Graph of General Knowledge",
+        citation: "Speer, Robert and Chin, Joshua and Havasi, Catherine - 2017",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "The Value of Semantic Parse Labeling for Knowledge Base Question Answering",
+        citation: "Yih, Wen-tau and Richardson, Matthew and Meek, Chris and Chang, Ming-Wei and Suh, Jina - 2016",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "The Web as a Knowledge-Base for Answering Complex Questions",
+        citation: "Talmor, Alon and Berant, Jonathan - 2018",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "PICARD: Parsing Incrementally for Constrained Auto-Regressive Decoding from Language Models",
+        citation: "Scholak, Torsten and Schucher, Nathan and Bahdanau, Dzmitry - 2021",
+        summary: "Large pre-trained language models for textual data have an unconstrained output space; at each decoding step, they can produce any of 10,000s of sub-word tokens. When fine-tuned to target constrained formal languages like SQL, these models often generate invalid code, rendering it unusable. We propose PICARD (code and trained models available at https://github.com/ElementAI/picard), a method for constraining auto-regressive decoders of language models through incremental parsing. PICARD helps to find valid output sequences by rejecting inadmissible tokens at each decoding step. On the challenging Spider and CoSQL text-to-SQL translation tasks, we show that PICARD transforms fine-tuned T5 models with passable performance into state-of-the-art solutions.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: "scholak2021picard.pdf"
+      },
+      {
+        title: "A General-Purpose Algorithm for Constrained Sequential Inference",
+        citation: "Deutsch, Daniel and Upadhyay, Shyam and Roth, Dan - 2019",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks",
+        citation: "Reimers, Nils and Gurevych, Iryna - 2019",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        citation: "Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and Küttler, Heinrich and Lewis, Mike and Yih, Wen-tau and Rocktäschel, Tim and Riedel, Sebastian and Kiela, Douwe - 2020",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Graph-Constrained Reasoning: Faithful Reasoning on Knowledge Graphs for Large Language Models",
+        citation: "Luo, Linhao and Tang, Zhen and Shi, Zhengyang and Wei, Xiaofei and Xu, Yuanzhi and Zhang, Wenjie and Liu, Zhengyu and Tang, Jie - 2024",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Grammar-Constrained Decoding for Structured NLP Tasks without Finetuning",
+        citation: "Geng, Saibo and Josifoski, Martin and Peyrard, Maxime and West, Robert - 2023",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "graph-constrained-reasoning",
+        citation: "Luo, Linhao - 2024",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "GCD",
+        citation: "Geng, Saibo - 2023",
+        summary: "Let $f$ be an arithmetical function. The matrix $[f(i,j)]_{ntimes n}$ given by the value of $f$ in greatest common divisor of $(i,j)$, $fbig((i,j)big)$ as its $i,; j$ entry is called the greatest common divisor (GCD) matrix. We consider the generalization of this matrix where the elements are in the form $fbig(i,(i,j)big)$.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: "gcd-code.pdf"
+      },
+      {
+        title: "outlines",
+        citation: "Willard, Brandon T. and Louf, Rémi - 2023",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "sentence-transformers",
+        citation: "Reimers, Nils",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Mindful-RAG: A Study of Points of Failure in Retrieval-Augmented Generation",
+        citation: "Agrawal, Garima and Kumarage, Tharindu and Alghamdi, Zeerak and Liu, Huan - 2024",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Structured Information Extraction from Complex Scientific Text with Fine-Tuned Large Language Models",
+        citation: "Dunn, Alexander and Dagdelen, John and Walker, Nicholas and Lee, Sanghoon and Rosen, Andrew S. and Ceder, Gerbrand and Persson, Kristin and Jain, Anubhav - 2022",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Trie Memory",
+        citation: "Fredkin, Edward - 1960",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Improving Multi-Hop Knowledge Base Question Answering by Learning Intermediate Supervision Signals",
+        citation: "He, Gaole and Lan, Yunshi and Jiang, Jing and Zhao, Wayne Xin and Wen, Ji-Rong - 2021",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Towards Reasoning in Large Language Models: A Survey",
+        citation: "Huang, Jie and Chang, Kevin Chen-Chuan - 2023",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Leveraging Passage Retrieval with Generative Models for Open Domain Question Answering",
+        citation: "Izacard, Gautier and Grave, Edouard - 2021",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "UniKGQA: Unified Retrieval and Reasoning for Solving Multi-Hop Question Answering over Knowledge Graphs",
+        citation: "Jiang, Junzhe and Zhou, Kun and Zhao, Xin and Wen, Ji-Rong - 2022",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Complex Knowledge Base Question Answering: A Survey",
+        citation: "Lan, Yunshi and He, Gaole and Jiang, Jing and Jiang, Junzhe and Zhao, Wayne Xin and Wen, Ji-Rong - 2022",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "PyTorch: An Imperative Style, High-Performance Deep Learning Library",
+        citation: "Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory - 2019",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Transformers: State-of-the-Art Natural Language Processing",
+        citation: "Wolf, Thomas and Debut, Lysandre and Sanh, Victor and Chaumond, Julien and Delangue, Clement and Moi, Anthony and Cistac, Pierric and Rault, Tim and Louf, Remi and Funtowicz, Morgan and Davison, Joe and Shleifer, Sam and von Platen, Patrick and Ma, Clara and Jernite, Yacine and Plu, Julien and Xu, Canwen and Le Scao, Teven and Gugger, Sylvain and Drame, Mariama and Lhoest, Quentin and Rush, Alexander - 2020",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Mindful-RAG",
+        citation: "Agrawal, Garima and Kumarage, Tharindu and Alghamdi, Zain and Liu, Huan - 2024",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Language Models are Few-Shot Learners",
+        citation: "Brown, Tom and Mann, Benjamin and Ryder, Nick and Subbiah, Melanie and Kaplan, Jared D and Dhariwal, Prafulla and Neelakantan, Arvind and Shyam, Pranav and Sastry, Girish and Askell, Amanda and Agarwal, Sandhini and Herbert-Voss, Ariel and Krueger, Gretchen and Henighan, Tom and Child, Rewon and Ramesh, Aditya and Ziegler, Daniel and Wu, Jeffrey and Winter, Clemens and Hesse, Chris and Chen, Mark and Sigler, Eric and Litwin, Mateusz and Gray, Scott and Chess, Benjamin and Clark, Jack and Berner, Christopher and McCandlish, Sam and Radford, Alec and Sutskever, Ilya and Amodei, Dario - 2020",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "A General-Purpose Algorithm for Constrained Sequential Inference",
+        citation: "Deutsch, Daniel and Upadhyay, Shyam and Roth, Dan - 2019",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "The Llama",
+        citation: "Dubey, Abhimanyu and Jauhri, Abhinav and Pandey, Abhinav and Kadian, Abhishek and Al-Dahle, Ahmad and Letman, Aiesha and Mathur, Akhil and Schelten, Alan and Yang, Amy and Fan, Angela - 2024",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Improving Multi-Hop Knowledge Base Question Answering by Learning Intermediate Supervision Signals",
+        citation: "He, Gaole and Lan, Yunshi and Jiang, Jing and Zhao, Wayne Xin and Wen, Ji-Rong - 2021",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "G-Retriever",
+        citation: "He, Xiaoxin and Tian, Yijun and Sun, Yifei and Chawla, Nitesh V and Laurent, Thomas and LeCun, Yann and Bresson, Xavier and Hooi, Bryan - 2024",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "The Curious Case of Neural Text Degeneration",
+        citation: "Holtzman, Ari and Buys, Jan and Du, Li and Forbes, Maxwell and Choi, Yejin - 2020",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Towards Reasoning in Large Language Models: A Survey",
+        citation: "Huang, Jie and Chang, Kevin Chen-Chuan - 2023",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Large Language Models Cannot Self-Correct Reasoning Yet",
+        citation: "Huang, Jie and Chen, Xinyun and Mishra, Swaroop and Zheng, Huaixiu Steven and Yu, Adams Wei and Song, Xinying and Zhou, Denny - 2024",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "A Survey on Hallucination in Large Language Models: Principles, Taxonomy, Challenges, and Open Questions",
+        citation: "Huang, Lei and Yu, Weijiang and Ma, Weitao and Zhong, Weihong and Feng, Zhangyin and Wang, Haotian and Chen, Qianglong and Peng, Weihua and Feng, Xiaocheng and Qin, Bing and Liu, Ting - 2023",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Graph Chain-of-Thought: Augmenting Large Language Models by Reasoning on Graphs",
+        citation: "Jin, Bowen and Liu, Gang and Han, Chi and Jiang, Meng and Ji, Heng and Han, Jiawei - 2024",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Complex Knowledge Base Question Answering: A Survey",
+        citation: "Lan, Yunshi and He, Gaole and Jiang, Jinhao and Jiang, Jing and Zhao, Wayne Xin and Wen, Ji-Rong - 2022",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Retrieval-Augmented Generation for Knowledge-Intensive NLP",
+        citation: "Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and K{ - 2020",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Sentence-BERT",
+        citation: "Reimers, Nils and Gurevych, Iryna - 2019",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "The Web as a Knowledge-Base for Answering Complex Questions",
+        citation: "Talmor, Alon and Berant, Jonathan - 2018",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "The Value of Semantic Parse Labeling for Knowledge Base Question Answering",
+        citation: "Yih, Wen-tau and Richardson, Matthew and Meek, Christopher and Chang, Ming-Wei and Suh, Jina - 2016",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "TruthfulQA",
+        citation: "Lin, Stephanie and Hilton, Jacob and Evans, Owain - 2022",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Discovering Language Model Behaviors with Model-Written Evaluations",
+        citation: "Perez, Ethan and Ringer, Sam and Luko{v{s - 2023",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Large Language Models Struggle to Learn Long-Tail Knowledge",
+        citation: "Kandpal, Nikhil and Deng, Haikang and Roberts, Adam and Wallace, Eric and Raffel, Colin - 2023",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "When Not to Trust Language Models: Investigating Effectiveness of Parametric and Non-Parametric Memories",
+        citation: "Mallen, Alex and Asai, Akari and Zhong, Victor and Das, Rajarshi and Khashabi, Daniel and Hajishirzi, Hannaneh - 2023",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Dense Passage Retrieval for Open-Domain Question Answering",
+        citation: "Karpukhin, Vladimir and O{u{g - 2020",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions",
+        citation: "Trivedi, Harsh and Balasubramanian, Niranjan and Khot, Tushar and Sabharwal, Ashish - 2023",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "From Local to Global: A Graph RAG",
+        citation: "Edge, Darren and Trinh, Ha and Cheng, Newman and Bradley, Joshua and Chao, Alex and Mody, Apurva and Truitt, Steven and Larson, Jonathan - 2024",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "QA-GNN",
+        citation: "Yasunaga, Michihiro and Ren, Hongyu and Bosselut, Antoine and Liang, Percy and Leskovec, Jure - 2021",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "transferNet: An Effective and Transparent Framework for Multi-Hop Question Answering over Relation Graph",
+        citation: "Shi, Jiabin and Cao, Shulin and Hou, Lei and Li, Juanzi and Zhang, Hanwang - 2021",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Sequence-to-Sequence Knowledge Graph Completion and Question Answering",
+        citation: "Saxena, Apoorv and Chakrabarti, Soumen and Talukdar, Partha - 2022",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "BGE",
+        citation: "Chen, Jianlv and Xiao, Shitao and Zhang, Peitian and Luo, Kun and Lian, Defu and Liu, Zheng - 2024",
+        summary: "Mixtures of Gaussian Bayesian networks have previously been studied under full-covariance assumptions, where each mixture component has its own covariance matrix. We propose a mixture model with tied-covariance, in which all components share a common covariance matrix. Our main contribution is the derivation of its marginal likelihood, which remains analytic. Unlike in the full-covariance case, however, the marginal likelihood no longer factorizes into component-specific terms. We refer to the new likelihood as the BGe scoring metric for tied-covariance mixtures of Gaussian Bayesian networks. For model inference, we implement MCMC schemes combining structure MCMC with a fast Gibbs sampler for mixtures, and we empirically compare the tied- and full-covariance mixtures of Gaussian Bayesian networks on simulated and benchmark data.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: "chen2024bge.pdf"
+      },
+      {
+        title: "RouterKGQA: Specialized--General Model Routing for Constraint-Aware Knowledge Graph Question Answering",
+        citation: "Bo Yuan and Hexuan Deng and Xuebo Liu and Min Zhang - 2026",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Graph-Constrained Reasoning: Faithful Reasoning on Knowledge Graphs for Large Language Models",
+        citation: "Luo, Linhao and Tang, Zicheng and Shi, Zheng and Wei, Xiang and Xu, Ying and Zhang, Wei and Liu, Zhiyuan and Tang, Jian - 2024",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Large Language Models are Zero-Shot Reasoners",
+        citation: "Kojima, Takeshi and Gu, Shixiang Shane and Reid, Machel and Matsuo, Yutaka and Iwasawa, Yusuke - 2022",
+        summary: "Pretrained large language models (LLMs) are widely used in many sub-fields of natural language processing (NLP) and generally known as excellent few-shot learners with task-specific exemplars. Notably, chain of thought (CoT) prompting, a recent technique for eliciting complex multi-step reasoning through step-by-step answer examples, achieved the state-of-the-art performances in arithmetics and symbolic reasoning, difficult system-2 tasks that do not follow the standard scaling laws for LLMs. While these successes are often attributed to LLMs' ability for few-shot learning, we show that LLMs are decent zero-shot reasoners by simply adding 'Let's think step by step' before each answer. Experimental results demonstrate that our Zero-shot-CoT, using the same single prompt template, significantly outperforms zero-shot LLM performances on diverse benchmark reasoning tasks including arithmetics (MultiArith, GSM8K, AQUA-RAT, SVAMP), symbolic reasoning (Last Letter, Coin Flip), and other logical reasoning tasks (Date Understanding, Tracking Shuffled Objects), without any hand-crafted few-shot examples, e.g. increasing the accuracy on MultiArith from 17.7% to 78.7% and GSM8K from 10.4% to 40.7% with large InstructGPT model (text-davinci-002), as well as similar magnitudes of improvements with another off-the-shelf large model, 540B parameter PaLM. The versatility of this single prompt across very diverse reasoning tasks hints at untapped and understudied fundamental zero-shot capabilities of LLMs, suggesting high-level, multi-task broad cognitive capabilities may be extracted by simple prompting. We hope our work not only serves as the minimal strongest zero-shot baseline for the challenging reasoning benchmarks, but also highlights the importance of carefully exploring and analyzing the enormous zero-shot knowledge hidden inside LLMs before crafting finetuning datasets or few-shot exemplars.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: "kojima2022zero.pdf"
+      },
+      {
+        title: "Learning to Retrieve Reasoning Paths over Wikipedia",
+        citation: "Asai, Akari and Hashimoto, Kazuma and Hajishirzi, Hannaneh and Socher, Richard and Xiong, Caiming - 2020",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Approximate Nearest Neighbor Negative Contrastive Estimation for Dense Text Retrieval",
+        citation: "Xiong, Lee and Xiong, Chenyan and Li, Ye and Tang, Kwok-Fung and Liu, Jialin and Bennett, Paul and Ahmed, Junaid and Overwijk, Arnold - 2021",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "WebGPT",
+        citation: "Nakano, Reiichiro and Hilton, Jacob and Balwit, Antonia and Wu, Jeff and Ouyang, Long and Kim, Christina and Hesse, Christopher and Jain, Shantanu and Kosaraju, Vineet and Saunders, William and others - 2021",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "RARR",
+        citation: "Gao, Luyu and Dai, Zhuyun and Pasupat, Panupong and Chen, Anthony and Chaganty, Arun Tejasvi and Fan, Yicheng and Zhao, Vincent Y and Lao, Ni and Lee, Hongrae and Juan, Da-Cheng and others - 2023",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "The HARPY speech recognition system",
+        citation: "Lowerre, Bruce T - 1976",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "NeuroLogic",
+        citation: "Lu, Ximing and West, Peter and Zellers, Rowan and Le Bras, Ronan and Bhagavatula, Chandra and Choi, Yejin - 2021",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "ReaRev",
+        citation: "Mavromatis, Costas and Karypis, George - 2022",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "OpenKE",
+        citation: "Han, Xu and Cao, Shulin and Lv, Xin and Lin, Yankai and Liu, Zhiyuan and Sun, Maosong and Li, Juanzi - 2018",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "PullNet",
+        citation: "Sun, Haitian and Dhingra, Bhuwan and Zaheer, Manzil and Mazaitis, Kathryn and Salakhutdinov, Ruslan and Cohen, William W. - 2019",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "KEPLER",
+        citation: "Wang, Xiaozhi and Gao, Tianyu and Zhu, Zhaocheng and Zhang, Zhengyan and Liu, Zhiyuan and Li, Juanzi and Tang, Jian - 2021",
+        summary: "The so-called 'global polytropic model' is applied to the numerical study of the exoplanet systems HD 10180, Kepler-32, Kepler-33, Kepler-102, and Kepler-186. We compare computed distances of planets from their host stars with corresponding observations and discuss some further orbit predictions made by the model.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: "wang2021kepler.pdf"
+      },
+      {
+        title: "Query Graph Generation for Answering Multi-hop Complex Questions from Knowledge Bases",
+        citation: "Lan, Yunshi and Jiang, Jing - 2020",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "DECAF: Joint Decoding of Answers and Logical Forms for Question Answering over Knowledge Bases",
+        citation: "Yu, Donghan and Chen, Chenguang and Onoe, Yin and Qi, Peng - 2023",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Open Domain Question Answering Using Early Fusion of Knowledge Bases and Text",
+        citation: "Sun, Haitian and Dhingra, Bhuwan and Zaheer, Manzil and Mazaitis, Kathryn and Salakhutdinov, Ruslan and Cohen, William - 2018",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Improving Multi-Hop Knowledge Base Question Answering by Learning Intermediate Supervision Signals",
+        citation: "He, Gaole and Lan, Yunshi and Jiang, Jing and Zhao, Wayne Xin and Wen, Ji-Rong - 2021",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "GNN-RAG: Graph Neural Retrieval for Efficient Large Language Model Reasoning on Knowledge Graphs",
+        citation: "Mavromatis, Costas and Karypis, George - 2024",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "ReAct: Synergizing Reasoning and Acting in Language Models",
+        citation: "Yao, Shunyu and Zhao, Jeffrey and Yu, Dian and Du, Nan and Shafran, Izhak and Narasimhan, Karthik and Cao, Yuan - 2023",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Semantic Parsing on Freebase from Question-Answer Pairs",
+        citation: "Berant, Jonathan and Chou, Andrew and Frostig, Roy and Liang, Percy - 2013",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Large-scale semantic parsing without question-answer pairs",
+        citation: "Reddy, Siva and Lapata, Mirella and Steedman, Mark - 2014",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "More Accurate Question Answering on Freebase",
+        citation: "Bast, Hannah and Haussmann, Elmar - 2015",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Semantic Parsing via Staged Query Graph Generation: Question Answering on Freebase",
+        citation: "Yih, Wen-tau and Chang, Ming-Wei and He, Xiaodong and Gao, Jianfeng - 2015",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Key-value memory networks for directly reading documents",
+        citation: "Miller, Alexander and Fisch, Adam and Dodge, Jesse and Karimi, Amin-Hamed and Bordes, Antoine and Weston, Jason - 2016",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Enhancing key-value memory neural networks for knowledge based question answering",
+        citation: "Xu, Kun and Lai, Yuxuan and Feng, Yansong and Zhao, Dongyan - 2019",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Variational reasoning for question answering with knowledge graph",
+        citation: "Zhang, Yuyu and Dai, Hanjun and Kozareva, Zornitsa and Smola, Alexander J and Song, Le - 2018",
+        summary: "Knowledge graph (KG) is known to be helpful for the task of question answering (QA), since it provides well-structured relational information between entities, and allows one to further infer indirect facts. However, it is challenging to build QA systems which can learn to reason over knowledge graphs based on question-answer pairs alone. First, when people ask questions, their expressions are noisy (for example, typos in texts, or variations in pronunciations), which is non-trivial for the QA system to match those mentioned entities to the knowledge graph. Second, many questions require multi-hop logic reasoning over the knowledge graph to retrieve the answers. To address these challenges, we propose a novel and unified deep learning architecture, and an end-to-end variational learning algorithm which can handle noise in questions, and learn multi-hop reasoning simultaneously. Our method achieves state-of-the-art performance on a recent benchmark dataset in the literature. We also derive a series of new benchmark datasets, including questions for multi-hop reasoning, questions paraphrased by neural translation model, and questions in human voice. Our method yields very promising results on all these challenging datasets.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: "zhang2018.pdf"
+      },
+      {
+        title: "Knowledge Graph-augmented Language Models",
+        citation: "Han, Xu et al. - 2021",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Improving Multi-hop Question Answering over Knowledge Graphs using Knowledge Base Embeddings",
+        citation: "Saxena, Apoorv and Tripathi, Aditay and Talukdar, Partha - 2020",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Question Answering Knowledge Graph text",
+        citation: "Han et al. - 2020",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models",
+        citation: "Wang, Lei and Xu, Wanyu and Lan, Yihuai and Hu, Zhiqiang and Lan, Yunshi and Lee, Roy Ka-Wei and Lim, Ee-Peng - 2023",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Measuring and narrowing the compositionality gap in language models",
+        citation: "He et al. - 2021",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Language Models reasoning tasks",
+        citation: "Yu et al. - 2022",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Training Compute-Optimal Large Language Models (reasoning variants)",
+        citation: "Hoffman et al. - 2024",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Knowledge-Driven Chain-of-Thought",
+        citation: "Wang et al. - 2023",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "RR: Faithful Reasoning on Knowledge Graphs",
+        citation: "He et al. - 2022",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "GFM-RAG: Graph Foundation Models Retrieval Augmented Generation",
+        citation: "Luo et al. - 2025",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Tree-of-Traversals",
+        citation: "Markowitz et al. - 2024",
+        summary: "Metadata only. PDF download failed.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Semantic Parsing on Freebase from Question-Answer Pairs",
+        citation: "Berant, Jonathan and Chou, Andrew and Frostig, Roy and Liang, Percy - 2013",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "Large-scale Semantic Parsing without Question-Answer Pairs",
+        citation: "Reddy, Siva and Lapata, Mirella and Steedman, Mark - 2014",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      },
+      {
+        title: "More Accurate Question Answering on Freebase",
+        citation: "Bast, Hannah and Haussmann, Elmar - 2015",
+        summary: "Metadata only. PDF not found on ArXiv.",
+        topic: "Other",
+        tags: ["auto-imported"],
+        file: null
+      }
+    ];
+
+    function isAutoImported(paper) {
+      return Array.isArray(paper.tags) && paper.tags.includes("auto-imported");
+    }
+
+    function normalizeTitleKey(title) {
+      return String(title || "")
+        .toLowerCase()
+        .replace(/\{\}|[{}]/g, "")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+    }
+
+    function deriveYear(paper) {
+      if (Number.isFinite(paper.year)) return paper.year;
+      const numericYear = Number.parseInt(String(paper.year || ""), 10);
+      if (Number.isFinite(numericYear)) return numericYear;
+      const fromCitation = String(paper.citation || "").match(/\b(19|20)\d{2}\b/);
+      return fromCitation ? Number.parseInt(fromCitation[0], 10) : 0;
+    }
+
+    function deriveAlias(paper) {
+      if (paper.alias && String(paper.alias).trim()) return paper.alias;
+      const title = String(paper.title || "Paper").replace(/[{}]/g, "").trim();
+      return title.length <= 18 ? title : `${title.slice(0, 18).trim()}…`;
+    }
+
+    function qualityScore(paper) {
+      let score = 0;
+      if (paper.file) score += 5;
+      if (paper.summary && !String(paper.summary).startsWith("Metadata only")) score += 2;
+      if (!isAutoImported(paper)) score += 2;
+      if (paper.alias) score += 1;
+      if (paper.year) score += 1;
+      return score;
+    }
+
+    papers = (() => {
+      const normalized = papers.map((paper) => ({
+        ...paper,
+        alias: deriveAlias(paper),
+        year: deriveYear(paper),
+        topic: paper.topic || "Other",
+        summary: paper.summary || "",
+        citation: paper.citation || "",
+        file: paper.file || null,
+        tags: Array.isArray(paper.tags) ? paper.tags : []
+      }));
+
+      const byTitle = new Map();
+      for (const paper of normalized) {
+        const key = normalizeTitleKey(paper.title);
+        const existing = byTitle.get(key);
+        if (!existing || qualityScore(paper) > qualityScore(existing)) {
+          byTitle.set(key, paper);
+        }
+      }
+
+      return [...byTitle.values()].filter((paper) => {
+        const lowQualityAuto = isAutoImported(paper) && !paper.file && String(paper.summary).startsWith("Metadata only");
+        return !lowQualityAuto;
+      });
+    })();
+
+    const rows = document.getElementById("rows");
+    const studyGrid = document.getElementById("study-grid");
+    const empty = document.getElementById("empty");
+    const search = document.getElementById("search");
+    const sort = document.getElementById("sort");
+    const topic = document.getElementById("topic");
+    const visibleCount = document.getElementById("visible-count");
+    const paperCount = document.getElementById("paper-count");
+    const resultsPill = document.getElementById("results-pill");
+    const filterPill = document.getElementById("filter-pill");
+    const tableShell = document.getElementById("table-shell");
+    const studyShell = document.getElementById("study-shell");
+    const tableViewButton = document.getElementById("table-view-button");
+    const studyViewButton = document.getElementById("study-view-button");
+    let currentView = "table";
+
+    paperCount.textContent = String(papers.length);
+
+    const topics = [...new Set(papers.map((paper) => paper.topic))].sort();
+    for (const item of topics) {
+      const option = document.createElement("option");
+      option.value = item;
+      option.textContent = item;
+      topic.appendChild(option);
+    }
+
+    function compareBy(sortMode) {
+      if (sortMode === "year-asc") {
+        return (a, b) => a.year - b.year || a.title.localeCompare(b.title);
+      }
+      if (sortMode === "title-asc") {
+        return (a, b) => a.title.localeCompare(b.title);
+      }
+      if (sortMode === "alias-asc") {
+        return (a, b) => String(a.alias || "").localeCompare(String(b.alias || ""));
+      }
+      return (a, b) => b.year - a.year || a.title.localeCompare(b.title);
+    }
+
+    function paperMatches(paper, term, topicFilter) {
+      const haystack = [
+        paper.alias,
+        paper.title,
+        paper.citation,
+        paper.topic,
+        String(paper.year),
+        paper.summary,
+        paper.file
+      ].join(" ").toLowerCase();
+      const byTopic = topicFilter === "all" || paper.topic === topicFilter;
+      return byTopic && haystack.includes(term);
+    }
+
+    function studyUse(paper) {
+      if (paper.topic.includes("Survey")) return "Read first to map the area, terminology, and adjacent subproblems.";
+      if (paper.topic.includes("Benchmark") || paper.topic.includes("Evaluation")) return "Use when selecting metrics, baselines, or discussing evaluation validity.";
+      if (paper.topic.includes("KGQA")) return "Use to compare retrieval, subgraph selection, and graph reasoning choices in question answering.";
+      if (paper.topic.includes("Constrained")) return "Use to compare decoding or generation strategies under explicit output constraints.";
+      if (paper.topic.includes("LLM + KG")) return "Use when framing how LLM reasoning is grounded in graph structure or KG evidence.";
+      if (paper.topic.includes("RAG")) return "Use when deciding when retrieval should occur and how evidence should shape generation.";
+      return "Use as a supporting reference when tightening related work or narrowing the design space.";
+    }
+
+    function setView(mode) {
+      currentView = mode;
+      const tableActive = mode === "table";
+      tableShell.style.display = tableActive ? "block" : "none";
+      studyShell.classList.toggle("is-active", !tableActive);
+      tableViewButton.classList.toggle("is-active", tableActive);
+      studyViewButton.classList.toggle("is-active", !tableActive);
+    }
+
+    function render() {
+      const term = search.value.trim().toLowerCase();
+      const topicFilter = topic.value;
+      const visible = papers
+        .filter((paper) => paperMatches(paper, term, topicFilter))
+        .sort(compareBy(sort.value));
+
+      rows.innerHTML = "";
+      studyGrid.innerHTML = "";
+      visibleCount.textContent = String(visible.length);
+      resultsPill.textContent = `${visible.length} visible`;
+      filterPill.textContent = topicFilter === "all" ? "All topics" : topicFilter;
+      empty.hidden = visible.length !== 0;
+
+      for (const paper of visible) {
+        const tr = document.createElement("tr");
+        const openLink = paper.file
+          ? `<a class="open-link" href="${paper.file}" target="_blank" rel="noopener">Open PDF</a>`
+          : `<span class="open-link" style="opacity:0.5;pointer-events:none;">No PDF</span>`;
+
+        tr.innerHTML = `
+            <td><span class="short">${paper.alias}</span></td>
+            <td>${paper.year}</td>
+            <td>
+              <span class="tag">${paper.topic}</span>
+              <p class="title">${paper.title}</p>
+              <p class="citation">${paper.citation}</p>
+            </td>
+            <td><p class="summary">${paper.summary}</p></td>
+            <td><div class="file">${paper.file || "—"}</div></td>
+            <td>${openLink}</td>
+          `;
+        rows.appendChild(tr);
+
+        const card = document.createElement("article");
+        card.className = "study-card";
+        const cardOpenLink = paper.file
+          ? `<a class="open-link" href="${paper.file}" target="_blank" rel="noopener">Open PDF</a>`
+          : `<span class="open-link" style="opacity:0.5;pointer-events:none;">No PDF</span>`;
+        card.innerHTML = `
+            <div class="study-top">
+              <div>
+                <span class="tag">${paper.topic}</span>
+                <p class="title">${paper.title}</p>
+                <p class="study-meta">${paper.citation} · ${paper.file || "No local PDF"}</p>
+              </div>
+              <span class="short">${paper.alias}</span>
+            </div>
+            <p class="summary">${paper.summary}</p>
+            <p class="study-use"><strong>Research use:</strong> ${studyUse(paper)}</p>
+            <div style="margin-top: 10px;">
+              ${cardOpenLink}
+            </div>
+          `;
+        studyGrid.appendChild(card);
+      }
+    }
+
+    search.addEventListener("input", render);
+    sort.addEventListener("change", render);
+    topic.addEventListener("change", render);
+    tableViewButton.addEventListener("click", () => setView("table"));
+    studyViewButton.addEventListener("click", () => setView("study"));
+    render();
+    setView(currentView);
+  </script>
+</body>
+
+</html>

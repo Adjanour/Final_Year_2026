@@ -1,0 +1,2090 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./UMaT_Undergraduate_Project_Report_Template.tex
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+(./UMaT_Undergrauate_Report_Template_Configurations.cls
+
+LaTeX Warning: You have requested document class `UMaT_Undergrauate_Report_Temp
+late_Configurations',
+               but the document class provides `MastersDoctoralThesis'.
+
+Document Class: MastersDoctoralThesis 2017/08/27 v1.6 LaTeXTemplates.com
+(/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+(/usr/share/texmf-dist/tex/latex/l3kernel/expl3.sty
+(/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)))
+(/usr/share/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2024/06/29 v1.4n Standard LaTeX document class
+(/usr/share/texmf-dist/tex/latex/base/bk12.clo))
+(/usr/share/texmf-dist/tex/latex/parskip/parskip.sty
+(/usr/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/share/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)))
+(/usr/share/texmf-dist/tex/generic/babel/babel.sty
+(/usr/share/texmf-dist/tex/generic/babel/txtbabel.def)
+(/usr/share/texmf-dist/tex/generic/babel/nil.ldf))
+(/usr/share/texmf-dist/tex/latex/koma-script/scrbase.sty
+(/usr/share/texmf-dist/tex/latex/koma-script/scrlfile.sty
+(/usr/share/texmf-dist/tex/latex/koma-script/scrlfile-hook.sty
+(/usr/share/texmf-dist/tex/latex/koma-script/scrlogo.sty))))
+(/usr/share/texmf-dist/tex/latex/scrhack/scrhack.sty)
+(/usr/share/texmf-dist/tex/latex/setspace/setspace.sty)
+(/usr/share/texmf-dist/tex/latex/setspaceenhanced/setspaceenhanced.sty)
+(/usr/share/texmf-dist/tex/latex/tools/longtable.sty)
+(/usr/share/texmf-dist/tex/latex/siunitx/siunitx.sty
+(/usr/share/texmf-dist/tex/latex/translations/translations.sty
+(/usr/share/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty)
+(/usr/share/texmf-dist/tex/generic/iftex/iftex.sty)))
+(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texmf-dist/tex/latex/tools/array.sty))
+(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def)))
+(/usr/share/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texmf-dist/tex/latex/caption/caption.sty
+(/usr/share/texmf-dist/tex/latex/caption/caption3.sty)
+(/usr/share/texmf-dist/tex/latex/caption/ltcaption.sty))
+(/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/share/texmf-dist/tex/latex/koma-script/scrlayer-scrpage.sty
+(/usr/share/texmf-dist/tex/latex/koma-script/scrlayer.sty
+(/usr/share/texmf-dist/tex/latex/koma-script/scrkbase.sty))))
+(/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
+(/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty))
+(/usr/share/texmf-dist/tex/latex/base/inputenc.sty)
+(/usr/share/texmf-dist/tex/latex/base/fontenc.sty)
+(/usr/share/texmf-dist/tex/latex/newtx/newtxtext.sty
+`newtxtext' v1.744, 2024/04/01 Text macros taking advantage of TeXGyre Termes a
+nd its extensions (msharpe) (/usr/share/texmf-dist/tex/latex/xpatch/xpatch.sty)
+ (/usr/share/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(/usr/share/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texmf-dist/tex/generic/xkeyval/xkvutils.tex)))
+(/usr/share/texmf-dist/tex/latex/base/textcomp.sty)
+(/usr/share/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texmf-dist/tex/generic/xstring/xstring.tex))
+(/usr/share/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/share/texmf-dist/tex/latex/carlisle/scalefnt.sty)
+(/usr/share/texmf-dist/tex/generic/kastrup/binhex.tex)
+(/usr/share/texmf-dist/tex/latex/fontaxes/fontaxes.sty))
+(/usr/share/texmf-dist/tex/latex/newtx/newtxmath.sty
+`newtxmath' v1.754, 2024/09/22 Math macros based originally on txfonts (msharpe
+) (/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texmf-dist/tex/latex/oberdiek/centernot.sty)
+(/usr/share/texmf-dist/tex/generic/kastrup/binhex.tex)
+amsthm NOT loaded
+) (/usr/share/texmf-dist/tex/latex/caption/subcaption.sty)
+(/usr/share/texmf-dist/tex/latex/csquotes/csquotes.sty
+(/usr/share/texmf-dist/tex/latex/csquotes/csquotes.def)
+(/usr/share/texmf-dist/tex/latex/csquotes/csquotes.cfg))
+(/usr/share/texmf-dist/tex/latex/biblatex/biblatex.sty
+(/usr/share/texmf-dist/tex/latex/logreq/logreq.sty
+(/usr/share/texmf-dist/tex/latex/logreq/logreq.def))
+(/usr/share/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texmf-dist/tex/latex/biblatex/blx-dm.def)
+(/usr/share/texmf-dist/tex/latex/biblatex/blx-compat.def)
+(/usr/share/texmf-dist/tex/latex/biblatex/blx-bibtex.def
+
+Package biblatex Warning: Using fall-back bibtex backend:
+(biblatex)                functionality may be reduced/unavailable.
+
+) (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.def)
+(/usr/share/texmf-dist/tex/latex/biblatex/blx-natbib.def)
+(/usr/share/texmf-dist/tex/latex/biblatex/bbx/authoryear.bbx
+(/usr/share/texmf-dist/tex/latex/biblatex/bbx/standard.bbx))
+(/usr/share/texmf-dist/tex/latex/biblatex/cbx/authoryear.cbx)
+(/usr/share/texmf-dist/tex/latex/biblatex/biblatex.cfg)
+(/usr/share/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty))
+(/usr/share/texmf-dist/tex/latex/psnfss/times.sty)
+(/usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty)
+(/usr/share/texmf-dist/tex/latex/titlesec/titletoc.sty)
+(/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty)
+(/usr/share/texmf-dist/tex/latex/tools/tabularx.sty)
+(/usr/share/texmf-dist/tex/latex/float/float.sty)
+(/usr/share/texmf-dist/tex/latex/floatbytocbasic/floatbytocbasic.sty
+(/usr/share/texmf-dist/tex/latex/koma-script/tocbasic.sty))
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.sty
+(/usr/share/texmf-dist/tex/latex/microtype/microtype-pdftex.def)
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.cfg))
+(/usr/share/texmf-dist/tex/latex/etoc/etoc.sty
+(/usr/share/texmf-dist/tex/latex/tools/multicol.sty))
+(/usr/share/texmf-dist/tex/latex/ltablex/ltablex.sty)
+(/usr/share/texmf-dist/tex/latex/multirow/multirow.sty)
+(/usr/share/texmf-dist/tex/latex/tocloft/tocloft.sty
+
+Package tocloft Warning: \@starttoc has already been redefined; tocloft bailing
+ out. on input line 1156.
+
+) (/usr/share/texmf-dist/tex/latex/hyphenat/hyphenat.sty)
+(/usr/share/texmf-dist/tex/latex/lipsum/lipsum.sty
+(/usr/share/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty)
+(/usr/share/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex))
+(/usr/share/texmf-dist/tex/latex/tocbibind/tocbibind.sty
+
+Package tocbibind Note: Using chapter style headings, unless overridden.
+
+) (/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/share/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+(/usr/share/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty))
+(/usr/share/texmf-dist/tex/generic/stringenc/stringenc.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/share/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))
+(/usr/share/texmf-dist/tex/latex/base/atbegshi-ltx.sty))
+(/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texmf-dist/tex/latex/base/atveryend-ltx.sty)
+(/usr/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(/usr/share/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+(/usr/share/texmf-dist/tex/latex/pgfgantt/pgfgantt.sty
+(/usr/share/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
+(/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
+(/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def)
+(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
+(/usr/share/texmf-dist/tex/generic/pgf/pgf.revision.tex)))
+(/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
+(/usr/share/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
+(/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.te
+x)) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg)
+(/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+(/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def)))
+(/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex))
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code
+.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.te
+x) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics
+.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex))
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex)
+
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.t
+ex) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.te
+x) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex)
+ (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex)))
+(/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex)
+(/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty)
+(/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty))
+(/usr/share/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
+(/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex))
+(/usr/share/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
+(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex))
+(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+(/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.te
+x) (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary
+topaths.code.tex)))
+(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary
+arrows.code.tex
+(/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.tex))
+(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary
+backgrounds.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary
+calc.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary
+patterns.code.tex
+(/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibrarypatterns.code.tex))
+(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary
+positioning.code.tex)
+(/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrary
+shapes.geometric.code.tex
+(/usr/share/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshapes.geomet
+ric.code.tex)) (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfcalendar.sty
+(/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfcalendar.code.tex)))
+(/usr/share/texmf-dist/tex/latex/algorithms/algorithm.sty)
+(/usr/share/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+(/usr/share/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+)
+(/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.code.tex
+) (/usr/share/texmf-dist/tex/latex/graphics/lscape.sty)
+(/usr/share/texmf-dist/tex/latex/lscapeenhanced/lscapeenhanced.sty)
+(/usr/share/texmf-dist/tex/latex/newtx/t1ntxtlf.fd)
+No file UMaT_Undergraduate_Project_Report_Template.aux.
+(/usr/share/texmf-dist/tex/latex/newtx/omlntxmi.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxexa.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/lmsntxsy.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/lmxntxexx.fd)
+(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+
+Package scrlayer-scrpage Warning: Very small head height detected!
+(scrlayer-scrpage)                Using scrlayer-scrpage the head height
+(scrlayer-scrpage)                should be at least \baselineskip, which is
+(scrlayer-scrpage)                21.75pt currently.
+(scrlayer-scrpage)                But head height is currently 12.0pt only.
+(scrlayer-scrpage)                You may use
+(scrlayer-scrpage)                geometry option `head=21.75pt'
+(scrlayer-scrpage)                \relax to avoid this warning.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+
+Package biblatex Warning: Language 'nil' not supported.
+(biblatex)                Using dummy definitions on input line 244.
+
+(./UMaT_Undergraduate_Project_Report_Template.bbl)
+
+Package tocbasic Warning: `tocbibind' redefinition of `\listoffigures'
+(tocbasic)                detected.
+(tocbasic)                Note: Loading `tocbibind' without option `notlof'
+(tocbasic)                can break several features of `tocbasic'.
+(tocbasic)                Loading `tocbibind' before `tocbasic' would avoid
+(tocbasic)                this warning message.
+
+
+Package tocbasic Warning: `tocbibind' redefinition of `\listoftables'
+(tocbasic)                detected.
+(tocbasic)                Note: Loading `tocbibind' without option `notlot'
+(tocbasic)                can break several features of `tocbasic'.
+(tocbasic)                Loading `tocbibind' before `tocbasic' would avoid
+(tocbasic)                this warning message.
+
+(/usr/share/texmf-dist/tex/latex/microtype/mt-ptm.cfg)
+No file UMaT_Undergraduate_Project_Report_Template.toc.
+
+Package etoc Warning: Package `tocloft' was loaded after `etoc'.
+(etoc)                To prevent it from overwriting \tableofcontents, it will
+(etoc)                be tricked into believing to have been loaded with its
+(etoc)                option `titles'.  But this will cause the `tocloft'
+(etoc)                customization of the titles of the main list of figures
+(etoc)                and list of tables to not apply either.
+(etoc)                You should load `tocloft' before `etoc'..
+
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fon
+ts/enc/dvips/newtx/ntx-ec-tlf-pc.enc}{/usr/share/texmf-dist/fonts/enc/dvips/new
+tx/ntx-ec-tlf.enc}]
+--------------------
+ \large DECLARATION
+--------------------
+
+(/usr/share/texmf-dist/tex/latex/newtx/ot1minntx.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxmia.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxsym.fd)
+(/usr/share/texmf-dist/tex/latex/newtx/untxsyc.fd)
+
+Package scrlayer-scrpage Warning: \headheight to low.
+(scrlayer-scrpage)                At least 21.74998pt needed,
+(scrlayer-scrpage)                but only 12.0pt found.
+(scrlayer-scrpage)                I'll enlarge \headheight, for further
+(scrlayer-scrpage)                processing, but you should do this yourself,
+(scrlayer-scrpage)                e.g., setting geometry's option
+(scrlayer-scrpage)                `head=21.74998pt'.
+(scrlayer-scrpage)                I'll also decrease \topmargin on input line 3
+14.
+
+
+Overfull \vbox (9.74998pt too high) has occurred while \output is active
+[2]
+--------------------
+ \large ABSTRACT
+--------------------
+
+Package lipsum Warning: Unknown language 'latin'. Hyphenation patterns for
+(lipsum)                'nil' will be used instead.
+
+
+[3]
+--------------------
+ \large DEDICATION
+--------------------
+
+[4]
+--------------------
+ \large ACKNOWLEDGEMENTS
+--------------------
+
+[5]
+Overfull \hbox (2.19885pt too wide) in paragraph at lines 358--359
+[]\T1/ntxtlf/b/n/12 (-20) Contents   Page 
+
+[6]
+No file UMaT_Undergraduate_Project_Report_Template.lof.
+
+[7]
+No file UMaT_Undergraduate_Project_Report_Template.lot.
+
+[8]
+[9] (./Chapters/Chapter1.tex
+Chapter 1.
+
+LaTeX Warning: Citation 'brown2020gpt3' on page 1 undefined on input line 15.
+
+
+LaTeX Warning: Citation 'openai2024gpt4technicalreport' on page 1 undefined on 
+input line 15.
+
+
+LaTeX Warning: Citation 'brown2020gpt3' on page 1 undefined on input line 15.
+
+
+LaTeX Warning: Citation 'openai2024gpt4technicalreport' on page 1 undefined on 
+input line 15.
+
+
+LaTeX Warning: Citation 'touvron2023llama' on page 1 undefined on input line 15
+.
+
+
+LaTeX Warning: Citation 'dubey2024llama' on page 1 undefined on input line 15.
+
+
+Overfull \hbox (14.1152pt too wide) in paragraph at lines 15--16
+[]\T1/ntxtlf/m/n/12 (-20) ) and the Llama family ([]; [])
+
+LaTeX Warning: Citation 'ji2023survey' on page 1 undefined on input line 17.
+
+
+LaTeX Warning: Citation 'huang2023survey' on page 1 undefined on input line 17.
+
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 1 undefin
+ed on input line 17.
+
+
+LaTeX Warning: Citation 'xu2025hallucinationinevitableinnatelimitation' on page
+ 1 undefined on input line 17.
+
+
+Overfull \hbox (37.40166pt too wide) in paragraph at lines 17--18
+\T1/ntxtlf/m/n/12 (-20) checked against any source. In practice, this is a real
+ concern. []
+
+LaTeX Warning: Citation 'brown2020gpt3' on page 1 undefined on input line 19.
+
+
+LaTeX Warning: Citation 'huang2023survey' on page 1 undefined on input line 19.
+
+
+
+LaTeX Warning: Citation 'ji2023survey' on page 1 undefined on input line 19.
+
+
+LaTeX Warning: Citation 'bollacker2008freebase' on page 1 undefined on input li
+ne 21.
+
+
+LaTeX Warning: Citation 'yih2016websqp' on page 1 undefined on input line 21.
+
+
+LaTeX Warning: Citation 'talmor2018cwq' on page 1 undefined on input line 21.
+
+
+LaTeX Warning: Citation 'lan2022survey' on page 1 undefined on input line 21.
+
+
+LaTeX Warning: Citation 'he2021improving' on page 1 undefined on input line 21.
+
+
+
+[1{/usr/share/texmf-dist/fonts/enc/dvips/newtx/ntx-ot1-tlf.enc}]
+
+LaTeX Warning: Citation 'lewis2020rag' on page 2 undefined on input line 23.
+
+
+LaTeX Warning: Citation 'izacard2021leveraging' on page 2 undefined on input li
+ne 23.
+
+
+LaTeX Warning: Citation 'asai2024selfrag' on page 2 undefined on input line 23.
+
+
+
+LaTeX Warning: Citation 'agrawal2024mindfulrag' on page 2 undefined on input li
+ne 23.
+
+
+LaTeX Warning: Citation 'geng2023grammarconstrained' on page 2 undefined on inp
+ut line 25.
+
+
+LaTeX Warning: Citation 'willard2023outlines' on page 2 undefined on input line
+ 25.
+
+
+LaTeX Warning: Citation 'geng2023grammarconstrained' on page 2 undefined on inp
+ut line 25.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 2 undefin
+ed on input line 27.
+
+
+LaTeX Warning: Citation 'fredkin1960trie' on page 2 undefined on input line 27.
+
+
+
+Overfull \hbox (103.3278pt too wide) in paragraph at lines 27--28
+[]\T1/ntxtlf/m/n/12 (-20) Graph-Constrained Reasoning (GCR) is a strong example
+ of this approach ([]).
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 2 undefined on inpu
+t line 29.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 2 undefin
+ed on input line 29.
+
+
+[2]
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 3 undefined on inpu
+t line 31.
+
+
+Overfull \hbox (0.17165pt too wide) in paragraph at lines 31--32
+[]\T1/ntxtlf/m/n/12 (-20) Decoding on Graphs (DoG) ([]) extends this by updatin
+g constraints
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 3 undefin
+ed on input line 35.
+
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 3 undefined on inpu
+t line 35.
+
+
+LaTeX Warning: Citation 'geng2023grammarconstrained' on page 3 undefined on inp
+ut line 35.
+
+
+LaTeX Warning: Citation 'willard2023outlines' on page 3 undefined on input line
+ 35.
+
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 3 undefined on inpu
+t line 37.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 3 undefin
+ed on input line 37.
+
+
+LaTeX Warning: Citation 'lan2022survey' on page 3 undefined on input line 39.
+
+
+LaTeX Warning: Citation 'he2021improving' on page 3 undefined on input line 39.
+
+
+
+LaTeX Warning: Citation 'talmor2018cwq' on page 3 undefined on input line 39.
+
+
+LaTeX Warning: Citation 'yuan2026routerkgqa' on page 3 undefined on input line 
+41.
+
+
+LaTeX Warning: Reference `Chapter3' on page 3 undefined on input line 41.
+
+
+Overfull \hbox (4.85109pt too wide) in paragraph at lines 41--42
+[]\T1/ntxtlf/m/n/12 (-20) Recent work such as RouterKGQA ([]) improves efficien
+cy and faithfulness
+
+[3]
+
+LaTeX Warning: Citation 'reimers2019sbert' on page 4 undefined on input line 51
+.
+
+
+[4]
+
+LaTeX Warning: Reference `tab:implemented-software-tools' on page 5 undefined o
+n input line 74.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.103   }
+         
+! Missing } inserted.
+<inserted text> 
+                }
+l.103   }
+         
+! Missing } inserted.
+<inserted text> 
+                }
+l.103   }
+         
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.103   }
+         
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.103   }
+         
+! Missing } inserted.
+<inserted text> 
+                }
+l.103   }
+         
+! Argument of \LT@max@sel has an extra }.
+<inserted text> 
+                \par 
+l.103   }
+         
+Runaway argument?
+! Paragraph ended before \LT@max@sel was complete.
+<to be read again> 
+                   \par 
+l.103   }
+         
+! Extra }, or forgotten \endgroup.
+\TX@endtabularx ... }\the \TX@ftn \ifnum 0=`{\fi }
+                                                  \end {tabularx} \ifnum \va...
+l.103   }
+         
+
+! LaTeX Error: \begin{table} on input line 77 ended by \end{tabularx}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.103   }
+         
+! Missing } inserted.
+<inserted text> 
+                }
+l.103   }
+         
+! Too many }'s.
+\@begin@tempboxa ...begingroup #2\color@endgroup }
+                                                  \def \width {\wd \@tempbox...
+l.103   }
+         
+
+! Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.103   }
+         
+! Extra \endgroup.
+\Gscale@box@dd ...\box \@tempboxa }\@end@tempboxa 
+                                                  
+l.103   }
+         
+! Too many }'s.
+\@endfloatbox ...pagefalse \outer@nobreak \egroup 
+                                                  \color@endbox 
+l.104 \end{table}
+                 
+
+[5]
+! Extra \endgroup.
+\color@endgroup ->\endgraf \@endpefalse \endgroup 
+                                                  
+l.104 \end{table}
+                 
+! Too many }'s.
+\color@endbox ->\color@endgroup \egroup 
+                                        
+l.104 \end{table}
+                 
+
+! LaTeX Error: \begin{document} ended by \end{table}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.104 \end{table}
+                 
+! Extra \endgroup.
+\end  ...end#1\endcsname \@checkend {#1}\endgroup 
+                                                  \UseHook {env/#1/after}\if...
+l.104 \end{table}
+                 
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 6 undefin
+ed on input line 113.
+
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 6 undefined on inpu
+t line 113.
+
+
+LaTeX Warning: Citation 'geng2023grammarconstrained' on page 6 undefined on inp
+ut line 113.
+
+
+LaTeX Warning: Citation 'willard2023outlines' on page 6 undefined on input line
+ 113.
+
+
+Overfull \hbox (57.18756pt too wide) in paragraph at lines 113--114
+[]\T1/ntxtlf/m/n/12 (-20) Formal gap analysis of the four foundational papers, 
+GCR ([]),
+
+Overfull \hbox (19.31306pt too wide) in paragraph at lines 113--114
+\T1/ntxtlf/m/n/12 (-20) DoG ([]), GCD ([]), and Outlines
+
+LaTeX Warning: Citation 'reimers2019sbert' on page 6 undefined on input line 11
+4.
+
+
+LaTeX Warning: Citation 'lan2022survey' on page 6 undefined on input line 117.
+
+
+[6]
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 7 undefin
+ed on input line 125.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 7 undefin
+ed on input line 133.
+
+)
+[7]
+[8] (./Chapters/Chapter2.tex
+Chapter 2.
+
+LaTeX Warning: Citation 'ji2023survey' on page 9 undefined on input line 8.
+
+
+LaTeX Warning: Citation 'vaswani2017attention' on page 9 undefined on input lin
+e 22.
+
+
+Overfull \hbox (9.89198pt too wide) in paragraph at lines 22--23
+\T1/ntxtlf/m/n/12 (-20) Modern LLMs are built upon the Transformer architecture
+, introduced by [].
+
+[9]
+
+LaTeX Warning: Citation 'dubey2024llama3' on page 10 undefined on input line 26
+.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 10 undefi
+ned on input line 26.
+
+
+LaTeX Warning: Citation 'holtzman2020curious' on page 10 undefined on input lin
+e 30.
+
+
+LaTeX Warning: Citation 'brown2020gpt3' on page 10 undefined on input line 36.
+
+
+LaTeX Warning: Citation 'openai2024gpt4technicalreport' on page 10 undefined on
+ input line 36.
+
+
+LaTeX Warning: Citation 'touvron2023llama' on page 10 undefined on input line 3
+6.
+
+
+LaTeX Warning: Citation 'dubey2024llama3' on page 10 undefined on input line 36
+.
+
+
+[10]
+
+LaTeX Warning: Citation 'wei2022cot' on page 11 undefined on input line 40.
+
+
+LaTeX Warning: Citation 'huang2023towards' on page 11 undefined on input line 4
+0.
+
+
+LaTeX Warning: Citation 'ji2023survey' on page 11 undefined on input line 49.
+
+
+LaTeX Warning: Citation 'huang2023hallucination' on page 11 undefined on input 
+line 49.
+
+
+[11]
+
+LaTeX Warning: Citation 'ji2023survey' on page 12 undefined on input line 51.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 12 undefi
+ned on input line 51.
+
+
+Overfull \hbox (14.87033pt too wide) in paragraph at lines 51--52
+\T1/ntxtlf/m/n/12 (-20) specific context of knowledge graph question answering,
+ []
+
+LaTeX Warning: Citation 'brown2020gpt3' on page 12 undefined on input line 57.
+
+
+LaTeX Warning: Citation 'huang2023hallucination' on page 12 undefined on input 
+line 57.
+
+
+LaTeX Warning: Citation 'ji2023survey' on page 12 undefined on input line 57.
+
+
+LaTeX Warning: Citation 'lin2022truthfulqa' on page 12 undefined on input line 
+61.
+
+
+[12]
+
+LaTeX Warning: Citation 'perez2022sycophancy' on page 13 undefined on input lin
+e 63.
+
+
+LaTeX Warning: Citation 'kandpal2023large' on page 13 undefined on input line 6
+3.
+
+
+LaTeX Warning: Citation 'mallen2023not' on page 13 undefined on input line 63.
+
+
+LaTeX Warning: Citation 'wei2022cot' on page 13 undefined on input line 72.
+
+
+LaTeX Warning: Citation 'wei2022cot' on page 13 undefined on input line 72.
+
+
+LaTeX Warning: Citation 'kojima2022zero' on page 13 undefined on input line 72.
+
+
+
+[13]
+
+LaTeX Warning: Citation 'wang2023selfconsistency' on page 14 undefined on input
+ line 78.
+
+
+LaTeX Warning: Citation 'yao2023tree' on page 14 undefined on input line 80.
+
+
+LaTeX Warning: Citation 'geng2023grammarconstrained' on page 14 undefined on in
+put line 84.
+
+
+LaTeX Warning: Citation 'willard2023outlines' on page 14 undefined on input lin
+e 84.
+
+
+LaTeX Warning: Reference `fig:kg_example' on page 14 undefined on input line 93
+.
+
+
+LaTeX Warning: Citation 'bollacker2008freebase' on page 14 undefined on input l
+ine 93.
+
+
+LaTeX Warning: Citation 'yih2016websqp' on page 14 undefined on input line 93.
+
+
+LaTeX Warning: Citation 'talmor2018cwq' on page 14 undefined on input line 93.
+
+
+[14]
+
+LaTeX Warning: Citation 'lan2022kgqa' on page 15 undefined on input line 101.
+
+
+LaTeX Warning: Citation 'lan2022kgqa' on page 15 undefined on input line 105.
+
+
+[15 <./Figures/kg_example.png>]
+
+LaTeX Warning: Citation 'lan2022kgqa' on page 16 undefined on input line 107.
+
+
+LaTeX Warning: Citation 'jiang2023structgpt' on page 16 undefined on input line
+ 107.
+
+
+LaTeX Warning: Citation 'jin2024graphcot' on page 16 undefined on input line 10
+7.
+
+
+LaTeX Warning: Citation 'luo2024rog' on page 16 undefined on input line 107.
+
+
+LaTeX Warning: Citation 'yih2016websqp' on page 16 undefined on input line 111.
+
+
+
+LaTeX Warning: Citation 'talmor2018cwq' on page 16 undefined on input line 111.
+
+
+
+Overfull \hbox (58.05307pt too wide) in paragraph at lines 111--112
+\T1/ntxtlf/m/n/12 (-20) Two benchmark datasets provide the evaluation framework
+ for KGQA research. WebQSP ([])
+
+LaTeX Warning: Citation 'he2021multihop' on page 16 undefined on input line 115
+.
+
+
+LaTeX Warning: Citation 'lan2022kgqa' on page 16 undefined on input line 115.
+
+
+[16]
+
+LaTeX Warning: Citation 'geng2023grammarconstrained' on page 17 undefined on in
+put line 126.
+
+
+LaTeX Warning: Citation 'willard2023outlines' on page 17 undefined on input lin
+e 126.
+
+
+LaTeX Warning: Citation 'geng2023grammarconstrained' on page 17 undefined on in
+put line 130.
+
+
+LaTeX Warning: Citation 'willard2023outlines' on page 17 undefined on input lin
+e 130.
+
+
+[17]
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 18 undefi
+ned on input line 138.
+
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 18 undefined on inp
+ut line 140.
+
+
+LaTeX Warning: Citation 'yuan2026routerkgqa' on page 18 undefined on input line
+ 142.
+
+(/usr/share/texmf-dist/tex/latex/psnfss/t1pcr.fd)
+[18{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}]
+
+LaTeX Warning: Citation 'lowerre1976harpy' on page 19 undefined on input line 1
+48.
+
+
+LaTeX Warning: Citation 'holtzman2020curious' on page 19 undefined on input lin
+e 148.
+
+
+Overfull \hbox (1.82999pt too wide) in paragraph at lines 148--149
+[]\T1/ntxtlf/b/n/12 (-20) Beam Search. \T1/ntxtlf/m/n/12 (-20) First introduced
+ in the HARPY speech recognition system ([]),
+
+LaTeX Warning: Citation 'fredkin1960trie' on page 19 undefined on input line 15
+0.
+
+
+LaTeX Warning: Citation 'willard2023outlines' on page 19 undefined on input lin
+e 150.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 19 undefi
+ned on input line 152.
+
+
+Overfull \hbox (62.27318pt too wide) in paragraph at lines 152--153
+\T1/ntxtlf/m/n/12 (-20) Reasoning (GCR) use a specific adaptation known as the 
+KG-Trie ([]).
+
+[19]
+
+LaTeX Warning: Reference `fig:kg_trie_search' on page 20 undefined on input lin
+e 154.
+
+
+LaTeX Warning: Citation 'lewis2020rag' on page 20 undefined on input line 214.
+
+
+LaTeX Warning: Citation 'izacard2021leveraging' on page 20 undefined on input l
+ine 214.
+
+
+[20]
+
+LaTeX Warning: Citation 'he2021multihop' on page 21 undefined on input line 218
+.
+
+
+LaTeX Warning: Citation 'yasunaga2021qagnn' on page 21 undefined on input line 
+218.
+
+
+LaTeX Warning: Citation 'shi2021kgpath' on page 21 undefined on input line 218.
+
+
+
+LaTeX Warning: Citation 'he2024gretriever' on page 21 undefined on input line 2
+18.
+
+
+Overfull \hbox (2.8537pt too wide) in paragraph at lines 218--219
+\T1/ntxtlf/m/n/12 (-20) Several studies enhance RAG with knowledge graph (KG)-s
+tructured context. []
+
+LaTeX Warning: Citation 'asai2024selfrag' on page 21 undefined on input line 22
+2.
+
+
+LaTeX Warning: Citation 'jiang2023flare' on page 21 undefined on input line 222
+.
+
+
+LaTeX Warning: Citation 'trivedi2022ircot' on page 21 undefined on input line 2
+22.
+
+
+LaTeX Warning: Citation 'edge2024graphrag' on page 21 undefined on input line 2
+22.
+
+
+Overfull \hbox (3.79086pt too wide) in paragraph at lines 222--223
+\T1/ntxtlf/m/n/12 (-20) Recent RAG variants focus on the timing and accuracy of
+ retrieval. Self-RAG ([])
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 21 undefi
+ned on input line 226.
+
+
+LaTeX Warning: Citation 'geng2023grammarconstrained' on page 21 undefined on in
+put line 226.
+
+
+[21] (/usr/share/texmf-dist/tex/latex/psnfss/t1phv.fd)
+
+LaTeX Warning: Citation 'reimers2019sbert' on page 22 undefined on input line 2
+94.
+
+
+[22]
+
+LaTeX Warning: Citation 'karpukhin2020dpr' on page 23 undefined on input line 2
+98.
+
+
+LaTeX Warning: Citation 'xiong2020adore' on page 23 undefined on input line 298
+.
+
+
+LaTeX Warning: Citation 'shi2021kgpath' on page 23 undefined on input line 298.
+
+
+
+LaTeX Warning: Citation 'saxena2022kgqa' on page 23 undefined on input line 298
+.
+
+
+LaTeX Warning: Citation 'chen2024bge' on page 23 undefined on input line 302.
+
+
+LaTeX Warning: Citation 'reimers2019sbert' on page 23 undefined on input line 3
+02.
+
+
+[23]
+
+LaTeX Warning: Citation 'berant2013' on page 24 undefined on input line 314.
+
+
+LaTeX Warning: Citation 'reddy2014' on page 24 undefined on input line 314.
+
+
+LaTeX Warning: Citation 'bast2015' on page 24 undefined on input line 314.
+
+
+LaTeX Warning: Citation 'yih2015' on page 24 undefined on input line 314.
+
+
+LaTeX Warning: Citation 'lan2020sparql' on page 24 undefined on input line 314.
+
+
+
+LaTeX Warning: Citation 'yu2023decaf' on page 24 undefined on input line 314.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 24 undefi
+ned on input line 314.
+
+
+LaTeX Warning: Citation 'miller2016' on page 24 undefined on input line 316.
+
+
+LaTeX Warning: Citation 'xu2019' on page 24 undefined on input line 316.
+
+
+LaTeX Warning: Citation 'zhang2018' on page 24 undefined on input line 316.
+
+
+LaTeX Warning: Citation 'sen-etal-2023-knowledge' on page 24 undefined on input
+ line 316.
+
+
+LaTeX Warning: Citation 'sun2018graftnet' on page 24 undefined on input line 31
+6.
+
+
+LaTeX Warning: Citation 'sun2019pullnet' on page 24 undefined on input line 316
+.
+
+
+LaTeX Warning: Citation 'he2021nsm' on page 24 undefined on input line 316.
+
+
+LaTeX Warning: Citation 'saxena2020' on page 24 undefined on input line 316.
+
+
+Overfull \hbox (91.20009pt too wide) in paragraph at lines 316--317
+\T1/ntxtlf/m/n/12 (-20) representations ([]; []). Notable examples include Graf
+tNet ([]),
+
+LaTeX Warning: Citation 'wei2022cot' on page 24 undefined on input line 320.
+
+
+LaTeX Warning: Citation 'wang2023c' on page 24 undefined on input line 320.
+
+
+LaTeX Warning: Citation 'khot2023decomposed' on page 24 undefined on input line
+ 320.
+
+
+LaTeX Warning: Citation 'wang2023-self-consistency' on page 24 undefined on inp
+ut line 320.
+
+
+LaTeX Warning: Citation 'yao2023-tree-of-thought' on page 24 undefined on input
+ line 320.
+
+
+LaTeX Warning: Citation 'hoffman2024' on page 24 undefined on input line 320.
+
+
+Overfull \hbox (113.59468pt too wide) in paragraph at lines 320--321
+\T1/ntxtlf/m/n/12 (-20) alone, such as Chain-of-Thought (CoT) ([]), Plan-and-so
+lve ([]), DecomP ([]),
+
+Overfull \hbox (45.99895pt too wide) in paragraph at lines 320--321
+\T1/ntxtlf/m/n/12 (-20) Self-consistency ([]), and Tree-of-Thought (ToT) ([]).
+
+[24]
+
+LaTeX Warning: Citation 'yao2022react' on page 25 undefined on input line 322.
+
+
+LaTeX Warning: Citation 'jiang2023structgpt' on page 25 undefined on input line
+ 322.
+
+
+LaTeX Warning: Citation 'sun2024tog' on page 25 undefined on input line 322.
+
+
+LaTeX Warning: Citation 'wang2023knowledgedrivencotexploringfaithful' on page 2
+5 undefined on input line 322.
+
+
+LaTeX Warning: Citation 'he2022rethinking' on page 25 undefined on input line 3
+22.
+
+
+LaTeX Warning: Citation 'jin2024graphcot' on page 25 undefined on input line 32
+2.
+
+
+Overfull \hbox (3.03932pt too wide) in paragraph at lines 322--323
+\T1/ntxtlf/m/n/12 (-20) CoT ([]) and RR ([]) retrieve
+
+LaTeX Warning: Citation 'mavromatis2024gnnrag' on page 25 undefined on input li
+ne 324.
+
+
+LaTeX Warning: Citation 'luo2025gfmrag' on page 25 undefined on input line 324.
+
+
+
+LaTeX Warning: Citation 'luo2024rog' on page 25 undefined on input line 324.
+
+
+LaTeX Warning: Citation 'zhuang2024structlm' on page 25 undefined on input line
+ 324.
+
+
+LaTeX Warning: Citation 'yu2023decaf' on page 25 undefined on input line 324.
+
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 25 undefined on inp
+ut line 326.
+
+
+LaTeX Warning: Citation 'markowitz-etal-2024-tree' on page 25 undefined on inpu
+t line 326.
+
+
+Overfull \hbox (67.60146pt too wide) in paragraph at lines 326--327
+[]\T1/ntxtlf/m/n/12 (-20) Instead of only retrieving a few facts, methods like 
+Decoding on Graphs (DOG) ([])
+
+LaTeX Warning: Citation 'jiang2022unikgqa' on page 25 undefined on input line 3
+28.
+
+
+[25]
+
+LaTeX Warning: Citation 'sun2018openke' on page 26 undefined on input line 330.
+
+
+
+LaTeX Warning: Citation 'zhang2022subgraph' on page 26 undefined on input line 
+332.
+
+
+LaTeX Warning: Citation 'wang2021kepler' on page 26 undefined on input line 334
+.
+
+
+LaTeX Warning: Citation 'sun2019pullnet' on page 26 undefined on input line 336
+.
+
+
+[26]
+
+LaTeX Warning: Citation 'he2022rethinkingKG' on page 27 undefined on input line
+ 338.
+
+
+LaTeX Warning: Citation 'mavromatis2022rearev' on page 27 undefined on input li
+ne 340.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 27 undefi
+ned on input line 342.
+
+
+[27]
+
+LaTeX Warning: Citation 'yih2016websqp' on page 28 undefined on input line 348.
+
+
+
+LaTeX Warning: Citation 'talmor2018cwq' on page 28 undefined on input line 350.
+
+
+
+LaTeX Warning: Citation 'he2021multihop' on page 28 undefined on input line 352
+.
+
+
+LaTeX Warning: Citation 'yasunaga2021qagnn' on page 28 undefined on input line 
+354.
+
+
+[28]
+
+LaTeX Warning: Citation 'shi2021kgpath' on page 29 undefined on input line 356.
+
+
+
+LaTeX Warning: Citation 'saxena2022kgqa' on page 29 undefined on input line 358
+.
+
+
+LaTeX Warning: Citation 'lan2022kgqa' on page 29 undefined on input line 360.
+
+
+LaTeX Warning: Citation 'sun2019pullnet' on page 29 undefined on input line 362
+.
+
+
+[29]
+
+LaTeX Warning: Citation 'das2017go' on page 30 undefined on input line 364.
+
+
+LaTeX Warning: Citation 'zhang2022subgraph' on page 30 undefined on input line 
+366.
+
+
+[30]
+
+LaTeX Warning: Citation 'decao2021autoregressive' on page 31 undefined on input
+ line 374.
+
+
+LaTeX Warning: Citation 'geng2023grammarconstrained' on page 31 undefined on in
+put line 376.
+
+
+LaTeX Warning: Citation 'willard2023outlines' on page 31 undefined on input lin
+e 378.
+
+
+LaTeX Warning: Citation 'deutsch2019constrained' on page 31 undefined on input 
+line 380.
+
+
+[31]
+
+LaTeX Warning: Citation 'poesia2022synchromesh' on page 32 undefined on input l
+ine 382.
+
+
+LaTeX Warning: Citation 'scholak2021picard' on page 32 undefined on input line 
+384.
+
+
+LaTeX Warning: Citation 'anderson2017guided' on page 32 undefined on input line
+ 386.
+
+
+LaTeX Warning: Citation 'hokamp2017lexically' on page 32 undefined on input lin
+e 388.
+
+
+[32]
+
+LaTeX Warning: Citation 'lu2021neurologic' on page 33 undefined on input line 3
+90.
+
+
+LaTeX Warning: Citation 'zhang2023tractable' on page 33 undefined on input line
+ 392.
+
+
+[33]
+
+LaTeX Warning: Citation 'shi2021kgpath' on page 34 undefined on input line 398.
+
+
+
+LaTeX Warning: Citation 'saxena2022kgqa' on page 34 undefined on input line 398
+.
+
+
+LaTeX Warning: Citation 'he2021multihop' on page 34 undefined on input line 398
+.
+
+
+LaTeX Warning: Citation 'asai2019learning' on page 34 undefined on input line 3
+98.
+
+
+LaTeX Warning: Citation 'lewis2020rag' on page 34 undefined on input line 404.
+
+
+LaTeX Warning: Citation 'asai2024selfrag' on page 34 undefined on input line 40
+4.
+
+
+LaTeX Warning: Citation 'jiang2023flare' on page 34 undefined on input line 404
+.
+
+
+LaTeX Warning: Citation 'trivedi2022ircot' on page 34 undefined on input line 4
+04.
+
+
+LaTeX Warning: Citation 'edge2024graphrag' on page 34 undefined on input line 4
+04.
+
+
+LaTeX Warning: Citation 'wang2023selfconsistency' on page 34 undefined on input
+ line 404.
+
+
+LaTeX Warning: Citation 'huang2024selfcorrect' on page 34 undefined on input li
+ne 404.
+
+
+Overfull \hbox (41.13321pt too wide) in paragraph at lines 404--405
+\T1/ntxtlf/m/n/12 (-20) This improves factual coverage without changing the gen
+eration mechanism. []
+
+LaTeX Warning: Citation 'nakano2021webgpt' on page 34 undefined on input line 4
+06.
+
+
+LaTeX Warning: Citation 'gao2023rarr' on page 34 undefined on input line 406.
+
+
+LaTeX Warning: Citation 'agrawal2024mindfulrag' on page 34 undefined on input l
+ine 406.
+
+
+[34]
+
+LaTeX Warning: Citation 'yuan2026routerkgqa' on page 35 undefined on input line
+ 410.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 35 undefi
+ned on input line 419.
+
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 35 undefined on inp
+ut line 419.
+
+
+LaTeX Warning: Citation 'shi2021kgpath' on page 35 undefined on input line 419.
+
+
+
+LaTeX Warning: Citation 'saxena2022kgqa' on page 35 undefined on input line 419
+.
+
+
+LaTeX Warning: Citation 'yuan2026routerkgqa' on page 35 undefined on input line
+ 419.
+
+
+Overfull \hbox (28.76617pt too wide) in paragraph at lines 419--420
+\T1/ntxtlf/m/n/12 (-20) methods ([]; []) achieve structural
+
+[35]
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 36 undefi
+ned on input line 423.
+
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 36 undefined on inp
+ut line 423.
+
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 36 undefined on inp
+ut line 425.
+
+
+LaTeX Warning: Citation 'willard2023outlines' on page 36 undefined on input lin
+e 425.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 36 undefi
+ned on input line 459.
+
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 36 undefined on inp
+ut line 459.
+
+
+LaTeX Warning: Citation 'yuan2026routerkgqa' on page 36 undefined on input line
+ 459.
+
+
+LaTeX Warning: Citation 'luo2024rog' on page 36 undefined on input line 459.
+
+
+LaTeX Warning: Citation 'jiang2023structgpt' on page 36 undefined on input line
+ 459.
+
+
+LaTeX Warning: Citation 'jin2024graphcot' on page 36 undefined on input line 45
+9.
+
+
+LaTeX Warning: Citation 'jiang2022unikgqa' on page 36 undefined on input line 4
+59.
+
+
+LaTeX Warning: Citation 'wang2021kepler' on page 36 undefined on input line 459
+.
+
+
+LaTeX Warning: Citation 'mavromatis2022rearev' on page 36 undefined on input li
+ne 459.
+
+
+LaTeX Warning: Citation 'he2021multihop' on page 36 undefined on input line 459
+.
+
+
+LaTeX Warning: Citation 'yasunaga2021qagnn' on page 36 undefined on input line 
+459.
+
+
+LaTeX Warning: Citation 'das2017go' on page 36 undefined on input line 459.
+
+
+LaTeX Warning: Citation 'saxena2022kgqa' on page 36 undefined on input line 459
+.
+
+
+LaTeX Warning: Citation 'shi2021kgpath' on page 36 undefined on input line 459.
+
+
+
+LaTeX Warning: Citation 'asai2024selfrag' on page 36 undefined on input line 45
+9.
+
+
+LaTeX Warning: Citation 'edge2024graphrag' on page 36 undefined on input line 4
+59.
+
+
+LaTeX Warning: Citation 'geng2023grammarconstrained' on page 36 undefined on in
+put line 459.
+
+
+LaTeX Warning: Citation 'willard2023outlines' on page 36 undefined on input lin
+e 459.
+
+
+LaTeX Warning: Citation 'decao2021autoregressive' on page 36 undefined on input
+ line 459.
+
+
+LaTeX Warning: Citation 'scholak2021picard' on page 36 undefined on input line 
+459.
+
+
+LaTeX Warning: Citation 'lu2021neurologic' on page 36 undefined on input line 4
+59.
+
+
+[36])
+[37] (./Chapters/Chapter3.tex
+Chapter 3.
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 38 undefi
+ned on input line 22.
+
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 38 undefined on inp
+ut line 22.
+
+
+Overfull \hbox (136.1322pt too wide) in paragraph at lines 22--23
+\T1/ntxtlf/m/n/12 (-20) As established in Chapter 2, current graph-constrained 
+frameworks (notably GCR ([])
+
+[38]
+
+LaTeX Warning: Reference `sec:ch3sir' on page 39 undefined on input line 46.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 39 undefi
+ned on input line 69.
+
+
+Overfull \hbox (44.11986pt too wide) in paragraph at lines 69--70
+\T1/ntxtlf/m/n/12 (-20) baseline pipeline from Graph-Constrained Reasoning (GCR
+) ([]).
+
+[39]
+
+LaTeX Warning: Reference `fig:architecture' on page 40 undefined on input line 
+81.
+
+
+[40]
+[41]
+
+LaTeX Warning: Reference `fig:scorer' on page 42 undefined on input line 256.
+
+
+[42]
+
+LaTeX Warning: Citation 'reimers2019sbert' on page 43 undefined on input line 3
+14.
+
+
+[43]
+
+LaTeX Warning: Reference `fig:v1' on page 44 undefined on input line 342.
+
+
+[44]
+
+LaTeX Warning: Reference `alg:v1' on page 45 undefined on input line 384.
+
+
+[45]
+[46
+pdfTeX warning (ext4): destination with the same identifier (name{figure.captio
+n.129}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.448 
+      ]
+
+LaTeX Warning: Reference `eq:dca_oracle' on page 47 undefined on input line 460
+.
+
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 47 undefined on inp
+ut line 462.
+
+
+Overfull \hbox (3.14128pt too wide) in paragraph at lines 462--463
+[]\T1/ntxtlf/m/n/12 (-20) Architecturally, v2 follows the step-wise traversal p
+attern in DoG ([])
+
+LaTeX Warning: Reference `fig:v2' on page 47 undefined on input line 469.
+
+
+[47]
+
+LaTeX Warning: Reference `alg:v2' on page 48 undefined on input line 508.
+
+
+[48]
+[49
+pdfTeX warning (ext4): destination with the same identifier (name{figure.captio
+n.142}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.575 
+      ]
+
+LaTeX Warning: Reference `eq:v2expansion' on page 50 undefined on input line 58
+0.
+
+
+LaTeX Warning: Citation 'dubey2024llama3' on page 50 undefined on input line 58
+9.
+
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 50 undefi
+ned on input line 591.
+
+
+Overfull \hbox (47.22668pt too wide) in paragraph at lines 591--592
+[]\T1/ntxtlf/b/n/12 (-20) GCR: \T1/ntxtlf/m/n/12 (-20) The original Graph[]Cons
+trained Reasoning framework ([])
+
+LaTeX Warning: Reference `sec:ch3v1' on page 50 undefined on input line 593.
+
+
+LaTeX Warning: Reference `sec:ch3v2' on page 50 undefined on input line 595.
+
+
+[50]
+
+LaTeX Warning: Citation 'bollacker2008freebase' on page 51 undefined on input l
+ine 606.
+
+
+Overfull \hbox (19.5456pt too wide) in paragraph at lines 606--607
+\T1/ntxtlf/m/n/12 (-20) Evaluation is conducted on two standard Freebase-based 
+KGQA datasets ([]): 
+
+LaTeX Warning: Citation 'yih2016websqp' on page 51 undefined on input line 608.
+
+
+
+LaTeX Warning: Citation 'talmor2018cwq' on page 51 undefined on input line 610.
+
+
+
+Overfull \hbox (14.8576pt too wide) in paragraph at lines 610--611
+[]\T1/ntxtlf/b/n/12 (-20) ComplexWebQuestions (CWQ) \T1/ntxtlf/m/n/12 (-20) ([]
+): 34,689 questions with higher compositional
+
+LaTeX Warning: Citation 'lan2022survey' on page 51 undefined on input line 619.
+
+
+
+LaTeX Warning: Reference `eq:sir_step' on page 51 undefined on input line 623.
+
+
+LaTeX Warning: Reference `eq:sir_aggregate' on page 51 undefined on input line 
+623.
+
+
+LaTeX Warning: Citation 'lan2022survey' on page 51 undefined on input line 630.
+
+
+
+[51]
+
+LaTeX Warning: Citation 'wolf2020transformers' on page 52 undefined on input li
+ne 634.
+
+
+LaTeX Warning: Citation 'reimers2019sbert' on page 52 undefined on input line 6
+34.
+
+
+Overfull \hbox (1.66476pt too wide) in paragraph at lines 645--646
+[]\T1/ntxtlf/b/n/12 (-20) No model fine-tuning: \T1/ntxtlf/m/n/12 (-20) The Lla
+ma[]3.1[]8B backbone is not fine-tuned. Observed improvements
+
+LaTeX Warning: Citation 'luo2025-graph-constrained-reasoning' on page 52 undefi
+ned on input line 647.
+
+
+LaTeX Warning: Citation 'li2024-decoding-on-graphs' on page 52 undefined on inp
+ut line 647.
+
+
+Overfull \hbox (78.55138pt too wide) in paragraph at lines 647--648
+\T1/ntxtlf/m/n/12 (-20) paths against KG triplets, following established practi
+ce in prior work ([];
+)
+[52]
+[53] (./Appendices/AppendixA.tex
+[54 <./Figures/question1.jpg>])
+[55 <./Figures/question2.jpg>] (./Appendices/AppendixB.tex)
+[56 <./Figures/chat.png>]
+
+LaTeX Warning: Empty bibliography on input line 489.
+
+
+Package etoc Warning: Please load `tocloft' before `etoc'!
+
+(./UMaT_Undergraduate_Project_Report_Template.aux (./Chapters/Chapter1.aux)
+(./Chapters/Chapter2.aux)
+Runaway argument?
+{\contentsline {s 
+! File ended while scanning use of \@writefile.
+<inserted text> 
+                \par 
+l.170 \@input{Chapters/Chapter2.aux}
+                                    
+! Text line contains an invalid character.
+l.312 \citation{li2024-dec^^@
+                             ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 \citation{li2024-dec^^@^^@
+                                ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 \citation{li2024-dec^^@^^@^^@
+                                   ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 \citation{li2024-dec^^@^^@^^@^^@
+                                      ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 \citation{li2024-dec^^@^^@^^@^^@^^@
+                                         ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 \citation{li2024-dec^^@^^@^^@^^@^^@^^@
+                                            ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 \citation{li2024-dec^^@^^@^^@^^@^^@^^@^^@
+                                               ^^@^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 \citation{li2024-dec^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...ion{li2024-dec^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...{li2024-dec^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...2024-dec^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...4-dec^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...ec^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+
+! Text line contains an invalid character.
+l.312 ...^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@^^@
+                                                  ^^@^^@^^@^^@^^@^^@^^@^^@^^...
+(That makes 100 errors; please try again.)
+!  ==> Fatal error occurred, no output PDF file produced!
+Transcript written on UMaT_Undergraduate_Project_Report_Template.log.
