@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2026.3.5)  8 APR 2026 15:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2026.3.5)  10 APR 2026 12:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -182,6 +182,16 @@ File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen152
 \Gin@req@width=\dimen153
+) (/usr/share/texmf-dist/tex/latex/graphics/rotating.sty
+Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
+ (/usr/share/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+)
+\c@r@tfl@t=\count294
+\rotFPtop=\skip57
+\rotFPbot=\skip58
+\rot@float@box=\box68
+\rot@mess@toks=\toks21
 ) (/usr/share/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen154
@@ -194,12 +204,12 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \cmidrulesep=\dimen161
 \cmidrulekern=\dimen162
 \defaultaddspace=\dimen163
-\@cmidla=\count294
-\@cmidlb=\count295
+\@cmidla=\count295
+\@cmidlb=\count296
 \@aboverulesep=\dimen164
 \@belowrulesep=\dimen165
-\@thisruleclass=\count296
-\@lastruleclass=\count297
+\@thisruleclass=\count297
+\@lastruleclass=\count298
 \@thisrulewidth=\dimen166
 ) (/usr/share/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
@@ -215,12 +225,14 @@ Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
 \caption@hangindent=\dimen174
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count298
-\c@continuedfloat=\count299
+\c@caption@flags=\count299
+\c@continuedfloat=\count300
 Package caption Info: longtable package is loaded.
  (/usr/share/texmf-dist/tex/latex/caption/ltcaption.sty
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
-)) (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
+)
+Package caption Info: rotating package is loaded.
+) (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
  (/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
@@ -243,16 +255,16 @@ Package: scrlayer 2024/10/24 v3.43 KOMA-Script package (defining layers and page
  (/usr/share/texmf-dist/tex/latex/koma-script/scrkbase.sty
 Package: scrkbase 2024/10/24 v3.43 KOMA-Script package (KOMA-Script-dependent basics and keyval usage)
 )
-\footheight=\skip57
+\footheight=\skip59
 Package scrlayer Info: patching LaTeX kernel macro \pagestyle on input line 2182.
 ))) (/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
  (/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
-\Gm@cnth=\count300
-\Gm@cntv=\count301
-\c@Gm@tempcnt=\count302
+\Gm@cnth=\count301
+\Gm@cntv=\count302
+\c@Gm@tempcnt=\count303
 \Gm@bindingoffset=\dimen175
 \Gm@wd@mp=\dimen176
 \Gm@odd@mp=\dimen177
@@ -261,11 +273,11 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Gm@layoutheight=\dimen180
 \Gm@layouthoffset=\dimen181
 \Gm@layoutvoffset=\dimen182
-\Gm@dimlist=\toks21
+\Gm@dimlist=\toks22
 ) (/usr/share/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2024/02/08 v1.3d Input encoding file
-\inpenc@prehook=\toks22
-\inpenc@posthook=\toks23
+\inpenc@prehook=\toks23
+\inpenc@posthook=\toks24
 ) (/usr/share/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
 ) (/usr/share/texmf-dist/tex/latex/newtx/newtxtext.sty
@@ -275,28 +287,26 @@ Package: xpatch 2020/03/25 v0.3a Extending etoolbox patching commands
 ) (/usr/share/texmf-dist/tex/latex/xkeyval/xkeyval.sty
 Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
  (/usr/share/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/usr/share/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks24
-\XKV@tempa@toks=\toks25
+\XKV@toks=\toks25
+\XKV@tempa@toks=\toks26
 )
-\XKV@depth=\count303
+\XKV@depth=\count304
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 )) (/usr/share/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
 ) (/usr/share/texmf-dist/tex/generic/xstring/xstring.sty (/usr/share/texmf-dist/tex/generic/xstring/xstring.tex
-\xs_counta=\count304
-\xs_countb=\count305
+\xs_counta=\count305
+\xs_countb=\count306
 )
 Package: xstring 2023/08/22 v1.86 String manipulations (CT)
-) (/usr/share/texmf-dist/tex/latex/base/ifthen.sty
-Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 ) (/usr/share/texmf-dist/tex/latex/carlisle/scalefnt.sty)
 LaTeX Font Info:    Setting ntxLF sub-encoding to TS1/0 on input line 24.
 LaTeX Font Info:    Setting ntxTLF sub-encoding to TS1/0 on input line 24.
 LaTeX Font Info:    Setting ntxOsF sub-encoding to TS1/0 on input line 24.
 LaTeX Font Info:    Setting ntxTOsF sub-encoding to TS1/0 on input line 24.
  (/usr/share/texmf-dist/tex/generic/kastrup/binhex.tex)
-\ntx@tmpcnta=\count306
-\ntx@cnt=\count307
+\ntx@tmpcnta=\count307
+\ntx@cnt=\count308
  (/usr/share/texmf-dist/tex/latex/fontaxes/fontaxes.sty
 Package: fontaxes 2020/07/21 v1.0e Font selection axes
 LaTeX Info: Redefining \upshape on input line 29.
@@ -329,7 +339,7 @@ LaTeX Info: Redefining \oldstylenums on input line 902.
 Package: newtxmath 2024/09/22 v1.754
  `newtxmath' v1.754, 2024/09/22 Math macros based originally on txfonts (msharpe) (/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2024/11/05 v2.17t AMS math features
-\@mathmargin=\skip58
+\@mathmargin=\skip60
 
 For additional information on amsmath, use the `?' option.
 (/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
@@ -338,19 +348,19 @@ Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 ) (/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count308
+\inf@bad=\count309
 LaTeX Info: Redefining \frac on input line 233.
-\uproot@=\count309
-\leftroot@=\count310
+\uproot@=\count310
+\leftroot@=\count311
 LaTeX Info: Redefining \overline on input line 398.
 LaTeX Info: Redefining \colon on input line 409.
-\classnum@=\count311
-\DOTSCASE@=\count312
+\classnum@=\count312
+\DOTSCASE@=\count313
 LaTeX Info: Redefining \ldots on input line 495.
 LaTeX Info: Redefining \dots on input line 498.
 LaTeX Info: Redefining \cdots on input line 619.
-\Mathstrutbox@=\box68
-\strutbox@=\box69
+\Mathstrutbox@=\box69
+\strutbox@=\box70
 LaTeX Info: Redefining \big on input line 721.
 LaTeX Info: Redefining \Big on input line 722.
 LaTeX Info: Redefining \bigg on input line 723.
@@ -358,42 +368,42 @@ LaTeX Info: Redefining \Bigg on input line 724.
 \big@size=\dimen198
 LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
-\macc@depth=\count313
+\macc@depth=\count314
 LaTeX Info: Redefining \bmod on input line 904.
 LaTeX Info: Redefining \pmod on input line 909.
 LaTeX Info: Redefining \smash on input line 939.
 LaTeX Info: Redefining \relbar on input line 969.
 LaTeX Info: Redefining \Relbar on input line 970.
-\c@MaxMatrixCols=\count314
+\c@MaxMatrixCols=\count315
 \dotsspace@=\muskip17
-\c@parentequation=\count315
-\dspbrk@lvl=\count316
-\tag@help=\toks26
-\row@=\count317
-\column@=\count318
-\maxfields@=\count319
-\andhelp@=\toks27
+\c@parentequation=\count316
+\dspbrk@lvl=\count317
+\tag@help=\toks27
+\row@=\count318
+\column@=\count319
+\maxfields@=\count320
+\andhelp@=\toks28
 \eqnshift@=\dimen199
 \alignsep@=\dimen256
 \tagshift@=\dimen257
 \tagwidth@=\dimen258
 \totwidth@=\dimen259
 \lineht@=\dimen260
-\@envbody=\toks28
-\multlinegap=\skip59
-\multlinetaggap=\skip60
-\mathdisplay@stack=\toks29
+\@envbody=\toks29
+\multlinegap=\skip61
+\multlinetaggap=\skip62
+\mathdisplay@stack=\toks30
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
 ) (/usr/share/texmf-dist/tex/latex/oberdiek/centernot.sty
 Package: centernot 2016/05/16 v1.4 Centers the not symbol horizontally (HO)
 )
-\tx@cntz=\count320
+\tx@cntz=\count321
  (/usr/share/texmf-dist/tex/generic/kastrup/binhex.tex)
-\tx@Isdigit=\count321
-\tx@IsAlNum=\count322
-\tx@tA=\toks30
-\tx@tB=\toks31
+\tx@Isdigit=\count322
+\tx@IsAlNum=\count323
+\tx@tA=\toks31
+\tx@tB=\toks32
 \tx@su=\read3
 
 amsthm NOT loaded
@@ -475,7 +485,7 @@ LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
 \symlargesymbolsTXA=\mathgroup7
 LaTeX Font Info:    Overwriting symbol font `largesymbolsTXA' in version `bold'
 (Font)                  U/ntxexa/m/n --> U/ntxexa/b/n on input line 679.
-\tx@sbptoks=\toks32
+\tx@sbptoks=\toks33
 LaTeX Font Info:    Redeclaring math delimiter \lfloor on input line 902.
 LaTeX Font Info:    Redeclaring math delimiter \rfloor on input line 903.
 LaTeX Font Info:    Redeclaring math delimiter \lceil on input line 904.
@@ -495,18 +505,18 @@ LaTeX Info: Redefining \not on input line 2995.
 ) (/usr/share/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
 Package caption Info: New subtype `subfigure' on input line 238.
-\c@subfigure=\count323
+\c@subfigure=\count324
 Package caption Info: New subtype `subtable' on input line 238.
-\c@subtable=\count324
+\c@subtable=\count325
 ) (/usr/share/texmf-dist/tex/latex/csquotes/csquotes.sty
 Package: csquotes 2024-04-04 v5.2o context-sensitive quotations (JAW)
-\csq@reset=\count325
-\csq@gtype=\count326
-\csq@glevel=\count327
-\csq@qlevel=\count328
-\csq@maxlvl=\count329
-\csq@tshold=\count330
-\csq@ltx@everypar=\toks33
+\csq@reset=\count326
+\csq@gtype=\count327
+\csq@glevel=\count328
+\csq@qlevel=\count329
+\csq@maxlvl=\count330
+\csq@tshold=\count331
+\csq@ltx@everypar=\toks34
  (/usr/share/texmf-dist/tex/latex/csquotes/csquotes.def
 File: csquotes.def 2024-04-04 v5.2o csquotes generic definitions (JAW)
 )
@@ -520,70 +530,70 @@ Package csquotes Info: Enabling multilingual quotes.
 Package: biblatex 2024/03/21 v3.20 programmable bibliographies (PK/MW)
  (/usr/share/texmf-dist/tex/latex/logreq/logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count331
+\lrq@indent=\count332
  (/usr/share/texmf-dist/tex/latex/logreq/logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 )) (/usr/share/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-\c@tabx@nest=\count332
-\c@listtotal=\count333
-\c@listcount=\count334
-\c@liststart=\count335
-\c@liststop=\count336
-\c@citecount=\count337
-\c@citetotal=\count338
-\c@multicitecount=\count339
-\c@multicitetotal=\count340
-\c@instcount=\count341
-\c@maxnames=\count342
-\c@minnames=\count343
-\c@maxitems=\count344
-\c@minitems=\count345
-\c@citecounter=\count346
-\c@maxcitecounter=\count347
-\c@savedcitecounter=\count348
-\c@uniquelist=\count349
-\c@uniquename=\count350
-\c@refsection=\count351
-\c@refsegment=\count352
-\c@maxextratitle=\count353
-\c@maxextratitleyear=\count354
-\c@maxextraname=\count355
-\c@maxextradate=\count356
-\c@maxextraalpha=\count357
-\c@abbrvpenalty=\count358
-\c@highnamepenalty=\count359
-\c@lownamepenalty=\count360
-\c@maxparens=\count361
-\c@parenlevel=\count362
-\blx@tempcnta=\count363
-\blx@tempcntb=\count364
-\blx@tempcntc=\count365
-\c@blx@maxsection=\count366
-\blx@maxsegment@0=\count367
-\blx@notetype=\count368
-\blx@parenlevel@text=\count369
-\blx@parenlevel@foot=\count370
-\blx@sectionciteorder@0=\count371
-\blx@sectionciteorderinternal@0=\count372
-\blx@entrysetcounter=\count373
-\blx@biblioinstance=\count374
-\labelnumberwidth=\skip61
-\labelalphawidth=\skip62
-\biblabelsep=\skip63
-\bibitemsep=\skip64
-\bibnamesep=\skip65
-\bibinitsep=\skip66
-\bibparsep=\skip67
-\bibhang=\skip68
+\c@tabx@nest=\count333
+\c@listtotal=\count334
+\c@listcount=\count335
+\c@liststart=\count336
+\c@liststop=\count337
+\c@citecount=\count338
+\c@citetotal=\count339
+\c@multicitecount=\count340
+\c@multicitetotal=\count341
+\c@instcount=\count342
+\c@maxnames=\count343
+\c@minnames=\count344
+\c@maxitems=\count345
+\c@minitems=\count346
+\c@citecounter=\count347
+\c@maxcitecounter=\count348
+\c@savedcitecounter=\count349
+\c@uniquelist=\count350
+\c@uniquename=\count351
+\c@refsection=\count352
+\c@refsegment=\count353
+\c@maxextratitle=\count354
+\c@maxextratitleyear=\count355
+\c@maxextraname=\count356
+\c@maxextradate=\count357
+\c@maxextraalpha=\count358
+\c@abbrvpenalty=\count359
+\c@highnamepenalty=\count360
+\c@lownamepenalty=\count361
+\c@maxparens=\count362
+\c@parenlevel=\count363
+\blx@tempcnta=\count364
+\blx@tempcntb=\count365
+\blx@tempcntc=\count366
+\c@blx@maxsection=\count367
+\blx@maxsegment@0=\count368
+\blx@notetype=\count369
+\blx@parenlevel@text=\count370
+\blx@parenlevel@foot=\count371
+\blx@sectionciteorder@0=\count372
+\blx@sectionciteorderinternal@0=\count373
+\blx@entrysetcounter=\count374
+\blx@biblioinstance=\count375
+\labelnumberwidth=\skip63
+\labelalphawidth=\skip64
+\biblabelsep=\skip65
+\bibitemsep=\skip66
+\bibnamesep=\skip67
+\bibinitsep=\skip68
+\bibparsep=\skip69
+\bibhang=\skip70
 \blx@bcfin=\read4
 \blx@bcfout=\write3
 \blx@langwohyphens=\language4
-\c@mincomprange=\count375
-\c@maxcomprange=\count376
-\c@mincompwidth=\count377
+\c@mincomprange=\count376
+\c@maxcomprange=\count377
+\c@mincompwidth=\count378
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
  (/usr/share/texmf-dist/tex/latex/biblatex/blx-dm.def
@@ -593,88 +603,88 @@ Package biblatex Info: Trying to load biblatex style data model...
 Package biblatex Info: ... file 'authoryear.dbx' not found.
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count378
-\c@savedafterword=\count379
-\c@annotator=\count380
-\c@savedannotator=\count381
-\c@author=\count382
-\c@savedauthor=\count383
-\c@bookauthor=\count384
-\c@savedbookauthor=\count385
-\c@commentator=\count386
-\c@savedcommentator=\count387
-\c@editor=\count388
-\c@savededitor=\count389
-\c@editora=\count390
-\c@savededitora=\count391
-\c@editorb=\count392
-\c@savededitorb=\count393
-\c@editorc=\count394
-\c@savededitorc=\count395
-\c@foreword=\count396
-\c@savedforeword=\count397
-\c@holder=\count398
-\c@savedholder=\count399
-\c@introduction=\count400
-\c@savedintroduction=\count401
-\c@namea=\count402
-\c@savednamea=\count403
-\c@nameb=\count404
-\c@savednameb=\count405
-\c@namec=\count406
-\c@savednamec=\count407
-\c@translator=\count408
-\c@savedtranslator=\count409
-\c@shortauthor=\count410
-\c@savedshortauthor=\count411
-\c@shorteditor=\count412
-\c@savedshorteditor=\count413
-\c@labelname=\count414
-\c@savedlabelname=\count415
-\c@institution=\count416
-\c@savedinstitution=\count417
-\c@lista=\count418
-\c@savedlista=\count419
-\c@listb=\count420
-\c@savedlistb=\count421
-\c@listc=\count422
-\c@savedlistc=\count423
-\c@listd=\count424
-\c@savedlistd=\count425
-\c@liste=\count426
-\c@savedliste=\count427
-\c@listf=\count428
-\c@savedlistf=\count429
-\c@location=\count430
-\c@savedlocation=\count431
-\c@organization=\count432
-\c@savedorganization=\count433
-\c@origlocation=\count434
-\c@savedoriglocation=\count435
-\c@origpublisher=\count436
-\c@savedorigpublisher=\count437
-\c@publisher=\count438
-\c@savedpublisher=\count439
-\c@language=\count440
-\c@savedlanguage=\count441
-\c@origlanguage=\count442
-\c@savedoriglanguage=\count443
-\c@pageref=\count444
-\c@savedpageref=\count445
-\shorthandwidth=\skip69
-\shortjournalwidth=\skip70
-\shortserieswidth=\skip71
-\shorttitlewidth=\skip72
-\shortauthorwidth=\skip73
-\shorteditorwidth=\skip74
-\locallabelnumberwidth=\skip75
-\locallabelalphawidth=\skip76
-\localshorthandwidth=\skip77
-\localshortjournalwidth=\skip78
-\localshortserieswidth=\skip79
-\localshorttitlewidth=\skip80
-\localshortauthorwidth=\skip81
-\localshorteditorwidth=\skip82
+\c@afterword=\count379
+\c@savedafterword=\count380
+\c@annotator=\count381
+\c@savedannotator=\count382
+\c@author=\count383
+\c@savedauthor=\count384
+\c@bookauthor=\count385
+\c@savedbookauthor=\count386
+\c@commentator=\count387
+\c@savedcommentator=\count388
+\c@editor=\count389
+\c@savededitor=\count390
+\c@editora=\count391
+\c@savededitora=\count392
+\c@editorb=\count393
+\c@savededitorb=\count394
+\c@editorc=\count395
+\c@savededitorc=\count396
+\c@foreword=\count397
+\c@savedforeword=\count398
+\c@holder=\count399
+\c@savedholder=\count400
+\c@introduction=\count401
+\c@savedintroduction=\count402
+\c@namea=\count403
+\c@savednamea=\count404
+\c@nameb=\count405
+\c@savednameb=\count406
+\c@namec=\count407
+\c@savednamec=\count408
+\c@translator=\count409
+\c@savedtranslator=\count410
+\c@shortauthor=\count411
+\c@savedshortauthor=\count412
+\c@shorteditor=\count413
+\c@savedshorteditor=\count414
+\c@labelname=\count415
+\c@savedlabelname=\count416
+\c@institution=\count417
+\c@savedinstitution=\count418
+\c@lista=\count419
+\c@savedlista=\count420
+\c@listb=\count421
+\c@savedlistb=\count422
+\c@listc=\count423
+\c@savedlistc=\count424
+\c@listd=\count425
+\c@savedlistd=\count426
+\c@liste=\count427
+\c@savedliste=\count428
+\c@listf=\count429
+\c@savedlistf=\count430
+\c@location=\count431
+\c@savedlocation=\count432
+\c@organization=\count433
+\c@savedorganization=\count434
+\c@origlocation=\count435
+\c@savedoriglocation=\count436
+\c@origpublisher=\count437
+\c@savedorigpublisher=\count438
+\c@publisher=\count439
+\c@savedpublisher=\count440
+\c@language=\count441
+\c@savedlanguage=\count442
+\c@origlanguage=\count443
+\c@savedoriglanguage=\count444
+\c@pageref=\count445
+\c@savedpageref=\count446
+\shorthandwidth=\skip71
+\shortjournalwidth=\skip72
+\shortserieswidth=\skip73
+\shorttitlewidth=\skip74
+\shortauthorwidth=\skip75
+\shorteditorwidth=\skip76
+\locallabelnumberwidth=\skip77
+\locallabelalphawidth=\skip78
+\localshorthandwidth=\skip79
+\localshortjournalwidth=\skip80
+\localshortserieswidth=\skip81
+\localshorttitlewidth=\skip82
+\localshortauthorwidth=\skip83
+\localshorteditorwidth=\skip84
 Package biblatex Info: Trying to load compatibility code...
 Package biblatex Info: ... file 'blx-compat.def' found.
  (/usr/share/texmf-dist/tex/latex/biblatex/blx-compat.def
@@ -684,19 +694,19 @@ Package biblatex Info: Trying to load generic definitions...
 Package biblatex Info: ... file 'biblatex.def' found.
  (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.def
 File: biblatex.def 2024/03/21 v3.20 biblatex compatibility (PK/MW)
-\c@textcitecount=\count446
-\c@textcitetotal=\count447
-\c@textcitemaxnames=\count448
-\c@biburlbigbreakpenalty=\count449
-\c@biburlbreakpenalty=\count450
-\c@biburlnumpenalty=\count451
-\c@biburlucpenalty=\count452
-\c@biburllcpenalty=\count453
+\c@textcitecount=\count447
+\c@textcitetotal=\count448
+\c@textcitemaxnames=\count449
+\c@biburlbigbreakpenalty=\count450
+\c@biburlbreakpenalty=\count451
+\c@biburlnumpenalty=\count452
+\c@biburlucpenalty=\count453
+\c@biburllcpenalty=\count454
 \biburlbigskip=\muskip19
 \biburlnumskip=\muskip20
 \biburlucskip=\muskip21
 \biburllcskip=\muskip22
-\c@smartand=\count454
+\c@smartand=\count455
 )
 Package biblatex Info: Trying to load natbib compatibility...
 Package biblatex Info: ... file 'blx-natbib.def' found.
@@ -712,8 +722,8 @@ Package biblatex Info: Trying to load bibliography style 'standard'...
 Package biblatex Info: ... file 'standard.bbx' found.
  (/usr/share/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
 File: standard.bbx 2024/03/21 v3.20 biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count455
-\c@bbx:relatedtotal=\count456
+\c@bbx:relatedcount=\count456
+\c@bbx:relatedtotal=\count457
 ))
 Package biblatex Info: Trying to load citation style 'authoryear'...
 Package biblatex Info: ... file 'authoryear.cbx' found.
@@ -746,12 +756,12 @@ Package biblatex Info: Delimiter 'nameyeardelim' in context '' already defined, 
 Package: times 2020/03/25 PSNFSS-v9.3 (SPQR) 
 ) (/usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty
 Package: titlesec 2025/01/04 v2.17 Sectioning titles
-\ttl@box=\box70
-\beforetitleunit=\skip83
-\aftertitleunit=\skip84
+\ttl@box=\box71
+\beforetitleunit=\skip85
+\aftertitleunit=\skip86
 \ttl@plus=\dimen261
 \ttl@minus=\dimen262
-\ttl@toksa=\toks34
+\ttl@toksa=\toks35
 \titlewidth=\dimen263
 \titlewidthlast=\dimen264
 \titlewidthfirst=\dimen265
@@ -760,12 +770,12 @@ Package: titletoc 2025/01/04 v2.17 TOC entries
 \ttl@leftsep=\dimen266
 ) (/usr/share/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2025/02/06 v3.11 Customized lists
-\labelindent=\skip85
+\labelindent=\skip87
 \enit@outerparindent=\dimen267
-\enit@toks=\toks35
-\enit@inbox=\box71
-\enit@count@id=\count457
-\enitdp@description=\count458
+\enit@toks=\toks36
+\enit@inbox=\box72
+\enit@count@id=\count458
+\enitdp@description=\count459
 ) (/usr/share/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
 \TX@col@width=\dimen268
@@ -773,40 +783,40 @@ Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
 \TX@old@col=\dimen270
 \TX@target=\dimen271
 \TX@delta=\dimen272
-\TX@cols=\count459
-\TX@ftn=\toks36
+\TX@cols=\count460
+\TX@ftn=\toks37
 ) (/usr/share/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count460
-\float@exts=\toks37
-\float@box=\box72
-\@float@everytoks=\toks38
-\@floatcapt=\box73
+\c@float@type=\count461
+\float@exts=\toks38
+\float@box=\box73
+\@float@everytoks=\toks39
+\@floatcapt=\box74
 ) (/usr/share/texmf-dist/tex/latex/floatbytocbasic/floatbytocbasic.sty
 Package: floatbytocbasic 2023-08-16 v1.0 improved float package using tocbasic
  (/usr/share/texmf-dist/tex/latex/koma-script/tocbasic.sty
 Package: tocbasic 2024/10/24 v3.43 KOMA-Script package (handling toc-files)
-\scr@dte@tocline@numberwidth=\skip86
-\scr@dte@tocline@numbox=\box74
+\scr@dte@tocline@numberwidth=\skip88
+\scr@dte@tocline@numbox=\box75
 )) (/usr/share/texmf-dist/tex/latex/microtype/microtype.sty
 Package: microtype 2025/02/11 v3.2a Micro-typographical refinements (RS)
-\MT@toks=\toks39
-\MT@tempbox=\box75
-\MT@count=\count461
+\MT@toks=\toks40
+\MT@tempbox=\box76
+\MT@count=\count462
 LaTeX Info: Redefining \noprotrusionifhmode on input line 1087.
 LaTeX Info: Redefining \leftprotrusion on input line 1088.
-\MT@prot@toks=\toks40
+\MT@prot@toks=\toks41
 LaTeX Info: Redefining \rightprotrusion on input line 1107.
 LaTeX Info: Redefining \textls on input line 1449.
 \MT@outer@kern=\dimen273
 LaTeX Info: Redefining \microtypecontext on input line 2053.
 LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
-\MT@listname@count=\count462
+\MT@listname@count=\count463
  (/usr/share/texmf-dist/tex/latex/microtype/microtype-pdftex.def
 File: microtype-pdftex.def 2025/02/11 v3.2a Definitions specific to pdftex (RS)
 LaTeX Info: Redefining \lsstyle on input line 944.
 LaTeX Info: Redefining \lslig on input line 944.
-\MT@outer@space=\skip87
+\MT@outer@space=\skip89
 )
 Package microtype Info: Loading configuration file microtype.cfg.
  (/usr/share/texmf-dist/tex/latex/microtype/microtype.cfg
@@ -817,29 +827,28 @@ LaTeX Info: Redefining \microtypesetup on input line 3065.
 Package: etoc 2023/10/29 v1.2d Completely customisable TOCs (JFB)
  (/usr/share/texmf-dist/tex/latex/tools/multicol.sty
 Package: multicol 2024/09/14 v1.9i multicolumn formatting (FMi)
-\c@tracingmulticols=\count463
-\mult@box=\box76
+\c@tracingmulticols=\count464
+\mult@box=\box77
 \multicol@leftmargin=\dimen274
-\c@unbalance=\count464
-\c@collectmore=\count465
-\doublecol@number=\count466
-\multicoltolerance=\count467
-\multicolpretolerance=\count468
+\c@unbalance=\count465
+\c@collectmore=\count466
+\doublecol@number=\count467
+\multicoltolerance=\count468
+\multicolpretolerance=\count469
 \full@width=\dimen275
 \page@free=\dimen276
 \premulticols=\dimen277
 \postmulticols=\dimen278
-\multicolsep=\skip88
-\multicolbaselineskip=\skip89
-\partial@page=\box77
-\last@line=\box78
-\mc@boxedresult=\box79
+\multicolsep=\skip90
+\multicolbaselineskip=\skip91
+\partial@page=\box78
+\last@line=\box79
+\mc@boxedresult=\box80
 \maxbalancingoverflow=\dimen279
-\mult@rightbox=\box80
-\mult@grightbox=\box81
-\mult@firstbox=\box82
-\mult@gfirstbox=\box83
-\@tempa=\box84
+\mult@rightbox=\box81
+\mult@grightbox=\box82
+\mult@firstbox=\box83
+\mult@gfirstbox=\box84
 \@tempa=\box85
 \@tempa=\box86
 \@tempa=\box87
@@ -875,67 +884,68 @@ Package: multicol 2024/09/14 v1.9i multicolumn formatting (FMi)
 \@tempa=\box117
 \@tempa=\box118
 \@tempa=\box119
-\c@minrows=\count469
-\c@columnbadness=\count470
-\c@finalcolumnbadness=\count471
+\@tempa=\box120
+\c@minrows=\count470
+\c@columnbadness=\count471
+\c@finalcolumnbadness=\count472
 \last@try=\dimen280
 \multicolovershoot=\dimen281
 \multicolundershoot=\dimen282
-\mult@nat@firstbox=\box120
-\colbreak@box=\box121
-\mc@col@check@num=\count472
+\mult@nat@firstbox=\box121
+\colbreak@box=\box122
+\mc@col@check@num=\count473
 )
-\Etoc@toctoks=\toks41
-\c@etoc@tocid=\count473
-\etoc@framed@titlebox=\box122
-\etoc@framed@contentsbox=\box123
+\Etoc@toctoks=\toks42
+\c@etoc@tocid=\count474
+\etoc@framed@titlebox=\box123
+\etoc@framed@contentsbox=\box124
 ) (/usr/share/texmf-dist/tex/latex/ltablex/ltablex.sty
 Package: ltablex 2014/08/13 v1.1 Modified tabularx
 ) (/usr/share/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
-\multirow@colwidth=\skip90
-\multirow@cntb=\count474
-\multirow@dima=\skip91
+\multirow@colwidth=\skip92
+\multirow@cntb=\count475
+\multirow@dima=\skip93
 \bigstrutjot=\dimen283
 ) (/usr/share/texmf-dist/tex/latex/tocloft/tocloft.sty
 Package: tocloft 2017/08/31 v2.3i parameterised ToC, etc., typesetting
 Package tocloft Info: The document has chapter divisions on input line 51.
-\cftparskip=\skip92
-\cftbeforetoctitleskip=\skip93
-\cftaftertoctitleskip=\skip94
-\cftbeforepartskip=\skip95
-\cftpartnumwidth=\skip96
-\cftpartindent=\skip97
-\cftbeforechapskip=\skip98
-\cftchapindent=\skip99
-\cftchapnumwidth=\skip100
-\cftbeforesecskip=\skip101
-\cftsecindent=\skip102
-\cftsecnumwidth=\skip103
-\cftbeforesubsecskip=\skip104
-\cftsubsecindent=\skip105
-\cftsubsecnumwidth=\skip106
-\cftbeforesubsubsecskip=\skip107
-\cftsubsubsecindent=\skip108
-\cftsubsubsecnumwidth=\skip109
-\cftbeforeparaskip=\skip110
-\cftparaindent=\skip111
-\cftparanumwidth=\skip112
-\cftbeforesubparaskip=\skip113
-\cftsubparaindent=\skip114
-\cftsubparanumwidth=\skip115
-\cftbeforeloftitleskip=\skip116
-\cftafterloftitleskip=\skip117
-\cftbeforefigskip=\skip118
-\cftfigindent=\skip119
-\cftfignumwidth=\skip120
-\c@lofdepth=\count475
-\c@lotdepth=\count476
-\cftbeforelottitleskip=\skip121
-\cftafterlottitleskip=\skip122
-\cftbeforetabskip=\skip123
-\cfttabindent=\skip124
-\cfttabnumwidth=\skip125
+\cftparskip=\skip94
+\cftbeforetoctitleskip=\skip95
+\cftaftertoctitleskip=\skip96
+\cftbeforepartskip=\skip97
+\cftpartnumwidth=\skip98
+\cftpartindent=\skip99
+\cftbeforechapskip=\skip100
+\cftchapindent=\skip101
+\cftchapnumwidth=\skip102
+\cftbeforesecskip=\skip103
+\cftsecindent=\skip104
+\cftsecnumwidth=\skip105
+\cftbeforesubsecskip=\skip106
+\cftsubsecindent=\skip107
+\cftsubsecnumwidth=\skip108
+\cftbeforesubsubsecskip=\skip109
+\cftsubsubsecindent=\skip110
+\cftsubsubsecnumwidth=\skip111
+\cftbeforeparaskip=\skip112
+\cftparaindent=\skip113
+\cftparanumwidth=\skip114
+\cftbeforesubparaskip=\skip115
+\cftsubparaindent=\skip116
+\cftsubparanumwidth=\skip117
+\cftbeforeloftitleskip=\skip118
+\cftafterloftitleskip=\skip119
+\cftbeforefigskip=\skip120
+\cftfigindent=\skip121
+\cftfignumwidth=\skip122
+\c@lofdepth=\count476
+\c@lotdepth=\count477
+\cftbeforelottitleskip=\skip123
+\cftafterlottitleskip=\skip124
+\cftbeforetabskip=\skip125
+\cfttabindent=\skip126
+\cfttabnumwidth=\skip127
 
 
 Package tocloft Warning: \@starttoc has already been redefined; tocloft bailing out. on input line 1156.
@@ -948,9 +958,9 @@ LaTeX Info: Redefining \_ on input line 43.
 Package: l3keys2e 2024-08-16 LaTeX2e option processing using LaTeX3 keys
 )
 Package: lipsum 2021-09-20 v2.7 150 paragraphs of Lorem Ipsum dummy text
-\g__lipsum_par_int=\count477
-\l__lipsum_a_int=\count478
-\l__lipsum_b_int=\count479
+\g__lipsum_par_int=\count478
+\l__lipsum_a_int=\count479
+\l__lipsum_b_int=\count480
  (/usr/share/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex)) (/usr/share/texmf-dist/tex/latex/tocbibind/tocbibind.sty
 Package: tocbibind 2010/10/13 v1.5k extra ToC listings
 Package tocbibind Info: The document has chapter divisions on input line 50.
@@ -973,13 +983,13 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count480
+\c@section@level=\count481
 ) (/usr/share/texmf-dist/tex/generic/stringenc/stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 )
 \@linkdim=\dimen284
-\Hy@linkcounter=\count481
-\Hy@pagecounter=\count482
+\Hy@linkcounter=\count482
+\Hy@pagecounter=\count483
  (/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2024-11-05 v7.01l Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
@@ -987,7 +997,7 @@ Now handling font encoding PD1 ...
 ) (/usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count483
+\Hy@SavedSpaceFactor=\count484
  (/usr/share/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2024-11-05 v7.01l Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
@@ -1000,7 +1010,7 @@ Package hyperref Info: Plain pages OFF on input line 4172.
 Package hyperref Info: Backreferencing OFF on input line 4177.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4424.
-\c@Hy@tempcnt=\count484
+\c@Hy@tempcnt=\count485
 LaTeX Info: Redefining \url on input line 4763.
 \XeTeXLinkMargin=\dimen285
  (/usr/share/texmf-dist/tex/generic/bitset/bitset.sty
@@ -1008,7 +1018,7 @@ Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
  (/usr/share/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
-\Fld@menulength=\count485
+\Fld@menulength=\count486
 \Field@Width=\dimen286
 \Fld@charsize=\dimen287
 Package hyperref Info: Hyper figures OFF on input line 6042.
@@ -1022,9 +1032,9 @@ Package hyperref Info: PDF/A mode OFF on input line 6072.
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count486
-\c@Item=\count487
-\c@Hfootnote=\count488
+\Hy@abspage=\count487
+\c@Item=\count488
+\c@Hfootnote=\count489
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
  (/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
@@ -1033,8 +1043,8 @@ File: hpdftex.def 2024-11-05 v7.01l Hyperref driver for pdfTeX
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
 )
-\Fld@listcount=\count489
-\c@bookmark@seq@number=\count490
+\Fld@listcount=\count490
+\c@bookmark@seq@number=\count491
  (/usr/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
  (/usr/share/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
@@ -1042,15 +1052,15 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
-\Hy@SectionHShift=\skip126
+\Hy@SectionHShift=\skip128
 ) (/usr/share/texmf-dist/tex/latex/pgfgantt/pgfgantt.sty
 Package: pgfgantt 2024/06/19 v5.0a Draw Gantt diagrams with TikZ
  (/usr/share/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
-\pgfutil@everybye=\toks42
+\pgfutil@everybye=\toks43
 \pgfutil@tempdima=\dimen288
 \pgfutil@tempdimb=\dimen289
 ) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
-\pgfutil@abb=\box124
+\pgfutil@abb=\box125
 ) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (/usr/share/texmf-dist/tex/generic/pgf/pgf.revision.tex)
 Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
 ))
@@ -1058,10 +1068,10 @@ Package: pgf 2023-01-15 v3.1.10 (3.1.10)
  (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/usr/share/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
 Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
  (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks43
-\pgfkeys@temptoks=\toks44
+\pgfkeys@pathtoks=\toks44
+\pgfkeys@temptoks=\toks45
  (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
-\pgfkeys@tmptoks=\toks45
+\pgfkeys@tmptoks=\toks46
 ))
 \pgf@x=\dimen290
 \pgf@y=\dimen291
@@ -1075,14 +1085,14 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
 \pgf@yd=\dimen299
 \w@pgf@writea=\write4
 \r@pgf@reada=\read5
-\c@pgf@counta=\count491
-\c@pgf@countb=\count492
-\c@pgf@countc=\count493
-\c@pgf@countd=\count494
-\t@pgf@toka=\toks46
-\t@pgf@tokb=\toks47
-\t@pgf@tokc=\toks48
-\pgf@sys@id@count=\count495
+\c@pgf@counta=\count492
+\c@pgf@countb=\count493
+\c@pgf@countc=\count494
+\c@pgf@countd=\count495
+\t@pgf@toka=\toks47
+\t@pgf@tokb=\toks48
+\t@pgf@tokc=\toks49
+\pgf@sys@id@count=\count496
  (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
@@ -1093,21 +1103,21 @@ File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
 File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
 ))) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfsyssoftpath@smallbuffer@items=\count496
-\pgfsyssoftpath@bigbuffer@items=\count497
+\pgfsyssoftpath@smallbuffer@items=\count497
+\pgfsyssoftpath@bigbuffer@items=\count498
 ) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
  (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
 \pgfmath@dimen=\dimen300
-\pgfmath@count=\count498
-\pgfmath@box=\box125
-\pgfmath@toks=\toks49
-\pgfmath@stack@operand=\toks50
-\pgfmath@stack@operation=\toks51
+\pgfmath@count=\count499
+\pgfmath@box=\box126
+\pgfmath@toks=\toks50
+\pgfmath@stack@operand=\toks51
+\pgfmath@stack@operation=\toks52
 ) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count499
+\c@pgfmathroundto@lastzeros=\count500
 )) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@picminx=\dimen301
@@ -1134,10 +1144,10 @@ File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@shorten@start@additional=\dimen318
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfpic=\box126
-\pgf@hbox=\box127
-\pgf@layerbox@main=\box128
-\pgf@picture@serial@count=\count500
+\pgfpic=\box127
+\pgf@hbox=\box128
+\pgf@layerbox@main=\box129
+\pgf@picture@serial@count=\count501
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgflinewidth=\dimen319
@@ -1158,13 +1168,13 @@ File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgf@max=\dimen324
-\pgf@sys@shading@range@num=\count501
-\pgf@shadingcount=\count502
+\pgf@sys@shading@range@num=\count502
+\pgf@shadingcount=\count503
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
 File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfexternal@startupbox=\box129
+\pgfexternal@startupbox=\box130
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
 File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
@@ -1175,7 +1185,7 @@ File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
 File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ))) (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
 File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfnodeparttextbox=\box130
+\pgfnodeparttextbox=\box131
 ) (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
 File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/share/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
@@ -1188,13 +1198,13 @@ Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
 Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
 \pgffor@iter=\dimen327
 \pgffor@skip=\dimen328
-\pgffor@stack=\toks52
-\pgffor@toks=\toks53
+\pgffor@stack=\toks53
+\pgffor@toks=\toks54
 )) (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2023-01-15 v3.1.10 (3.1.10)
  (/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@plot@mark@count=\count503
+\pgf@plot@mark@count=\count504
 \pgfplotmarksize=\dimen329
 )
 \tikz@lastx=\dimen330
@@ -1205,21 +1215,21 @@ File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \tikz@lastmovetoy=\dimen335
 \tikzleveldistance=\dimen336
 \tikzsiblingdistance=\dimen337
-\tikz@figbox=\box131
-\tikz@figbox@bg=\box132
-\tikz@tempbox=\box133
-\tikz@tempbox@bg=\box134
-\tikztreelevel=\count504
-\tikznumberofchildren=\count505
-\tikznumberofcurrentchild=\count506
-\tikz@fig@count=\count507
+\tikz@figbox=\box132
+\tikz@figbox@bg=\box133
+\tikz@tempbox=\box134
+\tikz@tempbox@bg=\box135
+\tikztreelevel=\count505
+\tikznumberofchildren=\count506
+\tikznumberofcurrentchild=\count507
+\tikz@fig@count=\count508
  (/usr/share/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfmatrixcurrentrow=\count508
-\pgfmatrixcurrentcolumn=\count509
-\pgf@matrix@numberofcolumns=\count510
+\pgfmatrixcurrentrow=\count509
+\pgfmatrixcurrentcolumn=\count510
+\pgf@matrix@numberofcolumns=\count511
 )
-\tikz@expandcount=\count511
+\tikz@expandcount=\count512
  (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ))) (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryarrows.code.tex
@@ -1229,8 +1239,8 @@ File: pgflibraryarrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \arrowsize=\dimen338
 )) (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarybackgrounds.code.tex
 File: tikzlibrarybackgrounds.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@layerbox@background=\box135
-\pgf@layerboxsaved@background=\box136
+\pgf@layerbox@background=\box136
+\pgf@layerboxsaved@background=\box137
 ) (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex
 File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (/usr/share/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypatterns.code.tex
@@ -1245,55 +1255,55 @@ File: tikzlibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
 File: pgflibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )) (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfcalendar.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfcalendar.code.tex
 File: pgfcalendar.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfcalendarcurrentjulian=\count512
-\pgf@cal@easter@Y=\count513
-\pgf@cal@easter@G=\count514
-\pgf@cal@easter@C=\count515
-\pgf@cal@easter@X=\count516
-\pgf@cal@easter@Z=\count517
-\pgf@cal@easter@D=\count518
-\pgf@cal@easter@E=\count519
-\pgf@cal@easter@N=\count520
-\pgf@cal@easter@M=\count521
-\pgf@cal@easter@julianday=\count522
+\pgfcalendarcurrentjulian=\count513
+\pgf@cal@easter@Y=\count514
+\pgf@cal@easter@G=\count515
+\pgf@cal@easter@C=\count516
+\pgf@cal@easter@X=\count517
+\pgf@cal@easter@Z=\count518
+\pgf@cal@easter@D=\count519
+\pgf@cal@easter@E=\count520
+\pgf@cal@easter@N=\count521
+\pgf@cal@easter@M=\count522
+\pgf@cal@easter@julianday=\count523
 ))
-\gtt@currentline=\count523
-\gtt@lasttitleline=\count524
-\gtt@currgrid=\count525
-\gtt@chartwidth=\count526
-\gtt@lasttitleslot=\count527
-\gtt@elementid=\count528
-\gtt@today@slot=\count529
-\gtt@startjulian=\count530
-\gtt@endjulian=\count531
-\gtt@chartid=\count532
-\gtt@vrule@slot=\count533
-\gtt@calendar@slots=\count534
-\gtt@calendar@weeknumber=\count535
-\gtt@calendar@startofweek=\count536
-\gtt@left@slot=\count537
-\gtt@right@slot=\count538
+\gtt@currentline=\count524
+\gtt@lasttitleline=\count525
+\gtt@currgrid=\count526
+\gtt@chartwidth=\count527
+\gtt@lasttitleslot=\count528
+\gtt@elementid=\count529
+\gtt@today@slot=\count530
+\gtt@startjulian=\count531
+\gtt@endjulian=\count532
+\gtt@chartid=\count533
+\gtt@vrule@slot=\count534
+\gtt@calendar@slots=\count535
+\gtt@calendar@weeknumber=\count536
+\gtt@calendar@startofweek=\count537
+\gtt@left@slot=\count538
+\gtt@right@slot=\count539
 ) (/usr/share/texmf-dist/tex/latex/algorithms/algorithm.sty
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
 Package tocbasic Info: setting babel extension for `loa' on input line 96.
-\@float@every@algorithm=\toks54
-\c@algorithm=\count539
+\@float@every@algorithm=\toks55
+\c@algorithm=\count540
 ) (/usr/share/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
 Package: algpseudocode 
  (/usr/share/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count540
-\c@ALG@rem=\count541
-\c@ALG@nested=\count542
-\ALG@tlm=\skip127
-\ALG@thistlm=\skip128
-\c@ALG@Lnr=\count543
-\c@ALG@blocknr=\count544
-\c@ALG@storecount=\count545
-\c@ALG@tmpcounter=\count546
-\ALG@tmplength=\skip129
+\c@ALG@line=\count541
+\c@ALG@rem=\count542
+\c@ALG@nested=\count543
+\ALG@tlm=\skip129
+\ALG@thistlm=\skip130
+\c@ALG@Lnr=\count544
+\c@ALG@blocknr=\count545
+\c@ALG@storecount=\count546
+\c@ALG@tmpcounter=\count547
+\ALG@tmplength=\skip131
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
 ) (/usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.code.tex
@@ -1307,7 +1317,7 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 ) (/usr/share/texmf-dist/tex/latex/lscapeenhanced/lscapeenhanced.sty
 Package: lscapeenhanced 2024-04-16 v1.0 improved lscape package
 Package lscapeenhanced Info: \landscape patched to make \textheight change optional on input line 72.
-\@lscapeenhanced@textheight=\skip130
+\@lscapeenhanced@textheight=\skip132
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 164.
 Package hyperref Info: Option `bookmarksopen' set `true' on input line 294.
@@ -1370,17 +1380,17 @@ File: translations-basic-dictionary-english.trsl (english translation file `tran
 Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 294.
  (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count547
+\scratchcounter=\count548
 \scratchdimen=\dimen343
-\scratchbox=\box137
-\nofMPsegments=\count548
-\nofMParguments=\count549
-\everyMPshowfont=\toks55
-\MPscratchCnt=\count550
+\scratchbox=\box138
+\nofMPsegments=\count549
+\nofMParguments=\count550
+\everyMPshowfont=\toks56
+\MPscratchCnt=\count551
 \MPscratchDim=\dimen344
-\MPnumerator=\count551
-\makeMPintoPDFobject=\count552
-\everyMPtoPDFconversion=\toks56
+\MPnumerator=\count552
+\makeMPintoPDFobject=\count553
+\everyMPtoPDFconversion=\toks57
 ) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -1443,8 +1453,8 @@ Package scrbase Info: activating english \symbolsname on input line 294.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@mv@tabular=\count553
-\c@mv@boldtabular=\count554
+\c@mv@tabular=\count554
+\c@mv@boldtabular=\count555
 LaTeX Info: Command `\dddot' is already robust on input line 294.
 LaTeX Info: Command `\ddddot' is already robust on input line 294.
 Package biblatex Info: Trying to load language 'english'...
@@ -1623,7 +1633,7 @@ Package scrlayer-scrpage Warning: \headheight to low.
 
 Overfull \vbox (9.74998pt too high) has occurred while \output is active []
 
- [2
+ [1
 
 ]
 --------------------
@@ -1631,7 +1641,7 @@ Overfull \vbox (9.74998pt too high) has occurred while \output is active []
 --------------------
 
 
-[3
+[2
 
 ]
 --------------------
@@ -1639,7 +1649,7 @@ Overfull \vbox (9.74998pt too high) has occurred while \output is active []
 --------------------
 
 
-[4
+[3
 
 ]
 --------------------
@@ -1647,13 +1657,13 @@ Overfull \vbox (9.74998pt too high) has occurred while \output is active []
 --------------------
 
 
-[5
+[4
 
 ]
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 12.0pt on input line 437.
+(Font)              scaled to size 12.0pt on input line 429.
 
-Overfull \hbox (2.19885pt too wide) in paragraph at lines 437--438
+Overfull \hbox (2.19885pt too wide) in paragraph at lines 429--430
 []\T1/ntxtlf/b/n/12 (-20) Contents   Page 
  []
 
@@ -1661,29 +1671,29 @@ Overfull \hbox (2.19885pt too wide) in paragraph at lines 437--438
 \openout6 = `UMaT_Undergraduate_Project_Report_Template.toc'.
 
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 24.88pt on input line 447.
+(Font)              scaled to size 24.88pt on input line 439.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 24.88pt on input line 447.
+(Font)              scaled to size 24.88pt on input line 439.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 14.4pt on input line 447.
+(Font)              scaled to size 14.4pt on input line 439.
 
+
+[5]
 
 [6]
 
 [7]
 
 [8]
-
-[9]
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 14.0pt on input line 452.
+(Font)              scaled to size 14.0pt on input line 444.
  (./UMaT_Undergraduate_Project_Report_Template.lof)
 \tf@lof=\write7
 \openout7 = `UMaT_Undergraduate_Project_Report_Template.lof'.
 
 
 
-[10
+[9
 
 ] (./UMaT_Undergraduate_Project_Report_Template.lot)
 \tf@lot=\write8
@@ -1691,12 +1701,12 @@ LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
 
 
 
-[11
+[10
 
 
 ]
 
-[12
+[11
 
 
 ]
@@ -1811,7 +1821,7 @@ Package biblatex Info: Delimiter 'nameyeardelim' in context '' already defined, 
 [13]
 
 [14]
-<Figures/kg_example.png, id=742, 805.0075pt x 513.92pt>
+<Figures/kg_example.png, id=728, 805.0075pt x 513.92pt>
 File: Figures/kg_example.png Graphic file (type png)
 <use Figures/kg_example.png>
 Package pdftex.def Info: Figures/kg_example.png  used on input line 96.
@@ -1841,49 +1851,45 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 [20{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 8.0pt on input line 203.
+(Font)              scaled to size 8.0pt on input line 201.
 LaTeX Font Info:    Font shape `OT1/minntx/m/n' will be
-(Font)              scaled to size 6.0pt on input line 203.
+(Font)              scaled to size 6.0pt on input line 201.
 LaTeX Font Info:    Font shape `OT1/minntx/m/n' will be
-(Font)              scaled to size 5.5pt on input line 203.
+(Font)              scaled to size 5.5pt on input line 201.
 LaTeX Font Info:    Font shape `OML/ntxmi/m/it' will be
-(Font)              scaled to size 6.0pt on input line 203.
+(Font)              scaled to size 6.0pt on input line 201.
 LaTeX Font Info:    Font shape `OML/ntxmi/m/it' will be
-(Font)              scaled to size 5.5pt on input line 203.
+(Font)              scaled to size 5.5pt on input line 201.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 6.0pt on input line 203.
+(Font)              scaled to size 6.0pt on input line 201.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 5.5pt on input line 203.
+(Font)              scaled to size 5.5pt on input line 201.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 6.0pt on input line 203.
+(Font)              scaled to size 6.0pt on input line 201.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 5.5pt on input line 203.
+(Font)              scaled to size 5.5pt on input line 201.
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 6.0pt on input line 203.
+(Font)              scaled to size 6.0pt on input line 201.
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 5.5pt on input line 203.
+(Font)              scaled to size 5.5pt on input line 201.
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 6.0pt on input line 203.
+(Font)              scaled to size 6.0pt on input line 201.
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 5.5pt on input line 203.
+(Font)              scaled to size 5.5pt on input line 201.
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 6.0pt on input line 203.
+(Font)              scaled to size 6.0pt on input line 201.
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 5.5pt on input line 203.
+(Font)              scaled to size 5.5pt on input line 201.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 6.0pt on input line 203.
+(Font)              scaled to size 6.0pt on input line 201.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 5.5pt on input line 203.
-LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 10.0pt on input line 203.
-LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 10.0pt on input line 203.
+(Font)              scaled to size 5.5pt on input line 201.
 
 
 [21]
 
 [22]
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 285.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 283.
  (/usr/share/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
@@ -1892,55 +1898,55 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `OT1/minntx/m/n' will be
-(Font)              scaled to size 10.0pt on input line 285.
+(Font)              scaled to size 10.0pt on input line 283.
 LaTeX Font Info:    Font shape `OT1/minntx/m/n' will be
-(Font)              scaled to size 7.3pt on input line 285.
+(Font)              scaled to size 7.3pt on input line 283.
 LaTeX Font Info:    Font shape `OML/ntxmi/m/it' will be
-(Font)              scaled to size 10.0pt on input line 285.
+(Font)              scaled to size 10.0pt on input line 283.
 LaTeX Font Info:    Font shape `OML/ntxmi/m/it' will be
-(Font)              scaled to size 7.3pt on input line 285.
+(Font)              scaled to size 7.3pt on input line 283.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 10.0pt on input line 285.
+(Font)              scaled to size 10.0pt on input line 283.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 7.3pt on input line 285.
+(Font)              scaled to size 7.3pt on input line 283.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 10.0pt on input line 285.
+(Font)              scaled to size 10.0pt on input line 283.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 7.3pt on input line 285.
+(Font)              scaled to size 7.3pt on input line 283.
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 10.0pt on input line 285.
+(Font)              scaled to size 10.0pt on input line 283.
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 7.3pt on input line 285.
+(Font)              scaled to size 7.3pt on input line 283.
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 10.0pt on input line 285.
+(Font)              scaled to size 10.0pt on input line 283.
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 7.3pt on input line 285.
+(Font)              scaled to size 7.3pt on input line 283.
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 10.0pt on input line 285.
+(Font)              scaled to size 10.0pt on input line 283.
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 7.3pt on input line 285.
+(Font)              scaled to size 7.3pt on input line 283.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 10.0pt on input line 285.
+(Font)              scaled to size 10.0pt on input line 283.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 7.3pt on input line 285.
+(Font)              scaled to size 7.3pt on input line 283.
 
 
 [23]
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ntxtlf in TS1 encoding.
-            Default family used instead on input line 311.
+            Default family used instead on input line 309.
  (/usr/share/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ntxtlf in TS1 encoding.
-            Default family used instead on input line 311.
+            Default family used instead on input line 309.
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ntxtlf in TS1 encoding.
-            Default family used instead on input line 311.
+            Default family used instead on input line 309.
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ntxtlf in TS1 encoding.
-            Default family used instead on input line 311.
+            Default family used instead on input line 309.
 
 
 [24]
@@ -1966,29 +1972,24 @@ LaTeX Info: Symbol \textrightarrow not provided by
 [34]
 
 [35]
-LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 10.95pt on input line 453.
-LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
-(Font)              scaled to size 10.95pt on input line 453.
 
+[36] [37])
 
-[36])
-
-[37]
+[38]
 \openout2 = `Chapters/Chapter3.aux'.
 
  (./Chapters/Chapter3.tex
 Chapter 3.
 
 
-[38
+[39
 
 
 
 
 ]
 
-[39]
+[40]
 LaTeX Font Info:    Font shape `OT1/minntx/m/n' will be
 (Font)              scaled to size 6.5pt on input line 203.
 LaTeX Font Info:    Font shape `OML/ntxmi/m/it' will be
@@ -2011,7 +2012,9 @@ LaTeX Font Info:    Font shape `T1/phv/m/it' in size <8> not available
 (Font)              Font shape `T1/phv/m/sl' tried instead on input line 203.
 
 
-[40]
+[41]
+
+[42]
 LaTeX Font Info:    Font shape `OT1/minntx/b/n' will be
 (Font)              scaled to size 12.0pt on input line 223.
 LaTeX Font Info:    Font shape `OT1/minntx/b/n' will be
@@ -2020,15 +2023,15 @@ LaTeX Font Info:    Font shape `OT1/minntx/b/n' will be
 (Font)              scaled to size 6.6pt on input line 223.
 
 
-[41]
-
-[42]
+[43]
 LaTeX Font Info:    Font shape `OT1/minntx/b/n' will be
 (Font)              scaled to size 10.95pt on input line 281.
 LaTeX Font Info:    Font shape `OT1/minntx/b/n' will be
 (Font)              scaled to size 8.0pt on input line 281.
 LaTeX Font Info:    Font shape `OT1/minntx/b/n' will be
 (Font)              scaled to size 6.1pt on input line 281.
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
+(Font)              scaled to size 10.0pt on input line 302.
 LaTeX Font Info:    Font shape `OT1/minntx/b/n' will be
 (Font)              scaled to size 10.0pt on input line 305.
 LaTeX Font Info:    Font shape `OT1/minntx/b/n' will be
@@ -2037,149 +2040,99 @@ LaTeX Font Info:    Font shape `OT1/minntx/b/n' will be
 (Font)              scaled to size 5.5pt on input line 305.
 
 
-[43]
-LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 6.1pt on input line 363.
-LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 7.3pt on input line 376.
-LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 5.5pt on input line 376.
-
-
 [44]
 
 [45]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 399.
+LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
+(Font)              scaled to size 10.95pt on input line 379.
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
+(Font)              scaled to size 6.1pt on input line 379.
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
+(Font)              scaled to size 7.3pt on input line 379.
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
+(Font)              scaled to size 5.5pt on input line 379.
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 388.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/sc' will be
-(Font)              scaled to size 12.0pt on input line 412.
-Package microtype Info: Character `029' is missing
-(microtype)             in font `T1/ntxtlf/m/sc/12'.
-(microtype)             Ignoring protrusion settings for this character.
-LaTeX Font Info:    Font shape `OML/ntxmi/b/it' will be
-(Font)              scaled to size 12.0pt on input line 435.
-LaTeX Font Info:    Font shape `OML/ntxmi/b/it' will be
-(Font)              scaled to size 8.8pt on input line 435.
-LaTeX Font Info:    Font shape `OML/ntxmi/b/it' will be
-(Font)              scaled to size 6.6pt on input line 435.
-LaTeX Font Info:    Font shape `LMS/ntxsy/b/n' will be
-(Font)              scaled to size 12.0pt on input line 435.
-LaTeX Font Info:    Font shape `LMS/ntxsy/b/n' will be
-(Font)              scaled to size 8.8pt on input line 435.
-LaTeX Font Info:    Font shape `LMS/ntxsy/b/n' will be
-(Font)              scaled to size 6.6pt on input line 435.
-LaTeX Font Info:    Font shape `LMX/ntxexx/b/n' will be
-(Font)              scaled to size 12.0pt on input line 435.
-LaTeX Font Info:    Font shape `LMX/ntxexx/b/n' will be
-(Font)              scaled to size 8.8pt on input line 435.
-LaTeX Font Info:    Font shape `LMX/ntxexx/b/n' will be
-(Font)              scaled to size 6.6pt on input line 435.
-LaTeX Font Info:    Font shape `U/ntxmia/b/it' will be
-(Font)              scaled to size 12.0pt on input line 435.
-LaTeX Font Info:    Font shape `U/ntxmia/b/it' will be
-(Font)              scaled to size 8.8pt on input line 435.
-LaTeX Font Info:    Font shape `U/ntxmia/b/it' will be
-(Font)              scaled to size 6.6pt on input line 435.
-LaTeX Font Info:    Font shape `U/ntxsym/b/n' will be
-(Font)              scaled to size 12.0pt on input line 435.
-LaTeX Font Info:    Font shape `U/ntxsym/b/n' will be
-(Font)              scaled to size 8.8pt on input line 435.
-LaTeX Font Info:    Font shape `U/ntxsym/b/n' will be
-(Font)              scaled to size 6.6pt on input line 435.
-LaTeX Font Info:    Font shape `U/ntxsyc/b/n' will be
-(Font)              scaled to size 12.0pt on input line 435.
-LaTeX Font Info:    Font shape `U/ntxsyc/b/n' will be
-(Font)              scaled to size 8.8pt on input line 435.
-LaTeX Font Info:    Font shape `U/ntxsyc/b/n' will be
-(Font)              scaled to size 6.6pt on input line 435.
-LaTeX Font Info:    Font shape `U/ntxexa/b/n' will be
-(Font)              scaled to size 12.0pt on input line 435.
-LaTeX Font Info:    Font shape `U/ntxexa/b/n' will be
-(Font)              scaled to size 8.8pt on input line 435.
-LaTeX Font Info:    Font shape `U/ntxexa/b/n' will be
-(Font)              scaled to size 6.6pt on input line 435.
-
-
-[46
-pdfTeX warning (ext4): destination with the same identifier (name{figure.caption.129}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.448 
-      ]
-
-[47]
-
-[48]
-LaTeX Font Info:    Font shape `T1/ntxtlf/m/sc' will be
-(Font)              scaled to size 10.95pt on input line 539.
+(Font)              scaled to size 10.95pt on input line 402.
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/ntxtlf/m/sc/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
-LaTeX Font Info:    Font shape `OML/ntxmi/b/it' will be
-(Font)              scaled to size 10.95pt on input line 542.
-LaTeX Font Info:    Font shape `OML/ntxmi/b/it' will be
-(Font)              scaled to size 8.0pt on input line 542.
-LaTeX Font Info:    Font shape `OML/ntxmi/b/it' will be
-(Font)              scaled to size 6.1pt on input line 542.
-LaTeX Font Info:    Font shape `LMS/ntxsy/b/n' will be
-(Font)              scaled to size 10.95pt on input line 542.
-LaTeX Font Info:    Font shape `LMS/ntxsy/b/n' will be
-(Font)              scaled to size 8.0pt on input line 542.
-LaTeX Font Info:    Font shape `LMS/ntxsy/b/n' will be
-(Font)              scaled to size 6.1pt on input line 542.
-LaTeX Font Info:    Font shape `LMX/ntxexx/b/n' will be
-(Font)              scaled to size 10.95pt on input line 542.
-LaTeX Font Info:    Font shape `LMX/ntxexx/b/n' will be
-(Font)              scaled to size 8.0pt on input line 542.
-LaTeX Font Info:    Font shape `LMX/ntxexx/b/n' will be
-(Font)              scaled to size 6.1pt on input line 542.
-LaTeX Font Info:    Font shape `U/ntxmia/b/it' will be
-(Font)              scaled to size 10.95pt on input line 542.
-LaTeX Font Info:    Font shape `U/ntxmia/b/it' will be
-(Font)              scaled to size 8.0pt on input line 542.
-LaTeX Font Info:    Font shape `U/ntxmia/b/it' will be
-(Font)              scaled to size 6.1pt on input line 542.
-LaTeX Font Info:    Font shape `U/ntxsym/b/n' will be
-(Font)              scaled to size 10.95pt on input line 542.
-LaTeX Font Info:    Font shape `U/ntxsym/b/n' will be
-(Font)              scaled to size 8.0pt on input line 542.
-LaTeX Font Info:    Font shape `U/ntxsym/b/n' will be
-(Font)              scaled to size 6.1pt on input line 542.
-LaTeX Font Info:    Font shape `U/ntxsyc/b/n' will be
-(Font)              scaled to size 10.95pt on input line 542.
-LaTeX Font Info:    Font shape `U/ntxsyc/b/n' will be
-(Font)              scaled to size 8.0pt on input line 542.
-LaTeX Font Info:    Font shape `U/ntxsyc/b/n' will be
-(Font)              scaled to size 6.1pt on input line 542.
-LaTeX Font Info:    Font shape `U/ntxexa/b/n' will be
-(Font)              scaled to size 10.95pt on input line 542.
-LaTeX Font Info:    Font shape `U/ntxexa/b/n' will be
-(Font)              scaled to size 8.0pt on input line 542.
-LaTeX Font Info:    Font shape `U/ntxexa/b/n' will be
-(Font)              scaled to size 6.1pt on input line 542.
 
 
-[49
-pdfTeX warning (ext4): destination with the same identifier (name{figure.caption.142}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.575 
-      ]
+[46]
+
+[47]
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/sc' will be
+(Font)              scaled to size 12.0pt on input line 446.
+Package microtype Info: Character `029' is missing
+(microtype)             in font `T1/ntxtlf/m/sc/12'.
+(microtype)             Ignoring protrusion settings for this character.
+
+
+[48]
+
+[49]
+LaTeX Font Info:    Font shape `OML/ntxmi/b/it' will be
+(Font)              scaled to size 10.95pt on input line 538.
+LaTeX Font Info:    Font shape `OML/ntxmi/b/it' will be
+(Font)              scaled to size 8.0pt on input line 538.
+LaTeX Font Info:    Font shape `OML/ntxmi/b/it' will be
+(Font)              scaled to size 6.1pt on input line 538.
+LaTeX Font Info:    Font shape `LMS/ntxsy/b/n' will be
+(Font)              scaled to size 10.95pt on input line 538.
+LaTeX Font Info:    Font shape `LMS/ntxsy/b/n' will be
+(Font)              scaled to size 8.0pt on input line 538.
+LaTeX Font Info:    Font shape `LMS/ntxsy/b/n' will be
+(Font)              scaled to size 6.1pt on input line 538.
+LaTeX Font Info:    Font shape `LMX/ntxexx/b/n' will be
+(Font)              scaled to size 10.95pt on input line 538.
+LaTeX Font Info:    Font shape `LMX/ntxexx/b/n' will be
+(Font)              scaled to size 8.0pt on input line 538.
+LaTeX Font Info:    Font shape `LMX/ntxexx/b/n' will be
+(Font)              scaled to size 6.1pt on input line 538.
+LaTeX Font Info:    Font shape `U/ntxmia/b/it' will be
+(Font)              scaled to size 10.95pt on input line 538.
+LaTeX Font Info:    Font shape `U/ntxmia/b/it' will be
+(Font)              scaled to size 8.0pt on input line 538.
+LaTeX Font Info:    Font shape `U/ntxmia/b/it' will be
+(Font)              scaled to size 6.1pt on input line 538.
+LaTeX Font Info:    Font shape `U/ntxsym/b/n' will be
+(Font)              scaled to size 10.95pt on input line 538.
+LaTeX Font Info:    Font shape `U/ntxsym/b/n' will be
+(Font)              scaled to size 8.0pt on input line 538.
+LaTeX Font Info:    Font shape `U/ntxsym/b/n' will be
+(Font)              scaled to size 6.1pt on input line 538.
+LaTeX Font Info:    Font shape `U/ntxsyc/b/n' will be
+(Font)              scaled to size 10.95pt on input line 538.
+LaTeX Font Info:    Font shape `U/ntxsyc/b/n' will be
+(Font)              scaled to size 8.0pt on input line 538.
+LaTeX Font Info:    Font shape `U/ntxsyc/b/n' will be
+(Font)              scaled to size 6.1pt on input line 538.
+LaTeX Font Info:    Font shape `U/ntxexa/b/n' will be
+(Font)              scaled to size 10.95pt on input line 538.
+LaTeX Font Info:    Font shape `U/ntxexa/b/n' will be
+(Font)              scaled to size 8.0pt on input line 538.
+LaTeX Font Info:    Font shape `U/ntxexa/b/n' will be
+(Font)              scaled to size 6.1pt on input line 538.
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
+(Font)              scaled to size 10.95pt on input line 542.
+
 
 [50]
 
-[51])
+[51]
 
 [52]
 
-[53]
+[53])
 
-[54
+[54]
+
+[55
 
 
 
 ]
-
-[55]
 
 [56]
 
@@ -2197,34 +2150,36 @@ l.575
 
 [63]
 
+[64]
+
 Package etoc Warning: Please load `tocloft' before `etoc'!
 
 
 
-[64] (./UMaT_Undergraduate_Project_Report_Template.aux (./Chapters/Chapter1.aux) (./Chapters/Chapter2.aux) (./Chapters/Chapter3.aux))
+[65] (./UMaT_Undergraduate_Project_Report_Template.aux (./Chapters/Chapter1.aux) (./Chapters/Chapter2.aux) (./Chapters/Chapter3.aux))
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `UMaT_Undergraduate_Project_Report_Template.out' has not changed.
-(rerunfilecheck)             Checksum: E9A269871C76847E0B49C7CAD2CA0CF9;17645.
+(rerunfilecheck)             Checksum: 37FDC7A59A787BB6EB2BF2C0B715F3F0;17314.
 Package logreq Info: Writing requests to 'UMaT_Undergraduate_Project_Report_Template.run.xml'.
 \openout1 = `UMaT_Undergraduate_Project_Report_Template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 53248 strings out of 475171
- 1117004 string characters out of 5767096
- 2018602 words of memory out of 5000000
- 74713 multiletter control sequences out of 15000+600000
- 789848 words of font info for 488 fonts, out of 8000000 for 9000
+ 53303 strings out of 475171
+ 1117651 string characters out of 5767096
+ 2019918 words of memory out of 5000000
+ 74767 multiletter control sequences out of 15000+600000
+ 778517 words of font info for 466 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 103i,20n,122p,1576b,2939s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 103i,20n,122p,1859b,2939s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/newtx/NewTXBMI.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/NewTXMI.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/NewTXMI5.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/NewTXMI7.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/txexs.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/txsys.pfb></usr/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/ztmb.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/ztmr.pfb></usr/share/texmf-dist/fonts/type1/public/newtx/ztmri.pfb>
-Output written on UMaT_Undergraduate_Project_Report_Template.pdf (76 pages, 484951 bytes).
+Output written on UMaT_Undergraduate_Project_Report_Template.pdf (77 pages, 482487 bytes).
 PDF statistics:
- 1396 PDF objects out of 1440 (max. 8388607)
- 1270 compressed objects within 13 object streams
- 333 named destinations out of 1000 (max. 500000)
- 116450 words of extra memory for PDF output out of 128383 (max. 10000000)
+ 1387 PDF objects out of 1440 (max. 8388607)
+ 1260 compressed objects within 13 object streams
+ 332 named destinations out of 1000 (max. 500000)
+ 116434 words of extra memory for PDF output out of 128383 (max. 10000000)
 

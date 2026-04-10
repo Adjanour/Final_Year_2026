@@ -5,10 +5,8 @@
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Visualization of KG-Trie Constrained Generation}}{21}{figure.caption.67}%
 \contentsline {figure}{\numberline {2.3}{\ignorespaces Standard RAG vs. KG-Constrained Decoding}}{23}{figure.caption.72}%
 \addvspace {0\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces DCA‑Trie System Architecture}}{41}{figure.caption.104}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Semantic Relevance Scoring Mechanism}}{43}{figure.caption.116}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Static Semantic Filtering Pipeline (DCA‑Trie v1)}}{45}{figure.caption.122}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Algorithm for DCA‑Trie v1}}{46}{figure.caption.129}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Step-Wise Dynamic Expansion Workflow (DCA‑Trie v2)}}{48}{figure.caption.135}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Algorithm for DCA‑Trie v2}}{49}{figure.caption.142}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces DCA‑Trie System Architecture}}{42}{figure.caption.103}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Semantic Relevance Scoring Mechanism}}{45}{figure.caption.115}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Static Semantic Filtering Pipeline (DCA‑Trie v1)}}{46}{figure.caption.121}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Step-Wise Dynamic Expansion Workflow (DCA‑Trie v2)}}{49}{figure.caption.134}%
 \contentsfinish 

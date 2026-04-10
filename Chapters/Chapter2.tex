@@ -197,8 +197,6 @@ When beam search is merged with a KG-Trie oracle as visualized in Figure~\ref{fi
 
       \draw[arrow] (t5) -- node[left, font=\scriptsize] {" Fran"} (t7);
 
-      % Annotations
-      \node[above=0.3cm of root, font=\footnotesize\bfseries] {Beam Search Hypothesis Path};
     \end{tikzpicture}
   }
   \caption[Visualization of KG-Trie Constrained Generation]{Visualization of KG-Trie Constrained Generation.}
@@ -420,37 +418,47 @@ Three specific gaps emerge from this review.
 \textbf{Gap 3: The Absence of a Constraint Quality Metric.} No existing work offers a metric that measures constraint permissiveness separately from the accuracy of downstream answers. Without this metric, it is not possible to track progress on reducing irrelevant paths in the valid set or to compare frameworks based on constraint quality without factoring in model quality. These three gaps highlight a key challenge at the intersection of the two research paths discussed in this chapter. This challenge involves integrating semantic relevance scoring directly into the constraint oracle and conditioning the valid token set based on the knowledge graph, question semantics, and the evolving state of generation.
 
 Table~\ref{tab:related_summary} summarizes the key works reviewed in this chapter, categorizing them by their approach, whether they provide structural faithfulness guarantees, and whether they incorporate semantic conditioning into their constraint mechanisms.
-\begin{table}[H]
-  \centering
-  \caption[Summary of Key Related Works]{Summary of Key Related Works}
-  \label{tab:related_summary}
-  \small
-  \resizebox{\textwidth}{!}{%
-    \begin{gridtabular}{l|l|l|l}
-      \gr{\textbf{Work}               & \textbf{Approach}                & \textbf{Structural faithfulness} & \textbf{Semantic conditioning} }
-      \gr{\citet{luo2025-graph-constrained-reasoning}          & Static KG-Trie decoding          & Yes (100\%)                      & No                              }
-      \gr{\citet{li2024-decoding-on-graphs}           & Step-wise topological expansion  & Yes (100\%)                      & No                             }
-      \gr{\citet{yuan2026routerkgqa}  & Routing + post-hoc filtering     & Probabilistic                    & Yes (answer-level)              }
-      \gr{\citet{luo2024rog}          & Reasoning path planning          & No                               & Partial                         }
-      \gr{\citet{jiang2023structgpt}  & LLM over structured data         & No                               & Partial                         }
-      \gr{\citet{jin2024graphcot}     & Graph-augmented CoT              & No                               & Partial                         }
-      \gr{\citet{jiang2022unikgqa}    & Unified retrieval and reasoning  & No                               & Partial                         }
-      \gr{\citet{wang2021kepler}      & KG-pretrained language model     & No                               & Partial                         }
-      \gr{\citet{mavromatis2022rearev}& Iterative reasoning revision     & No                               & Partial                         }
-      \gr{\citet{he2021multihop}      & KG subgraph attention            & No                               & Partial                         }
-      \gr{\citet{yasunaga2021qagnn}   & Text-KG graph neural network     & No                               & Partial                         }
-      \gr{\citet{das2017go}           & RL-based KG path traversal       & No                               & Soft                            }
-      \gr{\citet{saxena2022kgqa}      & Embedding-based path selection   & No                               & Soft                            }
-      \gr{\citet{shi2021kgpath}       & Path retrieval by similarity     & No                               & Soft (retrieval)               }
-      \gr{\citet{asai2024selfrag}     & Retrieval with reflection        & No                               & Soft                            }
-      \gr{\citet{edge2024graphrag}    & Community-structured retrieval   & No                               & Soft                           }
-      \gr{\citet{geng2023grammarconstrained}         & Grammar-constrained decoding     & Format only                      & No                              }
-      \gr{\citet{willard2023outlines} & FSM-indexed constrained decoding & Format only                      & No                              }
-      \gr{\citet{decao2021autoregressive} & Entity trie-constrained decoding & Entity names only             & No                              }
-      \gr{\citet{scholak2021picard}   & Schema-constrained SQL parsing   & Schema only                      & No                              }
-      \gr{\citet{lu2021neurologic}    & Logic-constrained decoding       & Format only                      & No                              }
-    \end{gridtabular}
-  }
-\end{table}
+\newpage
+
+\begin{longtable}[htpb]{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{3cm}|}
+  \caption[Summary of Key Related Works]{Summary of Key Related Works} \label{tab:related_summary}                                                   \\
+  \hline
+  \textbf{Work}                               & \textbf{Approach}                & \textbf{Structural Faithfulness} & \textbf{Semantic Conditioning} \\
+  \hline
+  \endfirsthead
+
+  \hline
+  \textbf{Work}                               & \textbf{Approach}                & \textbf{Structural Faithfulness} & \textbf{Semantic Conditioning} \\
+  \hline
+  \endhead
+
+  \hline
+  \endfoot
+
+  \hline
+  \endlastfoot
+
+  \citet{luo2025-graph-constrained-reasoning} & Static KG-Trie decoding          & Yes (100\%)                      & No                             \\ \hline
+  \citet{li2024-decoding-on-graphs}           & Step-wise topological expansion  & Yes (100\%)                      & No                             \\ \hline
+  \citet{yuan2026routerkgqa}                  & Routing + post-hoc filtering     & Probabilistic                    & Yes (answer-level)             \\ \hline
+  \citet{luo2024rog}                          & Reasoning path planning          & No                               & Partial                        \\ \hline
+  \citet{jiang2023structgpt}                  & LLM over structured data         & No                               & Partial                        \\ \hline
+  \citet{jin2024graphcot}                     & Graph-augmented CoT              & No                               & Partial                        \\ \hline
+  \citet{jiang2022unikgqa}                    & Unified retrieval and reasoning  & No                               & Partial                        \\ \hline
+  \citet{wang2021kepler}                      & KG-pretrained language model     & No                               & Partial                        \\ \hline
+  \citet{mavromatis2022rearev}                & Iterative reasoning revision     & No                               & Partial                        \\ \hline
+  \citet{he2021multihop}                      & KG subgraph attention            & No                               & Partial                        \\ \hline
+  \citet{yasunaga2021qagnn}                   & Text-KG graph neural network     & No                               & Partial                        \\ \hline
+  \citet{das2017go}                           & RL-based KG path traversal       & No                               & Soft                           \\ \hline
+  \citet{saxena2022kgqa}                      & Embedding-based path selection   & No                               & Soft                           \\ \hline
+  \citet{shi2021kgpath}                       & Path retrieval by similarity     & No                               & Soft (retrieval)               \\ \hline
+  \citet{asai2024selfrag}                     & Retrieval with reflection        & No                               & Soft                           \\ \hline
+  \citet{edge2024graphrag}                    & Community-structured retrieval   & No                               & Soft                           \\ \hline
+  \citet{geng2023grammarconstrained}          & Grammar-constrained decoding     & Format only                      & No                             \\ \hline
+  \citet{willard2023outlines}                 & FSM-indexed constrained decoding & Format only                      & No                             \\ \hline
+  \citet{decao2021autoregressive}             & Entity trie-constrained decoding & Entity names only                & No                             \\ \hline
+  \citet{scholak2021picard}                   & Schema-constrained SQL parsing   & Schema only                      & No                             \\ \hline
+  \citet{lu2021neurologic}                    & Logic-constrained decoding       & Format only                      & No                             \\
+\end{longtable}
 
 These three gaps collectively identify an open problem at the intersection of the two research trajectories reviewed in this chapter: integrating semantic relevance scoring directly into the constraint oracle, conditioning the valid token set jointly on the knowledge graph, the question semantics, and the evolving generation state.

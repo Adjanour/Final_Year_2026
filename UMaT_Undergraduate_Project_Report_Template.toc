@@ -1,14 +1,14 @@
 \@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
 \babel@toc {english}{}\relax 
-\contentsline {chapter}{DECLARATION}{ii}{section*.1}%
-\contentsline {chapter}{ABSTRACT}{iii}{section*.2}%
-\contentsline {chapter}{ACKNOWLEDGEMENTS}{v}{section*.4}%
-\contentsline {chapter}{TABLE OF CONTENTS}{vi}{section*.5}%
-\contentsline {chapter}{LIST OF FIGURES}{x}{chapter*.7}%
+\contentsline {chapter}{DECLARATION}{i}{section*.1}%
+\contentsline {chapter}{ABSTRACT}{ii}{section*.2}%
+\contentsline {chapter}{ACKNOWLEDGEMENTS}{iv}{section*.4}%
+\contentsline {chapter}{TABLE OF CONTENTS}{v}{section*.5}%
+\contentsline {chapter}{LIST OF FIGURES}{ix}{chapter*.7}%
 \ttl@change@i {\@ne }{figure}{0pt}{}{\MakeUppercase {Fig.~\thecontentslabel \quad Title Page}\quad }{}{\titlerule *[0.5pc]{.}\contentspage }\relax 
 \ttl@change@v {figure}{}{}{}\relax 
-\contentsline {chapter}{LIST OF TABLES}{xi}{chapter*.9}%
-\contentsline {chapter}{LIST OF ABBREVIATIONS}{xii}{chapter*.11}%
+\contentsline {chapter}{LIST OF TABLES}{x}{chapter*.9}%
+\contentsline {chapter}{LIST OF ABBREVIATIONS}{xi}{chapter*.11}%
 \contentsline {chapter}{\numberline {1}INTRODUCTION}{1}{chapter.12}%
 \contentsline {section}{\numberline {1.1}Background}{1}{section.13}%
 \contentsline {section}{\numberline {1.2}Problem Statement}{3}{section.14}%
@@ -60,36 +60,34 @@
 \contentsline {subsection}{\numberline {2.8.6}Hallucination Mitigation in Knowledge-Intensive Tasks}{34}{subsection.83}%
 \contentsline {subsection}{\numberline {2.8.7}Concurrent Work}{35}{subsection.84}%
 \contentsline {section}{\numberline {2.9}Synthesis: Three Unresolved Gaps}{35}{section.85}%
-\contentsline {chapter}{\numberline {3}METHODOLOGY}{38}{chapter.87}%
-\contentsline {section}{\numberline {3.1}Introduction}{38}{section.88}%
-\contentsline {section}{\numberline {3.2}Formal Problem Specification}{38}{section.89}%
-\contentsline {subsection}{\numberline {3.2.1}Restating the Core Limitation of Existing Frameworks}{38}{subsection.90}%
-\contentsline {subsection}{\numberline {3.2.2}The Upgraded Oracle Specification}{39}{subsection.92}%
-\contentsline {section}{\numberline {3.3}System Architecture Overview}{40}{section.99}%
-\contentsline {section}{\numberline {3.4}The Semantic Irrelevance Ratio: Definition and Measurement}{41}{section.105}%
-\contentsline {subsection}{\numberline {3.4.1}Standard Metric Deficiencies}{41}{subsection.106}%
-\contentsline {subsection}{\numberline {3.4.2}Formal Definition of SIR}{41}{subsection.107}%
-\contentsline {subsection}{\numberline {3.4.3}Properties and Interpretation}{42}{subsection.111}%
-\contentsline {section}{\numberline {3.5}Semantic Relevance Scoring Mechanism}{42}{section.112}%
-\contentsline {subsection}{\numberline {3.5.1}Scorer Architecture}{42}{subsection.113}%
-\contentsline {subsection}{\numberline {3.5.2}Threshold Selection}{44}{subsection.118}%
-\contentsline {subsection}{\numberline {3.5.3}Encoder Caching}{44}{subsection.119}%
-\contentsline {section}{\numberline {3.6}DCA‑Trie v1: Static Semantic Filtering}{44}{section.120}%
-\contentsline {subsection}{\numberline {3.6.1}Design Rationale}{44}{subsection.121}%
-\contentsline {subsection}{\numberline {3.6.2}Algorithm for DCA‑Trie v1}{45}{subsection.123}%
-\contentsline {subsection}{\numberline {3.6.3}Complexity Analysis}{47}{subsection.130}%
-\contentsline {subsection}{\numberline {3.6.4}Faithfulness Guarantee}{47}{subsection.131}%
-\contentsline {section}{\numberline {3.7}DCA‑Trie v2: Step‑Wise Dynamic Expansion}{47}{section.132}%
-\contentsline {subsection}{\numberline {3.7.1}Design Rationale}{47}{subsection.133}%
-\contentsline {subsection}{\numberline {3.7.2}Algorithm for DCA‑Trie v2}{48}{subsection.136}%
-\contentsline {subsection}{\numberline {3.7.3}Complexity Analysis}{50}{subsection.143}%
-\contentsline {subsection}{\numberline {3.7.4}Faithfulness Guarantee}{50}{subsection.144}%
-\contentsline {section}{\numberline {3.8}Baseline Systems}{50}{section.145}%
-\contentsline {section}{\numberline {3.9}Evaluation Protocol}{51}{section.146}%
-\contentsline {subsection}{\numberline {3.9.1}Datasets}{51}{subsection.147}%
-\contentsline {subsection}{\numberline {3.9.2}Evaluation Metrics}{51}{subsection.148}%
-\contentsline {subsection}{\numberline {3.9.3}Hop‑Depth Stratification}{52}{subsection.154}%
-\contentsline {subsection}{\numberline {3.9.4}Experimental Configuration}{52}{subsection.155}%
-\contentsline {section}{\numberline {3.10}Scope Boundaries and Anticipated Limitations}{52}{section.156}%
-\contentsline {chapter}{REFERENCES}{54}{section.156}%
+\contentsline {chapter}{\numberline {3}METHODOLOGY}{39}{chapter.86}%
+\contentsline {section}{\numberline {3.1}Introduction}{39}{section.87}%
+\contentsline {section}{\numberline {3.2}Formal Problem Specification}{39}{section.88}%
+\contentsline {subsection}{\numberline {3.2.1}Restating the Core Limitation of Existing Frameworks}{39}{subsection.89}%
+\contentsline {subsection}{\numberline {3.2.2}The Upgraded Oracle Specification}{40}{subsection.91}%
+\contentsline {section}{\numberline {3.3}System Architecture Overview}{41}{section.98}%
+\contentsline {section}{\numberline {3.4}The Semantic Irrelevance Ratio: Definition and Measurement}{43}{section.104}%
+\contentsline {subsection}{\numberline {3.4.1}Standard Metric Deficiencies}{43}{subsection.105}%
+\contentsline {subsection}{\numberline {3.4.2}Formal Definition of SIR}{43}{subsection.106}%
+\contentsline {subsection}{\numberline {3.4.3}Properties and Interpretation}{44}{subsection.110}%
+\contentsline {section}{\numberline {3.5}Semantic Relevance Scoring Mechanism}{44}{section.111}%
+\contentsline {subsection}{\numberline {3.5.1}Scorer Architecture}{44}{subsection.112}%
+\contentsline {subsection}{\numberline {3.5.2}Threshold Selection}{45}{subsection.117}%
+\contentsline {subsection}{\numberline {3.5.3}Encoder Caching}{46}{subsection.118}%
+\contentsline {section}{\numberline {3.6}DCA‑Trie v1: Static Semantic Filtering}{46}{section.119}%
+\contentsline {subsection}{\numberline {3.6.1}Design Rationale}{46}{subsection.120}%
+\contentsline {subsection}{\numberline {3.6.2}Algorithm for DCA‑Trie v1}{47}{subsection.122}%
+\contentsline {subsection}{\numberline {3.6.3}Complexity Analysis}{48}{subsection.129}%
+\contentsline {subsection}{\numberline {3.6.4}Faithfulness Guarantee}{48}{subsection.130}%
+\contentsline {section}{\numberline {3.7}DCA‑Trie v2: Step‑Wise Dynamic Expansion}{48}{section.131}%
+\contentsline {subsection}{\numberline {3.7.1}Design Rationale}{48}{subsection.132}%
+\contentsline {subsection}{\numberline {3.7.2}Algorithm for DCA‑Trie v2}{50}{subsection.135}%
+\contentsline {section}{\numberline {3.8}Baseline Systems}{51}{section.142}%
+\contentsline {section}{\numberline {3.9}Evaluation Protocol}{52}{section.143}%
+\contentsline {subsection}{\numberline {3.9.1}Datasets}{52}{subsection.144}%
+\contentsline {subsection}{\numberline {3.9.2}Evaluation Metrics}{52}{subsection.145}%
+\contentsline {subsection}{\numberline {3.9.3}Hop‑Depth Stratification}{53}{subsection.151}%
+\contentsline {subsection}{\numberline {3.9.4}Experimental Configuration}{53}{subsection.152}%
+\contentsline {section}{\numberline {3.10}Scope Boundaries and Anticipated Limitations}{53}{section.153}%
+\contentsline {chapter}{REFERENCES}{55}{section.153}%
 \contentsfinish 

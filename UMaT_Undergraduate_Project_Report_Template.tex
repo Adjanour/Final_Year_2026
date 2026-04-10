@@ -337,7 +337,7 @@
 %----------------------------------------------------------------------------------------
 %	DECLARATION PAGE
 %----------------------------------------------------------------------------------------
-\setcounter{page}{2}
+% \setcounter{page}{2}
 \vspace{-20pt}
 \begin{declaration}
   \addchaptertocentry{\authorshipname}
@@ -385,11 +385,7 @@
 \begin{abstract}
   \vspace{10pt}
   \addchaptertocentry{\abstractname} % Add the abstract to the table of contents
-  Large language models are good at handling language, but they often produce confident outputs with incorrect facts. This issue, known as hallucination, is particularly problematic in knowledge graph question answering (KGQA), where finding the right answer often requires linking multiple reasoning steps through verified data. Methods like retrieval-augmented generation help tie responses to actual information. Graph-constrained decoding methods, such as Graph-Constrained Reasoning (GCR) and Decoding on Graphs (DoG), also limit what the model can produce based on known knowledge graph relationships. However, these constraints are set once and are not revisited. As the model creates an answer, the relevant context changes, but the rules on valid paths remain unchanged. Irrelevant paths through the knowledge graph stay available throughout.
-
-  This work introduces Dynamic Context-Aware Trie (DCA-Trie), which fixes that issue by continuously adjusting valid decoding paths as generation progresses. At each step, a semantic relevance scoring system based on pretrained sentence transformers assesses candidate knowledge graph paths against both the original question and what has already been generated. What qualifies as an acceptable next token is no longer fixed; it adapts to the changing interaction between graph structure, user intent, and the partial answer so far.
-
-  Two versions were developed. The first applies semantic filtering when the trie is created. The second updates those constraints step by step during decoding. To assess how restrictive or permissive the constraints are without linking the measure to whether the final answer is correct, we introduce the Semantic Irrelevance Ratio (SIR). Testing on WebQSP and ComplexWebQuestions shows that DCA-Trie produces fewer incorrect reasoning paths while remaining true to the structure of the underlying knowledge graph. Answer accuracy is on par with previous methods. A working prototype expands the evaluation beyond fixed benchmarks, demonstrating how the framework performs in live, open-ended question answering.
+  Though large language models handle language well, they sometimes state incorrect information with high confidence. These false outputs, known as hallucinations, are particularly problematic when answering questions using knowledge graphs, since accuracy requires tracing true connections across structured data. To reduce errors, current techniques such as retrieval-augmented generation link model output to established facts in external sources. Methods like Graph-Constrained Reasoning (GCR) and Decoding on Graphs (DoG) go further by restricting which answers are possible based on predefined graph paths. Yet these systems lock in their constraints before generating a response. Even as the meaning of what is being said evolves during reasoning, the set of allowed paths stays unchanged. Because of this, routes through the graph that are unrelated to the question remain available throughout generation, and the model must sort through them using its own judgment. The same judgment that causes hallucinations in the first place. This dissertation introduces Dynamic Context-Aware Trie (DCA-Trie), a method that adjusts valid knowledge graph paths during decoding rather than fixing them at the start. A sentence transformer scores candidate paths against both the original question and the output generated so far, letting the constraints shift as reasoning progresses rather than holding still from the beginning. One variant applies this filtering when the trie is first built; another updates the constraints step by step during generation. To measure how loosely or tightly a constraint operates  ( independently of whether the final answer is correct) this work introduces the Semantic Irrelevance Ratio (SIR).
 
 \end{abstract}
 
@@ -414,11 +410,7 @@
 \begin{acknowledgements}
   \addchaptertocentry{\acknowledgementname}
   \vspace{0.5cm}
-  We extend our sincere gratitude to Dr.\ Eric Affum for his invaluable guidance, patience, and support throughout this project. His expertise in shaping our research direction has been instrumental in the completion of this dissertation.
-
-  We also wish to express our deep appreciation to our family, friends, and mentors. Their continuous encouragement, insight, and understanding provided the foundation we needed to see this work through to the end.
-
-  Finally, we acknowledge the broader academic community whose work has inspired and informed our research. This project stands on the shoulders of countless scholars, and we are grateful for their contributions to the field.
+  We thank Dr. Eric Affum for his guidance, patience, and support throughout this project. His supervision was instrumental in shaping the direction of this work. We also express our appreciation to our families, friends, and mentors for their encouragement and understanding throughout the process. Finally, we acknowledge the academic community whose work has informed and inspired this research. This dissertation builds on the contributions of many scholars, and we are grateful for their work.
 \end{acknowledgements}
 \pagebreak
 

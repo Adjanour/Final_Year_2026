@@ -80,11 +80,11 @@ DCA-Trie focuses on the constraint oracle layer, so its architecture directly bu
 
 Figure~\ref{fig:architecture} shows the layout, isolating the constraint oracle layer to emphasize where the core semantic intervention takes place.
 
-\begin{figure}[H]
+\begin{sidewaysfigure}
   \centering
   \resizebox{\textwidth}{!}{%
     \begin{tikzpicture}[
-        >=stealth, font=\sffamily\small,
+        >=stealth, font=\sffamily\Large,
         kgnode/.style={draw=gray!70,fill=blue!8,rounded corners=3pt,inner sep=4pt,font=\sffamily\scriptsize,align=center},
         pathbox/.style={draw=gray!50,fill=gray!5,rounded corners=4pt,inner sep=6pt,minimum width=5.0cm,align=left,font=\sffamily\scriptsize},
         filtpath/.style={draw=gray!25,fill=gray!3,rounded corners=4pt,inner sep=6pt,minimum width=5.0cm,align=left,font=\sffamily\scriptsize,text=gray!45},
@@ -203,7 +203,7 @@ Figure~\ref{fig:architecture} shows the layout, isolating the constraint oracle 
   }%
   \caption[DCA‑Trie System Architecture]{DCA‑Trie System Architecture.}
   \label{fig:architecture}
-\end{figure}
+\end{sidewaysfigure}
 
 % -----------------------------------------------------------------------------
 \section{The Semantic Irrelevance Ratio: Definition and Measurement}
@@ -339,49 +339,89 @@ To reduce repeated computation during beam search, path embeddings $E(\text{str}
 
 DCA‑Trie v1 addresses the permissiveness problem while keeping the efficient static-trie design used in GCR. The key idea is to apply semantic filtering once, before decoding begins, using only the input question $q$. This is useful because many paths are structurally reachable but semantically unrelated to the question. Scoring paths against $q$ during preprocessing removes weak candidates early and reduces the search space before autoregressive generation starts.
 
-Methodologically, this changes the oracle from $f(\mathcal{G}, \mathcal{E}_q)$ to $f(\mathcal{G}, \mathcal{E}_q, q)$ without changing generation-time lookup mechanics. The decoder still queries a precompiled trie, so local lookup remains $O(d)$ as in GCR. Figure~\ref{fig:v1} summarises this offline filtering workflow.
+Figure~\ref{fig:v1} summarises this offline filtering workflow.
 
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}[
-    box/.style={draw, rounded corners, minimum width=2.9cm, minimum height=0.95cm, align=center, font=\small},
-    db/.style={draw, cylinder, shape border rotate=90, aspect=0.25, minimum width=2.9cm, minimum height=1.25cm, align=center, font=\small, fill=gray!10},
-    arrow/.style={-{Stealth[scale=1]}, thick},
-    node distance=1.0cm
-    ]
+  \resizebox{0.45\textwidth}{!}{%
+    \begin{tikzpicture}[
+      box/.style={draw, rounded corners, minimum width=2.9cm, minimum height=0.95cm, align=center, font=\small},
+      db/.style={draw, cylinder, shape border rotate=90, aspect=0.25, minimum width=2.9cm, minimum height=1.25cm, align=center, font=\small, fill=gray!10},
+      arrow/.style={-{Stealth[scale=1]}, thick},
+      node distance=1.0cm
+      ]
 
-    \node[box] (query) {Question $q$};
-    \node[db, right=2.5cm of query] (kg) {Knowledge\\Graph $\mathcal{G}$};
+      \node[box] (query) {Question $q$};
+      \node[db, right=2.5cm of query] (kg) {Knowledge\\Graph $\mathcal{G}$};
 
-    \node[box, below=0.95cm of query] (qenc) {Precompute\\Query Vector $\mathbf{u}$};
-    \node[box, below=0.95cm of kg] (bfs) {BFS Enumeration\\(Max $L$ hops)};
+      \node[box, below=0.87cm of query] (qenc) {Precompute\\Query Vector $\mathbf{u}$};
+      \node[box, below=0.87cm of kg] (bfs) {BFS Enumeration\\(Max $L$ hops)};
 
-    \node[box, below=0.95cm of bfs] (paths) {Candidate Paths $\mathcal{P}$};
+      \node[box, below=0.87cm of bfs] (paths) {Candidate Paths $\mathcal{P}$};
 
-    \node[box, fill=teal!10, below=1.45cm of paths, xshift=-2.2cm, text width=8.2cm, align=left, minimum height=3.0cm] (filter) {\centering\textbf{Semantic Filter Loop}\\[2pt]
-      \raggedright For each $p \in \mathcal{P}$:\\
-      1. Compute $\mathbf{v}_p \leftarrow E(\text{str}(p))$\\
-      2. Compute $s_p \leftarrow \cos(\mathbf{u}, \mathbf{v}_p)$\\
-      3. Keep $p$ if $s_p \geq \tau$};
+      \node[box, fill=teal!10, below=1cm of paths, xshift=-2.2cm, text width=8.2cm, align=left, minimum height=3.0cm] (filter) {\centering\textbf{Semantic Filter Loop}\\[2pt]
+        \raggedright For each $p \in \mathcal{P}$:\\
+        1. Compute $\mathbf{v}_p \leftarrow E(\text{str}(p))$\\
+        2. Compute $s_p \leftarrow \cos(\mathbf{u}, \mathbf{v}_p)$\\
+        3. Keep $p$ if $s_p \geq \tau$};
 
-    \node[box, below=1.1cm of filter] (trie) {Construct Filtered\\KG‑Trie $\mathcal{T}^{\text{v1}}$};
+      \node[box, below=1.1cm of filter] (trie) {Construct Filtered\\KG‑Trie $\mathcal{T}^{\text{v1}}$};
 
-    \draw[arrow] (query) -- (qenc);
-    \draw[arrow] (kg) -- (bfs);
-    \draw[arrow] (bfs) -- (paths);
+      \draw[arrow] (query) -- (qenc);
+      \draw[arrow] (kg) -- (bfs);
+      \draw[arrow] (bfs) -- (paths);
 
-    \draw[arrow] (qenc.south) -- ([xshift=-3.2cm]filter.north);
-    \draw[arrow] (paths.south) -- ([xshift=2.2cm]filter.north);
+      \draw[arrow] (qenc.south) -- ([xshift=-3.2cm]filter.north);
+      \draw[arrow] (paths.south) -- ([xshift=2.2cm]filter.north);
 
-    \draw[arrow] (filter) -- node[right, font=\footnotesize] {$\mathcal{P}_{\text{filtered}}$} (trie);
-  \end{tikzpicture}
+      \draw[arrow] (filter) -- node[right, font=\footnotesize] {$\mathcal{P}_{\text{filtered}}$} (trie);
+    \end{tikzpicture}
+  }%
   \caption[Static Semantic Filtering Pipeline (DCA‑Trie v1)]{Static Semantic Filtering Pipeline for DCA‑Trie v1.}
   \label{fig:v1}
 \end{figure}
 
 \subsection{Algorithm for DCA‑Trie v1}
 
-Algorithm~\ref{alg:v1} runs in two separate phases: an offline filtering phase and an online generation phase. To explain how the mechanism works, the process unfolds in the following sequence:
+
+\begin{algorithm}[H]
+  \caption{DCA‑Trie v1: Static Semantic Filtering at Construction Time}
+  \label{alg:v1}
+  \small
+  \begin{algorithmic}[1]
+    \Require Knowledge graph $\mathcal{G}$; question entities $\mathcal{E}_q$;
+    question $q$; max hop depth $L$; admission threshold $\tau$;
+    sentence encoder $E$
+    \Ensure Semantically filtered KG‑Trie $\mathcal{T}^{\text{v1}}$
+
+    \State \textbf{Precompute query embedding:}
+    $\mathbf{u} \gets E(\text{query}(q, \varepsilon))$
+    \Comment{$y_{<t} = \varepsilon$ at construction time}
+
+    \State \textbf{Enumerate paths:}
+    $\mathcal{P} \gets \textsc{BFS}(\mathcal{G}, \mathcal{E}_q, L)$
+    \Comment{All paths within $L$ hops, as in GCR}
+
+    \State \textbf{Score and filter:}
+    \For{each path $p \in \mathcal{P}$}
+    \State $\mathbf{v}_p \gets E(\text{str}(p))$
+    \Comment{Precompute and cache path embedding}
+    \State $s_p \gets \cos(\mathbf{u}, \mathbf{v}_p)$
+    \If{$s_p \geq \tau$}
+    \State Add $p$ to $\mathcal{P}_{\text{filtered}}$
+    \EndIf
+    \EndFor
+
+    \State \textbf{Construct filtered trie:}
+    $\mathcal{T}^{\text{v1}} \gets \textsc{BuildTrie}(\mathcal{P}_{\text{filtered}})$
+
+    \State \Return $\mathcal{T}^{\text{v1}}$
+  \end{algorithmic}
+\end{algorithm}
+
+Algorithm~\ref{alg:v1} runs in two separate phases: an offline filtering phase and an online generation phase.
+
+To explain how the mechanism works, the process unfolds in the following sequence:
 
 \begin{enumerate}
   \item \textbf{Precompute the Query State:} The system first embeds the raw question into a dense vector space, with an empty generation prefix at this stage.
@@ -393,54 +433,9 @@ Algorithm~\ref{alg:v1} runs in two separate phases: an offline filtering phase a
 
 This shows that semantic selectivity happens only once. By pruning the search space completely before generation starts, the decoding process stays fast, stable, and easily comparable to existing baselines.
 
-\begin{figure}[htbp]
-  \centering
-  \begin{algorithm}[H]
-    \caption{DCA‑Trie v1: Static Semantic Filtering at Construction Time}
-    \label{alg:v1}
-    \begin{algorithmic}[1]
-      \Require Knowledge graph $\mathcal{G}$; question entities $\mathcal{E}_q$;
-      question $q$; max hop depth $L$; admission threshold $\tau$;
-      sentence encoder $E$
-      \Ensure Semantically filtered KG‑Trie $\mathcal{T}^{\text{v1}}$
 
-      \State \textbf{Precompute query embedding:}
-      $\mathbf{u} \gets E(\text{query}(q, \varepsilon))$
-      \Comment{$y_{<t} = \varepsilon$ at construction time}
 
-      \State \textbf{Enumerate paths:}
-      $\mathcal{P} \gets \textsc{BFS}(\mathcal{G}, \mathcal{E}_q, L)$
-      \Comment{All paths within $L$ hops, as in GCR}
 
-      \State \textbf{Score and filter:}
-      \For{each path $p \in \mathcal{P}$}
-      \State $\mathbf{v}_p \gets E(\text{str}(p))$
-      \Comment{Precompute and cache path embedding}
-      \State $s_p \gets \cos(\mathbf{u}, \mathbf{v}_p)$
-      \If{$s_p \geq \tau$}
-      \State Add $p$ to $\mathcal{P}_{\text{filtered}}$
-      \EndIf
-      \EndFor
-
-      \State \textbf{Construct filtered trie:}
-      $\mathcal{T}^{\text{v1}} \gets \textsc{BuildTrie}(\mathcal{P}_{\text{filtered}})$
-
-      \State \Return $\mathcal{T}^{\text{v1}}$
-
-      \Statex
-      \Statex \textbf{At generation time} (identical to GCR):
-      \For{each step $t$}
-      \State $\mathcal{V}_t \gets \textsc{TrieLookup}(\mathcal{T}^{\text{v1}}, y_{<t})$
-      \State $\mathbf{m}_t[v] \gets \mathbf{1}[v \in \mathcal{V}_t]$ for all $v$
-      \State $\tilde{\boldsymbol{\alpha}}_t \gets \mathbf{m}_t \odot
-        \textsc{LLMLogits}(y_{<t}, x)$
-      \State $y_t \gets \text{beam-search-step}(\tilde{\boldsymbol{\alpha}}_t)$
-      \EndFor
-    \end{algorithmic}
-  \end{algorithm}
-  \caption[Algorithm for DCA‑Trie v1]{DCA‑Trie v1 algorithm.}
-  \label{fig:alg:v1}
-\end{figure}
 
 \subsection{Complexity Analysis}
 
@@ -503,6 +498,8 @@ where $\mathcal{T}_{\mathcal{G}}$ is the set of graph triplets. The core differe
   \label{fig:v2}
 \end{figure}
 
+\newpage
+
 \subsection{Algorithm for DCA‑Trie v2}
 
 Unlike the static approach in v1, Algorithm~\ref{alg:v2} combines generation and semantic filtering. To manage how the search space changes, the process follows these steps:
@@ -517,69 +514,52 @@ Unlike the static approach in v1, Algorithm~\ref{alg:v2} combines generation and
 
 This means we have a highly adaptable oracle. Instead of forcing the LLM to pick from a large, pre-calculated network of paths, the system builds the network just one step ahead of the model's current reasoning state, following its path while keeping the graph valid.
 
-\begin{figure}[htbp]
-  \centering
-  \begin{algorithm}[H]
-    \caption{DCA‑Trie v2: Step‑Wise Semantic Expansion}
-    \label{alg:v2}
-    \small
-    \begin{algorithmic}[1]
-      \Require Knowledge graph $\mathcal{G}$; question entities $\mathcal{E}_q$;
-      question $q$; admission threshold $\tau$; sentence encoder $E$;
-      LLM with vocabulary $\mathcal{V}$
-      \Ensure Generated reasoning chain $y_1 \ldots y_T$
 
-      \State \textbf{Initialize trie} with entity nodes for $\mathcal{E}_q$:
-      $\mathcal{T}_0 \gets \{e_q : e_q \in \mathcal{E}_q\}$
+\begin{algorithm}[H]
+  \caption{DCA‑Trie v2: Step‑Wise Semantic Expansion}
+  \label{alg:v2}
+  \small
+  \begin{algorithmic}[1]
+    \Require Knowledge graph $\mathcal{G}$; question entities $\mathcal{E}_q$;
+    question $q$; admission threshold $\tau$; sentence encoder $E$;
+    LLM with vocabulary $\mathcal{V}$
+    \Ensure Generated reasoning chain $y_1 \ldots y_T$
 
-      \State \textbf{Precompute query embedding:}
-      $\mathbf{u}_0 \gets E(\text{query}(q, \varepsilon))$
+    \State \textbf{Initialize trie} with entity nodes for $\mathcal{E}_q$:
+    $\mathcal{T}_0 \gets \{e_q : e_q \in \mathcal{E}_q\}$
 
-      \For{each step $t = 1$ \textbf{to} $T$}
-      \State $\mathcal{V}_t \gets \textsc{TrieLookup}(\mathcal{T}_{t-1}, y_{<t})$
-      \Comment{Valid tokens from current trie}
-      \State $\mathbf{m}_t[v] \gets \mathbf{1}[v \in \mathcal{V}_t]$ for all $v$
-      \State $\tilde{\boldsymbol{\alpha}}_t \gets \mathbf{m}_t \odot
-        \textsc{LLMLogits}(y_{<t}, x)$
-      \State $y_t \gets \text{beam-search-step}(\tilde{\boldsymbol{\alpha}}_t)$
+    \State \textbf{Precompute query embedding:}
+    $\mathbf{u}_0 \gets E(\text{query}(q, \varepsilon))$
 
-      \If{$y_t$ is an \textit{entity} token $e_t$}
-      \Comment{Expansion triggered at entity commits}
-      \State \textbf{Update query embedding:}
-      $\mathbf{u}_t \gets E(\text{query}(q, y_{\leq t}))$
-      \State \textbf{Expand trie:}
-      \For{each $(e_t, r, e') \in \mathcal{T}_{\mathcal{G}}$}
-      \State $\mathbf{v}_{e'} \gets E(\text{str}((e_t, r, e')))$
-      \Comment{Cache if previously computed}
-      \State $s \gets \cos(\mathbf{u}_t, \mathbf{v}_{e'})$
-      \If{$s \geq \tau$}
-      \State Add $(e_t, r, e')$ to $\mathcal{T}_t$
-      \EndIf
-      \EndFor
-      \Else
-      \State $\mathcal{T}_t \gets \mathcal{T}_{t-1}$
-      \Comment{No expansion at relation token steps}
-      \EndIf
-      \EndFor
-      \State \Return $y_1 \ldots y_T$
-    \end{algorithmic}
-  \end{algorithm}
-  \caption[Algorithm for DCA‑Trie v2]{DCA‑Trie v2 algorithm.}
-  \label{fig:alg:v2}
-\end{figure}
+    \For{each step $t = 1$ \textbf{to} $T$}
+    \State $\mathcal{V}_t \gets \textsc{TrieLookup}(\mathcal{T}_{t-1}, y_{<t})$
+    \Comment{Valid tokens from current trie}
+    \State $\mathbf{m}_t[v] \gets \mathbf{1}[v \in \mathcal{V}_t]$ for all $v$
+    \State $\tilde{\boldsymbol{\alpha}}_t \gets \mathbf{m}_t \odot
+      \textsc{LLMLogits}(y_{<t}, x)$
+    \State $y_t \gets \text{beam-search-step}(\tilde{\boldsymbol{\alpha}}_t)$
 
-
-\subsection{Complexity Analysis}
-
-This section presents a complexity analysis of DCA‑Trie v2 at the implementation level under the same assumptions. In v2, the expansion cost only happens when an entity token is committed, with a complexity of $O(|\mathcal{N}_{e_t}| \cdot d_E)$, where $|\mathcal{N}_{e_t}|$ is the neighborhood size of $e_t$. In practice, semantic filtering reduces this to about $O(|\mathcal{N}_{e_t}^{\text{filtered}}| \cdot d_E)$ with $|\mathcal{N}_{e_t}^{\text{filtered}}| \ll d$ for most nodes.
-
-Relation-token steps do not trigger expansion, so their cost stays similar to that of standard constrained decoding. Caching further lowers overhead by preventing the repeated encoding of candidates that have already been seen.
-
-\subsection{Faithfulness Guarantee}
-
-As in v1, v2 maintains structural faithfulness by design. Every expansion candidate must meet the requirement $(e_t, r, e') \in \mathcal{T}_{\mathcal{G}}$ in Equation~\eqref{eq:v2expansion}. Semantic scoring only prunes this structurally valid set; it does not introduce new graph transitions. Therefore, all accepted tokens remain graph-based, and Condition~F holds true under proper token-mask construction and tokenizer alignment.
-
-% -----------------------------------------------------------------------------
+    \If{$y_t$ is an \textit{entity} token $e_t$}
+    \Comment{Expansion triggered at entity commits}
+    \State \textbf{Update query embedding:}
+    $\mathbf{u}_t \gets E(\text{query}(q, y_{\leq t}))$
+    \State \textbf{Expand trie:}
+    \For{each $(e_t, r, e') \in \mathcal{T}_{\mathcal{G}}$}
+    \State $\mathbf{v}_{e'} \gets E(\text{str}((e_t, r, e')))$
+    \Comment{Cache if previously computed}
+    \State $s \gets \cos(\mathbf{u}_t, \mathbf{v}_{e'})$
+    \If{$s \geq \tau$}
+    \State Add $(e_t, r, e')$ to $\mathcal{T}_t$
+    \EndIf
+    \EndFor
+    \Else
+    \State $\mathcal{T}_t \gets \mathcal{T}_{t-1}$
+    \Comment{No expansion at relation token steps}
+    \EndIf
+    \EndFor
+    \State \Return $y_1 \ldots y_T$
+  \end{algorithmic}
+\end{algorithm}
 \section{Baseline Systems}
 \label{sec:ch3baseline}
 % -----------------------------------------------------------------------------
