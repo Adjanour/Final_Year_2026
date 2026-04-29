@@ -15,15 +15,16 @@ This literature review looks at the current research on these challenges and exa
 \label{sec:llms}
 % -----------------------------------------------------------------------------
 
-To understand how knowledge graph constraints can be used with language models, we first need to grasp how these models generate language. Large language models (LLMs) are the main systems powering today’s natural language processing. This section describes the structure and generation features of LLMs. It focuses on the autoregressive process that leads to their smooth reasoning abilities and their risk of producing false information.
+To understand how knowledge graph constraints can be used with language models, it is first necessary to grasp how these models generate language. Large language models (LLMs) are the main systems powering today’s natural language processing. This section describes the structure and generation features of LLMs. It focuses on the autoregressive process that leads to their smooth reasoning abilities and their risk of producing false information.
 
 \subsection{Transformer Architecture}
 
 Modern LLMs are built upon the Transformer architecture, introduced by \citet{vaswani2017attention}. At its core, the Transformer relies on a scaled dot-product self-attention mechanism that allows the model to dynamically weigh the importance of different tokens in an input sequence regardless of their positional distance. Formally, for a set of queries $Q$, keys $K$, and values $V$, the attention output is computed as:
 \begin{equation}
   \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+  \label{eq:attention}
 \end{equation}
-where $d_k$ represents the dimensionality of the keys. This marked a significant change from earlier recurrent architectures. It allowed for highly parallel training and the capturing of long-range dependencies. Initially, the framework suggested an encoder-decoder setup for translation tasks. However, the field has mostly moved toward decoder-only models for text generation. In a decoder-only model, self-attention is causally masked. This means that when the model computes the representation for a specific token, it can only focus on previous tokens and not future ones. This strictly left-to-right processing fits well with the task of predicting the next word in a sequence. The Llama-3.1-8B model~\citep{dubey2024llama3} is a prominent example of this decoder-only, causally-masked transformer design, and has been adopted as the backbone in recent KG-constrained decoding work~\citep{luo2025-graph-constrained-reasoning}.
+where $d_k$ represents the dimensionality of the keys. This scaled dot-product mechanism (Equation~\ref{eq:attention}) marked a significant change from earlier recurrent architectures. It allowed for highly parallel training and the capturing of long-range dependencies. Initially, the framework suggested an encoder-decoder setup for translation tasks. However, the field has mostly moved toward decoder-only models for text generation. In a decoder-only model, self-attention is causally masked. This means that when the model computes the representation for a specific token, it can only focus on previous tokens and not future ones. This strictly left-to-right processing fits well with the task of predicting the next word in a sequence. The Llama-3.1-8B model~\citep{dubey2024llama3} is a prominent example of this decoder-only, causally-masked transformer design, and has been adopted as the backbone in recent KG-constrained decoding work~\citep{luo2025-graph-constrained-reasoning}.
 
 \subsection{Autoregressive Generation}
 
@@ -224,7 +225,7 @@ Recent RAG variants focus on the timing and accuracy of retrieval. Self-RAG~\cit
 
 \subsection{The Structural Limitation of Soft Grounding}
 
-Despite their empirical improvements, all RAG approaches share a structural limitation: retrieved context is a soft influence on generation. The retriever determines what the LLM sees; it does not determine what the LLM is permitted to generate. Because the LLM's generation mechanism remains unchanged (the distribution over the full vocabulary is computed autoregressively), there exists a nonzero probability of generating any token at any step, including tokens that correspond to no verified KG fact. Structural faithfulness with probability one, which guarantees that every generated token corresponds to a verified fact, cannot be achieved under any architecture that modifies only the input context without modifying the token selection mechanism~\citep{luo2025-graph-constrained-reasoning, geng2023grammarconstrained}.
+Despite their empirical improvements, all RAG approaches share a structural limitation: retrieved context is a soft influence on generation. As shown in Figure~\ref{fig:rag_vs_constrained}, the retriever determines what the LLM sees; it does not determine what the LLM is permitted to generate. Because the LLM's generation mechanism remains unchanged (the distribution over the full vocabulary is computed autoregressively), there exists a nonzero probability of generating any token at any step, including tokens that correspond to no verified KG fact. Structural faithfulness with probability one, which guarantees that every generated token corresponds to a verified fact, cannot be achieved under any architecture that modifies only the input context without modifying the token selection mechanism~\citep{luo2025-graph-constrained-reasoning, geng2023grammarconstrained}.
 
 \begin{figure}[H]
   \centering
@@ -281,8 +282,7 @@ Despite their empirical improvements, all RAG approaches share a structural limi
 
     \end{tikzpicture}
   }
-  \caption[Standard RAG vs. KG-Constrained Decoding]{Comparison of standard RAG (left) and KG-constrained decoding (right).}
-  \label{fig:rag_vs_constrained}
+  \caption[Standard RAG vs. KG-Constrained Decoding]{Comparison of standard RAG (left) and KG-constrained decoding (right).}\label{fig:rag_vs_constrained}
 \end{figure}
 
 % -----------------------------------------------------------------------------

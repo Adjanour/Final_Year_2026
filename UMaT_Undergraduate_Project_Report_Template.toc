@@ -78,16 +78,16 @@
 \contentsline {subsection}{\numberline {3.6.1}Design Rationale}{46}{subsection.120}%
 \contentsline {subsection}{\numberline {3.6.2}Algorithm for DCA‑Trie v1}{47}{subsection.122}%
 \contentsline {subsection}{\numberline {3.6.3}Complexity Analysis}{48}{subsection.129}%
-\contentsline {subsection}{\numberline {3.6.4}Faithfulness Guarantee}{48}{subsection.130}%
-\contentsline {section}{\numberline {3.7}DCA‑Trie v2: Step‑Wise Dynamic Expansion}{48}{section.131}%
-\contentsline {subsection}{\numberline {3.7.1}Design Rationale}{48}{subsection.132}%
-\contentsline {subsection}{\numberline {3.7.2}Algorithm for DCA‑Trie v2}{50}{subsection.135}%
-\contentsline {section}{\numberline {3.8}Baseline Systems}{51}{section.142}%
-\contentsline {section}{\numberline {3.9}Evaluation Protocol}{52}{section.143}%
-\contentsline {subsection}{\numberline {3.9.1}Datasets}{52}{subsection.144}%
-\contentsline {subsection}{\numberline {3.9.2}Evaluation Metrics}{52}{subsection.145}%
-\contentsline {subsection}{\numberline {3.9.3}Hop‑Depth Stratification}{53}{subsection.151}%
-\contentsline {subsection}{\numberline {3.9.4}Experimental Configuration}{53}{subsection.152}%
-\contentsline {section}{\numberline {3.10}Scope Boundaries and Anticipated Limitations}{53}{section.153}%
-\contentsline {chapter}{REFERENCES}{55}{section.153}%
+\contentsline {subsection}{\numberline {3.6.4}Faithfulness Guarantee}{49}{subsection.130}%
+\contentsline {section}{\numberline {3.7}DCA‑Trie v2: Step‑Wise Dynamic Expansion}{49}{section.131}%
+\contentsline {subsection}{\numberline {3.7.1}Design Rationale}{49}{subsection.132}%
+\contentsline {subsection}{\numberline {3.7.2}Algorithm for DCA‑Trie v2}{51}{subsection.135}%
+\contentsline {section}{\numberline {3.8}Baseline Systems}{52}{section.142}%
+\contentsline {section}{\numberline {3.9}Evaluation Protocol}{53}{section.143}%
+\contentsline {subsection}{\numberline {3.9.1}Datasets}{53}{subsection.144}%
+\contentsline {subsection}{\numberline {3.9.2}Evaluation Metrics}{53}{subsection.145}%
+\contentsline {subsection}{\numberline {3.9.3}Hop‑Depth Stratification}{54}{subsection.151}%
+\contentsline {subsection}{\numberline {3.9.4}Experimental Configuration}{54}{subsection.152}%
+\contentsline {section}{\numberline {3.10}Scope Boundaries and Anticipated Limitations}{54}{section.153}%
+\contentsline {chapter}{REFERENCES}{56}{section.153}%
 \contentsfinish 
