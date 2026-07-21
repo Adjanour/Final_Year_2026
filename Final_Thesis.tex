@@ -25,6 +25,9 @@
 \usepackage{subcaption}
 \usepackage{etoolbox} % provides \patchcmd
 \patchcmd{\endabstract}{\null}{}{}{} % replaces \null with third argument (empty)
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{statistics}
 
 % \usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
 
@@ -560,8 +563,8 @@
 \include{Chapters/Chapter1} % Introduction
 \include{Chapters/Chapter2}
 \include{Chapters/Chapter3} % Methodology
-% \include{Chapters/Chapter4} 
-% \include{Chapters/Chapter5} 
+\include{Chapters/Chapter4} 
+\include{Chapters/Chapter5} 
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES

@@ -1,0 +1,135 @@
+% =============================================================================
+% CHAPTER 1 - INTRODUCTION
+% =============================================================================
+
+\chapter{INTRODUCTION}
+
+\ifpdf
+  \graphicspath{{introduction/figures/PNG}{introduction/figures/PDF}{introduction/figures}}
+\else
+  \graphicspath{{introduction/figures/EPS}{introduction/figures}}
+\fi
+
+\section{Background}
+
+Graph-constrained decoding promises to eliminate hallucination in knowledge graph question answering by restricting the LLM to tokens that correspond to real graph facts. This promise rests on a structural guarantee: every generated token follows a valid KG path. But the guarantee is bought at a cost that the field has not yet confronted. The constraint oracle is built once, before generation begins, from graph topology and question entities alone. It does not know what the question asks. It does not update as reasoning unfolds. The result is a system that is structurally faithful but semantically permissive, admitting thousands of irrelevant paths at every step and forcing the model to choose among them using the same parametric knowledge that constrained decoding was designed to eliminate.
+
+This is the tension that motivates the present work. The background below traces how it arises.
+
+Large language models (LLMs) have grown from narrow text predictors into systems capable of multi-step reasoning, summarisation, and broad question answering~\citep{brown2020gpt3,openai2024gpt4technicalreport}. The GPT series and the Llama family achieve these capabilities by learning statistical patterns from massive text corpora, internalising factual associations as implicit weight regularities rather than as verifiable entries~\citep{touvron2023llama,dubey2024llama3}. The same process that makes them broadly capable makes them structurally unreliable on knowledge-intensive tasks: because knowledge is stored as weights, a model can produce fluent, confident answers that are factually wrong.
+
+Hallucination (the generation of fluent but incorrect content) occurs at rates from 15\% to over 60\% across a range of tasks~\citep{ji2023survey}. \citet{huang2023survey} distinguish intrinsic hallucinations (contradicting the source) from extrinsic ones (unverifiable by any source). The mechanism is autoregressive: each token is selected from a distribution conditioned only on previously generated tokens, with no checkpoint against external knowledge. An error at step $t$ propagates coherently through the rest of the output~\citep{huang2023survey,ji2023survey}. Recent theoretical work suggests this is inherent to statistical language modelling, not merely a consequence of insufficient training~\citep{xu2025hallucinationinevitableinnatelimitation}. Scaling does not fix it. Larger models hallucinate differently, not less.
+
+Knowledge graph question answering (KGQA) makes this problem concrete. A KG stores facts as \emph{(subject, relation, object)} triplets, for example \emph{(Paris, capital of, France)}, enabling reasoning through interconnected relationships~\citep{bollacker2008freebase}. Benchmarks such as WebQSP~\citep{yih2016websqp} and ComplexWebQuestions~\citep{talmor2018cwq} are built on Freebase and frequently require multi-hop reasoning across several relations. An unconstrained LLM can still produce a fluent but incorrect answer because it relies on parametric memory instead of verifying each step~\citep{lan2022survey,he2021improving}.
+
+Retrieval-augmented generation (RAG) retrieves relevant passages and adds them to the prompt~\citep{lewis2020rag,izacard2021leveraging}. It reduces hallucination, but the retrieved information only influences generation rather than constraining it. The model may ignore retrieved evidence or generate beyond it~\citep{asai2024selfrag,agrawal2024mindfulrag}.
+
+Constrained decoding takes a harder line. A constraint oracle computes a binary mask at each step, setting invalid tokens to $-\infty$ before the softmax~\citep{geng2023grammarconstrained,willard2023outlines}. Graph-Constrained Reasoning (GCR)~\citep{luo2025-graph-constrained-reasoning} applies this to KGQA by pre-building a KG-Trie that encodes all valid graph paths within $L$ hops of the question entities. GCR achieves 92.6 Hits@1 on WebQSP with 100\% structural faithfulness: every generated token corresponds to a real graph fact.
+
+But the trie is static. It is constructed once, before generation, from graph topology and question entities only. It does not consider what the question means or how far reasoning has progressed. The valid token set at the first generation step is identical to the valid token set at the tenth. On multi-hop questions this makes the oracle excessively permissive: thousands of structurally valid but semantically irrelevant paths remain in the constraint set at every step, and the model must filter among them using parametric knowledge, precisely the behaviour constrained decoding was designed to eliminate~\citep{li2024-decoding-on-graphs,luo2025-graph-constrained-reasoning}.
+
+Decoding on Graphs (DoG)~\citep{li2024-decoding-on-graphs} updates the trie step-by-step as generation proceeds, but expansion is guided by graph topology alone. Question semantics play no role in determining which paths remain valid. The model must still discriminate between relevant and irrelevant candidates using parametric knowledge, while incurring the additional cost of rebuilding the constraint structure during inference.
+
+Neither method narrows the constraint set in response to what the question is asking. DCA-Trie addresses this by conditioning the valid token set on the knowledge graph, the input question, and the partial reasoning chain. The goal is structural faithfulness without semantic permissiveness: every admitted token must correspond to a real graph fact, but the set of admitted facts should shrink as reasoning progresses.
+
+\section{Problem Statement}
+
+Existing KG-constrained decoding frameworks define valid tokens as $W_{\mathrm{val}} = f(G, E_q)$, a function of the graph and question entities only~\citep{luo2025-graph-constrained-reasoning,li2024-decoding-on-graphs}. This preserves structural faithfulness but not contextual relevance: the oracle admits every reachable path, whether or not it points in the direction the question requires.
+
+The gap widens in multi-hop settings. The number of candidate paths grows rapidly with each hop~\citep{lan2022survey,talmor2018cwq}, and the LLM must filter among structurally valid but semantically irrelevant options using parametric knowledge. This reintroduces the internal-memory reliance that constrained decoding was designed to eliminate.
+
+Recent work such as RouterKGQA~\citep{yuan2026routerkgqa} applies semantic filtering at answer selection, after generation. The model remains exposed to irrelevant candidates throughout the generation process. DCA-Trie filters during decoding, at the token-validity stage, preventing the model from considering irrelevant reasoning tokens in the first place.
+
+This project extends the validity function from $W_{\mathrm{val}}(t) = f(G, E_q)$ to:
+\begin{equation}
+  W_{\mathrm{val}}(t) = f(G, E_q, q, y^{<t})
+  \label{eq:problem_dcat}
+\end{equation}
+\noindent where $q$ is the input question and $y^{<t}$ is the partial generation. The oracle must satisfy three requirements. First, it must preserve structural faithfulness: every accepted token matches a valid KG path. Second, it must reduce semantic irrelevance, measured by the Semantic Irrelevance Ratio (SIR; Chapter~\ref{Chapter3}). Third, it must maintain answer recall: false negatives on gold paths stay below 5\% on WebQSP validation.
+
+\section{Objectives of Thesis}
+
+\subsection*{Aim}
+To design, implement, and evaluate a Dynamic Context-Aware Trie (DCA-Trie) framework for knowledge graph-constrained LLM generation, conditioning each decoding step on the knowledge graph, the input question, and the partial reasoning chain to improve multi-hop KGQA accuracy. The framework must preserve 100\% structural faithfulness throughout.
+
+\subsection*{Objectives}
+To achieve this aim, the following objectives have been established:
+
+\begin{enumerate}[label=\roman*.]
+  \item To characterize the constraint permissiveness problem in existing KG-constrained decoding frameworks by defining and measuring the Semantic Irrelevance Ratio (SIR) of GCR's static KG-Tries on WebQSP, stratified by hop depth.
+  \item To design a symbolic constraint oracle (TypeOracle) that filters candidate KG paths using two ontology-based gates, a range gate checking property ranges at each hop and a type gate checking terminal entity types at the final hop, eliminating the encoder cost and threshold sensitivity of embedding-based approaches.
+  \item To implement DCA-Trie v1, a static filtering variant that applies the TypeOracle at KG-Trie construction time, reducing trie size and keeping the false negative rate below 5\% on gold paths on the WebQSP validation set.
+  \item To implement DCA-Trie v2, a dynamic variant in which the trie is updated after each committed triplet using the TypeOracle conditioned on the question and partial generation $y^{<t}$, directly operationalizing Eq.~\ref{eq:problem_dcat}.
+  \item To evaluate DCA-Trie v1 and v2 against the GCR baseline and an unconstrained chain-of-thought (CoT) baseline on WebQSP, measuring Hits@1, F1, structural faithfulness, SIR, and average trie size, with results stratified by question hop depth.
+  \item To demonstrate practical applicability through an interactive prototype, implemented as a command-line QA interface, allowing users to enter natural language questions and receive fact-based reasoning chains with answers.
+\end{enumerate}
+
+\section{Tools and Facilities Used}
+
+\subsection{Software Tools}
+
+Table~\ref{tab:implemented-software-tools} presents the software tools used in this project.
+
+\begin{table}[H]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \caption[\normalfont Implemented Software Tools Evaluation]{Implemented Software Tools Evaluation.}
+  \label{tab:implemented-software-tools}
+  \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{0.20\textwidth}|>{\raggedright\arraybackslash}p{0.30\textwidth}|>{\raggedright\arraybackslash}p{0.35\textwidth}|}
+      \hline
+      Tool                                     & Use in Project                                                                                                    & Rationale                                                                                                                       \\
+      \hline
+      Python / HuggingFace Transformers        & Model inference pipeline; loading and running GCR's Llama-3.1-8B checkpoint; integrating the relevance scorer     & Provides reliable model loading, tokenization, and generation utilities, and enables direct use of the released GCR checkpoint. \\
+      \hline
+      GCR Framework                            & Primary baseline; KG-Trie construction, graph-constrained decoding, and result reproduction on WebQSP and CWQ     & Provides a strong baseline and supports the trie-based constrained decoding mechanism that DCA-Trie extends.                    \\
+      \hline
+      Sentence-transformers / all-MiniLM-L6-v2 & Semantic relevance scoring; computing cosine similarity between question-context and candidate KG path embeddings & Provides fast semantic embeddings without extra fine-tuning and supports efficient iterative decoding.                          \\
+      \hline
+      PyTorch                                  & Deep learning framework underpinning all model inference and custom decoding logic                                & Supports implementation and testing of custom decoding logic and integrates smoothly with HuggingFace.                          \\
+      \hline
+      Freebase / WebQSP and CWQ Datasets       & Knowledge graph source and KGQA benchmarks for evaluation                                                         & Provides standard datasets for this research area and enables direct comparison with prior work.                                \\
+      \hline
+      Google Colab Pro (A100, 40 GB)           & GPU environment for all inference experiments; Llama-3.1-8B constrained decoding with beam search                 & Provides enough GPU memory for stable experiments and removes the need for local high-end hardware.                             \\
+      \hline
+      Visual Studio Code + Git / GitHub        & Development environment and version control for all four team members                                             & Supports day-to-day coding, team collaboration, version tracking, and reproducibility throughout the project.                  \\
+      \hline
+    \end{tabular}
+  }
+\end{table}
+
+\subsection{Facilities}
+
+The following facilities were utilized in the execution of this project:
+
+\begin{enumerate}[label=\roman*.]
+  \item Google Colab Pro (A100, 40 GB VRAM) for all model inference and constrained decoding experiments.
+  \item University library and online academic databases (ACM Digital Library, arXiv, Google Scholar, ACL Anthology) for literature review and citation verification.
+  \item University internet infrastructure for cloud connectivity, dataset access, and retrieval of model checkpoints from the HuggingFace model hub.
+  \item Shared team repository hosted on GitHub for version control, experiment logging, and reproducibility of all reported results.
+\end{enumerate}
+
+\section{Methods Used}
+
+The project employs the following methods:
+
+\begin{enumerate}[label=\roman*.]
+  \item Systematic review and critical analysis of the academic literature on constrained decoding, knowledge graph question answering, hallucination in LLMs, and retrieval-augmented generation.
+  \item Formal gap analysis of the four foundational papers (GCR~\citep{luo2025-graph-constrained-reasoning}, DoG~\citep{li2024-decoding-on-graphs}, GCD~\citep{geng2023grammarconstrained}, and Outlines~\citep{willard2023outlines}) to identify the permissiveness problem and the absence of generation-state feedback in the constraint oracle.
+  \item Formal specification of the DCA-Trie framework, including the SIR metric, the relevance scoring mechanism, the static filtering procedure for v1, and the step-wise dynamic expansion rule for v2.
+  \item Reproduction of the GCR baseline on WebQSP using GCR's publicly released Llama-3.1-8B checkpoint to establish a verified starting point within 1--2\% of published Hits@1.
+  \item Quantitative evaluation of all configurations on WebQSP and CWQ using Hits@1, F1, faithfulness rate, SIR, and average trie size per step, stratified by question hop depth following the protocol of~\citet{lan2022survey}.
+\end{enumerate}
+
+\section{Scope of Work}
+
+This project targets the permissiveness problem in GCR and DoG: the fact that existing constraint oracles admit every structurally reachable path, regardless of whether the path is relevant to the question being asked. The evaluation is restricted to multi-hop KGQA over Freebase-grounded benchmarks (WebQSP and CWQ), the standard settings in this literature. All experiments use GCR's publicly released Llama-3.1-8B checkpoint~\citep{luo2025-graph-constrained-reasoning}; no model training or fine-tuning is performed. The semantic relevance scorer uses all-MiniLM-L6-v2 without domain-specific adaptation.
+
+Generalization to knowledge graphs other than Freebase, or to non-KGQA tasks such as entity linking, would answer a different question: whether DCA-Trie transfers across domains. This is identified as future work. Formal proofs of the faithfulness guarantee under dynamic pruning are beyond scope; empirical measurement of the gold answer false negative rate provides the relevant evidence. Production-scale deployment and latency optimization are engineering extensions, not research contributions.
+
+The primary contribution is the DCA-Trie framework and the Semantic Irrelevance Ratio metric. Secondary contributions are the empirical characterization of constraint permissiveness in existing frameworks and the ablation analysis isolating semantic filtering from dynamic expansion. All code, configurations, and curated evaluation datasets will be made publicly available.
+
+\section{Organization of Work}
+
+Chapter 1 identifies the problem and motivates DCA-Trie. Chapter 2 reviews literature on hallucination, KGQA, constrained decoding, and related frameworks, establishing the gaps that motivate context-aware constraint mechanisms. Chapter 3 presents the DCA-Trie formulation, research questions, evaluation criteria, and implementation of v1 and v2 within the GCR pipeline~\citep{luo2025-graph-constrained-reasoning}. Chapter 4 reports experimental results on WebQSP and CWQ, analyzing structural faithfulness, semantic irrelevance, answer accuracy, and findings from ablation and error analysis. Chapter 5 summarizes contributions, discusses practical implications, and identifies directions for future work.
