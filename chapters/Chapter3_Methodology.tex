@@ -742,87 +742,34 @@ Table~\ref{tab:complexity_comparison} summarises the computational profiles of a
 
 The v2 design has a structural advantage and a structural weakness. The advantage is \textit{focus}: at each step, the trie contains only paths reachable from the entity the model has committed to, not the full set of paths from the original question entities. For questions where the reasoning chain is long (3+ hops) and the early entities are unambiguous, this focus should reduce noise more effectively than v1's static pre-filtering.
 
-The weakness is \textit{instability}: each trie rebuild changes the set of valid tokens the LLM can generate. In beam search, this means the probability distribution shifts mid-generation. A path that was valid at step $t$ may become invalid at step $t+1$, causing beam candidates to be pruned not because the model scored them poorly, but because the constraint structure changed. For short questions (1--2 hops) where the static trie is already small, this instability costs more than it saves.
-
-The interrupted v2 run supports this diagnosis: the 120-second per-question timeout was exceeded primarily by questions with high-degree entities (e.g., \textit{United States}, \textit{United Kingdom}), where the expansion loop examines hundreds of neighbours at each commitment. These are also the questions where v2's focus provides the least benefit, because the entity neighbourhood is so large that step-wise expansion does not meaningfully reduce the search space.
-
-A future v2 implementation could mitigate both problems by throttling rebuild frequency (rebuilding only when the committed entity's neighbourhood exceeds a size threshold) and by caching partial trie structures across adjacent steps.
+The weakness is \textit{instability}: each trie rebuild changes the set of valid tokens the LLM can generate. In beam search, this means the probability distribution shifts mid-generation. A path that was valid at step $t$ may become invalid at step $t+1$, causing beam candidates to be pruned not because the model scored them poorly, but because the constraint structure changed. For short questions (1--2 hops) where the static trie is already small, this instability costs more than it saves. Chapter~4 evaluates this trade-off empirically.
 
 % -----------------------------------------------------------------------------
 \section{Baseline Systems}
 \label{sec:ch3baseline}
 % -----------------------------------------------------------------------------
 
-Four system configurations are evaluated to assess the proposed methodology:
+Four configurations are evaluated, all using the same \texttt{rmanluo/GCR-Meta-Llama-3.1-8B-Instruct} backbone and matched decoding settings (beam width $k{=}10$, group-beam search). This isolates differences to the constraint-oracle design:
 
-\textbf{CoT Baseline:} The same Llama‑3.1‑8B model \citep{dubey2024llama3} used in GCR, run without any KG constraint oracle and prompted with standard chain-of-thought reasoning. This provides the unconstrained reference point.
+\begin{itemize}
+  \item \textbf{CoT Baseline:} Unconstrained chain-of-thought reasoning with no KG oracle.
+  \item \textbf{GCR:} Static KG-Trie constraints $\mathcal{W}_{\text{val}}(t)=f(\mathcal{G},\mathcal{E}_q)$~\citep{luo2025-graph-constrained-reasoning}. Primary constrained baseline.
+  \item \textbf{DCA-Trie v1:} Static symbolic filtering (Section~\ref{sec:ch3v1}), implemented as a preprocessing step.
+  \item \textbf{DCA-Trie v2:} Dynamic step-wise expansion (Section~\ref{sec:ch3v2}), integrated into the decoding loop.
+\end{itemize}
 
-\textbf{GCR:} The original Graph‑Constrained Reasoning framework \citep{luo2025-graph-constrained-reasoning} with static KG‑Trie constraints $\mathcal{W}_{\text{val}}(t)=f(\mathcal{G},\mathcal{E}_q)$. This is the primary constrained baseline. GCR builds its trie from all BFS-enumerated paths within $L$ hops of the question entities, without any semantic filtering. The LLM backbone is the same \texttt{rmanluo/GCR-Meta-Llama-3.1-8B-Instruct} model used across all configurations, but GCR does not fine-tune it for KG reasoning. DCA-Trie modifies GCR's trie construction by applying TypeOracle checks; the decoding and inductive reasoning layers remain identical.
-
-\textbf{DCA‑Trie v1:} The static symbolic filtering variant described in Section~\ref{sec:ch3v1}, implemented as a preprocessing step in the GCR pipeline. TypeOracle checks replace the unconstrained BFS trie.
-
-\textbf{DCA‑Trie v2:} The dynamic step-wise expansion variant described in Section~\ref{sec:ch3v2}, integrated into the decoding process.
-
-To ensure fair comparison, all settings use the same
-\texttt{rmanluo/}\\\texttt{GCR-Meta-Llama-3.1-8B-Instruct} backbone,
-the same entity-linking pipeline for $\mathcal{E}_q$, and matched
-decoding settings (beam width $k=10$, group-beam search). This isolates
-differences to the constraint-oracle design rather than model or
-preprocessing variation.
+Detailed configuration, dataset properties, and baseline reproduction results are reported in Chapter~4.
 
 % -----------------------------------------------------------------------------
 \section{Evaluation Protocol}
 \label{sec:ch3eval}
 % -----------------------------------------------------------------------------
 
-\subsection{Datasets}
-
-Evaluation is conducted on the RoG-webqsp test split, derived from the standard WebQSP benchmark \citep{yih2016websqp} over the Freebase knowledge graph \citep{bollacker2008freebase}. The test split contains 1,628 questions, mostly requiring 1--2 hops. A separate 100-question validation split is used only for gate statistics in the TypeOracle analysis; it is not used for threshold calibration, as the TypeOracle is threshold-free.
-
-\subsection{Evaluation Metrics}
-
-Four primary metrics are reported:
-
-\begin{enumerate}
-  \item \textbf{Hits@1:} The proportion of examples where the top predicted answer matches the gold entity.
-
-  \item \textbf{Hits@k:} The proportion of examples where at least one of the top-$k$ predicted answers matches the gold entity.
-
-  \item \textbf{Path Reduction:} The percentage reduction in valid candidate paths admitted by the TypeOracle relative to the GCR baseline, measuring constraint selectivity.
-
-  \item \textbf{False Negative Rate (FNR):} The fraction of questions whose gold answer is excluded by the TypeOracle, as defined in Equation~\eqref{eq:fnr}.
-\end{enumerate}
-
-\subsection{Hop‑Depth Stratification}
-
-All major metrics (except binary structural faithfulness) are also reported by hop depth (1, 2, 3, and 4), consistent with prior KGQA analysis \citep{lan2022survey}. Permissiveness effects usually increase with hop depth; reporting only aggregate results can hide this behavior.
-
-\subsection{Experimental Configuration}
-
-All experiments run on a single NVIDIA GeForce RTX 4090.  The model
-\texttt{rmanluo/}\\\texttt{GCR-Meta-Llama-3.1-8B-Instruct} is loaded
-in 16-bit precision through HuggingFace Transformers
-\citep{wolf2020transformers} with SDPA attention.  Constrained systems
-use beam width $k=10$ with group-beam search, while the unconstrained
-CoT baseline uses $k=1$.  Maximum new tokens is set to 256.  The index
-length (maximum hop depth for trie construction) is 2.  Zero-shot
-prompting is used throughout.
+Evaluation uses the RoG-webqsp test split (1,628 questions, 1--2 hops) over Freebase~\citep{bollacker2008freebase, yih2016websqp}. A 100-question validation split is used only for gate statistics. The primary metrics are Hits@1, Hits@k, Path Reduction, and False Negative Rate (FNR), with all major metrics stratified by hop depth (1--4). All experiments run on a single NVIDIA GeForce RTX 4090 using the \texttt{rmanluo/GCR-Meta-Llama-3.1-8B-Instruct} model in bfloat16 precision via HuggingFace Transformers~\citep{wolf2020transformers}. Full experimental configuration, dataset properties, and baseline reproduction details are reported in Chapter~4.
 
 % -----------------------------------------------------------------------------
 \section{Scope Boundaries and Anticipated Limitations}
 \label{sec:ch3limitations}
 % -----------------------------------------------------------------------------
 
-This study has clear scope boundaries that frame the interpretation of the Chapter~4 results:
-
-\textbf{Single benchmark:} Evaluation is limited to WebQSP. The Complex WebQuestions (CWQ) benchmark, which requires 2--4 hops and has more complex question structures, is excluded from the primary evaluation. CWQ evaluation is deferred to future work, as the current study focuses on establishing the TypeOracle mechanism and the SIR metric on a single, well-understood benchmark.
-
-\textbf{Single KG and domain:} Experiments are limited to Freebase-based KGQA. Generalization to other KGs (e.g., Wikidata and ConceptNet) remains future work.
-
-\textbf{No model fine-tuning:} The Llama‑3.1‑8B backbone is not fine-tuned. Observed improvements reflect changes in constraint-oracle design rather than adaptation of parameters.
-
-\textbf{Empirical faithfulness evidence:} Condition~F is assessed empirically by checking generated paths against KG triplets, following established practice in prior work \citep{luo2025-graph-constrained-reasoning, li2024-decoding-on-graphs}. This evidence is interpreted under the same implementation assumptions regarding valid-token masking and tokenizer alignment.
-
-\textbf{Schema dependency:} The TypeOracle relies on KG ontology metadata (entity types, relation ranges). In KGs where schema information is sparse, the conservative fallback policy (admit when unknown) means the oracle behaves closer to the unconstrained baseline.
-
-\textbf{False negative risk:} Even under Condition~P, symbolic filtering can remove valid paths, particularly when entity types are incomplete or question-type inference is ambiguous. This trade-off is explicitly analyzed in Chapter~4.
+This study is bounded as follows. Evaluation is restricted to WebQSP over Freebase; CWQ evaluation and cross-KG generalization are future work. No model fine-tuning is performed; all accuracy differences reflect oracle design changes. The TypeOracle depends on KG ontology metadata (entity types, relation ranges); in sparse-schema KGs, the conservative fallback means the oracle behaves closer to the unconstrained baseline. Condition~F is assessed empirically by checking generated paths against KG triplets, following established practice~\citep{luo2025-graph-constrained-reasoning, li2024-decoding-on-graphs}. Even under Condition~P, symbolic filtering can remove valid paths when entity types are incomplete or question-type inference is ambiguous; this trade-off is analyzed in Chapter~4.
