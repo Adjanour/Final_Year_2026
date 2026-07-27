@@ -88,13 +88,13 @@ Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint 
   \centering
   \resizebox{\textwidth}{!}{%
     \begin{tikzpicture}[
-        >=stealth, font=\sffamily\Large,
+        >=stealth, font=\sffamily,
         kgnode/.style={draw=gray!70,fill=blue!8,rounded corners=3pt,inner sep=4pt,font=\sffamily\scriptsize,align=center},
         pathbox/.style={draw=gray!50,fill=gray!5,rounded corners=4pt,inner sep=6pt,minimum width=5.0cm,align=left,font=\sffamily\scriptsize},
         ansbox/.style={draw=teal!60!black,fill=teal!8,rounded corners=4pt,inner sep=8pt,minimum width=3.0cm,align=left,font=\sffamily\scriptsize},
         stepbox/.style={draw=black!40,fill=white,rounded corners=3pt,inner sep=5pt,minimum width=2.6cm,minimum height=0.85cm,align=center,font=\sffamily\scriptsize},
         dcabox/.style={draw=teal!70!black,fill=teal!10,rounded corners=3pt,inner sep=5pt,minimum width=2.6cm,minimum height=0.85cm,align=center,font=\sffamily\scriptsize\bfseries},
-        gatebox/.style={draw=teal!50,fill=teal!5,rounded corners=3pt,inner sep=4pt,font=\sffamily\tiny,align=center},
+        gatebox/.style={draw=teal!50,fill=teal!5,rounded corners=3pt,inner sep=4pt,font=\sffamily\small,align=center},
         llmcirc/.style={circle,draw=gray!60,fill=blue!5,minimum size=1.1cm,align=center,font=\sffamily\scriptsize},
         bigllm/.style={circle,draw=teal!60,fill=teal!8,minimum size=1.25cm,align=center,font=\sffamily\scriptsize},
         arr/.style={->,thick,draw=gray!70},
@@ -122,34 +122,31 @@ Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint 
         font=\sffamily\scriptsize,minimum width=2.9cm]
       (qbox)at(2.5,-6.4){\textbf{Q:} Who is the spouse of\\the ex-president of USA?};
       \node[circle,draw=black!35,fill=black!6,font=\sffamily\footnotesize\bfseries,inner sep=3pt]at(-0.1,-5.1){1};
-      \node[font=\sffamily\scriptsize,text=black!65,align=center]at(1.6,-5.1){KG-Trie Construction};
+      \node[font=\sffamily\scriptsize,text=black,align=center]at(1.6,-5.1){KG-Trie Construction};
 
       % DCA-Trie Constraint Section
-      \draw[draw=teal!60!black,dashed,rounded corners=6pt,line width=1.2pt](6.0,0.3)rectangle(10.5,-7.4);
-      \node[font=\sffamily\footnotesize\bfseries,text=teal!70!black]at(8.25,0.1){DCA-Trie Constraint};
-      \node[dcabox,minimum width=3.8cm](vf)at(8.25,-0.8){TypeOracle\\Admission Gates};
+      \draw[draw=teal!60!black,dashed,rounded corners=6pt,line width=1.2pt](6.0,0.6)rectangle(10.5,-7.4);
+      \node[font=\sffamily\footnotesize\bfseries,text=teal!70!black]at(8.25,0.3){DCA-Trie Constraint};
+      \node[dcabox,minimum width=3.8cm](vf)at(8.25,-0.5){TypeOracle\\Admission Gates};
 
       % TypeOracle gates inside the box
-      \node[gatebox,minimum width=3.2cm](rg)at(8.25,-1.8){range\_gate$(r, e')$:\\types$(e') \cap$ range$(r) \neq \emptyset$};
-      \node[gatebox,minimum width=3.2cm](tg)at(8.25,-2.6){type\_gate$(e', q)$:\\types$(e') \cap \mathcal{T}(q) \neq \emptyset$};
+      \node[gatebox,minimum width=3.2cm](rg)at(8.25,-1.5){range\_gate};
+      \node[gatebox,minimum width=3.2cm](tg)at(8.25,-2.2){type\_gate};
 
-      \node[draw=teal!45,fill=teal!5,rounded corners=4pt,minimum width=4.0cm,minimum height=2.0cm](triebox)at(8.25,-4.2){};
-      \node[font=\sffamily\scriptsize\bfseries,text=teal!80!black]at(8.25,-3.5){Filtered KG-Trie};
+      \node[draw=teal!45,fill=teal!5,rounded corners=4pt,minimum width=4.0cm,minimum height=2.2cm](triebox)at(8.25,-3.8){};
+      \node[font=\sffamily\scriptsize\bfseries,text=teal!80!black]at(8.25,-3.0){Filtered KG-Trie};
 
-      \node[circle,draw=teal!60,fill=teal!18,inner sep=2pt,font=\sffamily\tiny](tr)at(8.25,-3.8){USA};
-      \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tn1)at(7.25,-4.3){GWB};
+      \node[circle,draw=teal!60,fill=teal!18,inner sep=2pt,font=\sffamily\tiny](tr)at(8.25,-3.5){USA};
+      \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tn1)at(7.25,-3.9){GWB};
       \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tn2)at(8.25,-4.3){BO};
-      \node[circle,draw=gray!25,fill=gray!4,inner sep=1.5pt,font=\sffamily\tiny,text=gray!40](tn3)at(9.25,-4.3){DT};
-      \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tl1)at(7.0,-4.9){LB};
-      \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tl2)at(8.5,-4.9){MO};
+      \node[circle,draw=gray!25,fill=gray!4,inner sep=1.5pt,font=\sffamily\tiny,text=black](tn3)at(9.25,-3.9){DT};
+      \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tl1)at(7.0,-4.6){LB};
+
 
       \draw[teal!50,thin](tr)--(tn1); \draw[teal!50,thin](tr)--(tn2);
       \draw[gray!25,thin,dashed](tr)--(tn3);
-      \draw[teal!50,thin](tn1)--(tl1); \draw[teal!50,thin](tn2)--(tl2);
-      \node[font=\sffamily\tiny,text=gray!50,align=center]at(9.25,-4.9){pruned\\type-incompatible};
 
-      \node[gatebox,minimum width=3.4cm]at(8.25,-5.9){v2: step-wise expansion\\re-gate $\mathcal{N}(e_t)$ via TypeOracle};
-      \node[llmcirc](kgllm)at(8.25,-6.8){KG-spec.\\LLM};
+      \node[llmcirc](kgllm)at(8.25,-6.5){KG-spec.\\LLM};
 
       \draw[tarr](vf)--(rg);
       \draw[tarr](rg)--(tg);
@@ -160,8 +157,8 @@ Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint 
 
       % Reasoning Paths and Hypothesis Answers Section
       \node[font=\sffamily\footnotesize\bfseries,align=center]at(13.5,0.2){Reasoning Paths and\\Hypothesis Answers};
-      \node[circle,draw=black!35,fill=black!6,font=\sffamily\footnotesize\bfseries,inner sep=3pt]at(11.7,-7.2){3};
-      \node[font=\sffamily\scriptsize,text=black!65]at(14.6,-7.2){Beam Search with DCA-Trie Constraints};
+      \node[circle,draw=black!25,fill=black!6,font=\sffamily\footnotesize\bfseries,inner sep=3pt]at(11.7,-7.2){3};
+      \node[font=\sffamily\scriptsize,text=black]at(14.6,-7.2){Beam Search with DCA-Trie Constraints};
       \node[pathbox](p1)at(13.7,-1.3){%
         \texttt{\# Reasoning Path (t=1):}\\[1pt]
         USA $\to$ G.W.\,Bush $\to$ Laura Bush\\[3pt]
@@ -170,7 +167,7 @@ Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint 
         \texttt{\# Reasoning Path (t=2):}\\[1pt]
         USA $\to$ B.\,Obama $\to$ Michelle Obama\\[3pt]
         \texttt{\# Answer: Michelle Obama}};
-      \node[pathbox,draw=gray!25,fill=gray!3,text=gray!45](p3)at(13.7,-5.5){%
+      \node[pathbox,draw=gray!25,fill=gray!3,text=black](p3)at(13.7,-5.5){%
         \texttt{[Excluded by TypeOracle]}\\[1pt]
         USA $\to$ D.\,Trump $\to$ Melania Trump\\[3pt]
         type\_gate failed:\\
@@ -191,7 +188,7 @@ Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint 
         \small\textit{(Trump path excluded}\\
         \textit{by type gate)}};
       \node[circle,draw=black!35,fill=black!6,font=\sffamily\footnotesize\bfseries,inner sep=3pt]at(16.9,-0.8){4};
-      \node[font=\sffamily\scriptsize,text=black!65]at(18.5,-0.8){Inductive Reasoning};
+      \node[font=\sffamily\scriptsize,text=black]at(18.5,-0.8){Inductive Reasoning};
 
       \draw[arr,rounded corners](p1.east) -| (16.4,-1.8) -- (gllm.west);
       \draw[arr,rounded corners](p2.east) -| (16.4,-1.8) -- (gllm.west);
@@ -200,16 +197,16 @@ Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint 
       % Footer Steps Section
       \draw[gray!50,dashed](0,-7.8)--(20.0,-7.8);
       \node[stepbox]at(2.5,-8.6){1.\ KG-Trie Construction\\BFS from $\mathcal{E}_q$};
-      \node[dcabox]at(8.25,-8.6){2.\ TypeOracle Filtering\\range\_gate + type\_gate};
+      \node[stepbox]at(8.25,-8.6){2.\ TypeOracle Filtering\\range\_gate + type\_gate};
       \node[stepbox]at(13.5,-8.6){3.\ Constrained Beam Search\\$K$ hypothesis paths};
       \node[stepbox]at(18.6,-8.6){4.\ Inductive Reasoning\\synthesise answer};
 
-      \draw[arr](4.1,-8.6)--(6.7,-8.6);
-      \draw[tarr](9.8,-8.6)--(11.5,-8.6);
-      \draw[arr](15.5,-8.6)--(17.0,-8.6);
+      \draw[arr](4.2,-8.6)--(6.55,-8.6);
+      \draw[arr](9.9,-8.6)--(11.5,-8.6);
+      \draw[arr](15.45,-8.6)--(17.0,-8.6);
     \end{tikzpicture}
   }%
-  \caption[DCA-Trie System Architecture]{DCA-Trie System Architecture. The TypeOracle box applies two deterministic ontology gates (range gate and type gate) to filter structurally valid but semantically irrelevant paths.}
+  \caption[DCA-Trie System Architecture]{DCA-Trie System Architecture.}
   \label{fig:architecture}
 \end{sidewaysfigure}
 
@@ -311,7 +308,7 @@ Table~\ref{tab:approach_comparison} summarises the properties of all three desig
 
 \begin{table}[H]
   \centering
-  \caption[\normalfont Comparison of Oracle Designs]{Comparison of the three oracle designs explored in this thesis.}
+  \caption[\normalfont Comparison of Oracle Designs]{Comparison of Oracle Designs}
   \label{tab:approach_comparison}
   \begin{tabularx}{\textwidth}{|X|c|c|c|}
     \hline
@@ -378,7 +375,7 @@ The TypeOracle implements the transition from a static oracle $f(\mathcal{G}, \m
     % Conservative fallback annotation
     \node[font=\scriptsize, text=gray, align=left, below=0.3cm of yes] {conservative:\\admit if schema unknown};
   \end{tikzpicture}
-  \caption[TypeOracle Admission Process]{TypeOracle admission process. A candidate edge $(r, e')$ passes through the range gate and type gate. Both must pass for admission. When ontology information is missing, the gate conservatively admits the candidate.}
+  \caption[TypeOracle Admission Process]{TypeOracle Admission Process}
   \label{fig:scorer}
 \end{figure}
 
@@ -455,7 +452,7 @@ The symbolic design has different computational properties from the earlier embe
 
 \begin{table}[H]
   \centering
-  \caption[Computational Properties: Embedding vs. Symbolic]{Computational properties of embedding-based scoring (Approaches 1 and 2) versus the symbolic TypeOracle (Approach 3).}
+  \caption[Computational Properties: Embedding vs. Symbolic]{Computational Properties: Embedding vs. Symbolic}
   \label{tab:computational_comparison}
   \begin{tabularx}{\textwidth}{|X|c|c|}
     \hline
@@ -524,7 +521,7 @@ Figure~\ref{fig:v1} summarises this offline filtering workflow.
       \draw[arrow] (filter) -- node[right, font=\footnotesize] {$\mathcal{P}_{\text{filtered}}$} (trie);
     \end{tikzpicture}
   }%
-  \caption[Static Symbolic Filtering Pipeline (DCA-Trie v1)]{Static Symbolic Filtering Pipeline for DCA-Trie v1. The TypeOracle checks range and type compatibility at each hop before trie construction.}
+  \caption[Static Symbolic Filtering Pipeline (DCA-Trie v1)]{Static Symbolic Filtering Pipeline (DCA-Trie v1)}
   \label{fig:v1}
 \end{figure}
 
@@ -643,7 +640,7 @@ In Equation~\eqref{eq:v2expansion}, $h$ is the current hop depth and $L$ is the 
     \draw[arrow] (commit) -| node[pos=0.25, below, font=\footnotesize] {Trigger Expansion} (expand);
     \draw[arrow] (expand) |- node[pos=0.75, above, font=\footnotesize] {Update to $\mathcal{T}_t$} (trie);
   \end{tikzpicture}
-  \caption[Step-Wise Symbolic Expansion Workflow (DCA-Trie v2)]{Step-Wise Symbolic Expansion Workflow for DCA-Trie v2. Each entity commitment triggers TypeOracle checks on neighbouring edges before trie update.}
+  \caption[Step-Wise Symbolic Expansion Workflow (DCA-Trie v2)]{Step-Wise Symbolic Expansion (DCA-Trie v2)}
   \label{fig:v2}
 \end{figure}
 
@@ -718,21 +715,21 @@ Table~\ref{tab:complexity_comparison} summarises the computational profiles of a
 
 \begin{table}[H]
   \centering
-  \caption[Computational Profiles of GCR, DCA-Trie v1, and v2]{Computational complexity of the three systems. $|\mathcal{P}|$ = total paths, $L$ = max hops, $T_e$ = entity tokens, $D$ = average out-degree, $d$ = trie prefix depth, $T$ = total tokens.}
+  \caption[Computational Profiles of GCR, DCA-Trie v1, and v2]{Computational Complexity}
   \label{tab:complexity_comparison}
   \begin{tabularx}{\textwidth}{|X|c|c|c|}
     \hline
-    \textbf{Phase} & \textbf{GCR} & \textbf{DCA-Trie v1} & \textbf{DCA-Trie v2} \\
+    \textbf{Phase}      & \textbf{GCR}               & \textbf{DCA-Trie v1}         & \textbf{DCA-Trie v2}     \\
     \hline
-    Path enumeration & $O(|\mathcal{P}| \cdot L)$ & $O(|\mathcal{P}| \cdot L)$ & --- \\
+    Path enumeration    & $O(|\mathcal{P}| \cdot L)$ & $O(|\mathcal{P}| \cdot L)$   & ---                      \\
     \hline
-    Oracle filtering & --- & $O(|\mathcal{P}| \cdot L)$ & $O(T_e \cdot D \cdot L)$ \\
+    Oracle filtering    & ---                        & $O(|\mathcal{P}| \cdot L)$   & $O(T_e \cdot D \cdot L)$ \\
     \hline
-    Trie construction & $O(|\mathcal{P}| \cdot L)$ & $O(|\mathcal{P}_f| \cdot L)$ & $O(T_e \cdot D \cdot L)$ \\
+    Trie construction   & $O(|\mathcal{P}| \cdot L)$ & $O(|\mathcal{P}_f| \cdot L)$ & $O(T_e \cdot D \cdot L)$ \\
     \hline
-    Decoding (per step) & $O(d)$ & $O(d)$ & $O(d)$ \\
+    Decoding (per step) & $O(d)$                     & $O(d)$                       & $O(d)$                   \\
     \hline
-    Decoding (total) & $O(T \cdot d)$ & $O(T \cdot d)$ & $O(T \cdot d)$ \\
+    Decoding (total)    & $O(T \cdot d)$             & $O(T \cdot d)$               & $O(T \cdot d)$           \\
     \hline
   \end{tabularx}
 \end{table}

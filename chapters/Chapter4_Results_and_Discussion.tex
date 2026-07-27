@@ -40,7 +40,7 @@ Table~\ref{tab:gen_config} summarises the generation parameters used across all 
 
 \begin{table}[H]
   \centering
-  \caption[Generation Configuration]{Generation parameters used across all experiments.}
+  \caption[Generation Configuration]{Generation Parameters}
   \label{tab:gen_config}
   \begin{tabularx}{\textwidth}{|X|c|}
     \hline
@@ -72,7 +72,7 @@ Following the GCR evaluation protocol~\citep{luo2025-graph-constrained-reasoning
 
 \begin{table}[H]
   \centering
-  \caption[Dataset Properties]{Properties of the evaluation datasets.}
+  \caption[Dataset Properties]{Dataset Properties}
   \label{tab:datasets}
   \begin{tabularx}{\textwidth}{|X|c|c|}
     \hline
@@ -167,7 +167,7 @@ The original GCR paper and our early experiments used greedy decoding. Fixing th
 
 \begin{table}[H]
   \centering
-  \caption[Beam vs.\ Greedy Decoding]{Beam search vs.\ greedy decoding across methods.}
+  \caption[Beam vs.\ Greedy Decoding]{Beam vs. Greedy Decoding}
   \label{tab:ablation_beam}
   \begin{tabularx}{\textwidth}{|X|c|c|c|}
     \hline
@@ -188,7 +188,7 @@ We independently disable each gate to measure the contribution of range filterin
 
 \begin{table}[H]
   \centering
-  \caption[Gate Ablation]{TypeOracle gate ablation: range-only, type-only, and both.}
+  \caption[Gate Ablation]{Gate Ablation}
   \label{tab:ablation_gates}
   \begin{tabularx}{\textwidth}{|X|c|c|c|}
     \hline
@@ -213,7 +213,7 @@ Both schema sources contribute independently to filtering effectiveness.
 
 \begin{table}[H]
   \centering
-  \caption[Schema Source Ablation]{Contribution of hand-curated and auto-mined schema sources.}
+  \caption[Schema Source Ablation]{Schema Source Ablation}
   \label{tab:ablation_schema}
   \begin{tabularx}{\textwidth}{|X|c|c|}
     \hline
@@ -236,7 +236,7 @@ The 50,000-path cap affects only questions with unusually dense subgraphs (high-
 
 \begin{table}[H]
   \centering
-  \caption[DFS Path Cap Ablation]{Effect of the DFS max paths threshold on accuracy.}
+  \caption[DFS Path Cap Ablation]{DFS Path Cap Ablation}
   \label{tab:ablation_dfs}
   \begin{tabularx}{\textwidth}{|X|c|c|c|}
     \hline
@@ -264,7 +264,7 @@ The TypeOracle SIR is remarkably stable across datasets and sample sizes.
 
 \begin{table}[H]
   \centering
-  \caption[SIR Cross-Dataset Stability]{SIR stability across datasets and sample sizes.}
+  \caption[SIR Cross-Dataset Stability]{SIR Cross-Dataset Stability}
   \label{tab:robustness_sir}
   \begin{tabularx}{\textwidth}{|X|c|c|c|c|}
     \hline
@@ -289,7 +289,7 @@ The accuracy cost of TypeOracle filtering varies by dataset.
 
 \begin{table}[H]
   \centering
-  \caption[Filtering Impact by Dataset]{Accuracy cost of TypeOracle filtering across datasets.}
+  \caption[Filtering Impact by Dataset]{Filtering Impact by Dataset}
   \label{tab:robustness_filtering}
   \begin{tabularx}{\textwidth}{|X|c|c|c|c|}
     \hline
@@ -317,7 +317,7 @@ Small evaluation samples introduce substantial variance. A 50-sample ablation co
 
 \begin{table}[H]
   \centering
-  \caption[Beam Width Sensitivity]{Sensitivity of Hits@1 to beam width $k$.}
+  \caption[Beam Width Sensitivity]{Beam Width Sensitivity}
   \label{tab:sensitivity_beam}
   \begin{tabularx}{\textwidth}{|X|c|c|c|c|}
     \hline
@@ -342,7 +342,7 @@ Diminishing returns set in after $k{=}10$. The additional beams explore increasi
 
 \begin{table}[H]
   \centering
-  \caption[Index Path Length Sensitivity]{Sensitivity of Hits@1 to index path length.}
+  \caption[Index Path Length Sensitivity]{Index Path Length Sensitivity}
   \label{tab:sensitivity_hops}
   \begin{tabularx}{\textwidth}{|X|c|c|}
     \hline
@@ -365,7 +365,7 @@ WebQSP questions are predominantly 2-hop. Extending beyond 2 hops adds irrelevan
 
 \begin{table}[H]
   \centering
-  \caption[Diversity Penalty Sensitivity]{Sensitivity of Hits@1 to diversity penalty in group-beam search.}
+  \caption[Diversity Penalty Sensitivity]{Diversity Penalty Sensitivity}
   \label{tab:sensitivity_diversity}
   \begin{tabularx}{\textwidth}{|X|c|c|}
     \hline
@@ -390,7 +390,7 @@ The regex-based type inference is the weakest component of the TypeOracle.
 
 \begin{table}[H]
   \centering
-  \caption[Type Inference Quality Sensitivity]{Impact of type inference quality on TypeOracle performance.}
+  \caption[Type Inference Quality Sensitivity]{Type Inference Quality Sensitivity}
   \label{tab:sensitivity_type}
   \begin{tabularx}{\textwidth}{|X|c|c|c|}
     \hline
@@ -416,7 +416,7 @@ Table~\ref{tab:timing_breakdown} presents the phase-level time breakdown for the
 
 \begin{table}[H]
   \centering
-  \caption[Time Breakdown by Phase]{Wall-clock time breakdown by pipeline phase (WebQSP, 1,627 samples).}
+  \caption[Time Breakdown by Phase]{Time Breakdown by Phase}
   \label{tab:timing_breakdown}
   \begin{tabularx}{\textwidth}{|X|r|r|r|}
     \hline
@@ -443,7 +443,7 @@ LLM decoding dominates at 58\% of total time. DCA-Trie v1 adds only 56 seconds (
 
 \begin{table}[H]
   \centering
-  \caption[Memory Analysis]{Memory consumption by component.}
+  \caption[Memory Analysis]{Memory Analysis}
   \label{tab:memory}
   \begin{tabularx}{\textwidth}{|X|c|X|}
     \hline
@@ -468,7 +468,7 @@ The trie memory is negligible relative to the model. Even at 50k paths, the Mari
 
 \begin{table}[H]
   \centering
-  \caption[Throughput by Method]{Throughput comparison across methods and datasets.}
+  \caption[Throughput by Method]{Throughput by Method}
   \label{tab:throughput}
   \begin{tabularx}{\textwidth}{|X|c|c|c|}
     \hline
@@ -513,7 +513,7 @@ The original GCR paper~\citep{luo2025-graph-constrained-reasoning} uses a two-st
 
 \begin{table}[H]
   \centering
-  \caption[GCR Reproduction Comparison]{Comparison of our reproduced GCR baseline against published results. The published GCR uses a two-stage pipeline (KG-specialized LLM + ChatGPT); our reproduction uses single-stage direct extraction.}
+  \caption[GCR Reproduction Comparison]{GCR Reproduction Comparison}
   \label{tab:repro}
   \begin{tabularx}{\textwidth}{|X|c|c|c|c|}
     \hline
@@ -541,7 +541,7 @@ Prior to fixing a configuration bug in the generation pipeline, our experiments 
 
 \begin{table}[H]
   \centering
-  \caption[Beam Search vs.\ Greedy Decoding]{Comparison of beam search and greedy decoding on WebQSP (100-sample verification).}
+  \caption[Beam Search vs.\ Greedy Decoding]{Beam Search vs. Greedy Decoding}
   \label{tab:beam_comparison}
   \begin{tabularx}{\textwidth}{|X|c|c|c|}
     \hline
@@ -573,7 +573,7 @@ Table~\ref{tab:path_stats} summarises the aggregate path statistics before and a
 
 \begin{table}[H]
   \centering
-  \caption[Path Statistics Before and After TypeOracle Filtering]{Path statistics before and after TypeOracle filtering on the RoG-webqsp test split.}
+  \caption[Path Statistics Before and After TypeOracle Filtering]{Path Statistics: Before vs. After Filtering}
   \label{tab:path_stats}
   \begin{tabularx}{\textwidth}{|X|r|r|}
     \hline
@@ -618,7 +618,7 @@ The 14.5\% reduction represents the fraction of structurally valid paths that th
       \legend{Before (GCR), After (DCA-Trie)}
     \end{axis}
   \end{tikzpicture}
-  \caption{Path statistics before and after TypeOracle filtering. Total paths drop from 4.10M to 3.51M (14.5\% reduction).}
+  \caption{Path Statistics (4.10M → 3.51M)}
   \label{fig:path_stats}
 \end{figure}
 
@@ -626,7 +626,7 @@ The total reduction decomposes into two independent gate contributions, as shown
 
 \begin{table}[H]
   \centering
-  \caption[TypeOracle Gate Decomposition]{Decomposition of path reduction by gate type.}
+  \caption[TypeOracle Gate Decomposition]{Gate Decomposition}
   \label{tab:gate_decomp}
   \begin{tabularx}{\textwidth}{|X|r|r|r|}
     \hline
@@ -668,7 +668,7 @@ The type gate accounts for roughly three-quarters of the total reduction. This i
       \legend{Paths Blocked (thousands)}
     \end{axis}
   \end{tikzpicture}
-  \caption{Gate decomposition: range gate blocks 157K paths (3.8\%), type gate blocks 436K paths (10.6\%).}
+  \caption{Gate Decomposition (Range: 3.8\%, Type: 10.6\%)}
   \label{fig:gate_decomp}
 \end{figure}
 
@@ -678,7 +678,7 @@ Table~\ref{tab:fnr} reports the false negative rates for each TypeOracle gate on
 
 \begin{table}[H]
   \centering
-  \caption[False Negative Rates by Gate]{False negative rates for each TypeOracle gate on the WebQSP validation split (14,829 gold paths).}
+  \caption[False Negative Rates by Gate]{False Negative Rates by Gate}
   \label{tab:fnr}
   \begin{tabularx}{\textwidth}{|X|r|r|}
     \hline
@@ -719,7 +719,7 @@ Both gates individually satisfy Condition~P (FNR $< 5\%$). The type gate exclude
       \legend{Measured FNR, Threshold (5\%)}
     \end{axis}
   \end{tikzpicture}
-  \caption{False negative rates by gate. Both gates stay below the 5\% threshold.}
+  \caption{False Negative Rates (<5\%)}
   \label{fig:fnr}
 \end{figure}
 
@@ -738,7 +738,7 @@ Table~\ref{tab:main_results} presents the main results on the WebQSP benchmark. 
 
 \begin{table}[H]
   \centering
-  \caption[Main Results on WebQSP]{Performance comparison on WebQSP. Our reproduced GCR baseline uses beam search ($k{=}10$) with single-stage direct extraction; the published GCR uses a two-stage pipeline with ChatGPT.}
+  \caption[Main Results on WebQSP]{Main Results on WebQSP}
   \label{tab:main_results}
   \begin{tabularx}{\textwidth}{|X|c|c|c|}
     \hline
@@ -797,7 +797,7 @@ Table~\ref{tab:significance} reports paired comparison statistics.
 
 \begin{table}[H]
   \centering
-  \caption[Statistical Significance of Accuracy Difference]{Paired comparison statistics for accuracy difference between GCR baseline and DCA-Trie variants.}
+  \caption[Statistical Significance of Accuracy Difference]{Accuracy Difference Statistics}
   \label{tab:significance}
   \begin{tabularx}{\textwidth}{|X|c|c|c|}
     \hline
@@ -843,7 +843,7 @@ Table~\ref{tab:timing} compares wall-clock execution times for the GCR baseline 
 
 \begin{table}[H]
   \centering
-  \caption[Execution Time by Method]{Wall-clock execution time for GCR baseline and DCA-Trie v1 on the RoG-webqsp test split.}
+  \caption[Execution Time by Method]{Execution Time Comparison}
   \label{tab:timing}
   \begin{tabularx}{\textwidth}{|X|r|r|r|}
     \hline
@@ -871,7 +871,7 @@ Table~\ref{tab:faithful} summarises the faithfulness results.
 
 \begin{table}[H]
   \centering
-  \caption[Faithful Reasoning Ratio]{Faithful reasoning ratio for GCR baseline and DCA-Trie v1. Both achieve 100\% structural faithfulness.}
+  \caption[Faithful Reasoning Ratio]{Faithful Reasoning Ratio}
   \label{tab:faithful}
   \begin{tabularx}{\textwidth}{|X|c|c|}
     \hline
@@ -895,7 +895,7 @@ To make the non-monotone finding concrete, Table~\ref{tab:cases} presents three 
 
 \begin{table}[H]
   \centering
-  \caption[Case Studies Illustrating Non-Monotone Behaviour]{Three cases illustrating distinct failure modes of the TypeOracle. Red denotes incorrect paths/answers; bold denotes correct paths/answers.}
+  \caption[Case Studies Illustrating Non-Monotone Behaviour]{TypeOracle Failure Modes}
   \label{tab:cases}
   \small
   \begin{tabularx}{\textwidth}{|X|}
@@ -971,7 +971,7 @@ Table~\ref{tab:katamanso_criterion} summarises the multi-dimensional comparison 
 
 \begin{table}[H]
   \centering
-  \caption[GCR vs.\ DCA-Trie Multi-Dimensional Comparison]{Multi-dimensional comparison of GCR and DCA-Trie across evaluation criteria.}
+  \caption[GCR vs.\ DCA-Trie Multi-Dimensional Comparison]{Multi-Dimensional Comparison}
   \label{tab:katamanso_criterion}
   \begin{tabularx}{\textwidth}{|X|c|c|}
     \hline
@@ -1000,7 +1000,7 @@ Table~\ref{tab:method_comparison} positions DCA-Trie against related constrained
 
 \begin{table}[H]
   \centering
-  \caption[Comparison with Related Methods]{Comparison of DCA-Trie with related graph-constrained decoding methods.}
+  \caption[Comparison with Related Methods]{Comparison with Related Methods}
   \label{tab:method_comparison}
   \begin{tabularx}{\textwidth}{|X|c|c|c|c|}
     \hline
@@ -1059,7 +1059,7 @@ The non-monotone finding does not diminish the value of the TypeOracle design. R
       \node[red, font=\small, align=center] at (axis cs:0.55, 89.5) {Tighter oracle\\does not improve accuracy};
     \end{axis}
   \end{tikzpicture}
-  \caption{The non-monotone relationship.}
+  \caption{Non-Monotone Relationship}
   \label{fig:non_monotone}
 \end{figure}
 

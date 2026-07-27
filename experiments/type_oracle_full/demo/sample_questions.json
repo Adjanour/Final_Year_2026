@@ -1,0 +1,84 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "What language is spoken in Jamaica?",
+      "difficulty": "Easy (1-hop)",
+      "expected_answer": "Jamaican Creole English Language",
+      "expected_paths": 2,
+      "category": "location"
+    },
+    {
+      "id": 2,
+      "question": "Where was Albert Einstein born?",
+      "difficulty": "Easy (1-hop)",
+      "expected_answer": "Ulm",
+      "expected_paths": 1,
+      "category": "person"
+    },
+    {
+      "id": 3,
+      "question": "Who was the vice president of the United States before George W. Bush?",
+      "difficulty": "Medium (2-hop)",
+      "expected_answer": "Al Gore",
+      "expected_paths": 3,
+      "category": "government"
+    },
+    {
+      "id": 4,
+      "question": "What is the capital of France?",
+      "difficulty": "Easy (1-hop)",
+      "expected_answer": "Paris",
+      "expected_paths": 1,
+      "category": "location"
+    },
+    {
+      "id": 5,
+      "question": "Who directed the movie Inception?",
+      "difficulty": "Medium (2-hop)",
+      "expected_answer": "Christopher Nolan",
+      "expected_paths": 1,
+      "category": "film"
+    },
+    {
+      "id": 6,
+      "question": "What awards did the director of Inception win?",
+      "difficulty": "Hard (3-hop)",
+      "expected_answer": "Academy Award",
+      "expected_paths": 5,
+      "category": "film"
+    },
+    {
+      "id": 7,
+      "question": "Where is the Amazon rainforest located?",
+      "difficulty": "Easy (1-hop)",
+      "expected_answer": "Brazil",
+      "expected_paths": 2,
+      "category": "location"
+    },
+    {
+      "id": 8,
+      "question": "Who wrote the book 1984?",
+      "difficulty": "Easy (1-hop)",
+      "expected_answer": "George Orwell",
+      "expected_paths": 1,
+      "category": "book"
+    },
+    {
+      "id": 9,
+      "question": "What is the currency of Japan?",
+      "difficulty": "Easy (1-hop)",
+      "expected_answer": "Japanese yen",
+      "expected_paths": 1,
+      "category": "location"
+    },
+    {
+      "id": 10,
+      "question": "Who invented the telephone?",
+      "difficulty": "Easy (1-hop)",
+      "expected_answer": "Alexander Graham Bell",
+      "expected_paths": 1,
+      "category": "person"
+    }
+  ]
+}

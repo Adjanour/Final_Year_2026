@@ -34,7 +34,7 @@
     \legend{Before (GCR), After (DCA-Trie)}
     \end{axis}
   \end{tikzpicture}
-  \caption{Path statistics before and after TypeOracle filtering. Total paths drop from 4.10M to 3.51M (14.5\% reduction).}
+  \caption{Path Statistics (4.10M → 3.51M)}
   \label{fig:path_stats}
 \end{figure}
 
@@ -62,7 +62,7 @@
     \legend{Paths Blocked (thousands)}
     \end{axis}
   \end{tikzpicture}
-  \caption{Gate decomposition: range gate blocks 157K paths (3.8\%), type gate blocks 436K paths (10.6\%).}
+  \caption{Gate Decomposition (Range: 3.8\%, Type: 10.6\%)}
   \label{fig:gate_decomp}
 \end{figure}
 
@@ -93,7 +93,7 @@
     \legend{Measured FNR, Threshold (5\%)}
     \end{axis}
   \end{tikzpicture}
-  \caption{False negative rates by gate. Both gates stay below the 5\% threshold.}
+  \caption{False Negative Rates (<5\%)}
   \label{fig:fnr}
 \end{figure}
 
@@ -124,7 +124,7 @@
     \legend{GCR Baseline, DCA-Trie v1}
     \end{axis}
   \end{tikzpicture}
-  \caption{Performance comparison on WebQSP. DCA-Trie v1 shows consistent drops of approximately 5pp across all metrics.}
+  \caption{WebQSP Performance}
   \label{fig:main_results}
 \end{figure}
 
@@ -155,7 +155,7 @@
     \legend{GCR Baseline, DCA-Trie v1}
     \end{axis}
   \end{tikzpicture}
-  \caption{Execution time comparison. DCA-Trie v1 adds negligible overhead (0.5\%).}
+  \caption{Execution Time Comparison}
   \label{fig:timing}
 \end{figure}
 
@@ -186,6 +186,6 @@
     \node[red, font=\footnotesize, align=center] at (axis cs:0.55, 89.5) {Tighter oracle\\does not improve accuracy};
     \end{axis}
   \end{tikzpicture}
-  \caption{The non-monotone relationship: tighter filtering reduces SIR but does not improve accuracy.}
+  \caption{Non-Monotone Relationship}
   \label{fig:non_monotone}
 \end{figure}

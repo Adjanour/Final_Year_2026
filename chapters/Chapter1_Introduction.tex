@@ -12,30 +12,15 @@
 
 \section{Background}
 
-Graph-constrained decoding promises to eliminate hallucination in knowledge graph question answering by restricting the LLM to tokens that correspond to real graph facts. This promise rests on a structural guarantee: every generated token follows a valid KG path. But the guarantee is bought at a cost that the field has not yet confronted. The constraint oracle is built once, before generation begins, from graph topology and question entities alone. It does not know what the question asks. It does not update as reasoning unfolds. The result is a system that is structurally faithful but semantically permissive, admitting thousands of irrelevant paths at every step and forcing the model to choose among them using the same parametric knowledge that constrained decoding was designed to eliminate.
+Large language models (LLMs) have emerged as a cornerstone of modern artificial intelligence, demonstrating remarkable capabilities in natural language understanding, text generation, and multi-step reasoning~\citep{brown2020gpt3}. Standard architectures---such as the GPT series and the Llama family~\citep{touvron2023llama}---achieve state-of-the-art performance across diverse tasks by capturing complex statistical patterns from massive text corpora. This pre-training regime enables models to generate coherent responses across wide-ranging domains without relying on explicitly structured knowledge bases.
 
-This is the tension that motivates the present work.
+Despite these advances, LLMs remain highly susceptible to hallucination. The generation of fluent yet factually incorrect or unverifiable text~\citep{ji2023survey} can be categorized into intrinsic hallucinations, where the output directly contradicts provided source material, and extrinsic hallucinations, where generated claims cannot be verified against any authoritative source~\citep{huang2023survey}. This vulnerability is particularly problematic in knowledge-intensive domains. Because autoregressive models generate text sequentially based on prior tokens rather than dynamically verifying facts against external reference points, an initial error can compound across subsequent steps, producing persuasive yet false claims~\citep{ji2023survey,huang2023survey}.
 
-Knowledge graph question answering (KGQA) makes this problem concrete. A KG stores facts as \emph{(subject, relation, object)} triplets~\citep{bollacker2008freebase}, and benchmarks such as WebQSP~\citep{yih2016websqp} and ComplexWebQuestions~\citep{talmor2018cwq} frequently require multi-hop reasoning across several relations. Graph-Constrained Reasoning (GCR)~\citep{luo2025-graph-constrained-reasoning} applies constrained decoding to KGQA by pre-building a KG-Trie encoding all valid graph paths within $L$ hops of the question entities. GCR achieves 92.6 Hits@1 on WebQSP with 100\% structural faithfulness.
+Knowledge Graph Question Answering (KGQA) is the task of automatically answering natural language questions by querying, traversing, and extracting facts from structured knowledge graphs (KGs). In a KG, facts are organized as interconnected triplets formatted as $(\text{entity}, \text{relation}, \text{entity})$. These enable multi-step reasoning over verifiable real-world knowledge \citep{bollacker2008freebase}. Standard benchmarks such as WebQSP (Yih et al., 2016) and ComplexWebQuestions (Talmor and Berant, 2018) evaluate this capability via multi-hop path traversal over Freebase. Because answering these queries requires strict adherence to graph topology, unconstrained Large Language Models (LLMs) relying solely on parametric memory frequently generate plausible yet hallucinated reasoning trajectories \citep{he2021improving,lan2022survey}.
 
-But the trie is static: constructed once from graph topology and question entities alone, it does not consider what the question means or how far reasoning has progressed. On multi-hop questions this makes the oracle excessively permissive, and the model must filter among thousands of irrelevant paths using parametric knowledge~\citep{li2024-decoding-on-graphs,luo2025-graph-constrained-reasoning}. Decoding on Graphs (DoG)~\citep{li2024-decoding-on-graphs} expands the trie step-by-step, but expansion is guided by graph topology alone. Neither method narrows the constraint set in response to what the question is asking.
+Retrieval-Augmented Generation (RAG) is widely adopted to mitigate hallucination by retrieving relevant information and supplying them as context during inference \citep{lewis2020rag,izacard2021leveraging}. However, because retrieved evidence acts as a soft prompt rather than an absolute boundary, LLMs can still ignore relevant context or generate unsupported claims beyond the retrieved information \citep{asai2024selfrag}.To enforce strict adherence to ground truth, knowledge graph-constrained decoding converts graph topology into hard generation boundaries. By applying a validity mask over the output vocabulary at each step, a constraint oracle guarantees that every generated token corresponds to a valid path in the KG \citep{willard2023outlines,geng2023grammarconstrained} Graph-Constrained Reasoning (GCR) \citep{luo2025-graph-constrained-reasoning} operationalizes this paradigm using a pre-computed KG-Trie as the constraint oracle during beam search. While GCR guarantees structural faithfulness, its static offline trie is constructed before decoding begins. Consequently, the oracle cannot account for the semantic intent of the query or the evolving context of the partial reasoning chain, forcing the LLM to rely on internal parametric knowledge to filter out structurally valid yet semantically irrelevant paths—defeating the primary motivation for constrained generation \citep{li2024-decoding-on-graphs,luo2025-graph-constrained-reasoning} (Li et al., 2025; Luo et al., 2025).Decoding on Graphs (DoG) \citep{luo2025-graph-constrained-reasoning} attempts to resolve this rigidity by dynamically expanding the local constraint trie during decoding. However, DoG selects candidate nodes based purely on graph connectivity. Because it admits all topographically adjacent nodes without semantic filtering, the model incurs unnecessary computational overhead while remaining vulnerable to semantically off-target path traversal.
 
-DCA-Trie addresses this by conditioning the valid token set on the knowledge graph, the input question, and the partial reasoning chain. The goal is structural faithfulness without semantic permissiveness: every admitted token must correspond to a real graph fact, but the set of admitted facts should shrink as reasoning progresses.
-
-\section{Problem Statement}
-
-Existing KG-constrained decoding frameworks define valid tokens as $W_{\mathrm{val}} = f(G, E_q)$, a function of the graph and question entities only~\citep{luo2025-graph-constrained-reasoning,li2024-decoding-on-graphs}. This preserves structural faithfulness but not contextual relevance: the oracle admits every reachable path, whether or not it points in the direction the question requires.
-
-The gap widens in multi-hop settings. The number of candidate paths grows rapidly with each hop~\citep{lan2022survey,talmor2018cwq}, and the LLM must filter among structurally valid but semantically irrelevant options using parametric knowledge. This reintroduces the internal-memory reliance that constrained decoding was designed to eliminate.
-
-Recent work such as RouterKGQA~\citep{yuan2026routerkgqa} applies semantic filtering at answer selection, after generation. The model remains exposed to irrelevant candidates throughout the generation process. DCA-Trie filters during decoding, at the token-validity stage, preventing the model from considering irrelevant reasoning tokens in the first place.
-
-This project extends the validity function from $W_{\mathrm{val}}(t) = f(G, E_q)$ to:
-\begin{equation}
-  W_{\mathrm{val}}(t) = f(G, E_q, q, y^{<t})
-  \label{eq:problem_dcat}
-\end{equation}
-\noindent where $q$ is the input question and $y^{<t}$ is the partial generation. The oracle must satisfy three requirements. First, it must preserve structural faithfulness: every accepted token matches a valid KG path. Second, it must reduce semantic irrelevance, measured by the Semantic Irrelevance Ratio (SIR; Chapter~\ref{Chapter3}). Third, it must maintain answer recall: false negatives on gold paths stay below 5\% on WebQSP validation.
+These limitations motivate the Dynamic Context-Aware Trie (DCA-Trie) framework proposed in this project. DCA-Trie extends existing KG-constrained decoding by incorporating semantic relevance directly into the constraint oracle, conditioning the valid token set on the knowledge graph structure, the input question, and the partially generated reasoning chain. By combining structural constraints with dynamic semantic filtering, the proposed framework aims to reduce constraint permissiveness, improve answer accuracy, and maintain the structural faithfulness guarantees provided by existing constrained decoding methods.
 
 \section{Objectives of Thesis}
 
@@ -51,7 +36,6 @@ To achieve this aim, the following objectives have been established:
   \item To implement DCA-Trie v1, a static filtering variant that applies the TypeOracle at KG-Trie construction time, reducing trie size and keeping the false negative rate below 5\% on gold paths on the WebQSP validation set.
   \item To implement DCA-Trie v2, a dynamic variant in which the trie is updated after each committed triplet using the TypeOracle conditioned on the question and partial generation $y^{<t}$, directly operationalizing Eq.~\ref{eq:problem_dcat}.
   \item To evaluate DCA-Trie v1 and v2 against the GCR baseline and an unconstrained chain-of-thought (CoT) baseline on WebQSP, measuring Hits@1, F1, structural faithfulness, SIR, and average trie size, with results stratified by question hop depth.
-  \item To demonstrate practical applicability through an interactive prototype, implemented as a command-line QA interface, allowing users to enter natural language questions and receive fact-based reasoning chains with answers.
 \end{enumerate}
 
 \section{Tools and Facilities Used}
@@ -64,30 +48,30 @@ Table~\ref{tab:implemented-software-tools} presents the software tools used in t
   \centering
   \small
   \setlength{\tabcolsep}{4pt}
-  \caption[\normalfont Implemented Software Tools Evaluation]{Implemented Software Tools Evaluation.}
+  \caption[\normalfont Implemented Software Tools Evaluation]{Implemented Software Tools}
   \label{tab:implemented-software-tools}
   \resizebox{\textwidth}{!}{%
     \begin{tabular}{|>{\raggedright\arraybackslash}p{0.20\textwidth}|>{\raggedright\arraybackslash}p{0.30\textwidth}|>{\raggedright\arraybackslash}p{0.35\textwidth}|}
       \hline
-      Tool                                     & Use in Project                                                                                                    & Rationale                                                                                                                       \\
+      Tool                                     & Use in Project                                                                                                & Rationale                                                                                              \\
       \hline
-      Python / HuggingFace Transformers        & Model inference pipeline; loading and running the Llama-3.1-8B checkpoint; constrained decoding callback           & Enables direct use of the released GCR checkpoint with standard tokenization and generation utilities.                          \\
+      Python / HuggingFace Transformers        & Model inference pipeline; loading and running the Llama-3.1-8B checkpoint; constrained decoding callback      & Enables direct use of the released GCR checkpoint with standard tokenization and generation utilities. \\
       \hline
-      GCR Framework                            & Primary baseline; KG-Trie construction, graph-constrained decoding, and result reproduction on WebQSP and CWQ     & Provides the trie-based constrained decoding mechanism that DCA-Trie extends.                                                   \\
+      GCR Framework                            & Primary baseline; KG-Trie construction, graph-constrained decoding, and result reproduction on WebQSP and CWQ & Provides the trie-based constrained decoding mechanism that DCA-Trie extends.                          \\
       \hline
-      Sentence-transformers / all-MiniLM-L6-v2 & Semantic relevance scoring in early design iterations; later replaced by the symbolic TypeOracle                  & Used in the cosine-similarity and decomposed-score approaches before the final symbolic design.                                 \\
+      Sentence-transformers / all-MiniLM-L6-v2 & Semantic relevance scoring in early design iterations; later replaced by the symbolic TypeOracle              & Used in the cosine-similarity and decomposed-score approaches before the final symbolic design.        \\
       \hline
-      PyTorch                                  & Deep learning framework underpinning model inference and custom decoding logic                                    & Supports SDPA attention and bfloat16 inference via HuggingFace.                                                                 \\
+      PyTorch                                  & Deep learning framework underpinning model inference and custom decoding logic                                & Supports SDPA attention and bfloat16 inference via HuggingFace.                                        \\
       \hline
-      marisa\_trie                             & KG-Trie construction and prefix-based token lookup for constrained decoding                                       & Provides $O(1)$ prefix lookup for the valid-token mask at each decoding step.                                                   \\
+      marisa\_trie                             & KG-Trie construction and prefix-based token lookup for constrained decoding                                   & Provides $O(1)$ prefix lookup for the valid-token mask at each decoding step.                          \\
       \hline
-      NetworkX                                 & Graph construction and depth-limited DFS path enumeration from question entities                                  & Builds directed graphs from Freebase triplets and enumerates candidate reasoning paths.                                         \\
+      NetworkX                                 & Graph construction and depth-limited DFS path enumeration from question entities                              & Builds directed graphs from Freebase triplets and enumerates candidate reasoning paths.                \\
       \hline
-      Freebase / WebQSP and CWQ Datasets       & Knowledge graph source and KGQA benchmarks for evaluation                                                         & Standard benchmarks enabling direct comparison with prior work.                                                                 \\
+      Freebase / WebQSP and CWQ Datasets       & Knowledge graph source and KGQA benchmarks for evaluation                                                     & Standard benchmarks enabling direct comparison with prior work.                                        \\
       \hline
-      NVIDIA GeForce RTX 4090 (24 GB)          & GPU for all inference experiments; Llama-3.1-8B constrained decoding with beam search                              & Ada Lovelace architecture with sufficient VRAM for bfloat16 inference of the 8B-parameter model.                                \\
+      NVIDIA GeForce RTX 4090 (24 GB)          & GPU for all inference experiments; Llama-3.1-8B constrained decoding with beam search                         & Ada Lovelace architecture with sufficient VRAM for bfloat16 inference of the 8B-parameter model.       \\
       \hline
-      Visual Studio Code + Git / GitHub        & Development environment and version control                                                                       & Supports coding, version tracking, and reproducibility.                                                                        \\
+      Visual Studio Code + Git / GitHub        & Development environment and version control                                                                   & Supports coding, version tracking, and reproducibility.                                                \\
       \hline
     \end{tabular}
   }

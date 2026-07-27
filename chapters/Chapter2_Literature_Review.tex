@@ -23,9 +23,9 @@ LLMs are pretrained on vast unlabelled text using next-token prediction. The GPT
 
 \subsection{Definition and Structural Causes}
 
-Hallucination in natural language generation refers to the production of content that is fluent and internally coherent yet factually unsupported by or in contradiction with verifiable sources~\citep{ji2023survey}. \citet{huang2023hallucination} refine this into \textit{intrinsic hallucination} (output contradicts provided source context) and \textit{extrinsic hallucination} (output contains claims unverifiable against any source). Both types appear at non-trivial rates: \citet{ji2023survey} survey over 30 works finding hallucination rates from 15\% to over 60\%, and \citet{luo2025-graph-constrained-reasoning} report that retrieval-augmented reasoning approaches produce hallucinated reasoning steps in approximately one-third of cases even with direct access to a knowledge graph.
+Hallucination in natural language generation refers to the production of content that is fluent and internally coherent yet factually unsupported by or in contradiction with verifiable sources~\citep{ji2023survey}. \citet{huang2023survey} refine this into \textit{intrinsic hallucination} (output contradicts provided source context) and \textit{extrinsic hallucination} (output contains claims unverifiable against any source). Both types appear at non-trivial rates: \citet{ji2023survey} survey over 30 works finding hallucination rates from 15\% to over 60\%, and \citet{luo2025-graph-constrained-reasoning} report that retrieval-augmented reasoning approaches produce hallucinated reasoning steps in approximately one-third of cases even with direct access to a knowledge graph.
 
-The primary cause is structural. Three aspects of the autoregressive mechanism make hallucination an ongoing risk. First, the generation distribution is based entirely on learned parameters, with no component that verifies tokens against an external source. Second, errors propagate forward: a hallucinated token at step $t$ becomes conditioning context for step $t{+}1$, producing fluent continuations of an incorrect chain. Third, the distribution is defined over the full vocabulary at every step, meaning any token has a positive chance of selection regardless of factual correctness~\citep{brown2020gpt3,huang2023hallucination,ji2023survey}.
+The primary cause is structural. Three aspects of the autoregressive mechanism make hallucination an ongoing risk. First, the generation distribution is based entirely on learned parameters, with no component that verifies tokens against an external source. Second, errors propagate forward: a hallucinated token at step $t$ becomes conditioning context for step $t{+}1$, producing fluent continuations of an incorrect chain. Third, the distribution is defined over the full vocabulary at every step, meaning any token has a positive chance of selection regardless of factual correctness~\citep{brown2020gpt3,huang2023survey,ji2023survey}.
 
 \subsection{The Scaling Paradox}
 
@@ -61,15 +61,15 @@ A knowledge graph is a structured database of verified facts, represented as dir
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{Figures/kg_example.png}
-  \caption[Simplified Example of a Knowledge Graph Fragment]{A simplified example of a knowledge graph fragment.}
+  \caption[Simplified Example of a Knowledge Graph Fragment]{Knowledge Graph Fragment}
   \label{fig:kg_example}
 \end{figure}
 
-The critical distinction between a KG and an unstructured text corpus is that every triplet has been explicitly verified and is machine-readable in deterministic form. This makes KGs suitable as sources for hard constraints on generation: a candidate token can be verified via exact lookup rather than probabilistic semantic matching. A multi-hop reasoning path of length $L$ is a sequence $(e_0, r_1, e_1, \ldots, r_L, e_L)$ in which each consecutive triplet $(e_{i-1}, r_i, e_i)$ is a verified member of $\mathcal{T}$~\citep{lan2022kgqa}.
+The critical distinction between a KG and an unstructured text corpus is that every triplet has been explicitly verified and is machine-readable in deterministic form. This makes KGs suitable as sources for hard constraints on generation: a candidate token can be verified via exact lookup rather than probabilistic semantic matching. A multi-hop reasoning path of length $L$ is a sequence $(e_0, r_1, e_1, \ldots, r_L, e_L)$ in which each consecutive triplet $(e_{i-1}, r_i, e_i)$ is a verified member of $\mathcal{T}$~\citep{lan2022survey}.
 
 \subsection{Knowledge Graph Question Answering}
 
-KGQA requires a system to identify the answer entity $e_L$ to a natural language question $q$ by reasoning through a chain of verified KG triplets. Formally: given question $q$ with question entities $\mathcal{E}_q \subseteq \mathcal{E}$ identified by entity linking, identify the terminal entity of the correct reasoning path in $\mathcal{G}$~\citep{lan2022kgqa}. Early approaches relied on semantic parsing or information retrieval over KG subgraphs. More recent approaches use LLMs as retrievers, agents iteratively querying the KG, or generators conditioned on retrieved subgraph context~\citep{jiang2023structgpt, jin2024graphcot, luo2024rog}. The move toward LLM-based KGQA has improved fluency but brought back hallucination risks.
+KGQA requires a system to identify the answer entity $e_L$ to a natural language question $q$ by reasoning through a chain of verified KG triplets. Formally: given question $q$ with question entities $\mathcal{E}_q \subseteq \mathcal{E}$ identified by entity linking, identify the terminal entity of the correct reasoning path in $\mathcal{G}$~\citep{lan2022survey}. Early approaches relied on semantic parsing or information retrieval over KG subgraphs. More recent approaches use LLMs as retrievers, agents iteratively querying the KG, or generators conditioned on retrieved subgraph context~\citep{jiang2023structgpt, jin2024graphcot, luo2024rog}. The move toward LLM-based KGQA has improved fluency but brought back hallucination risks.
 
 \subsection{Evaluation Benchmarks}
 
@@ -77,7 +77,7 @@ WebQSP~\citep{yih2016websqp} contains 4,737 questions on Freebase with reasoning
 
 \subsection{Multi-Hop Complexity}
 
-For an entity with average out-degree $d$ in the KG, the number of valid paths of length $L$ from the question entities increases as $|\mathcal{E}_q| \times d^L$. For well-connected Freebase entities where $d \approx 20$ and a question may have up to three question entities, a three-hop question can generate up to 24{,}000 structurally valid paths, but only one leads to the correct answer~\citep{he2021improving, lan2022kgqa}. At each step, the model must choose the correct next token from a vast array of valid yet incorrect options.
+For an entity with average out-degree $d$ in the KG, the number of valid paths of length $L$ from the question entities increases as $|\mathcal{E}_q| \times d^L$. For well-connected Freebase entities where $d \approx 20$ and a question may have up to three question entities, a three-hop question can generate up to 24{,}000 structurally valid paths, but only one leads to the correct answer~\citep{he2021improving, lan2022survey}. At each step, the model must choose the correct next token from a vast array of valid yet incorrect options.
 
 % -----------------------------------------------------------------------------
 \section{Constrained Decoding for Faithful Text Generation}
@@ -164,7 +164,7 @@ When beam search is merged with a KG-Trie oracle as visualized in Figure~\ref{fi
 
     \end{tikzpicture}
   }
-  \caption[Visualization of KG-Trie Constrained Generation]{Visualization of KG-Trie Constrained Generation.}
+  \caption[Visualization of KG-Trie Constrained Generation]{KG-Trie Constrained Generation}
   \label{fig:kg_trie_search}
 \end{figure}
 
