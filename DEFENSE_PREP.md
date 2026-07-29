@@ -146,24 +146,42 @@ Opens at `http://localhost:8501`. Test this on the actual defense laptop
 *before* the day — confirm `uv` and the project's `.venv`/lockfile are present
 and it launches within a few seconds.
 
-**Bug found and fixed today:** the original 10 pre-generated samples showed
-**zero rejected paths on every single question** — the gate logic looked
-inert. Root cause: `demo/generate_demo_data.py` called
-`oracle.infer_answer_types_from_paths()` directly, which derives "answer
-types" as the union of every terminal entity's type across all candidate
-paths — a set that trivially contains every path's own terminal type, making
-the gate vacuous. Your real experiment code (`trie_utils.py`) calls the
-question-based `oracle.infer_answer_types(question)` first and only falls
-back to the path-based method if that returns empty. Fixed
-`generate_demo_data.py` to match, regenerated 20 samples — most now show
-8–37% rejection rates, matching the real pipeline's behavior. This wasn't
-committed yet; review with `git diff demo/generate_demo_data.py` and commit
-when ready.
+**Bugs found and fixed (both committed):**
+1. The original 10 pre-generated samples showed **zero rejected paths on
+   every single question** — the gate logic looked inert. Root cause:
+   `demo/generate_demo_data.py` called `oracle.infer_answer_types_from_paths()`
+   directly, which derives "answer types" as the union of every terminal
+   entity's type across all candidate paths — a set that trivially contains
+   every path's own terminal type, making the gate vacuous. Fixed to match
+   the real experiment code's order (`infer_answer_types(question)` first,
+   path-based fallback only if empty). Most samples now show realistic
+   8–37% rejection rates.
+2. **Step 5 ("Final Answer") was showing a fabricated answer** — it picked
+   `admitted[0]`, the first admitted path in arbitrary graph-traversal order,
+   which has no connection to what the LLM actually generates. It was wrong
+   on all 20 demo samples. Fixed by loading the *real* saved per-question
+   predictions from the actual experiment run
+   (`results/ideas_webqsp_full/predictions_baseline.jsonl` = GCR,
+   `predictions_filtered.jsonl` = DCA-Trie v1, matched by question id).
+   Step 5 now shows both real answers side by side with correctness, and
+   Step 4 shows the real reasoning path the LLM committed to — not a
+   re-enumerated guess.
+
+**Also improved:** the KG subgraph visualization was rendering the *entire*
+retrieved WebQSP subgraph (1,400–2,000 nodes, up to 8,236 edges) through
+force-directed physics — unreadable and slow. Now shows only the 1-hop
+neighbourhood, capped at 40 edges, highlighting the path toward the
+admitted answer in green. The app also now has Back/Next step-by-step
+navigation for live presentation (steps build up on screen as you click
+through, instead of dumping everything at once), and all emoji/icons have
+been removed for a cleaner, more academic look.
 
 **Recommended flagship question: "who was richard nixon married to" (sample_006).**
 - 2,819 candidate paths → 697 rejected (24.7%)
-- Correct answer (**Pat Nixon**) is still reachable via an admitted path:
-  `Richard Nixon → people.person.children → Tricia Nixon Cox → people.person.parents → Pat Nixon`
+- Both GCR and DCA-Trie v1 give the same **correct** real answer, **Pat
+  Nixon**, via `Richard Nixon → people.person.children → Tricia Nixon Cox →
+  people.person.parents → Pat Nixon` — confirmed against the actual saved
+  model output, not simulated.
 - Rejected paths are visibly nonsensical for the question: loops through
   Nixon's *quotations*, his *education record*, his *inauguration* — real KG
   paths that GCR's baseline would keep and hand to the LLM to filter itself.
@@ -171,25 +189,79 @@ when ready.
   Methodology slide (Bush/Obama/Trump), so the demo reads as a direct
   callback instead of a new example the audience has to re-orient around.
 
-**Other strong candidates if you want a second example:** "who is governor of
-ohio 2011" (37.4% rejected) and "what did st augustine do" (37.3% rejected) —
-both show even more dramatic filtering, at the cost of being less immediately
-relatable than the Nixon example.
+**Second example for Q&A, if pushed on the accuracy drop: "who is governor
+of ohio 2011" (sample_007).** GCR and DCA-Trie v1 *disagree* here — GCR
+answers "Ohio" (wrong), DCA-Trie v1 answers "Ohio Statehouse columbus"
+(also wrong, but a different wrong answer). Both are real saved
+predictions. This is a genuine, concrete instance of TypeOracle's filtering
+changing which reasoning path the LLM commits to — useful if an examiner
+asks "show me a case where filtering actually changed the outcome" rather
+than just citing the aggregate 5.2pp.
 
 **Live-demo script (suggested):**
 1. Open the app, select the Nixon question from the sidebar.
-2. Step 1–2: point at the question and the KG subgraph — "this is what GCR
-   would search over, unfiltered."
+2. Step 1–2: point at the question and the KG subgraph — "this is a small
+   slice of what GCR would search over, unfiltered; the full retrieved
+   subgraph here has thousands of edges."
 3. Step 3 (TypeOracle gates): scroll to the rejected list — "these are real
    KG paths GCR would keep and ask the LLM to filter using its own judgment;
-   TypeOracle removes them structurally, with a named reason."
-4. Step 5: show the correct answer is still found through an admitted path —
-   "filtering removed noise without removing the gold path, for this
-   example."
+   TypeOracle removes them structurally, with a named reason per hop."
+4. Step 4–5: show the real reasoning path and that both models land on the
+   correct answer here — "filtering removed noise without removing the gold
+   path, for this example."
 5. Close the loop: "in aggregate across 1,628 questions this trade-off costs
-   5.2 points of accuracy — which is the actual finding of the thesis."
+   5.2 points of accuracy — which is the actual finding of the thesis." If
+   pushed further, switch to the Ohio example to show a case where the
+   trade-off actually bites.
 
 **Backup plan:** record a 60–90 second screen capture of exactly this walk-
 through in advance (in case of projector/Wi-Fi/laptop issues), and also put
 the 2–3 key screenshots on a backup slide (see §3.1). Never rely on a live
 demo working as your only path through this material.
+
+---
+
+## 5. Final Defense Day (vs. Synopsis Defense)
+
+Passing synopsis defense already means faculty judged the problem statement
+and objectives sound enough to pursue — that's real signal. Final defense
+tests something different: not "is this worth doing" but "do you understand
+what you did well enough to defend it under pressure."
+
+**1. Division of labor (4-person thesis).** Agree with teammates beforehand
+on who answers what. You own implementation/methodology/results/evaluation.
+If a question crosses into someone else's section (literature review,
+objectives), it's fine to say "I'll let [teammate] speak to that" — panels
+notice clean handoffs vs. talking over each other or leaving silence.
+
+**2. Rehearse the "why" chain, not just the "what."** Panels drill down: why
+symbolic gates and not embeddings → why these two gates specifically → why
+WebQSP → why Llama-3.1-8B → why beam=10. Answer each in one sentence without
+hesitating. If a choice was a practical constraint rather than a deliberate
+design decision, say so honestly rather than inventing a justification —
+fabricated reasoning costs more credibility than an honest "that was a
+resource constraint, and here's what I'd do differently with more time."
+
+**3. Map every result back to a stated objective explicitly.** Panels often
+check objective-by-objective: did you set out to do X, did you show X. Have
+one spoken sentence per objective ready that ties directly to a result.
+
+**4. When you don't know an answer:** don't bluff, don't go silent. Use:
+*"That's outside what I directly tested, but based on [X], my expectation
+would be [Y] — that's actually one of my recommendations for future work."*
+Turns a gap into evidence of scope-awareness instead of ignorance.
+
+**5. Day-of checklist:**
+- Printed thesis copies for the panel if your department expects it (confirm
+  with your supervisor — varies by department).
+- Charged laptop + charger + slides and demo recording backed up on a USB
+  stick. Don't depend on projector or Wi-Fi working.
+- Arrive early, dress formally, greet the panel respectfully.
+- At least one full timed run-through with your supervisor or teammates
+  before the day — panels penalize running over time.
+- Stand by the negative result. State the 5.2pp drop as a finding, not an
+  apology.
+
+**6. After the defense:** most panels issue corrections (minor or major)
+rather than outright rejection at this stage, especially after a passed
+synopsis. Treat corrections as normal process, not a verdict on the work.
