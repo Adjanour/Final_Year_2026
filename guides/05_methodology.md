@@ -1,6 +1,7 @@
 # Guide 5: Methodology — The 4-Layer Architecture
 
 ## What This Section Covers
+
 The system architecture, the four layers, and how they connect.
 
 ## The 4-Layer Architecture
@@ -41,12 +42,14 @@ Question: "Who is the spouse of the ex-president of USA?"
 ## Layer-by-Layer Breakdown
 
 ### Layer 1: Entity Linking
+
 - Input: Raw question text
 - Output: Core entities mapped to KG nodes
 - Example: "Who is the spouse of the ex-president of USA?" → {USA}
 - Uses question-entity annotations from the dataset
 
 ### Layer 2: Constraint Oracle (OUR CONTRIBUTION)
+
 - Input: KG subgraph, question entities, question text
 - Output: Filtered set of valid paths
 - **TypeOracle** applies two gates:
@@ -56,6 +59,7 @@ Question: "Who is the spouse of the ex-president of USA?"
 - v2: Filters paths at each hop during decoding (dynamic)
 
 ### Layer 3: Constrained Decoding
+
 - Input: LLM, trie, prompt
 - Output: Generated reasoning path
 - At each step:
@@ -66,6 +70,7 @@ Question: "Who is the spouse of the ex-president of USA?"
   5. Sample or beam search
 
 ### Layer 4: Inductive Reasoning
+
 - Input: Top K reasoning paths from beam search
 - Output: Final natural language answer
 - Uses GPT-4o-mini to synthesize answer
@@ -87,6 +92,7 @@ The DCA-Trie contribution is specifically in Layer 2. We're not changing the LLM
 > "In Layer 2 — the constraint oracle. We replace GCR's static trie with a TypeOracle that uses semantic gates to prune irrelevant paths before the LLM sees them."
 
 ## Practice
+
 1. Why do we need Layer 4 (inductive reasoning) instead of just taking the last entity in the path?
 2. What would happen if we removed Layer 2 entirely?
 3. How does the constrained decoding layer enforce the trie constraint?

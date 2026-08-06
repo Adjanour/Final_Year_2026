@@ -1,12 +1,13 @@
 # Guide 4: Tools & Facilities — What We Used
 
 ## What This Section Covers
+
 The software stack, hardware, and resources used in the project.
 
 ## Software Stack
 
 | Tool | Purpose | Why this one |
-|------|---------|-------------|
+| ------ | --------- | ------------- |
 | **Python** | Main language | ML ecosystem |
 | **PyTorch** | Deep learning framework | LLM inference |
 | **HuggingFace Transformers** | LLM loading/inference | Standard for LLMs |
@@ -34,12 +35,14 @@ The software stack, hardware, and resources used in the project.
 ## Key Libraries Explained
 
 ### marisa-trie
+
 - A prefix tree (trie) implemented in C++ with Python bindings
 - Stores tokenized paths as sequences of token IDs
 - Lookup: given a prefix, return all valid next tokens in O(1)
 - Why not regular dict? marisa-trie is memory-efficient and fast for large vocabularies
 
 ### NetworkX
+
 - Graph library for Python
 - We use it to:
   - Build directed graphs from KG triplets
@@ -47,6 +50,7 @@ The software stack, hardware, and resources used in the project.
   - Find neighbours of entities
 
 ### sentence-transformers
+
 - Pretrained models that convert text to fixed-size vectors
 - We use `all-MiniLM-L6-v2` (384-dimensional)
 - No fine-tuning needed — zero-shot semantic similarity
@@ -60,6 +64,7 @@ The software stack, hardware, and resources used in the project.
 > "It gives O(1) valid next-token lookup, which is critical for constrained decoding. At each step, we need to instantly know which tokens the LLM is allowed to generate."
 
 ## Practice
+
 1. Why did we use bfloat16 instead of float32 for inference?
 2. What would happen if we used a regular Python dict instead of marisa-trie?
 3. Why is sentence-transformers preferred over fine-tuning a custom encoder?

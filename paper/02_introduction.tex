@@ -1,0 +1,178 @@
+% =============================================================================
+% SECTION 1: INTRODUCTION
+% =============================================================================
+
+\section{Introduction}
+\label{sec:intro}
+
+Large language models reason through generation: each token is sampled from a
+distribution conditioned on all previous
+tokens~\citep{brown2020gpt3,touvron2023llama}. This process produces fluent text, but
+fluency is not factual accuracy. LLMs hallucinate, generating confident claims that
+contradict source material or cannot be verified against any authoritative
+source~\citep{ji2023survey,huang2023survey}. The problem worsens with scale: larger
+models hallucinate more convincingly, not less~\citep{lin2022truthfulqa}.
+
+Knowledge graph-constrained decoding solves this by replacing the LLM's free-form
+generation with a structurally bounded traversal of verified facts. GCR~\citep{luo2025-graph-constrained-reasoning},
+the leading framework, achieves zero hallucination on KGQA benchmarks by encoding all
+reasoning paths within $L$ hops of the question entities in a prefix trie and blocking
+any token that deviates from this structure. The constraint is absolute. Every generated
+token must trace back to a real triple on the graph.
+
+The constraint is also indifferent to what the question asks. A three-hop query with
+twenty out-degree relations and three question entities admits roughly 24{,}000
+structurally valid paths. Only one leads to the correct answer. The LLM must navigate
+among the remaining 23{,}999 using the same internal knowledge that produced
+hallucination in the first place. Tightening the constraint, filtering out irrelevant
+paths, seems like the obvious fix. We show that it is not.
+
+\subsection{Background}
+\label{sec:intro:background}
+
+LLMs generate text autoregressively: each token is sampled from a distribution
+conditioned on all previous tokens~\citep{brown2020gpt3,touvron2023llama}. This
+process produces fluent text, but fluency is not factual accuracy. LLMs hallucinate,
+generating confident claims that contradict source material or cannot be verified
+against any authoritative source~\citep{ji2023survey,huang2023survey}. The problem
+worsens with scale: larger models hallucinate more convincingly, not less. Because
+autoregressive generation has no internal mechanism for fact-checking, an initial error
+compounds across subsequent steps, producing persuasive yet false reasoning
+chains~\citep{huang2023survey}.
+
+Knowledge Graph Question Answering (KGQA) grounds reasoning in structured facts. A
+knowledge graph stores facts as triplets, $(\text{entity}, \text{relation},
+\text{entity})$, and KGQA requires traversing chains of these triplets to answer
+natural language questions~\citep{bollacker2008freebase}. Benchmarks such as
+WebQSP~\citep{yih2016websqp} and Complex WebQuestions~\citep{talmor2018cwq} evaluate
+multi-hop path traversal over Freebase, demanding strict adherence to graph topology.
+
+\subsection{The Permissiveness Problem}
+\label{sec:intro:gap}
+
+Retrieval-Augmented Generation (RAG) mitigates hallucination by supplying retrieved
+evidence as context during inference~\citep{lewis2020rag,asai2024selfrag}. But retrieved
+evidence acts as a soft prompt, not an absolute boundary. LLMs can ignore relevant
+context or generate unsupported claims beyond the retrieved
+information~\citep{asai2024selfrag}.
+
+Graph-constrained decoding enforces a harder boundary. By applying a validity mask over
+the output vocabulary at each decoding step, a constraint oracle guarantees that every
+generated token corresponds to a valid path on the knowledge graph. GCR operationalizes
+this using a pre-computed KG-Trie as the constraint oracle during beam
+search~\citep{luo2025-graph-constrained-reasoning}. The trie encodes all reasoning
+paths within $L$ hops of the question entities as formatted strings, and a
+prefix-lookup function blocks any token sequence that deviates from these strings.
+Hallucination in the reasoning path drops to zero.
+
+The trie, however, is static. Constructed once before decoding and never updated, its
+constraint set, the set of tokens the LLM is allowed to generate, depends only on
+the graph structure and the question entities:
+\begin{equation}
+  W_{\text{val}}^{\text{GCR}}(t) = f(G, E_q)
+  \label{eq:gcr_constraint}
+\end{equation}
+It does not depend on the question $q$ or the partial reasoning chain $y^{<t}$. For a
+three-hop question with average out-degree $d \approx 20$ and three question entities, GCR
+admits roughly $3 \times 20^3 = 24{,}000$ structurally valid paths. The LLM must
+distinguish the relevant paths from the irrelevant ones using the same parametric
+knowledge that produced hallucinations before constrained decoding was
+introduced~\citep{luo2025-graph-constrained-reasoning,li2024-decoding-on-graphs}.
+
+\subsection{Existing Approaches and Their Constraints}
+\label{sec:intro:existing}
+
+The tight coupling between LLMs and knowledge graphs has been pursued along two threads.
+Retrieval-based methods train specialized subgraph retrievers to extract
+question-focused subgraphs from the complete
+KG~\citep{luo2024rog,mavromatis2022rearev}. The concentrated subgraph is then fed to
+the LLM for answer prediction. These methods shift the burden of graph traversal to the
+retriever while the LLM merely selects from a pre-filtered set of candidates. Training
+the retriever requires annotated data, and the trained retriever may struggle with
+out-of-domain scenarios where the KG taxonomy differs from the training
+distribution~\citep{li2024-decoding-on-graphs}.
+
+Agent-based methods take the opposite approach: the LLM itself interacts with the KG
+iteratively, executing operations such as neighbor exploration and path
+selection~\citep{jiang2023structgpt}. These methods demand substantial computational
+resources and place high demands on the LLM's instruction-following ability, which
+limits their applicability to small-scale models~\citep{li2024-decoding-on-graphs}.
+
+Constrained decoding methods occupy a middle ground. GCR converts the KG into a
+trie-based index and constrains the LLM's output to valid paths, achieving zero
+hallucination in the reasoning
+trace~\citep{luo2025-graph-constrained-reasoning}. DoG~\citep{li2024-decoding-on-graphs}
+extends this by dynamically expanding the local trie as reasoning proceeds, adapting the
+constraint set to the partially generated chain. Both methods, however, share a common
+assumption: every structurally valid path should be admitted. Within $L$ hops, GCR
+admits everything. At each step, DoG admits every topologically adjacent path. Neither
+filters for semantic relevance: whether a path is actually related to the question
+being asked.
+
+\subsection{DCA-Trie: Dynamic Context-Aware Constrained Decoding}
+\label{sec:intro:method}
+
+We introduce DCA-Trie, a dynamic constrained decoding framework that conditions the
+valid token set on the knowledge graph, the input question, and the partially generated
+reasoning chain:
+\begin{equation}
+  W_{\text{val}}^{\text{DCA}}(t) = f(G, E_q, q, y^{<t})
+  \label{eq:dca_constraint}
+\end{equation}
+The constraint set adapts at each decoding step. A lightweight symbolic module, the
+TypeOracle, checks two ontology gates per candidate triple. The range gate verifies
+that the tail entity's type matches the relation's range at every hop. The type gate
+verifies that the terminal entity's type matches the inferred answer type at the final
+hop. Paths failing either gate are pruned before the LLM sees them.
+
+Unlike embedding-based relevance scorers, the TypeOracle requires no neural encoder, no
+learned threshold, no per-dataset calibration, and no GPU memory for encoder inference.
+Gate evaluation is $O(1)$ per candidate triple, adding negligible overhead to the
+decoding process.
+
+\subsection{Results and Contributions}
+\label{sec:intro:results}
+
+We introduce the Semantic Irrelevance Ratio (SIR), a metric that measures the fraction
+of structurally valid paths that are semantically irrelevant to the question. SIR
+separates constraint quality from answer accuracy: a system can have excellent SIR
+(tight constraints) and poor Hits@1 (wrong answer), or poor SIR (loose constraints) and
+excellent Hits@1 (correct answer). Before SIR, these two dimensions were entangled.
+
+On WebQSP, DCA-Trie reduces SIR from 1.0 to 0.145, an 85.5\% removal of
+irrelevant paths, while maintaining a false negative rate below 5\%. The TypeOracle
+that drives this filtering is purely symbolic: two ontology gates, $O(1)$ per candidate
+triple, no neural encoder, no learned threshold.
+
+SIR also reveals that constraint tightness and answer accuracy are independently
+controlled variables. Tighter constraints reduce the search space but do not improve
+Hits@1. Four mechanisms govern this relationship: gold-path exclusion (the TypeOracle
+occasionally removes the correct path), beam competition (fewer paths reduce diversity
+in beam search), type-inference noise (the regex-based question classifier has
+imperfect accuracy), and the precision-recall trade-off (tighter constraints improve
+precision but reduce recall). The result holds across ablation conditions.
+
+The contributions of this work are:
+\begin{enumerate}[label=(\arabic*)]
+  \item We introduce the Semantic Irrelevance Ratio (SIR), a metric that separates
+        constraint quality from answer accuracy, enabling independent evaluation of what
+        constrained decoding filters versus what the LLM actually uses.
+  \item We propose DCA-Trie, a dynamic constrained decoding framework that conditions
+        the valid token set on the question and partial output via a TypeOracle with two
+        ontology gates, reducing SIR by 85.5\% with negligible latency overhead.
+  \item We establish that constraint tightness and answer accuracy are independently
+        controlled variables, and characterise the four mechanisms (gold-path exclusion,
+        beam competition, type-inference noise, and the precision-recall trade-off) that
+        govern their relationship.
+\end{enumerate}
+
+The remainder of this paper is organized as follows. Section~\ref{sec:related} reviews
+related work on hallucination mitigation, knowledge graph reasoning, and constrained
+decoding. Section~\ref{sec:method} presents the DCA-Trie framework, including the
+TypeOracle, the two-gate mechanism, and the SIR metric.
+Section~\ref{sec:theoretical} provides theoretical analysis of correctness and
+search-space reduction. Section~\ref{sec:experiment_design} describes the experimental
+design, and Section~\ref{sec:results} reports results. Section~\ref{sec:analysis}
+presents extended analysis including ablation and sensitivity studies.
+Section~\ref{sec:discussion} discusses implications and limitations, and
+Section~\ref{sec:conclusion} concludes.

@@ -1,0 +1,51 @@
+% DCA-Trie Journal Paper — Title, Abstract, Keywords
+% Session 1: Title + Abstract + Keywords
+% Target: 200-250 word abstract, 5-7 keywords
+
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\LARGE\bfseries Dynamic Context-Aware Tries for Knowledge Graph-Constrained Large Language Model Generation\par}
+
+\vspace{1.5cm}
+
+{
+Bernard Kirk Adjanor Katamanso\textsuperscript{1},
+Erica Amonor\textsuperscript{1},
+Joseph Osei Nyarko\textsuperscript{1},
+Jessica Afua Etornam Nsafuah\textsuperscript{1}
+
+\vspace{0.5cm}
+
+\textsuperscript{1}University of Mines and Technology, Tarkwa, Ghana
+}
+
+\vspace{2cm}
+
+\begin{abstract}
+Knowledge graph-constrained decoding eliminates hallucination in large language model
+(LLM) reasoning by restricting output to verified paths. The leading approach, GCR,
+achieves zero hallucination on KGQA benchmarks by encoding all structurally valid paths
+in a static trie. The constraint is absolute but indifferent to the question: a
+three-hop query with twenty out-degree relations admits roughly 24{,}000 paths, and the
+LLM must navigate among them using the same internal knowledge that causes
+hallucination. We introduce DCA-Trie, a dynamic constrained decoding framework that
+prunes the valid path set during generation using a TypeOracle, a lightweight symbolic
+module that checks two ontology gates per candidate triple. On WebQSP, DCA-Trie removes
+85.5\% of semantically irrelevant paths while maintaining a false negative rate below
+5\%. We further introduce the Semantic Irrelevance Ratio (SIR), a metric that separates
+constraint quality from answer accuracy, enabling independent evaluation of what the
+oracle filters versus what the LLM actually uses. SIR reveals a non-monotone
+relationship between constraint tightness and answer correctness: tighter constraints
+reduce the search space but do not improve Hits@1. We identify four mechanisms that
+drive this decoupling and show that the result holds across ablation conditions.
+DCA-Trie and SIR together provide the first framework for independently evaluating
+constraint quality and answer accuracy in knowledge graph-constrained decoding.
+\end{abstract}
+
+\vspace{1cm}
+
+\noindent\textbf{Keywords:} knowledge graph question answering, constrained decoding, large language models, hallucination mitigation, trie-based decoding, semantic filtering, type oracle
+
+\end{titlepage}

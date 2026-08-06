@@ -1,0 +1,119 @@
+% chapter/06_experimental_design.tex
+% Session 6 — Experimental Design
+% Compiled with pdflatex + bibtex (nonstopmode)
+
+\section{Experimental Design}
+\label{sec:exp_design}
+
+This section describes the datasets, baselines, evaluation metrics, and implementation
+details used throughout the experiments. All results are reported in
+Section~\ref{sec:results}.
+
+\subsection{Research Questions}
+\label{sec:rq}
+
+The experiments address five questions:
+
+\begin{enumerate}[label=(\textbf{RQ\arabic*)}]
+  \item \textbf{SIR sensitivity.} How does DCA-Trie's oracle configuration affect the
+        Semantic Irrelevance Ratio across different KG subgraphs?
+  \item \textbf{Answer quality.} Does tighter structural constraint from the TypeOracle
+        improve Hits@1, or does it leave answer accuracy unchanged?
+  \item \textbf{Decomposed contribution.} How much of the SIR reduction comes from the
+        type gate versus the range gate?
+  \item \textbf{Latency.} What is the overhead of step-wise oracle evaluation relative to
+        GCR's static trie construction?
+  \item \textbf{v1 vs v2.} When does step-wise dynamic expansion (v2) outperform static
+        filtering (v1)?
+\end{enumerate}
+
+RQ1 and RQ2 address the core question: whether constraint tightness and answer
+correctness are coupled or independent. RQ3 identifies which component drives the
+reduction. RQ4 and RQ5 address practical deployment trade-offs.
+
+\subsection{Datasets}
+\label{sec:datasets}
+
+We evaluate on WebQuestionSP (WebQSP) \citep{yih2016websqp} and Complex WebQuestions
+(CWQ) \citep{talmor2018cwq}. Both benchmark datasets query Freebase
+\citep{bollacker2008freebase}, a large-scale general-domain knowledge graph.
+
+WebQSP contains 5,813 questions with an average of 2.1 entities per answer and 2 hops
+of reasoning depth. We use the standard train/test split (3,034 train, 2,502 test; we
+report on the test split with 1,628 questions following GCR's partition). CWQ contains
+34,211 questions requiring multi-hop reasoning over Freebase, with more complex
+compositional structure. We use the standard split (27,639 train, 3,531 test).
+
+Freebase contains 122 million entities, 10,904 relations, and 1.5 billion triples. We
+use the same Freebase snapshot as GCR \citep{luo2025-graph-constrained-reasoning}. For
+each question, we extract all entities mentioned in the question, enumerate all 2-hop
+paths from those entities, and index them in a trie for constrained decoding.
+
+\subsection{Baselines}
+\label{sec:baselines}
+
+We compare DCA-Trie against two baseline categories.
+
+\textbf{LLM reasoning.} Unconstrained Llama-3.1-8B \citep{touvron2023llama} generates
+answers without KG grounding. This establishes a lower bound: what the model achieves
+without any structural constraint.
+
+\textbf{GCR} \citep{luo2025-graph-constrained-reasoning}. The direct baseline. GCR
+constructs a static trie from all 2-hop paths before decoding begins and constrains
+beam search to paths present in the trie. Our re-implementation achieves 91.6\% Hits@1
+on WebQSP, matching the reported result. We use the same trie construction, beam
+parameters, and LLM checkpoint.
+
+\textbf{Why these two?} The unconstrained baseline tells us whether KG grounding helps
+at all. GCR tells us whether dynamic constraint adjustment adds value beyond static
+constraint. Comparing against GCR is the primary evaluation: DCA-Trie modifies only
+the constraint oracle, keeping everything else identical.
+
+\subsection{Evaluation Metrics}
+\label{sec:metrics}
+
+\textbf{Hits@1.} Whether the top-1 generated answer appears in the set of gold answers.
+This is the standard metric for KGQA benchmarks \citep{luo2025-graph-constrained-reasoning,
+li2024-decoding-on-graphs}. A higher value indicates better answer accuracy.
+
+\textbf{SIR (Semantic Irrelevance Ratio).} The fraction of structurally valid trie
+paths that are semantically irrelevant to the question (Definition~\ref{def:sir}). A
+lower value indicates tighter constraint. SIR decouples constraint quality from answer
+accuracy: two systems can have identical Hits@1 but different SIR values.
+
+\textbf{FNR (False Negative Rate).} The fraction of gold-answer paths that the oracle
+incorrectly removes. An oracle with FNR$>0$ excludes correct answers before the LLM
+even sees them. We report FNR for the type gate and range gate separately.
+
+\textbf{Latency.} Wall-clock time per question, measured from the start of decoding to
+the generation of the final token. We report the mean and 95\% confidence interval over
+the test split.
+
+\textbf{Why these metrics?} Hits@1 measures what the system gets right. SIR measures
+what the oracle filters. FNR measures what the oracle removes that it should not have.
+Latency measures the cost of the dynamic oracle. Together they answer whether tighter
+constraints actually help, and at what cost.
+
+\subsection{Implementation Details}
+\label{sec:implementation}
+
+\textbf{Model.} We use \texttt{rmanluo/GCR-Meta-Llama-3.1-8B-Instruct}, a Llama-3.1-8B
+model fine-tuned on GCR's KG-reasoning training data. This is the same checkpoint used
+in GCR's reported results.
+
+\textbf{Hardware.} All experiments run on a single NVIDIA RTX 4090 (24\,GB VRAM) with
+bfloat16 precision.
+
+\textbf{Decoding.} We use group beam search with $k=10$ beams, a diversity penalty of
+1.0, and a maximum generation length of 256 tokens. The index path length is 2 hops,
+matching GCR's configuration.
+
+\textbf{TypeOracle.} The type gate uses a regex-based question classifier that maps
+question patterns (e.g., ``what is the capital of X'' $\rightarrow$ \texttt{Location})
+to Freebase types. The range gate uses relation metadata from Freebase's schema. Both
+gates require no training and no neural inference.
+
+\textbf{Reproducibility.} The TypeOracle stores ontology metadata ($<2$\,MB for
+Freebase). The regex classifier is deterministic. All random seeds are fixed. The
+constrained decoding pipeline is identical to GCR except for the oracle, ensuring that
+any performance differences are attributable to the oracle alone.

@@ -1,0 +1,50 @@
+% chapter/10_conclusion.tex
+% Session 10 — Conclusion
+% Compiled with pdflatex + bibtex (nonstopmode)
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+This paper introduces DCA-Trie, a dynamic context-aware constrained decoding framework
+for knowledge graph question answering. The framework modifies only the constraint
+oracle: a TypeOracle with two symbolic gates (range and type) replaces GCR's static
+trie, filtering semantically irrelevant paths during beam search.
+
+The TypeOracle reduces SIR from 1.000 to 0.145, an 85.5\% improvement in constraint
+quality, while maintaining a false negative rate of 3.3\% and adding less than 1\% latency
+overhead. These results demonstrate that purely symbolic gates, operating in $O(1)$ per
+candidate triple, can achieve substantial search-space reduction without neural inference
+or learned thresholds.
+
+The paper's central finding is that constraint tightness and answer accuracy are
+independent variables. DCA-Trie v1 filters 85.5\% of irrelevant paths, but Hits@1
+drops from 91.6\% to 86.4\%. Four mechanisms govern this relationship: gold-path
+exclusion, beam competition, type-inference noise, and the precision-recall trade-off.
+The result holds across beam widths and is statistically significant ($p < 0.001$).
+This finding challenges the implicit assumption in GCR and DoG that tightening the
+search space necessarily improves reasoning.
+
+The Semantic Irrelevance Ratio (SIR) provides the first metric that measures constraint
+quality independently of answer accuracy. SIR enables systematic comparison of oracles
+without conflating structural filtering with downstream performance. A system can have
+excellent SIR (tight constraints) and poor Hits@1 (wrong answer), or poor SIR (loose
+constraints) and excellent Hits@1 (correct answer). Before SIR, these two dimensions
+were entangled.
+
+The contributions are threefold. First, the TypeOracle demonstrates that symbolic gates
+can replace embedding-based oracles with $O(1)$ complexity, no threshold tuning, and
+deterministic behaviour. Second, SIR provides a diagnostic metric for constraint quality
+that complements Hits@1. Third, the non-monotone finding establishes that structural
+constraint quality and reasoning accuracy should be optimised independently, not assumed
+to be correlated.
+
+Future work has three promising directions. Fine-tuning the LLM on DCA-Trie's filtered
+trie may teach the model to operate with reduced diversity, closing the Hits@1 gap. A
+neural type classifier would improve the type gate's accuracy and reduce FNR. Adaptive
+oracle thresholds that vary by hop depth could preserve diversity where it matters while
+filtering where it does not.
+
+The broader implication is that constrained decoding systems should report both accuracy
+and constraint quality metrics. Hits@1 alone is insufficient: a system that achieves
+high Hits@1 with high SIR may be over-constrained and fragile. SIR reveals the operating
+point and exposes the trade-off that accuracy metrics alone cannot capture.

@@ -1,120 +1,101 @@
-# AGENTS.md — DCA-Trie Thesis Project
+# AGENTS.md — DCA-Trie Journal Paper
 
-## Project Overview
+**This file is the binding contract for every agent working on this paper.**
+Read it before writing, editing, or reviewing any section. Non-compliance = the draft is rejected.
 
-This is an undergraduate thesis for the University of Mines and Technology (UMaT), Tarkwa, Ghana. Title: **"Dynamic Context-Aware Tries for Knowledge Graph-Constrained Large Language Model Generation"**. The thesis introduces DCA-Trie, a method that adjusts valid knowledge graph paths during LLM decoding rather than fixing them at the start.
+---
+
+## 1. Project Identity
+
+**Paper title:** Dynamic Context-Aware Tries for Knowledge Graph-Constrained Large Language Model Generation
 
 **Authors:** Bernard Kirk Adjanor Katamanso, Erica Amonor, Joseph Osei Nyarko, Jessica Afua Etornam Nsafuah
-**Supervisor:** Dr. Eric Affum
 
-## Repository Structure
+**Target venue:** ACL / EMNLP / NeurIPS (top-tier NLP/AI venue)
 
-```
-FINAL_PROJECT/
-├── Final_Thesis.tex                  # Main LaTeX document
-├── Final_Thesis.pdf                  # Compiled PDF
-├── UMaT_Undergrauate_Report_Template_Configurations.cls  # Custom class file
-├── references.bib                    # Bibliography database
-├── chapters/                         # Chapter source files
-│   ├── Chapter1_Introduction.tex
-│   ├── Chapter2_Literature_Review.tex
-│   ├── Chapter3_Methodology.tex
-│   ├── Chapter4_Results_and_Discussion.tex  # Stub
-│   └── Chapter5_Conclusion_and_Recommendations.tex  # Stub
-├── Appendices/
-│   ├── AppendixA_Questionnaires_and_Evaluation.tex
-│   └── AppendixB_Guardian_PWA_Screenshots.tex
-├── Figures/                          # Image assets
-├── guides/                           # Writing and revision guides
-│   ├── REVISED_METHODOLOGY_CH3_FULL.md
-│   ├── humanizing_prose_guide.md
-│   ├── typographic_tells_checklist.md
-│   ├── Chapter2_revision_notes.md
-│   ├── mcenerney_rubric_dca_trie.md
-│   └── Implementation Plan.md
-├── papers/                           # Reference PDFs (~113 papers)
-├── content/                          # Experiment results and technical docs
-│   ├── EXPERIMENT_RESULTS.md
-│   ├── TECHNICAL_REFERENCE.md
-│   └── approach{1,2,3}_*/            # Three approach variants
-└── AGENTS.md                         # This file
-```
+**Core contribution:** DCA-Trie adjusts valid knowledge graph paths during LLM decoding using a TypeOracle, rather than fixing them at the start (as GCR does). This decouples constraint tightness from answer correctness.
 
-## Codebase (GCR)
+**Codebase:** `/home/bernard/research/projects/graph-constrained-reasoning`
 
-The upstream codebase lives at `/home/bernard/research/projects/graph-constrained-reasoning`. Key components:
+---
 
-| Directory | Purpose |
-|-----------|---------|
-| `src/trie.py` | MarisaTrie implementation (C-backed prefix trie) |
-| `src/graph_constrained_decoding.py` | Constrained decoding callback (prefix_allowed_tokens_fn) |
-| `src/llms/` | Model loading registry (GPT, HfCausal, GCR, Proxy) |
-| `workflow/predict_paths_and_answers.py` | Stage 1: constrained path generation |
-| `workflow/predict_final_answer.py` | Stage 2: inductive reasoning over paths |
-| `workflow/predict_symbolic_dca_trie.py` | DCA-Trie v1/v2 with TypeOracle |
-| `experiments/type_oracle_full/` | Full experiment harness (baseline vs v1 vs v2) |
-| `approach3_symbolic/type_oracle.py` | TypeOracle implementation (canonical) |
+## 2. Reference Papers
 
-## Build & Compile
+Three canonical papers govern this paper's writing style. Read them before writing:
 
-### LaTeX compilation
-```bash
-latexmk -pdf -interaction=nonstopmode Final_Thesis.tex
-```
+| Paper | File | Why it matters |
+|-------|------|----------------|
+| **GCR** (Luo et al., ICML 2025) | `papers/Graph-constrained Reasoning: Faithful Reasoning on Knowledge Graphs with Large Language Models.pdf` | Direct baseline. Method-as-argument structure. |
+| **DoG** (Li et al., EMNLP 2024) | `papers/Decoding on Graphs: Faithful and Sound Reasoning on Knowledge Graphs through Generation of Well-Formed Chains.pdf` | Concept-first argumentation. Honest limitations. |
+| **GCD** (Geng et al., ICLR 2024) | `papers/Grammar-Constrained Decoding for Structured NLP Tasks without Finetuning.pdf` | Unified framework positioning. Opinionated best practices. |
 
-### Dependencies
-- TeX Live 2026 with pdflatex, biber, latexmk
-- Packages: biblatex (biber backend), tikz, pgfgantt, algorithm, caption, hyperref
+**Sentence patterns and wording bank:** `reference_summaries/canonical_papers_analysis.md`
 
-## Writing Conventions
+**Human-term summaries:** `reference_summaries/GCR_luo2025_human_summary.md`, `DoG_li2024_human_summary.md`, `GCD_geng2024_human_summary.md`
 
-### Document formatting
-- 12pt, one-and-a-half spacing, Times New Roman (newtxtext/newtxmath)
-- A4 paper: top=1in, bottom=1in, left=1.2in, right=1in
-- No paragraph indentation; paragraph skip of 1em
-- Author-year citation style (biblatex with natbib=true)
+---
 
-### File naming
-- Chapters: `Chapter{N}_{Descriptive_Name}.tex`
-- Appendices: `Appendix{Letter}_{Descriptive_Name}.tex`
-- Main file: `Final_Thesis.tex`
+## 3. Writing Rules (ENFORCED)
 
-### Citation style
-- Use `\citep{key}` for parenthetical citations, `\citet{key}` for textual
-- BibTeX keys follow pattern: `author2024keyword`
-- Max 3 names in citation, all names in bibliography
+**Full rules:** `guides/WRITING_RULES.md`
 
-## Writing Style Rules
+Every agent must follow these rules. Every draft is checked against them. Violations must be fixed before proceeding.
 
-### From guides/humanizing_prose_guide.md
-- **No triadic lists** — vary list lengths (2, 4, or trailing into subordinate clauses)
-- **No hedge-then-assert rhythm** — real hedging is uneven; sometimes just assert
-- **No stock transitions** — avoid "Furthermore, Moreover, Additionally" clusters
-- **No empty intensifiers** — replace "plays a crucial role" with the actual mechanism
-- **No uniform paragraph shape** — mix 2-sentence and long paragraphs
-- **No summary restates** — last sentence must advance, not restate the first
+### Absolute prohibitions (never do these)
 
-### From guides/mcenerney_rubric_dca_trie.md
-- Every paragraph must pass: "Would a GCR/DoG researcher stop to read this?"
-- Organize around **instability**, not definition or cataloguing
-- Each objective must map 1:1 to a specific unresolved tension
-- Results chapter follows conditions (F, R, P), not experiment log order
-- Tables/figures must have prose explaining what they **prove**, not just what they show
+1. **Never end a paragraph with "Its limitation is" / "The limitation is"**
+2. **Never use triadic lists** (lists of exactly 3 items)
+3. **Never use "It is worth noting that"**
+4. **Never use "Furthermore, Moreover, Additionally" clusters**
+5. **Never use "significantly" without a number**
+6. **Never use "This approach enhances" / "This approach achieves" as flat praise**
+7. **Never restate the first sentence as the last sentence**
+8. **Never use bolded lead-in bullets in body prose** (Chapters 1-4)
+9. **Never use decorative Unicode symbols in prose paragraphs**
+10. **Never leave invisible Unicode characters** (`\u00A0`, `\u200B`)
 
-### From guides/Chapter2_revision_notes.md
-- Never use "Its limitation is" / "The limitation is" as a paragraph ending
-- Group papers by shared insight, not one paragraph per paper
-- After every complex sentence, add a short one (under 12 words) with the implication
-- Search and remove: "It is worth noting that", "significantly", "in practice"
+### Required patterns (always do these)
 
-### From guides/typographic_tells_checklist.md
-- Em-dashes: max 2-3 per page in flowing prose
-- No bolded lead-in bullets in body prose (Chapters 1-4)
-- No decorative Unicode symbols (arrows, checkmarks) in prose paragraphs
-- Search and strip `\u00A0` and `\u200B` before submission
-- Semicolons: no more than one per page
+1. **After every complex sentence, add a short one (under 12 words) with the implication**
+2. **Every table/figure must have prose stating what it proves, not just what it shows**
+3. **Every design choice must answer "why this, not the obvious alternative?"**
+4. **Group papers by shared insight, not one paragraph per paper**
+5. **Let some claims stand unhedged** — if FNR is high and explains the drop, say so
+6. **Vary paragraph shape** — mix 2-sentence and long paragraphs
+7. **Vary sentence length** — count words per sentence, break uniformity
+8. **Keep your own inconsistencies** — terminology variation across chapters is natural
+9. **Write evaluative sentences in your own words** — the sentences that say what something *means*
+10. **Compile with `latexmk -pdf -interaction=nonstopmode Final_Thesis.tex` with zero errors**
 
-## Experiment Results
+### Structural requirements
+
+1. **Every paragraph must pass:** "Would a researcher working on GCR, DoG, or constrained decoding stop to read this?"
+2. **State the tension between conditions explicitly:** "Tightening constraints for faithfulness can directly threaten path relevance"
+3. **Limitations section:** honest, specific, falsifiable — not apologetic
+
+---
+
+## 4. Paper Structure
+
+Follow the structure in `guides/dycat ppaper guide.pdf` (extracted to `/tmp/dycat_guide.txt`):
+
+| Section | Pages | Key Content |
+|---------|-------|-------------|
+| Title, Abstract, Keywords | 1 | Strong title, 200-250 word abstract, 5-7 keywords |
+| 1. Introduction | 3 | Background, motivation, problem statement, research gap, contributions, paper organization |
+| 2. Related Work | 3-4 | Hallucination mitigation, KG reasoning, constrained decoding, prompt-based methods, comparison table |
+| 3. Proposed Framework | 5-6 | Architecture, mathematical formulation, TypeOracle, DCA-Trie, SIR, algorithms, complexity |
+| 4. Theoretical Analysis | 2-3 | Correctness, structural faithfulness, search-space reduction, oracle behavior |
+| 5. Experimental Design | 2 | Datasets, baselines, metrics, RQs, hardware |
+| 6. Experimental Results | 3-4 | Performance, runtime, memory, search-space reduction, SIR evaluation |
+| 7. Extended Analysis | 2-3 | Ablation, oracle analysis, sensitivity, efficiency, robustness |
+| 8. Discussion | 2-3 | Why results occurred, implications, limitations, comparison with literature |
+| 9. Conclusion | 1 | Summary, contributions, limitations, future work |
+| References | 3-5 | 60-100 references |
+
+---
+
+## 5. Key Results
 
 | Method | Hits@1 | Hits@k | Path Reduction |
 |--------|--------|--------|----------------|
@@ -122,37 +103,119 @@ latexmk -pdf -interaction=nonstopmode Final_Thesis.tex
 | DCA_v1_Static | 75.9% | 86.0% | 14.5% |
 | DCA_v2_Dynamic | 53.5% | 53.5% | — (interrupted) |
 
-Configuration: `rmanluo/GCR-Meta-Llama-3.1-8B-Instruct`, RoG-webqsp test, beam=10, group-beam, index_length=2, max_new_tokens=256, NVIDIA RTX 4090.
+**Configuration:** `rmanluo/GCR-Meta-Llama-3.1-8B-Instruct`, RoG-webqsp test, beam=10, group-beam, index_length=2, max_new_tokens=256, NVIDIA RTX 4090.
 
-## Key Equations
+**Central tension to state explicitly:** 14.5% path reduction but Hits@1 dropped 5.0%. This decouples constraint tightness from answer correctness. Do not smooth this over — it is the paper's most important finding.
+
+---
+
+## 6. Key Equations
 
 - Oracle specification: `W_val^DCA(t) = f(G, E_q, q, y^{<t})`
 - SIR definition: `SIR = (1/|Q|) * SUM_q (1/L_q) SUM_{t=1}^{L_q} SIR(q,t)`
 - TypeOracle: `is_admissible(r, e', answer_types, hop, max_hop) = type_gate AND range_gate`
 
-## Implementation Plan
+---
 
-See [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) for the full chapter-by-chapter writing plan, including the research evolution from Approach 1 (cosine) → Approach 2 (decomposed) → Approach 3 (symbolic TypeOracle), section-by-section rewrite targets, and figure generation plan.
-
-## Research Evolution: Three Oracle Designs
-
-The thesis developed through three oracle designs before settling on the symbolic TypeOracle. Chapter 3 must show this evolution.
+## 7. Research Evolution
 
 | | Approach 1 (Cosine) | Approach 2 (Decomposed) | Approach 3 (TypeOracle) |
 |---|---|---|---|
 | **Status** | Abandoned | Abandoned | **Final** |
 | **Mechanism** | `cos(MiniLM(path), MiniLM(q))` | `ρ_r × ρ_e × ρ_traj` | Two ontology gates |
-| **Encoder needed** | Yes | Yes | **No** |
-| **Threshold τ** | Yes | Yes | **No** |
-| **Per-path cost** | Forward pass | Forward pass | **O(1) set lookup** |
 | **Why abandoned** | Single score can't distinguish type match from topical overlap; expensive | Still needs encoder; threshold persists | — |
 
-Source code and READMEs for each approach: `content/approach{1,2,3}_*/`
+**Must show this evolution in the paper.** Each abandoned approach is evidence for why the final design took the form it did.
 
-## Scope Boundaries
+---
 
-1. Freebase-based KGQA only (WebQSP, CWQ)
-2. No model fine-tuning — changes reflect oracle design only
-3. Schema-dependent: TypeOracle relies on KG ontology metadata
-4. Conservative admission when schema info is missing
-5. Heuristic question-type inference (pattern matching)
+## 8. Writing Sessions
+
+| Session | Section | Status |
+|---------|---------|--------|
+| 1 | Title + Abstract + Keywords | Done — `paper/01_title_abstract_keywords.tex` |
+| 2 | Introduction | Done — `paper/02_introduction.tex` |
+| 3 | Related Work | Done — `paper/03_related_work.tex` |
+| 4 | Proposed Framework | Done — `paper/04_proposed_framework.tex` |
+| 5 | Theoretical Analysis | Done — `paper/05_theoretical_analysis.tex` |
+| 6 | Experimental Design | Done — `paper/06_experimental_design.tex` |
+| 7 | Results | Done — `paper/07_results.tex` |
+| 8 | Extended Analysis | Done — `paper/08_extended_analysis.tex` |
+| 9 | Discussion | Done — `paper/09_discussion.tex` |
+| 10 | Conclusion | Done — `paper/10_conclusion.tex` |
+
+**Protocol for each session:**
+1. Read the relevant canonical paper section for tone calibration
+2. Read the rules in `guides/WRITING_RULES.md`
+3. Write the section
+4. Run the rule checklist against the draft
+5. Compile with `latexmk -pdf -interaction=nonstopmode Final_Thesis.tex`
+6. Verify zero errors
+
+---
+
+## 9. Reference Protocol
+
+Before writing any section, find the relevant papers from `papers/`, read them with `pdftotext`, and create a one-paragraph human summary capturing:
+- What they claimed
+- How they proved it
+- What they missed
+- How it relates to DCA-Trie
+
+Save summaries to `reference_summaries/`.
+
+---
+
+## 10. Style Calibration
+
+**Openings should destabilize, not define.** Don't start with "LLMs hallucinate." Start with the tension between structural faithfulness and contextual relevance.
+
+**Method reads as argument, not recipe.** Every design choice answers "why this, not the obvious alternative?"
+
+**Results are stated as tension, not as numbers.** "14.5% path reduction but Hits@1 dropped 5%."
+
+**Limitations are evidence, stated with the same confidence as results.** No apologetic tone shift.
+
+**Future work is the next instability, not a wish list.**
+
+---
+
+## 11. Humanizing Rules
+
+**From `guides/humanizing_prose_guide.md`:**
+
+- No triadic lists
+- No hedge-then-assert rhythm
+- No stock transitions
+- No empty intensifiers
+- No uniform paragraph shape
+- No summary restates
+- No "It is worth noting that"
+- No "significantly" without numbers
+- No "Its limitation is" as paragraph ending
+- Vary sentence length on purpose
+- Let some claims stand unhedged
+- Keep your own inconsistencies
+- Write evaluative sentences in your own words
+
+---
+
+## 12. Pre-Submission Checklist
+
+Before submitting any draft:
+
+- [ ] No "Its limitation is" / "The limitation is" as paragraph endings
+- [ ] No "It is worth noting that" anywhere
+- [ ] No triadic lists (all length 3)
+- [ ] No "Furthermore" / "Moreover" / "Additionally" clusters
+- [ ] Em-dashes: max 2-3 per page
+- [ ] Semicolons: max 1 per page
+- [ ] Bold-lead-in bullets removed from body prose
+- [ ] Every table/figure has prose stating what it proves
+- [ ] All cross-references resolve
+- [ ] Run `latexmk -pdf -interaction=nonstopmode Final_Thesis.tex` with zero errors
+- [ ] Plain-text pass strips `\u00A0` and `\u200B`
+
+---
+
+*This file is the binding contract. Every agent working on this paper must follow these rules. Every draft is checked against them.*

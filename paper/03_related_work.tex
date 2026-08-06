@@ -1,0 +1,191 @@
+% =============================================================================
+% SECTION 2: RELATED WORK
+% =============================================================================
+
+\section{Related Work}
+\label{sec:related}
+
+This section organizes the literature around four competing approaches to the same
+problem: generating text that is both fluent and factually grounded. Each subsection
+identifies what the approach achieves and where it stops, building toward the specific
+gap that DCA-Trie addresses.
+
+% -----------------------------------------------------------------------------
+\subsection{Hallucination Mitigation}
+\label{sec:related:hallucination}
+% -----------------------------------------------------------------------------
+
+The most widely deployed defense against hallucination is retrieval-augmented generation
+(RAG)~\citep{lewis2020rag}. A dense retriever selects passages by embedding similarity,
+and the LLM generates from the retrieved context. Extensions such as
+FLARE~\citep{jiang2023flare} trigger retrieval when next-token confidence drops, and
+IRCoT~\citep{trivedi2022ircot} interleaves retrieval with chain-of-thought steps to
+improve multi-hop accuracy. Self-RAG~\citep{asai2024selfrag} adds reflection tokens
+that control when to retrieve and whether retrieved passages support the generated
+claims.
+
+These methods share a structural limitation. The retriever determines what the LLM
+\textit{sees}; it does not determine what the LLM is \textit{permitted to generate}.
+Because the generation mechanism remains unchanged, any token in the vocabulary retains
+a positive probability at every step, including tokens that correspond to no verified
+fact. Structural faithfulness with probability one cannot be achieved under any
+architecture that modifies only the input context without modifying the token selection
+mechanism~\citep{geng2023grammarconstrained, luo2025-graph-constrained-reasoning}.
+
+Chain-of-thought (CoT) prompting~\citep{wei2022cot} takes a different approach:
+rather than retrieving facts, it elicits intermediate reasoning steps that decompose
+complex questions into simpler sub-problems. Self-consistency~\citep{wang2023selfconsistency}
+samples multiple independent CoT chains and selects the final answer by majority vote,
+reducing sensitivity to individual hallucinated chains. Tree-of-Thought~\citep{yao2023-tree-of-thought}
+treats generation as search through a tree of partial reasoning sequences, using the LLM
+as both generator and evaluator for pruning.
+
+All prompting-based methods modify the \textit{input} to the LLM without modifying the
+\textit{generation mechanism}. A CoT chain can be entirely fluent and internally coherent
+while containing fabricated intermediate steps. Self-consistency reduces this risk through
+redundancy, but a majority of independently hallucinated chains can still produce an
+incorrect answer. Tree-of-Thought relies on the model's own parameters for pruning
+decisions, without external verification. True structural faithfulness requires that
+invalid tokens receive exactly zero probability, achievable only by altering the decoding
+algorithm itself~\citep{geng2023grammarconstrained, willard2023outlines}.
+
+% -----------------------------------------------------------------------------
+\subsection{Knowledge Graph Reasoning}
+\label{sec:related:kg}
+% -----------------------------------------------------------------------------
+
+Knowledge graphs encode verified facts as directed, labelled triplets
+$(e, r, e')$~\citep{bollacker2008freebase}. KGQA requires identifying the answer
+entity by traversing chains of these triplets. Benchmarks such as
+WebQSP~\citep{yih2016websqp} and Complex WebQuestions~\citep{talmor2018cwq} evaluate
+multi-hop path traversal over Freebase, demanding adherence to graph topology.
+
+Early KGQA methods relied on semantic parsing: transforming questions into logical
+queries (e.g., SPARQL) for execution over the
+KG~\citep{lan2022survey}. These approaches guarantee faithfulness because answers are
+produced by verified graph operations. The requirement of training on ground-truth
+logical forms, and the non-executability of model-generated queries due to syntax or
+semantic errors, limits their practical deployment~\citep{lan2022survey}.
+
+Retrieval-based methods use LLMs to extract relevant subgraphs or paths from the KG.
+RoG~\citep{luo2024rog} trains a reasoning path planner that retrieves candidate paths
+and generates natural language explanations. GNN-RAG~\citep{mavromatis2022rearev}
+combines graph neural networks with language models for retrieval over structured data.
+These methods improve relevance by filtering the KG, but the retrieved context remains
+a soft signal: it influences generation without constraining it.
+
+Agent-based methods treat the LLM as an reasoning agent that iteratively queries the
+KG. ToG~\citep{sun2024tog} prompts the LLM to explore relevant facts hop-by-hop using
+beam search on the KG. StructGPT~\citep{jiang2023structgpt} interfaces the LLM with
+structured data through iterative retrieval. These approaches are flexible but depend
+on the LLM's instruction-following ability and are slow due to multiple KG queries per
+question.
+
+The shared limitation across retrieval-based and agent-based KG reasoning is that
+retrieved context is a soft influence. The retriever or agent selects what the LLM
+observes; the LLM retains the freedom to generate any token. Even with perfect retrieval,
+hallucination remains structurally possible.
+
+% -----------------------------------------------------------------------------
+\subsection{Constrained Decoding}
+\label{sec:related:constrained}
+% -----------------------------------------------------------------------------
+
+Constrained decoding restricts generation to a predefined valid set at each step by
+directly intervening in the decoding mechanism. Unlike prompting or retrieval, which
+modify the input to the LLM, constrained decoding alters the token selection process
+itself. Invalid tokens receive zero probability before sampling, making their generation
+structurally impossible.
+
+\textbf{Format-constrained methods.} Grammar-constrained decoding
+(GCD)~\citep{geng2023grammarconstrained} constrains generation to strings conforming to
+a context-free grammar via an Earley parser oracle. Outlines~\citep{willard2023outlines}
+reduces the computational cost with a finite-state machine (FSM) formulation,
+precomputing an index from automaton states to valid vocabulary subsets for amortised
+$O(1)$ lookup. Additional methods include Synchromesh~\citep{poesia2022synchromesh} for
+program synthesis, PICARD~\citep{scholak2021picard} for schema-constrained SQL parsing,
+and NeuroLogic Decoding~\citep{lu2021neurologic} for propositional logic constraints.
+
+These methods enforce output \textit{format} rather than \textit{factual content}. A
+grammatically valid SQL query can reference non-existent tables. A well-formed entity
+name can be factually incorrect. The extension from format constraints to KG path
+constraints requires a constraint oracle that encodes the relational structure of the
+knowledge graph itself.
+
+\textbf{KG-constrained methods.} Graph-Constrained Reasoning
+(GCR)~\citep{luo2025-graph-constrained-reasoning} builds a KG-Trie: a prefix tree of
+all KG paths within $L$ hops of the question entities, created by breadth-first search
+before generation. The trie is used as the constraint oracle during beam-search
+decoding. GCR achieves 92.6\% Hits@1 on WebQSP with 100\% structural faithfulness
+using a Llama-3.1-8B backbone. The trie is constructed once and never updated: the
+valid token set is fixed regardless of what has been generated.
+
+Decoding on Graphs (DoG)~\citep{li2024-decoding-on-graphs} addresses GCR's static
+oracle through step-wise trie expansion. After locking in an entity, the constraint
+trie is expanded with all KG neighbors of that entity, making the oracle topologically
+dynamic. DoG achieves 91.0\% Hits@1 on WebQSP with 100\% structural faithfulness.
+However, the expansion rule admits all neighbors regardless of relevance to the question,
+and step-wise trie reconstruction introduces computational overhead.
+
+RouterKGQA~\citep{yuan2026routerkgqa} routes between a specialized KG-reasoning model
+and a general LLM based on question complexity, using SBERT embeddings for post-hoc
+answer filtering. RouterKGQA's semantic scoring operates at the answer selection level
+rather than at the token constraint level: paths are generated first, then filtered
+afterward.
+
+\textbf{The gap.} All three KG-constrained methods determine their constraint sets
+from graph structure and question entities alone. None conditions the valid token set on
+question semantics or the partially generated chain. The constraint set is indifferent
+to whether a path is actually related to the question being asked. On multi-hop questions,
+this produces valid token sets containing thousands of structurally correct but
+semantically irrelevant paths, forcing the LLM to navigate among them using its own
+knowledge and reintroducing the hallucination risk that constrained decoding was designed
+to eliminate.
+
+% -----------------------------------------------------------------------------
+\subsection{Comparison and Research Gap}
+\label{sec:related:gap}
+% -----------------------------------------------------------------------------
+
+Table~\ref{tab:related_comparison} compares the approaches reviewed above along four
+dimensions: whether the method enforces structural faithfulness (the generation
+mechanism, not just the input), whether the constraint set adapts during decoding,
+whether semantic relevance enters the constraint formation, and the type of oracle used.
+
+\begin{table}[htpb]
+  \centering
+  \caption{Comparison of KG-grounded reasoning methods. \textbf{Dynamic} indicates
+  whether the constraint set changes during decoding. \textbf{Semantic} indicates
+  whether question meaning enters the constraint oracle. The oracle type shows what
+  drives constraint formation.}
+  \label{tab:related_comparison}
+  \small
+  \begin{tabular}{@{}lcccl@{}}
+    \toprule
+    Method        & Structural & Dynamic & Semantic & Oracle Type    \\
+    \midrule
+    RAG           & No         & No      & Soft     & Retriever      \\
+    CoT           & No         & No      & No       & None           \\
+    Self-RAG      & No         & No      & Soft     & Reflection     \\
+    GCD           & Format     & No      & No       & Grammar/FSM    \\
+    Outlines      & Format     & No      & No       & FSM-index      \\
+    GCR           & Yes        & No      & No       & Static KG-Trie \\
+    DoG           & Yes        & Partial & No       & Topology       \\
+    RouterKGQA    & Prob.      & No      & Yes      & SBERT filter   \\
+    \textbf{DCA-Trie} & \textbf{Yes} & \textbf{Yes} & \textbf{Yes} & \textbf{TypeOracle} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The table reveals a structural division. Methods above GCR achieve either semantic
+awareness (RAG, RouterKGQA) or structural faithfulness (GCD, Outlines), but not both.
+GCR and DoG achieve structural faithfulness but lack semantic awareness: their constraint
+oracles are indifferent to question meaning. No existing method achieves all three:
+structural faithfulness, dynamic adaptation, and semantic conditioning at the constraint
+level.
+
+DCA-Trie fills this gap. Its TypeOracle conditions the valid token set on the knowledge
+graph, the question semantics, and the partially generated chain. The constraint set
+adapts at every decoding step, and only semantically relevant paths are admitted. The
+result is a method that achieves structural faithfulness while reducing the search space
+to paths the LLM actually needs to consider.

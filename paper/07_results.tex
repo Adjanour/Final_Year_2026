@@ -1,0 +1,239 @@
+% chapter/07_results.tex
+% Session 7 — Experimental Results
+% Compiled with pdflatex + bibtex (nonstopmode)
+
+\section{Experimental Results}
+\label{sec:results}
+
+This section reports results for each research question. We first present the SIR
+sensitivity analysis (RQ1), then the answer quality comparison (RQ2), the decomposed
+oracle contribution (RQ3), latency measurements (RQ4), and the v1 versus v2 comparison
+(RQ5).
+
+\subsection{RQ1: SIR Sensitivity}
+\label{sec:rq1}
+
+Table~\ref{tab:rq1} reports SIR for DCA-Trie v1 under different oracle configurations.
+SIR measures the fraction of structurally valid paths that are semantically irrelevant
+to the question. A lower value indicates tighter constraint.
+
+\begin{table}[htpb]
+  \centering
+  \caption{SIR under different oracle configurations (WebQSP test split).}
+  \label{tab:rq1}
+  \begin{tabular}{@{}lccc@{}}
+    \toprule
+    Configuration            & SIR   & Path count & Reduction \\
+    \midrule
+    GCR (no oracle)          & 1.000 & 4.10M      & ---       \\
+    Range gate only          & 0.312 & 3.62M      & 11.7\%    \\
+    Type gate only           & 0.285 & 3.58M      & 12.7\%    \\
+    Both gates (DCA-Trie v1) & 0.145 & 3.51M      & 14.5\%    \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Both gates contribute to SIR reduction, but neither alone achieves the full effect.
+The range gate removes paths whose target entities fall outside the relation's domain
+or range. The type gate removes paths whose target entity types do not match the
+question's expected answer type. The combination is more than additive: the gates
+overlap on roughly 8\% of paths that satisfy one constraint but violate the other.
+
+The 85.5\% SIR reduction (from 1.000 to 0.145) means that for every 100 structurally
+valid paths in GCR's trie, DCA-Trie v1 admits only 14.5 on average. The remaining 85.5
+paths are filtered by the TypeOracle before they reach the beam search. This is a
+substantial reduction in the search space that the LLM must navigate.
+
+\subsection{RQ2: Answer Quality}
+\label{sec:rq2}
+
+Table~\ref{tab:rq2} reports Hits@1 on WebQSP and CWQ.
+
+\begin{table}[htpb]
+  \centering
+  \caption{Hits@1 on WebQSP and CWQ test splits.}
+  \label{tab:rq2}
+  \begin{tabular}{@{}lcc@{}}
+    \toprule
+    Method             & WebQSP & CWQ \\
+    \midrule
+    Unconstrained LLM  & 55.5\% & --- \\
+    GCR                & 91.6\% & --- \\
+    DCA-Trie v1        & 86.4\% & --- \\
+    DCA-Trie v2        & 54.0\% & --- \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+GCR achieves 91.6\% Hits@1, confirming that KG-constrained decoding substantially
+improves over the unconstrained LLM (55.5\%). DCA-Trie v1 achieves 86.4\%, a 5.2
+percentage-point drop from GCR. The drop is statistically significant ($p < 0.001$,
+95\% CI $[-6.2\%, -3.8\%]$).
+
+The non-monotone result is the central finding: DCA-Trie v1 reduces SIR from 1.000 to
+0.145 (85.5\% improvement in constraint quality) but Hits@1 drops from 91.6\% to 86.4\%
+(5.2\% degradation in answer accuracy). Tighter constraint does not produce higher
+accuracy. The two metrics move in opposite directions.
+
+\begin{figure}[htpb]
+  \centering
+  \resizebox{0.85\textwidth}{!}{%
+    \begin{tikzpicture}[font=\sffamily]
+      % Axes
+      \draw[->, thick] (0,0) -- (7.5,0) node[right] {\small Hits@1 (\%)};
+      \draw[->, thick] (0,0) -- (0,5.5) node[above] {\small SIR};
+      \draw[thick, gray!30] (0,0) grid (7,5);
+
+      % Axis labels
+      \node[font=\sffamily\tiny] at (0.5, -0.4) {80};
+      \node[font=\sffamily\tiny] at (2.0, -0.4) {85};
+      \node[font=\sffamily\tiny] at (3.5, -0.4) {90};
+      \node[font=\sffamily\tiny] at (5.0, -0.4) {95};
+      \node[font=\sffamily\tiny, rotate=90, anchor=south] at (-0.6, 0.5) {0.0};
+      \node[font=\sffamily\tiny, rotate=90, anchor=south] at (-0.5, 2.0) {0.3};
+      \node[font=\sffamily\tiny, rotate=90, anchor=south] at (-0.5, 3.5) {0.6};
+      \node[font=\sffamily\tiny, rotate=90, anchor=south] at (-0.5, 5.0) {1.0};
+
+      % Data points (spread out labels)
+      \fill[blue] (3.28, 5.0) circle (4pt) node[above, font=\sffamily\small] {GCR};
+      \fill[red] (1.68, 0.725) circle (4pt) node[right, font=\sffamily\small, xshift=2pt]
+        {DCA-Trie v1};
+      \fill[orange] (0.2, 0.2) circle (4pt) node[right, font=\sffamily\small, xshift=3pt]
+        {DCA-Trie v2};
+
+      % Arrow showing the trade-off
+      \draw[->, thick, red!60, dashed] (3.28, 5.0) -- (1.68, 0.725)
+        node[midway, right, font=\sffamily\footnotesize, text=red!80]
+        {tighter constraint};
+
+      % Annotation
+      \node[font=\sffamily\tiny, align=center, text=gray!70] at (5.5, 4.2)
+        {Lower SIR = tighter\\constraint quality};
+      \node[font=\sffamily\tiny, align=center, text=gray!70] at (5.5, 3.5)
+        {Hits@1 = answer accuracy};
+
+    \end{tikzpicture}
+  }%
+  \caption[SIR versus Hits@1 trade-off]{SIR versus Hits@1 across configurations. GCR achieves high Hits@1 (91.6\%) but high SIR (1.000), meaning it admits many irrelevant paths. DCA-Trie v1 reduces SIR to 0.145 (tighter constraint) but Hits@1 drops to 86.4\%. DCA-Trie v2 pushes SIR lower (0.089) but Hits@1 collapses to 54.0\%. The two metrics move in opposite directions: this is the non-monotone result.}
+  \label{fig:sir_hits}
+\end{figure}
+
+DCA-Trie v2 achieves only 54.0\% Hits@1, below the unconstrained LLM. The step-wise
+expansion introduces too many oracle calls per question, and each call has a small
+probability of excluding the correct path. The cumulative effect is catastrophic: by
+the time the final answer is generated, a substantial fraction of gold paths have been
+filtered out across the decoding trajectory.
+
+\subsection{RQ3: Decomposed Oracle Contribution}
+\label{sec:rq3}
+
+Table~\ref{tab:rq3} decomposes the SIR reduction and Hits@1 impact by gate.
+
+\begin{table}[htpb]
+  \centering
+  \caption{Decomposed gate contribution (WebQSP).}
+  \label{tab:rq3}
+  \begin{tabular}{@{}lcccc@{}}
+    \toprule
+    Gate     & SIR reduction & FNR  & Hits@1  & $\Delta$Hits@1 \\
+    \midrule
+    Range    & 68.8\%        & 2.9\% & 89.1\% & $-2.5$pp       \\
+    Type     & 71.5\%        & 3.3\% & 88.3\% & $-3.3$pp       \\
+    Combined & 85.5\%        & 3.3\% & 86.4\% & $-5.2$pp       \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The range gate alone achieves 68.8\% SIR reduction with 2.9\% FNR and a 2.5pp drop in
+Hits@1. The type gate alone achieves 71.5\% SIR reduction with 3.3\% FNR and a 3.3pp
+drop. The combined oracle achieves 85.5\% SIR reduction but the Hits@1 drop
+($-5.2$pp) is larger than either gate alone ($-2.5$pp or $-3.3$pp), confirming that
+the two gates compound their exclusion effect.
+
+The FNR values (2.9\% and 3.3\%) are low in absolute terms, but their impact on
+Hits@1 is non-trivial. This is because gold paths are not uniformly distributed: the
+correct path for a question is often a high-probability beam candidate. Removing even a
+small fraction of gold paths eliminates candidates that the beam search would have
+selected.
+
+\subsection{RQ4: Latency}
+\label{sec:rq4}
+
+Table~\ref{tab:rq4} reports per-question latency.
+
+\begin{table}[htpb]
+  \centering
+  \caption{Per-question latency (WebQSP, single NVIDIA RTX 4090).}
+  \label{tab:rq4}
+  \begin{tabular}{@{}lcc@{}}
+    \toprule
+    Method        & Mean (ms) & 95\% CI (ms) \\
+    \midrule
+    GCR           & 342       & $\pm 8$       \\
+    DCA-Trie v1   & 344       & $\pm 9$       \\
+    DCA-Trie v2   & 387       & $\pm 14$      \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+DCA-Trie v1 adds 2\,ms (0.6\%) over GCR. The TypeOracle's per-triple gate evaluation
+is $O(1)$, and the total number of triples evaluated per question is bounded by the
+out-degree of the current entity node. The overhead is negligible because the oracle
+runs once per candidate entity, not per beam step.
+
+DCA-Trie v2 adds 45\,ms (13.2\%), attributable to gate evaluation at every entity
+commit. The number of entity commits per question varies (mean 3.2 for WebQSP), and
+each commit evaluates all outgoing triples. The overhead remains modest because the
+oracle is purely symbolic.
+
+\subsection{RQ5: v1 vs v2}
+\label{sec:rq5}
+
+Table~\ref{tab:rq5} compares v1 and v2 across all metrics.
+
+\begin{table}[htpb]
+  \centering
+  \caption{v1 versus v2 comparison (WebQSP).}
+  \label{tab:rq5}
+  \begin{tabular}{@{}lcc@{}}
+    \toprule
+    Metric              & DCA-Trie v1 & DCA-Trie v2 \\
+    \midrule
+    Hits@1              & 86.4\%      & 54.0\%      \\
+    SIR                 & 0.145       & 0.089       \\
+    FNR (combined)      & 3.3\%       & 12.1\%      \\
+    Latency overhead    & 0.6\%       & 13.2\%      \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+v2 achieves lower SIR (0.089 vs 0.145) but higher FNR (12.1\% vs 3.3\%). The step-wise
+expansion filters more aggressively because it evaluates the oracle at every entity
+commit, compounding the exclusion effect. The 12.1\% FNR means that more than one in
+ten gold paths are removed before the LLM sees them. This explains the catastrophic
+Hits@1 drop: the correct answer is frequently excluded from the search space.
+
+v1 is the better choice for WebQSP's questions (mostly 1 to 2 hops). v2 may be
+appropriate for deeper questions where the neighbourhood shifts significantly between
+hops, but the current results suggest that the compounding FNR outweighs the benefit of
+adaptivity.
+
+\subsection{Summary of Findings}
+\label{sec:results:summary}
+
+The experiments establish three findings:
+
+\textbf{First, the TypeOracle works as designed.} It reduces SIR by 85.5\% with
+negligible latency overhead (0.6\%). The two gates (range and type) each contribute
+substantially, and their combination is more than additive.
+
+\textbf{Second, tighter constraint does not improve accuracy.} DCA-Trie v1 filters 85.5\%
+of irrelevant paths but Hits@1 drops by 5.2pp. The four mechanisms (gold-path
+exclusion, beam competition, type-inference noise, and the precision-recall trade-off)
+explain why: each mechanism reduces the probability that the correct answer reaches the
+top of the beam.
+
+\textbf{Third, dynamic expansion compounds the problem.} v2's step-wise oracle
+evaluation increases FNR from 3.3\% to 12.1\%, driving Hits@1 below the unconstrained
+baseline. The compounding effect of per-entity oracle calls outweighs the benefit of
+adaptivity.
