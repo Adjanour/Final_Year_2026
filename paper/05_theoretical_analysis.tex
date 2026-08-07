@@ -127,7 +127,7 @@ distributions over questions and LLMs such that constraining to $\mathcal{W}_1$ 
 Hits@1 relative to $\mathcal{W}_2$, even when $p^* \in \mathcal{W}_1$.
 \end{proposition}
 
-\begin{proof}
+\begin{proof}[Argument]
 Consider a beam search with beam width $k$. At each step, the beam retains the $k$
 highest-scoring partial paths. Under $\mathcal{W}_2$ (GCR), the beam contains $k$
 diverse paths, some of which may be semantically irrelevant but structurally valid.
@@ -150,6 +150,18 @@ incorrectly removes the gold path. Hits@1 depends on both: the LLM must find the
 path among the admitted paths (requiring $R > 0$) and rank it first (requiring low
 noise from irrelevant paths, which $P$ controls). Optimising $P$ at the expense of $R$
 does not necessarily improve Hits@1.
+
+\textit{Derivation of the bound.} The gold path must be both admitted (probability $R$)
+and ranked first by the beam search. Given $k$ beams, the probability that at least one
+irrelevant path outranks the gold path is $1 - (1-P)^k$ when irrelevant paths are
+distributed uniformly across beam positions. The probability that the gold path is
+admitted and ranked first is therefore at most $R \cdot (1 - P)^k$. But the beam can
+also select the gold path from a position that was not the top scorer: the bound
+relaxes to $\text{Hits@1} \leq \min(R,\; 1 - (1-P)^k)$. When $R$ is high but $P$ is
+low (many irrelevant paths), the second term dominates: even though the gold path is
+admitted, beam noise prevents it from ranking first. When $P$ is high but $R$ is low
+(gold path frequently excluded), the first term dominates: the gold path is not in the
+beam at all.
 
 \begin{equation}
   \text{Hits@1} \leq \min\!\bigl(R,\; 1 - (1 - P)^k\bigr)

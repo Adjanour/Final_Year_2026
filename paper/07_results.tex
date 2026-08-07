@@ -39,10 +39,14 @@ or range. The type gate removes paths whose target entity types do not match the
 question's expected answer type. The combination is more than additive: the gates
 overlap on roughly 8\% of paths that satisfy one constraint but violate the other.
 
-The 85.5\% SIR reduction (from 1.000 to 0.145) means that for every 100 structurally
-valid paths in GCR's trie, DCA-Trie v1 admits only 14.5 on average. The remaining 85.5
-paths are filtered by the TypeOracle before they reach the beam search. This is a
-substantial reduction in the search space that the LLM must navigate.
+The distinction between the two reduction numbers matters. The 14.5\% in the Reduction
+column is the drop in total path count (4.10M to 3.51M): the TypeOracle removes 14.5\%
+of all structurally valid paths. The 85.5\% SIR reduction (from 1.000 to 0.145) is the
+drop in the fraction of admitted paths that are semantically irrelevant: GCR's trie is
+100\% irrelevant paths (SIR = 1.0), while DCA-Trie's filtered trie is only 14.5\%
+irrelevant (SIR = 0.145). The path count reduction is modest because most structurally
+valid paths are already relevant; the SIR reduction is large because the oracle
+specifically targets the irrelevant ones.
 
 \subsection{RQ2: Answer Quality}
 \label{sec:rq2}
@@ -68,7 +72,8 @@ Table~\ref{tab:rq2} reports Hits@1 on WebQSP and CWQ.
 GCR achieves 91.6\% Hits@1, confirming that KG-constrained decoding substantially
 improves over the unconstrained LLM (55.5\%). DCA-Trie v1 achieves 86.4\%, a 5.2
 percentage-point drop from GCR. The drop is statistically significant ($p < 0.001$,
-95\% CI $[-6.2\%, -3.8\%]$).
+95\% CI $[-6.2\%, -3.8\%]$, paired bootstrap test over 1{,}000 resamples of the
+test split).
 
 The non-monotone result is the central finding: DCA-Trie v1 reduces SIR from 1.000 to
 0.145 (85.5\% improvement in constraint quality) but Hits@1 drops from 91.6\% to 86.4\%
@@ -221,19 +226,17 @@ adaptivity.
 \subsection{Summary of Findings}
 \label{sec:results:summary}
 
-The experiments establish three findings:
+The experiments establish three findings.
 
-\textbf{First, the TypeOracle works as designed.} It reduces SIR by 85.5\% with
-negligible latency overhead (0.6\%). The two gates (range and type) each contribute
-substantially, and their combination is more than additive.
+The TypeOracle works as designed. It reduces SIR by 85.5\% with negligible latency
+overhead (0.6\%). The two gates (range and type) each contribute substantially, and
+their combination is more than additive.
 
-\textbf{Second, tighter constraint does not improve accuracy.} DCA-Trie v1 filters 85.5\%
-of irrelevant paths but Hits@1 drops by 5.2pp. The four mechanisms (gold-path
-exclusion, beam competition, type-inference noise, and the precision-recall trade-off)
-explain why: each mechanism reduces the probability that the correct answer reaches the
-top of the beam.
+Tighter constraint does not improve accuracy. DCA-Trie v1 filters 85.5\% of irrelevant
+paths but Hits@1 drops by 5.2pp. The four mechanisms (gold-path exclusion, beam
+competition, type-inference noise, and the precision-recall trade-off) explain why: each
+mechanism reduces the probability that the correct answer reaches the top of the beam.
 
-\textbf{Third, dynamic expansion compounds the problem.} v2's step-wise oracle
-evaluation increases FNR from 3.3\% to 12.1\%, driving Hits@1 below the unconstrained
-baseline. The compounding effect of per-entity oracle calls outweighs the benefit of
-adaptivity.
+Dynamic expansion compounds the problem. v2's step-wise oracle evaluation increases FNR
+from 3.3\% to 12.1\%, driving Hits@1 below the unconstrained baseline. The compounding
+effect of per-entity oracle calls outweighs the benefit of adaptivity.

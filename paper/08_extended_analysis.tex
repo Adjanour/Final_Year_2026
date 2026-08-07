@@ -187,21 +187,16 @@ artifact of beam width.
 \subsection{Summary}
 \label{sec:analysis:summary}
 
-The extended analysis isolates four mechanisms behind the non-monotone result:
-
-\textbf{Gold-path exclusion.} The TypeOracle's FNR of 3.3\% removes gold paths that
-the beam search would have selected. The effect is super-additive when both gates
-overlap.
-
-\textbf{Beam competition.} Fewer paths reduce diversity in the beam, causing beams to
-converge to similar solutions. The correct answer may appear in a pruned beam.
-
-\textbf{Type-inference noise.} The regex classifier's 85\% accuracy introduces
-misclassifications that propagate across hops. Even a perfect classifier would leave a
-3.8pp gap from GCR, attributable to structural effects.
-
-\textbf{Precision-recall trade-off.} Tighter constraints improve precision (fewer
-irrelevant paths) but reduce recall (fewer total paths). Accuracy depends on both.
+The extended analysis isolates four mechanisms behind the non-monotone result.
+Gold-path exclusion explains part of the drop: the TypeOracle's FNR of 3.3\% removes
+gold paths that the beam search would have selected. The effect is super-additive when
+both gates overlap. Beam competition explains another part: fewer paths reduce diversity
+in the beam, causing beams to converge to similar solutions. The correct answer may
+appear in a pruned beam. Type-inference noise contributes as well: the regex classifier's
+85\% accuracy introduces misclassifications that propagate across hops. Even a perfect
+classifier would leave a 3.8pp gap from GCR, attributable to structural effects. The
+precision-recall trade-off underlies all of these: tighter constraints improve precision
+(fewer irrelevant paths) but reduce recall (fewer total paths). Accuracy depends on both.
 
 These mechanisms are not specific to the TypeOracle. Any constraint oracle that removes
 paths will exhibit similar trade-offs. The non-monotone result is a structural property

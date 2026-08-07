@@ -262,9 +262,9 @@ filters paths at each hop.
 
       \node[gate, fill=red!8] at (9, -4.5) {
         \textbf{Hop 2: Rejected}\\
-        Melania Trump: Person $\in$ \{Person\} \checkmark\\
-        but married\_to range: \{Person\},\\
-        excluded by beam competition
+        Melania Trump: passes both gates\\
+        (Person $\in$ \{Person\} \checkmark),\\
+        but excluded by beam competition
       };
 
       % Step labels
@@ -320,13 +320,26 @@ fixed reference threshold $\tau_{\text{ref}}$:
   \label{eq:irrelevant}
 \end{equation}
 where $E(\cdot)$ is the \texttt{all-MiniLM-L6-v2} sentence encoder and
-$\tau_{\text{ref}} = 0.3$ is a fixed reference threshold, not tuned. The step-level
-SIR is:
+$\tau_{\text{ref}} = 0.3$ is a fixed reference threshold, not tuned to any dataset. We
+use the same \texttt{all-MiniLM-L6-v2} encoder here that we rejected for the oracle
+(Section~\ref{sec:method:oracle:type}), but for a different purpose: the oracle must
+make correct decoding decisions in real time, where threshold sensitivity directly
+degrades answer quality. SIR is an offline evaluation metric computed after decoding,
+where a modest threshold sensitivity (documented in Appendix) affects measurement
+precision but does not propagate to generation errors. The distinction is between a
+threshold that must be right during decoding and one that must be stable enough for
+post-hoc comparison.
+
+\begin{definition}[Semantic Irrelevance Ratio]
+\label{def:sir}
+For a question $q$ at decoding step $t$, let $\mathcal{P}(q, t)$ be the set of paths
+the oracle admits. The step-level SIR is:
 \begin{equation}
   \text{SIR}(q, t) = \frac{|\{p \in \mathcal{P}(q,t) :
   \text{irrelevant}(p, q)\}|}{|\mathcal{P}(q, t)|}
   \label{eq:sir_step}
 \end{equation}
+\end{definition}
 
 Corpus-level SIR averages over all questions and all hops:
 \begin{equation}
@@ -362,17 +375,20 @@ Person) but the beam ranks it lower due to weaker semantic alignment. DCA-Trie's
 hop 2 is $0/2 = 0.0$: only the two relevant paths remain in the constraint set.
 
 Corpus-level, GCR achieves $\overline{\text{SIR}} = 1.0$ (all paths admitted, no
-filtering). DCA-Trie achieves $\overline{\text{SIR}} = 0.145$ (85.5\% of irrelevant
-paths removed). The gap between these numbers measures how much the TypeOracle narrows
-the search space. Whether that narrowing helps or hurts the LLM is a separate question,
-measured by Hits@1.
+filtering).\footnote{GCR's SIR = 1.0 is a normalisation convention: GCR admits all
+structurally valid paths without any semantic filtering, so its SIR serves as the
+reference point against which other oracles are measured. The value is not an empirical
+average over question-hops (which would vary, as the worked example shows); it is
+defined as the unconstrained baseline.} DCA-Trie achieves
+$\overline{\text{SIR}} = 0.145$ (85.5\% of irrelevant paths removed). The gap between
+these numbers measures how much the TypeOracle narrows the search space. Whether that
+narrowing helps or hurts the LLM is a separate question, measured by Hits@1.
 
-\textbf{Why use cosine similarity for SIR but not for the oracle?} SIR is an
-evaluation metric, not a decoding component. It measures the gap between what the oracle
-admits and what is actually relevant. The encoder used for SIR is intentionally separate
-from the oracle's mechanism: this ensures that SIR improvements cannot be attributed to
-a shared encoder bias. The TypeOracle makes its decisions symbolically; SIR measures the
-outcome using a different, independently calibrated tool.
+SIR is an evaluation metric, not a decoding component. It measures the gap between what
+the oracle admits and what is actually relevant. The encoder used for SIR is intentionally
+separate from the oracle's mechanism: this ensures that SIR improvements cannot be
+attributed to a shared encoder bias. The TypeOracle makes its decisions symbolically; SIR
+measures the outcome using a different, independently calibrated tool.
 
 Table~\ref{tab:sir_result} shows the SIR results on WebQSP. The TypeOracle reduces
 $\overline{\text{SIR}}$ from 1.0 to 0.145 --- an 85.5\% reduction in semantically
@@ -447,11 +463,9 @@ adding semantic selectivity as a preprocessing step.
 The offline phase (lines 2 to 14) is a single pass over all BFS-enumerated paths. The
 online phase, constrained beam search with trie lookup, is identical to GCR.
 Semantic selectivity is therefore a one-time cost with no per-step overhead beyond
-trie lookup.
-
-\textbf{Complexity.} Building $\mathcal{T}^{\text{v1}}$ costs $O(|\mathcal{P}| \cdot
-L)$ for path enumeration and $O(|\mathcal{P}|)$ for gate evaluation (each gate is
-$O(1)$). During decoding, trie lookup is $O(L)$, matching GCR. Memory scales as
+trie lookup. Building $\mathcal{T}^{\text{v1}}$ costs $O(|\mathcal{P}| \cdot L)$ for
+path enumeration and $O(|\mathcal{P}|)$ for gate evaluation (each gate is $O(1)$).
+During decoding, trie lookup is $O(L)$, matching GCR. Memory scales as
 $O(|\mathcal{P}_{\text{filtered}}| \cdot L)$, typically much smaller than GCR's
 $O(|\mathcal{P}| \cdot L)$ because the TypeOracle removes the majority of structurally
 reachable but semantically irrelevant paths.
@@ -518,17 +532,15 @@ neighbour of the committed entity.
   \end{algorithmic}
 \end{algorithm}
 
-\textbf{Why expand only at entity commits?} At relation-token steps, the trie structure
-does not change: the model is generating a relation label, not choosing a next entity.
-Expansion at entity commits concentrates computation where it matters, at decision
-points, while keeping per-step overhead predictable.
-
-\textbf{Complexity.} Per-step lookup is $O(L)$, matching GCR. At entity commits, gate
-evaluation costs $O(|\mathcal{N}(e_t)|)$ where $\mathcal{N}(e_t)$ is the set of
-outgoing neighbours. Since gate evaluation is $O(1)$ per triple, the amortised cost
-across all steps is $O(|\mathcal{G}|)$ in the worst case, the same order as BFS
-enumeration in v1, but distributed across the decoding process rather than concentrated
-at construction time.
+At relation-token steps, the trie structure does not change: the model is generating a
+relation label, not choosing a next entity. Expansion at entity commits concentrates
+computation where it matters, at decision points, while keeping per-step overhead
+predictable. Per-step lookup is $O(L)$, matching GCR. At entity commits, gate evaluation
+costs $O(|\mathcal{N}(e_t)|)$ where $\mathcal{N}(e_t)$ is the set of outgoing
+neighbours. Since gate evaluation is $O(1)$ per triple, the amortised cost across all
+steps is $O(|\mathcal{G}|)$ in the worst case, the same order as BFS enumeration in v1,
+but distributed across the decoding process rather than concentrated at construction
+time.
 
 % -----------------------------------------------------------------------------
 \subsection{v1 vs v2: When to Use Which}
@@ -620,26 +632,23 @@ intent alone cannot distinguish relevant from irrelevant paths.
 \label{sec:method:practical}
 % -----------------------------------------------------------------------------
 
-\textbf{When to use DCA-Trie.} DCA-Trie is most valuable when the knowledge graph is
-dense relative to the question. On WebQSP, where average out-degree is 20 and hop
-depth is 2, GCR admits roughly 400 paths per question entity. DCA-Trie removes 85.5\%
-of these. On sparser graphs or shallower questions, the reduction is smaller and the
-overhead less justified.
+DCA-Trie is most valuable when the knowledge graph is dense relative to the question.
+On WebQSP, where average out-degree is 20 and hop depth is 2, GCR admits roughly 400
+paths per question entity. DCA-Trie removes 85.5\% of these. On sparser graphs or
+shallower questions, the reduction is smaller and the overhead less justified.
 
-\textbf{When to use v1 vs v2.} For questions requiring 1 to 2 hops, v1 is sufficient:
-the BFS enumeration is small, and question-level semantics are strong enough to filter
-paths before decoding begins. For questions requiring 3 or more hops, v2 is preferred:
-the relevant neighbourhood shifts with each committed entity, and v1's static filter
-cannot track this shift.
+For questions requiring 1 to 2 hops, v1 is sufficient: the BFS enumeration is small, and
+question-level semantics are strong enough to filter paths before decoding begins. For
+questions requiring 3 or more hops, v2 is preferred: the relevant neighbourhood shifts
+with each committed entity, and v1's static filter cannot track this shift.
 
-\textbf{Ontology coverage.} The TypeOracle depends on the Freebase ontology's type
-system. Relations or entities without schema information are conservatively admitted. On
-KGs with sparser ontologies (e.g., Wikidata subsets), the TypeOracle's filtering
-strength decreases. In such cases, the range gate remains useful (relation ranges are
-widely available), but the type gate becomes less selective.
+The TypeOracle depends on the Freebase ontology's type system. Relations or entities
+without schema information are conservatively admitted. On KGs with sparser ontologies
+(e.g., Wikidata subsets), the TypeOracle's filtering strength decreases. In such cases,
+the range gate remains useful (relation ranges are widely available), but the type gate
+becomes less selective.
 
-\textbf{Integration with other methods.} DCA-Trie modifies only the constraint oracle.
-It can be combined with any constrained decoding backbone (GCR, DoG, Outlines) and any
-LLM. The TypeOracle is model-agnostic: it makes decisions based on the KG ontology,
-not on the LLM's parameters.
+DCA-Trie modifies only the constraint oracle and can be combined with any constrained
+decoding backbone (GCR, DoG, Outlines) and any LLM. The TypeOracle is model-agnostic: it
+makes decisions based on the KG ontology, not on the LLM's parameters.
 

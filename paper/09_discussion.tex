@@ -1,58 +1,35 @@
-% chapter/09_discussion.tex
-% Session 9 — Discussion
-% Compiled with pdflatex + bibtex (nonstopmode)
+% =============================================================================
+% SECTION 9: DISCUSSION
+% =============================================================================
 
 \section{Discussion}
 \label{sec:discussion}
 
-This section interprets the results, situates them against prior work, and identifies the
-boundary conditions under which DCA-Trie provides value.
+The central finding of this work is that constraint tightness and answer accuracy are
+independently controlled variables. Tighter constraints reduce the search space but do
+not improve Hits@1. This result is counterintuitive: reducing the number of irrelevant
+paths should make the LLM's task easier. Four mechanisms explain why it does not.
 
-\subsection{Why Tighter Constraints Do Not Improve Accuracy}
-\label{sec:discussion:why}
+\subsection{Interpreting the Non-Monotone Result}
+\label{sec:discussion:interpretation}
 
-The non-monotone result (SIR drops from 1.000 to 0.145, Hits@1 drops from 91.6\% to
-86.4\%) is the paper's central finding. It is not an accident of the oracle design.
-The four mechanisms identified in Section~\ref{sec:analysis} operate on any constrained
-beam search system, not just DCA-Trie.
+The relationship between SIR and Hits@1 is non-monotone. There exists an optimal
+constraint level that balances diversity and relevance. Below this level (too loose), the
+beam search is overwhelmed by irrelevant paths. Above this level (too tight), the beam
+search loses diversity. The optimal point depends on the LLM's capacity to discriminate
+relevant from irrelevant structure, the ontology's coverage, and the question's
+complexity.
 
-The core tension is this: constrained beam search requires a minimum number of paths to
-maintain diversity. GCR's trie (SIR $= 1.0$) admits all structurally valid paths,
-including many that are semantically irrelevant. The beam search exploits this diversity:
-irrelevant paths serve as ``negative examples'' that help the model distinguish relevant
-from irrelevant structure. When the oracle removes these paths, the beam loses
-diversity, and the model's ability to discriminate degrades.
+For practitioners, the TypeOracle provides a way to measure where a system sits on this
+spectrum. SIR quantifies constraint tightness independently of accuracy. A system with
+SIR close to 1.0 is under-constrained; a system with SIR close to 0 is over-constrained.
+The current results suggest that SIR in the range of 0.2 to 0.4 (where the range gate
+alone falls) may be closer to optimal for WebQSP, though this hypothesis requires
+further investigation.
 
-This is a structural limitation of constrained beam search. It is not specific to the
-TypeOracle or to Freebase. Any oracle that removes paths will exhibit the same trade-off,
-provided the LLM uses the full trie structure (including irrelevant paths) as implicit
-negative evidence.
-
-\subsection{Implications for Constrained Decoding}
-\label{sec:discussion:implications}
-
-The finding challenges the implicit assumption in GCR \citep{luo2025-graph-constrained-reasoning}
-and DoG \citep{li2024-decoding-on-graphs} that tighter constraints improve reasoning.
-Both papers demonstrate that constrained decoding outperforms unconstrained generation,
-but neither tests whether further tightening the constraint set yields additional gains.
-
-Our results show that the relationship between constraint tightness and answer accuracy
-is non-monotone. There exists an optimal constraint level that balances diversity and
-relevance. Below this level (too loose), the beam search is overwhelmed by irrelevant
-paths. Above this level (too tight), the beam search loses diversity. The optimal point
-depends on the LLM's capacity to discriminate relevant from irrelevant structure, the
-ontology's coverage, and the question's complexity.
-
-\textbf{For practitioners.} The TypeOracle provides a way to measure where a system sits
-on this spectrum. SIR quantifies constraint tightness independently of accuracy. A system
-with SIR close to 1.0 is under-constrained; a system with SIR close to 0 is
-over-constrained. The current results suggest that SIR in the range of 0.2 to 0.4
-(where the range gate alone falls) may be closer to optimal for WebQSP, though this
-hypothesis requires further investigation.
-
-\textbf{For researchers.} The non-monotone result means that Hits@1 alone is insufficient
-to evaluate constrained decoding systems. A system that achieves high Hits@1 with high
-SIR may be over-constrained and fragile: small changes to the oracle could break it. SIR
+For researchers, the non-monotone result means that Hits@1 alone is insufficient to
+evaluate constrained decoding systems. A system that achieves high Hits@1 with high SIR
+may be over-constrained and fragile: small changes to the oracle could break it. SIR
 provides the missing diagnostic. Reporting both metrics reveals whether a system's
 accuracy depends on structural constraint (fragile) or on the LLM's reasoning capacity
 (robust).
@@ -60,76 +37,73 @@ accuracy depends on structural constraint (fragile) or on the LLM's reasoning ca
 \subsection{Comparison with Prior Work}
 \label{sec:discussion:comparison}
 
-\textbf{GCR} \citep{luo2025-graph-constrained-reasoning} achieves 91.6\% Hits@1 on
-WebQSP with SIR $= 1.0$. Our re-implementation matches this result. GCR's strength is
-that it preserves full trie diversity: the beam search sees all structurally valid paths,
-and the LLM learns to discriminate relevant from irrelevant structure during fine-tuning.
+GCR~\citep{luo2025-graph-constrained-reasoning} achieves 91.6\% Hits@1 on WebQSP with
+SIR $= 1.0$. Our re-implementation matches this result. GCR's strength is that it
+preserves full trie diversity: the beam search sees all structurally valid paths, and the
+LLM learns to discriminate relevant from irrelevant structure during fine-tuning.
 DCA-Trie's oracle removes this diversity, and the LLM cannot compensate.
 
-\textbf{DoG} \citep{li2024-decoding-on-graphs} constrains decoding to well-formed chains
-and demonstrates that structural validity improves faithfulness. DoG does not measure
-SIR, but its chains are structurally valid by construction (SIR $= 1.0$ for valid
-chains). Our results suggest that DoG's chains may also benefit from less aggressive
-filtering, though this hypothesis requires testing on DoG's specific chain-generation
-task.
+DoG~\citep{li2024-decoding-on-graphs} constrains decoding to well-formed chains and
+demonstrates that structural validity improves faithfulness. DoG does not measure SIR,
+but its chains are structurally valid by construction (SIR $= 1.0$ for valid chains).
+Our results suggest that DoG's chains may also benefit from less aggressive filtering,
+though this hypothesis requires testing on DoG's specific chain-generation task.
 
-\textbf{ToG} \citep{sun2024tog} uses an LLM-based oracle to explore the KG and
-generate reasoning paths. ToG's oracle is adaptive (it reasons at each step), similar in
-spirit to DCA-Trie v2. Our v2 results show that per-entity oracle evaluation compounds
-FNR, driving Hits@1 below the unconstrained baseline. ToG avoids this by using a
+ToG~\citep{sun2024tog} uses an LLM-based oracle to explore the KG and generate
+reasoning paths. ToG's oracle is adaptive (it reasons at each step), similar in spirit
+to DCA-Trie v2. Our v2 results show that per-entity oracle evaluation compounds FNR,
+driving Hits@1 below the unconstrained baseline. ToG avoids this by using a
 general-purpose LLM for oracle decisions, which has lower FNR than a symbolic oracle but
 higher latency.
 
-\textbf{GNN-RAG} \citep{mavromatis2022rearev} retrieves relevant subgraphs using GNNs
-and achieves 90.7\% Hits@1 on WebQSP. GNN-RAG's retrieval step is analogous to our
-oracle: both filter the KG before decoding. The key difference is that GNN-RAG uses a
-learned retriever (with implicit soft constraints) while DCA-Trie uses symbolic gates
-(hard constraints). Our results suggest that soft constraints may preserve more diversity
-than hard constraints, explaining GNN-RAG's strong performance.
+GNN-RAG~\citep{mavromatis2022rearev} retrieves relevant subgraphs using GNNs and
+achieves 90.7\% Hits@1 on WebQSP. GNN-RAG's retrieval step is analogous to our oracle:
+both filter the KG before decoding. The key difference is that GNN-RAG uses a learned
+retriever (with implicit soft constraints) while DCA-Trie uses symbolic gates (hard
+constraints). Our results suggest that soft constraints may preserve more diversity than
+hard constraints, explaining GNN-RAG's strong performance.
 
 \subsection{Limitations}
 \label{sec:discussion:limitations}
 
-\textbf{Single dataset.} All results are on WebQSP. CWQ results are pending. The
-non-monotone finding may differ on CWQ, which has more complex compositional structure
-and deeper reasoning chains. We report only on WebQSP because the CWQ evaluation
-requires a separate Fine-tuning step that we have not yet completed.
+All results are on WebQSP. CWQ results are pending. The non-monotone finding may differ
+on CWQ, which has more complex compositional structure and deeper reasoning chains. We
+report only on WebQSP because the CWQ evaluation requires a separate fine-tuning step
+that we have not yet completed.
 
-\textbf{Single model.} All experiments use Llama-3.1-8B fine-tuned on GCR data. Larger
-models (Llama-70B, GPT-4) may handle diversity loss better, potentially reducing the
-Hits@1 gap. Smaller models (Llama-7B without fine-tuning) may be more sensitive to
-diversity loss. The generalizability across model scales is untested.
+All experiments use Llama-3.1-8B fine-tuned on GCR data. Larger models (Llama-70B,
+GPT-4) may handle diversity loss better, potentially reducing the Hits@1 gap. Smaller
+models (Llama-7B without fine-tuning) may be more sensitive to diversity loss. The
+generalizability across model scales is untested.
 
-\textbf{Regex type classifier.} The type gate's 85\% accuracy is the weakest component.
-A neural type classifier would improve FNR and potentially narrow the Hits@1 gap.
-However, even a perfect classifier leaves a 3.8pp gap (Section~\ref{sec:sensitivity:type}),
-confirming that the non-monotone result is not primarily caused by classifier noise.
+The type gate's 85\% accuracy is the weakest component. A neural type classifier would
+improve FNR and potentially narrow the Hits@1 gap. However, even a perfect classifier
+leaves a 3.8pp gap (Section~\ref{sec:sensitivity:type}), confirming that the
+non-monotone result is not primarily caused by classifier noise.
 
-\textbf{Static ontology.} Freebase's ontology is fixed. Dynamic KGs (e.g., Wikidata with
-frequent updates) would require the TypeOracle to update its type and range metadata.
-The current system does not support incremental ontology updates.
+Freebase's ontology is fixed. Dynamic KGs (e.g., Wikidata with frequent updates) would
+require the TypeOracle to update its type and range metadata. The current system does not
+support incremental ontology updates.
 
-\textbf{No fine-tuning on DCA-Trie data.} The LLM is fine-tuned on GCR's training data,
-which uses a static trie. Fine-tuning on DCA-Trie's dynamic trie may teach the model to
-handle reduced diversity, potentially narrowing the Hits@1 gap. This is the most
-promising direction for future work.
+The LLM is fine-tuned on GCR's training data, which uses a static trie. Fine-tuning on
+DCA-Trie's dynamic trie may teach the model to handle reduced diversity, potentially
+narrowing the Hits@1 gap. This is the most promising direction for future work.
 
 \subsection{Future Work}
 \label{sec:discussion:future}
 
-\textbf{Fine-tuning on dynamic tries.} Training the LLM on DCA-Trie's filtered trie
-would teach it to operate with less diversity. This is the most direct path to closing
-the Hits@1 gap while retaining the SIR reduction.
+Training the LLM on DCA-Trie's filtered trie would teach it to operate with less
+diversity. This is the most direct path to closing the Hits@1 gap while retaining the
+SIR reduction.
 
-\textbf{Neural type classifier.} Replacing the regex classifier with a fine-tuned
-encoder would improve type-inference accuracy and reduce FNR. The TypeOracle's range
-gate is already effective; the type gate is the bottleneck.
+Replacing the regex classifier with a fine-tuned encoder would improve type-inference
+accuracy and reduce FNR. The TypeOracle's range gate is already effective; the type gate
+is the bottleneck.
 
-\textbf{Adaptive oracle threshold.} Rather than a hard binary gate, a soft oracle that
-assigns confidence scores to each path could allow the beam search to re-rank paths
-based on both structural relevance and LLM confidence. This would preserve diversity
-while filtering irrelevant paths.
+Rather than a hard binary gate, a soft oracle that assigns confidence scores to each path
+could allow the beam search to re-rank paths based on both structural relevance and LLM
+confidence. This would preserve diversity while filtering irrelevant paths.
 
-\textbf{Multi-dataset evaluation.} CWQ, FreebaseQA, and zero-shot transfer experiments
-would test whether the non-monotone finding generalises beyond WebQSP. CWQ's deeper
-questions may benefit more from v2's dynamic expansion, provided the FNR can be reduced.
+CWQ, FreebaseQA, and zero-shot transfer experiments would test whether the non-monotone
+finding generalises beyond WebQSP. CWQ's deeper questions may benefit more from v2's
+dynamic expansion, provided the FNR can be reduced.
