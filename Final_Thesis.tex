@@ -1,70 +1,42 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Undegraduate Project Report Template
-% LaTeX Template for UMaT SPS
-% Prepared by
-% Dr Hamidu Abdel-Fatao; and
-% Dr Stephen Anokye
-% This template is based on a template by:
-% Steve Gunn (http://users.ecs.soton.ac.uk/srg/softwaretools/document/templates/)
-% Sunil Patel (http://www.sunilpatel.co.uk/thesis-template/)
+% Undergraduate Project Report Template
+% University of Mines and Technology (UMaT), Tarkwa
+% Based on template by Dr Hamidu Abdel-Fatao and Dr Stephen Anokye
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %----------------------------------------------------------------------------------------
-%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%	PACKAGES AND DOCUMENT CONFIGURATION
 %----------------------------------------------------------------------------------------
 
-\documentclass[12pt, onehalfspacing, liststotoc, oneside, parskip, headsepline,UKenglish]{UMaT_Undergrauate_Report_Template_Configurations} % The class file specifying the document structure
+\documentclass[12pt, onehalfspacing, liststotoc, oneside, parskip, headsepline,UKenglish]{UMaT_Undergrauate_Report_Template_Configurations}
 
-\setlength{\parskip}{1em}  % Space between paragraphs
-\setlength{\parindent}{0pt}  % No indentation
-\usepackage[a4paper, top=1in, bottom=1in, left=1.2in, right=1in]{geometry}		% Margin settings
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0pt}
+\usepackage[a4paper, top=1in, bottom=1in, left=1.2in, right=1in]{geometry}
 
-\usepackage[utf8]{inputenc} % Required for inputting international characters
-\usepackage[T1]{fontenc} % Output font encoding for international characters
-\usepackage{newtxtext,newtxmath} % To Set document to Time New Roman Font
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext,newtxmath}
 \usepackage{subcaption}
-\usepackage{etoolbox} % provides \patchcmd
-\patchcmd{\endabstract}{\null}{}{}{} % replaces \null with third argument (empty)
+\usepackage{etoolbox}
+\patchcmd{\endabstract}{\null}{}{}{}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \usepgfplotslibrary{statistics}
+\usepackage{times}
 
-\usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
+% Language-aware quoting (required by biblatex)
+\usepackage[autostyle=true]{csquotes}
 
-% \usepackage[backend=bibtex,style=authoryear,natbib=true,uniquename=false,maxcitenames=2,maxbibnames=99,giveninits=true,dashed=false]{biblatex} % Use biber backend for better customization
-% \addbibresource{references.bib} % The filename of the bibliography
-
-% \DeclareNameAlias{sortname}{family-given}
-% \DeclareDelimFormat{nameyeardelim}{\addcomma\space} % Adds comma before year in citations
-% \renewbibmacro*{date+extrayear}{% Adds comma before year in bibliography
-%   \setunit{\addcomma\space}%
-%   \printtext[parens]{%
-%     \printfield{labelyear}%
-%     \printfield{extrayear}}}
-
-% \DeclareFieldFormat{sentencecase}{#1} % Ensures no punctuation after title
-% \renewcommand{\newunitpunct}{\addcomma\space} % Changes period after names to comma
-
-% % Remove "In:"
-% \renewbibmacro{in:}{}
-% \usepackage{xpatch}
-% \xpatchbibmacro{name:andothers}{%
-% 	\bibstring{andothers}%
-% }{%
-% 	\bibstring[\emph]{andothers}%
-% }{}{}
-% \setlength{\bibhang}{2em} 
-
-\usepackage[autostyle=true]{csquotes}  % Language-aware quoting, required by biblatex
-
+% Bibliography
 \usepackage[
     backend=biber,
     style=authoryear,
-    natbib=true,           % Enable \citep / \citet commands
+    natbib=true,
     uniquename=false,
     uniquelist=false,
-    maxcitenames=3,        % "Author et al." when > 3 authors in a citation
-    maxbibnames=999,        % Show all authors in the reference list
+    maxcitenames=3,
+    maxbibnames=999,
     giveninits=true,
     dashed=false,
     sorting=nyt,
@@ -74,7 +46,7 @@
     eprint=false
 ]{biblatex}
 
-\DeclareNameAlias{sortname}{family-given}   % Sort bibliography by last name
+\DeclareNameAlias{sortname}{family-given}
 \DeclareDelimFormat{nameyeardelim}{\addcomma\space}
 \renewbibmacro*{date+extrayear}{%
     \setunit{\addcomma\space}%
@@ -105,14 +77,13 @@
     \bibstring[\emph]{andothers}%
 }{}{}
 
-\usepackage{times}
-
+% Chapter/section formatting
 \usepackage{titlesec, titletoc}
 \titleformat{\chapter}[display]
   {\fontsize{14}{24} \bfseries \centering}{\MakeUppercase{\chaptertitlename}\ \thechapter}{0pt}{\normalsize \MakeUppercase}
 \titlespacing*{\chapter}{-10pt}{-45pt}{25pt}
 
-
+% Custom commands
 \newcommand{\keyword}[1]{\textbf{#1}}
 \newcommand{\tabhead}[1]{\textbf{#1}}
 \newcommand{\code}[1]{\texttt{#1}}
@@ -120,25 +91,24 @@
 \newcommand{\modelname}{\texttt{rmanluo/\allowbreak GCR-\allowbreak Meta-\allowbreak Llama-\allowbreak 3.1-\allowbreak 8B-\allowbreak Instruct}}
 \newcommand{\option}[1]{\texttt{\itshape#1}}
 \renewcommand{\indexname}{INDEX}
-%\renewcommand{\listfigurename}{LIST OF FIGURES}
-%\renewcommand{\listtablename}{LIST OF TABLES}
 
-% Bordered table helpers (full row/column lines)
+% Bordered table helpers
 \newenvironment{gridtabular}[1]{\begin{tabular}{|#1|}\hline}{\end{tabular}}
 \newcommand{\gr}[1]{#1\\\hline}
 
+% Graphics
+\usepackage{graphicx}
+\graphicspath{{./res/}}
 
-\usepackage{graphicx}	% for inseting images
-\graphicspath{{./res/}}		% Set images/videos path
-
-\usepackage{enumitem}	% enable labelled lists like (roman, alph, arabic)
-\usepackage{array}	% enables the use of 'm' specifier when inseritng tables with fixed width
+% Tables, lists, floats
+\usepackage{enumitem}
+\usepackage{array}
 \usepackage{tabularx}
-\usepackage{float}	% to adjust table positions
+\usepackage{float}
 \usepackage{longtable}
 \usepackage{microtype}
 \usepackage{etoc}
-\usepackage{ltablex} % in preamble, instead of longtable + tabularx separately
+\usepackage{ltablex}
 \keepXColumns
 \usepackage{multirow}
 \usepackage{tocloft}
@@ -147,9 +117,9 @@
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage{hyperref}
 \usepackage{xcolor}
-\usepackage{tocloft}
 \usepackage{caption}
 
+% TikZ, algorithms, landscape
 \usepackage{pgfgantt}
 \usepackage{tikz}
 \usepackage{algorithm}
@@ -158,39 +128,33 @@
 \usepackage{pdflscape}
 \usepackage{setspace}
 
-
+% Hyperlink colours
 \hypersetup{
   colorlinks=true,
-  linkcolor=black,    % Color of internal links
-  urlcolor=black,     % Color of external links
-  citecolor=black,    % Color of citations
-  pdfborder={0 0 0}   % Removes the border around links
+  linkcolor=black,
+  urlcolor=black,
+  citecolor=black,
+  pdfborder={0 0 0}
 }
 
-% Additional customization for specific fields if necessary
-\renewcommand*{\newunitpunct}{\addcomma\space} % Replace full stops as unit punctuation with commas
-\renewbibmacro{in:}{}
-
-\DeclareFieldFormat[article]{volume}{\addcomma\space Vol.~#1,\addspace}   % Vol. 12, [space]
+% Additional bibliography formatting
+\DeclareFieldFormat[article]{volume}{\addcomma\space Vol.~#1,\addspace}
 \DeclareFieldFormat[article]{number}{\space No.~#1}
 
 \setlength{\cftfignumwidth}{7em}
-
 \setlist[enumerate]{itemsep=0.2em, parsep=0pt}
 
-% Customize the List of Figures
-
-\renewcommand{\cftfigfont}{\normalfont\centering} % Set font style for figure entries
+% List of Figures customisation
+\renewcommand{\cftfigfont}{\normalfont\centering}
 \renewcommand{\cftfigpagefont}{\hfill}
-\renewcommand{\cftfigleader}{\cftdotfill{\cftdotsep}} % Add dots between figure name and page number
+\renewcommand{\cftfigleader}{\cftdotfill{\cftsecdotsep}}
 \renewcommand{\cftdotsep}{\cftnodots}
-\setlength{\cftfigindent}{0pt} % Adjust the indentation of figure names
-\setlength{\cftbeforefigskip}{4pt}  % Adjust vertical space before figure entries
-\renewcommand{\cftfigleader}{\cftdotfill{\cftsecdotsep}} % Dots between figure names and page numbers
-\renewcommand{\cftfigaftersnumb}{\quad} % Add space between number and title
+\setlength{\cftfigindent}{0pt}
+\setlength{\cftbeforefigskip}{4pt}
+\renewcommand{\cftfigaftersnumb}{\quad}
 \setlength{\cftfignumwidth}{10em}
-%\renewcommand\cftafterloftitle{\newline Figure \hfill Title  \hfill Page }
 
+% Chapter numbering in ToC
 \makeatletter
 \renewcommand{\@chapter}[2][]{%
   \ifnum \c@secnumdepth >\m@ne
@@ -206,8 +170,8 @@
     \addcontentsline{toc}{chapter}{#1}%
   \fi
   \chaptermark{#1}%
-  \addtocontents{lof}{\protect\addvspace{0\p@}}% Remove space in LoF
-  \addtocontents{lot}{\protect\addvspace{0\p@}}% Remove space in LoT
+  \addtocontents{lof}{\protect\addvspace{0\p@}}%
+  \addtocontents{lot}{\protect\addvspace{0\p@}}%
   \if@twocolumn
     \@topnewpage[\@makechapterhead{#2}]%
   \else
@@ -216,9 +180,8 @@
   \fi}
 \makeatother
 
-% Bold figure captions but not the list of figures
+% Caption formatting
 \captionsetup[figure]{labelfont={bf},textfont={bf}}
-\usepackage{caption}
 \captionsetup[table]{
     justification=raggedright,
     singlelinecheck=off,
@@ -228,35 +191,24 @@
     margin={0pt,0pt}
 }
 
+% Reset figure font overrides
 \renewcommand{\cftfigfont}{}
 \renewcommand{\cftfigpagefont}{}
 
-
-% This part for list of tables
-\renewcommand{\cfttabindent}{0pt} % No indentation
-\setlength{\cftbeforetabskip}{4pt} % Space between entries
+% List of Tables customisation
+\renewcommand{\cfttabindent}{0pt}
+\setlength{\cftbeforetabskip}{4pt}
 \setlength{\cfttabnumwidth}{12em}
-%\setlength{\cftbeforechapskip}{0pt}
-%\usepackage{caption}
-%\captionsetup[table]{justification=raggedright,singlelinecheck=off}
 
-
-
-% To add CHAPTER in ToC
+% CHAPTER label in ToC
 \renewcommand{\cftchappresnum}{CHAPTER\space}
 \renewcommand{\cftchapnumwidth}{7em}
-
 
 \makeatletter
 \setlength{\@fptop}{0pt}
 \makeatother
 
-%\pagestyle{plain}
-
-%SECTION SETTINGS
-%\titleformat*{\section}{\Large\bfseries\sffamily}
-%\titleformat*{\subsection}{\large\bfseries\sffamily}
-
+% Section formatting
 \titleformat{\section}
 {\normalfont\normalsize\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}
@@ -264,29 +216,24 @@
 \titleformat{\subsubsection}
 {\normalfont\normalsize\itshape}{\thesubsubsection}{1em}{}
 
-
 %----------------------------------------------------------------------------------------
 %	THESIS INFORMATION
 %----------------------------------------------------------------------------------------
 
-\thesistitle{A Thesis Report Entitled} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
-%\supervisor{Dr. James \textsc{Smith}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
-\examiner{} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
-\degree{} % Your degree name, this is used in the title page and abstract, print it elsewhere with \degreename
-\author{Your Full Name} % Your name, this is used in the title page and abstract, print it elsewhere with \authorname
-\addresses{} % Your address, this is not currently used anywhere in the template, print it elsewhere with \addressname
-
-%\subject{Biological Sciences} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subjectname
-\keywords{} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
-\university{\href{https://www.umat.edu.gh/}{\large  UNIVERSITY OF MINES AND TECHNOLOGY, TARKWA}} % Your university's name and URL, this is used in the title page and abstract, print it elsewhere with \univname
-\department{{\large DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING }} % Your department's name and URL, this is used in the title page and abstract, print it elsewhere with \deptname
-\group{} % Your research group's name and URL, this is used in the title page, print it elsewhere with \groupname
-\faculty{{\large FACULTY OF COMPUTING AND MATHEMATICAL SCIENCES}} % Your faculty's name and URL, this is used in the title page and abstract, print it elsewhere with \facname
+\thesistitle{A Thesis Report Entitled}
+\examiner{}
+\degree{}
+\author{Your Full Name}
+\addresses{}
+\keywords{}
+\university{\href{https://www.umat.edu.gh/}{\large  UNIVERSITY OF MINES AND TECHNOLOGY, TARKWA}}
+\department{{\large DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING }}
+\group{}
+\faculty{{\large FACULTY OF COMPUTING AND MATHEMATICAL SCIENCES}}
 
 \AtBeginDocument{
-\hypersetup{pdftitle=\ttitle} % Set the PDF's title to your title
-\hypersetup{pdfauthor=\authorname} % Set the PDF's author to your name
-%\hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
+\hypersetup{pdftitle=\ttitle}
+\hypersetup{pdfauthor=\authorname}
 }
 
 \linespread{1.5}
@@ -297,9 +244,9 @@
 
 \begin{document}
 
-\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+\frontmatter
 
-\pagestyle{plain} % Default to the plain heading style until the thesis style is called for the body content
+\pagestyle{plain}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -309,31 +256,30 @@
   \large
   \begin{center}
 
-    {\scshape \univname\par}\vspace{0cm} % University name
+    {\scshape \univname\par}\vspace{0cm}
 
-    { FACULTY OF  COMPUTING AND MATHEMATICAL SCIENCES}\\[0.02cm] % Thesis type
+    { FACULTY OF  COMPUTING AND MATHEMATICAL SCIENCES}\\[0.02cm]
 
-    {  DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING }\\[0.8cm] % Thesis type
+    {  DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING }\\[0.8cm]
 
     \vspace{0.2cm}
-    {  A PROJECT REPORT ENTITLED }\\[0.1cm] % Thesis type
-    {  DYNAMIC CONTEXT-AWARE TRIES FOR KNOWLEDGE GRAPH-CONSTRAINED LARGE LANGUAGE MODEL GENERATION}\\[1cm] % Thesis type
+    {  A PROJECT REPORT ENTITLED }\\[0.1cm]
+    {  DYNAMIC CONTEXT-AWARE TRIES FOR KNOWLEDGE GRAPH-CONSTRAINED LARGE LANGUAGE MODEL GENERATION}\\[1cm]
 
     {  BY}\\
     { BERNARD KIRK ADJANOR KATAMANSO}\\
     { ERICA AMONOR}\\
     { JOSEPH OSEI NYARKO}\\
-    { JESSICA AFUA ETORNAM NSAFOAH}\\[1.2cm] % Thesis type
+    { JESSICA AFUA ETORNAM NSAFOAH}\\[1.2cm]
 
-    {  SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENT FOR THE AWARD OF THE DEGREE OF BACHELOR OF SCIENCE IN COMPUTER SCIENCE AND ENGINEERING }\\[1.2cm] % 
+    {  SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENT FOR THE AWARD OF THE DEGREE OF BACHELOR OF SCIENCE IN COMPUTER SCIENCE AND ENGINEERING }\\[1.2cm]
 
-    {  PROJECT SUPERVISOR}\\[0.3cm] % Thesis type
+    {  PROJECT SUPERVISOR}\\[0.3cm]
 
     .............................................................\\
 
     {  DR ERIC AFFUM}\\[0.6cm]
-    {  TARKWA, GHANA\\ August 2026}\\% Date
-    %\includegraphics{Logo} % University/department logo - uncomment to place it
+    {  TARKWA, GHANA\\ August 2026}
 
   \end{center}
 \end{titlepage}
@@ -341,7 +287,6 @@
 %----------------------------------------------------------------------------------------
 %	DECLARATION PAGE
 %----------------------------------------------------------------------------------------
-% \setcounter{page}{2}
 \vspace{-20pt}
 \begin{declaration}
   \addchaptertocentry{\authorshipname}
@@ -371,21 +316,16 @@
   \noindent \rule[0.5em]{5em}{0.5pt} \hspace{3.5em} \rule[0.5em]{8em}{0.5pt} \hspace{3.2em} \rule[0.5em]{5em}{0.5pt}
 \end{declaration}
 
-%\cleardoublepage
-
-
 %----------------------------------------------------------------------------------------
 %	ABSTRACT PAGE
 %----------------------------------------------------------------------------------------
 
 \begin{abstract}
   \vspace{10pt}
-  \addchaptertocentry{\abstractname} % Add the abstract to the table of contents
+  \addchaptertocentry{\abstractname}
   Knowledge Graph constrained decoding eliminates hallucination in large language model (LLM) reasoning by restricting output to verified paths. The leading approach, Graph Constrained Reasoning (GCR), achieves zero hallucination on Knowledge Graph Question Answering (KGQA) benchmarks by encoding all structurally valid paths in a static trie. The constraint is absolute but indifferent to the question: a three-hop query with twenty out-degree relations admits roughly 24{,}000 paths, and the LLM must navigate among them using the same internal knowledge that causes hallucination. We introduce Dynamic Context-Aware Tries (DCA-Trie), a dynamic constrained decoding framework that prunes the valid path set during generation using a TypeOracle, a lightweight symbolic module that checks two ontology gates per candidate triple. On WebQSP, DCA-Trie removes 85.5\% of semantically irrelevant paths while maintaining a false negative rate below 5\%. We further introduce the Semantic Irrelevance Ratio (SIR), a metric that separates constraint quality from answer accuracy, enabling independent evaluation of what the oracle filters versus what the LLM actually uses. SIR reveals a non-monotone relationship between constraint tightness and answer correctness: tighter constraints reduce the search space but do not improve Hits@1. We identify four mechanisms that drive this decoupling and show that the result holds across ablation conditions. DCA-Trie and SIR together provide the first framework for independently evaluating constraint quality and answer accuracy in knowledge graph-constrained decoding.
 
 \end{abstract}
-
-
 
 %----------------------------------------------------------------------------------------
 %	DEDICATION
@@ -393,11 +333,9 @@
 
 \begin{dedication}
   \vspace{10pt}
-  %	\addchaptertocentry{\dedicationname} % Add the acknowledgements to the table of contents
   \centering
   Dedicated to our parents. For every sacrifice we didn't see and every kindness we never had to ask for. Thank you for everything.
 \end{dedication}
-
 
 %----------------------------------------------------------------------------------------
 %	ACKNOWLEDGEMENTS
@@ -410,35 +348,30 @@
 \end{acknowledgements}
 \pagebreak
 
-
 %----------------------------------------------------------------------------------------
-%  LIST OF CONTENTS/FIGURES/TABLES PAGES
+%  TABLE OF CONTENTS / LIST OF FIGURES / LIST OF TABLES
 %----------------------------------------------------------------------------------------
 \phantomsection
 \vspace*{60pt}
-\addcontentsline{toc}{chapter}{TABLE OF CONTENTS} % to have in ToC
+\addcontentsline{toc}{chapter}{TABLE OF CONTENTS}
 \vspace{10pt}
-\renewcommand{\contentsname}{\hfill\large\bfseries TABLE OF CONTENTS\hfill} % Centered title
-% Adjust me lovely the space above the "Contents" and "Page" headers
-\vspace{-5ex} % Increase this value (e.g., -6ex) to move up, decrease (e.g., -10ex) to move down
+\renewcommand{\contentsname}{\hfill\large\bfseries TABLE OF CONTENTS\hfill}
+\vspace{-5ex}
 
 \textbf{Contents} \hspace{0.84\textwidth} \textbf{Page}
 
-% Adjust the space around the whole Table of Contents
-\vspace*{-4cm} % Increase this value (e.g., -3cm) to move up, decrease (e.g., -1cm) to move down
-
-% Adjust the indentation for section and subsection entries
+\vspace*{-4cm}
 
 \setlength{\cftsecindent}{0pt}
 \setlength{\cftsubsecindent}{2.2em}
-\tableofcontents % Prints the main table of contents
+\tableofcontents
 \pagebreak
 
 \newpage
 \makeatletter
 \vspace{10pt}
 \chapter*{\large\bfseries\centering\vspace{15pt} LIST OF FIGURES}
-\addcontentsline{toc}{chapter}{LIST OF FIGURES} %to have in ToC
+\addcontentsline{toc}{chapter}{LIST OF FIGURES}
 \phantomsection
 \vspace{-4ex}
 \textbf{Figure} \hspace{0.4\textwidth} \textbf{Title} \hspace{0.4\textwidth} \textbf{Page}
@@ -446,7 +379,6 @@
 \@starttoc{lof}
 \makeatother
 \clearpage
-
 
 \makeatletter
 \titlecontents{figure}
@@ -458,7 +390,7 @@
 
 \vspace{10pt}
 \chapter*{\large\bfseries\centering\vspace{15pt} LIST OF TABLES}
-\addcontentsline{toc}{chapter}{LIST OF TABLES} %to have in ToC
+\addcontentsline{toc}{chapter}{LIST OF TABLES}
 \phantomsection
 \vspace{-4ex}
 \textbf{Table} \hspace{0.4\textwidth} \textbf{Title} \hspace{0.4\textwidth} \textbf{Page}
@@ -469,8 +401,7 @@
 \clearpage
 
 %----------------------------------------------------------------------------------------
-%	ABBREVIATIONS
-%-----------------------------------------------------------
+%	LIST OF ABBREVIATIONS
 %----------------------------------------------------------------------------------------
 \chapter*{\large\centering\vspace{15pt}LIST OF ABBREVIATIONS}
 \addcontentsline{toc}{chapter}{LIST OF ABBREVIATIONS}
@@ -507,57 +438,19 @@
 
 \end{description}
 
-
-
-
-
-
-%	PHYSICAL CONSTANTS/OTHER DEFINITIONS
-%----------------------------------------------------------------------------------------
-
-%\begin{constants}{lr@{${}={}$}l} % The list of physical constants is a three column table
-%
-%% The \SI{}{} command is provided by the siunitx package, see its documentation for instructions on how to use it
-%
-%Speed of Light & $c_{0}$ & \SI{2.99792458e8}{\meter\per\second} (exact)\\
-%%Constant Name & $Symbol$ & $Constant Value$ with units\\
-%
-%\end{constants}
-
-%----------------------------------------------------------------------------------------
-%	SYMBOLS
-%----------------------------------------------------------------------------------------
-
-%\begin{symbols}{lll} % Include a list of Symbols (a three column table)
-%
-%$a$ & distance & \si{\meter} \\
-%$P$ & power & \si{\watt} (\si{\joule\per\second}) \\
-%%Symbol & Name & Unit \\
-%
-%\addlinespace % Gap to separate the Roman symbols from the Greek
-%
-%$\omega$ & angular frequency & \si{\radian} \\
-%
-%\end{symbols}
-
-
-
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - CHAPTERS
 %----------------------------------------------------------------------------------------
 
-\mainmatter % Begin numeric (1,2,3...) page numbering
+\mainmatter
 
-\pagestyle{thesis} % Return the page headers back to the "thesis" style
-
-% Include the chapters of the thesis as separate files from the Chapters folder
-% Uncomment the lines as you write the chapters
+\pagestyle{thesis}
 
 \include{Chapters/Chapter1} % Introduction
-\include{Chapters/Chapter2}
+\include{Chapters/Chapter2} % Literature Review
 \include{Chapters/Chapter3} % Methodology
-\include{Chapters/Chapter4}
-\include{Chapters/Chapter5}
+\include{Chapters/Chapter4} % Results and Discussion
+\include{Chapters/Chapter5} % Conclusion and Recommendations
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
@@ -572,7 +465,6 @@
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
-%\nocite{*}
 \addcontentsline{toc}{chapter}{REFERENCES}
 \renewcommand{\bibname}{\large\vspace{15pt} References}
 \printbibliography

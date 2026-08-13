@@ -5,7 +5,7 @@
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Standard RAG vs. KG-Constrained Decoding}}{14}{figure.caption.50}%
 \addvspace {0\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces DCA-Trie System Architecture}}{21}{figure.caption.69}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces TypeOracle Admission Process}}{25}{figure.caption.81}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces TypeOracle Admission Process}}{24}{figure.caption.81}%
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Static Symbolic Filtering Pipeline (DCA-Trie v1)}}{28}{figure.caption.92}%
 \addvspace {0\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Path Statistics (4.10M → 3.51M)}}{44}{figure.caption.140}%

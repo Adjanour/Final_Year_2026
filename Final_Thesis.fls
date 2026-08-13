@@ -1,7 +1,7 @@
 PWD /home/bernard/research/projects/FINAL_PROJECT
 INPUT /usr/share/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
-INPUT /home/bernard/research/projects/FINAL_PROJECT/Final_Thesis.tex
+INPUT Final_Thesis.tex
 OUTPUT Final_Thesis.log
 INPUT ./UMaT_Undergrauate_Report_Template_Configurations.cls
 INPUT UMaT_Undergrauate_Report_Template_Configurations.cls
@@ -321,6 +321,8 @@ INPUT /usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryplotmarks.code.t
 INPUT /usr/share/texmf-dist/tex/generic/pgf/libraries/pgflibraryplotmarks.code.tex
 INPUT /usr/share/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplots.statistics.code.tex
 INPUT /usr/share/texmf-dist/tex/generic/pgfplots/libs/tikzlibrarypgfplots.statistics.code.tex
+INPUT /usr/share/texmf-dist/tex/latex/psnfss/times.sty
+INPUT /usr/share/texmf-dist/tex/latex/psnfss/times.sty
 INPUT /usr/share/texmf-dist/tex/latex/csquotes/csquotes.sty
 INPUT /usr/share/texmf-dist/tex/latex/csquotes/csquotes.sty
 INPUT /usr/share/texmf-dist/tex/latex/csquotes/csquotes.def
@@ -364,8 +366,6 @@ INPUT /usr/share/texmf-dist/tex/latex/biblatex/biblatex.cfg
 INPUT /usr/share/texmf-dist/tex/latex/biblatex/biblatex.cfg
 INPUT /usr/share/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty
 INPUT /usr/share/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty
-INPUT /usr/share/texmf-dist/tex/latex/psnfss/times.sty
-INPUT /usr/share/texmf-dist/tex/latex/psnfss/times.sty
 INPUT /usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty
 INPUT /usr/share/texmf-dist/tex/latex/titlesec/titlesec.sty
 INPUT /usr/share/texmf-dist/tex/latex/titlesec/titletoc.sty

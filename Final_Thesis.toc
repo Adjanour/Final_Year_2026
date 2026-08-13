@@ -49,11 +49,11 @@
 \contentsline {subsection}{\numberline {3.4.2}Formal Definition of SIR}{22}{subsection.72}%
 \contentsline {subsection}{\numberline {3.4.3}Properties and Interpretation}{23}{subsection.76}%
 \contentsline {section}{\numberline {3.5}Symbolic Relevance Scoring Mechanism}{23}{section.77}%
-\contentsline {subsection}{\numberline {3.5.1}Research Evolution: From Embeddings to Ontology Gates}{23}{subsection.78}%
+\contentsline {subsection}{\numberline {3.5.1}Design Evolution}{23}{subsection.78}%
 \contentsline {subsection}{\numberline {3.5.2}TypeOracle Architecture}{24}{subsection.80}%
-\contentsline {subsection}{\numberline {3.5.3}Ontology Schema and Threshold-Free Design}{26}{subsection.85}%
-\contentsline {subsection}{\numberline {3.5.4}Computational Properties}{26}{subsection.88}%
-\contentsline {section}{\numberline {3.6}DCA-Trie v1: Static Symbolic Filtering}{27}{section.90}%
+\contentsline {subsection}{\numberline {3.5.3}Ontology Schema and Threshold-Free Design}{25}{subsection.85}%
+\contentsline {subsection}{\numberline {3.5.4}Computational Properties}{27}{subsection.88}%
+\contentsline {section}{\numberline {3.6}DCA-Trie v1}{27}{section.90}%
 \contentsline {subsection}{\numberline {3.6.1}Design Rationale}{27}{subsection.91}%
 \contentsline {subsection}{\numberline {3.6.2}Algorithm for DCA-Trie v1}{29}{subsection.93}%
 \contentsline {subsection}{\numberline {3.6.3}Complexity Analysis}{30}{subsection.100}%
