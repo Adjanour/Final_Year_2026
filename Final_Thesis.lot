@@ -1,41 +1,30 @@
 \babel@toc {english}{}\relax 
 \addvspace {0\p@ }
-\contentsline {table}{\numberline {1.1}{\ignorespaces \normalfont Implemented Software Tools Evaluation}}{4}{table.caption.22}%
+\contentsline {table}{\numberline {1.1}{\ignorespaces Implemented Software Tools}}{4}{table.caption.27}%
 \addvspace {0\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Summary of Key Related Works}}{18}{table.2.1}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Summary of Key Related Works}}{16}{table.2.1}%
 \addvspace {0\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces \normalfont Comparison of Oracle Designs}}{27}{table.caption.97}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Computational Properties: Embedding vs. Symbolic}}{31}{table.caption.113}%
-\contentsline {table}{\numberline {3.5}{\ignorespaces Computational Profiles of GCR, DCA-Trie v1, and v2}}{38}{table.caption.137}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces \normalfont Comparison of Oracle Designs}}{24}{table.caption.79}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Computational Properties: Embedding vs. Symbolic}}{27}{table.caption.89}%
 \addvspace {0\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Generation Configuration}}{42}{table.caption.147}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Dataset Properties}}{43}{table.caption.149}%
-\contentsline {table}{\numberline {4.5}{\ignorespaces Beam vs.\ Greedy Decoding}}{47}{table.caption.162}%
-\contentsline {table}{\numberline {4.7}{\ignorespaces Gate Ablation}}{47}{table.caption.164}%
-\contentsline {table}{\numberline {4.9}{\ignorespaces Schema Source Ablation}}{48}{table.caption.166}%
-\contentsline {table}{\numberline {4.11}{\ignorespaces DFS Path Cap Ablation}}{48}{table.caption.168}%
-\contentsline {table}{\numberline {4.13}{\ignorespaces SIR Cross-Dataset Stability}}{49}{table.caption.171}%
-\contentsline {table}{\numberline {4.15}{\ignorespaces Filtering Impact by Dataset}}{49}{table.caption.173}%
-\contentsline {table}{\numberline {4.17}{\ignorespaces Beam Width Sensitivity}}{50}{table.caption.177}%
-\contentsline {table}{\numberline {4.19}{\ignorespaces Index Path Length Sensitivity}}{51}{table.caption.179}%
-\contentsline {table}{\numberline {4.21}{\ignorespaces Diversity Penalty Sensitivity}}{51}{table.caption.181}%
-\contentsline {table}{\numberline {4.23}{\ignorespaces Type Inference Quality Sensitivity}}{52}{table.caption.183}%
-\contentsline {table}{\numberline {4.25}{\ignorespaces Time Breakdown by Phase}}{52}{table.caption.186}%
-\contentsline {table}{\numberline {4.27}{\ignorespaces Memory Analysis}}{53}{table.caption.188}%
-\contentsline {table}{\numberline {4.29}{\ignorespaces Throughput by Method}}{53}{table.caption.190}%
-\contentsline {table}{\numberline {4.31}{\ignorespaces GCR Reproduction Comparison}}{54}{table.caption.193}%
-\contentsline {table}{\numberline {4.33}{\ignorespaces Beam Search vs.\ Greedy Decoding}}{55}{table.caption.195}%
-\contentsline {table}{\numberline {4.35}{\ignorespaces Path Statistics Before and After TypeOracle Filtering}}{56}{table.caption.199}%
-\contentsline {table}{\numberline {4.37}{\ignorespaces TypeOracle Gate Decomposition}}{57}{table.caption.201}%
-\contentsline {table}{\numberline {4.39}{\ignorespaces False Negative Rates by Gate}}{58}{table.caption.204}%
-\contentsline {table}{\numberline {4.41}{\ignorespaces Main Results on WebQSP}}{59}{table.caption.209}%
-\contentsline {table}{\numberline {4.43}{\ignorespaces Statistical Significance of Accuracy Difference}}{61}{table.caption.213}%
-\contentsline {table}{\numberline {4.45}{\ignorespaces Execution Time by Method}}{62}{table.caption.221}%
-\contentsline {table}{\numberline {4.47}{\ignorespaces Faithful Reasoning Ratio}}{63}{table.caption.223}%
-\contentsline {table}{\numberline {4.49}{\ignorespaces Case Studies Illustrating Non-Monotone Behaviour}}{64}{table.caption.225}%
-\contentsline {table}{\numberline {4.51}{\ignorespaces Results on CWQ}}{65}{table.caption.227}%
-\contentsline {table}{\numberline {4.53}{\ignorespaces GCR vs.\ DCA-Trie Multi-Dimensional Comparison}}{66}{table.caption.229}%
-\contentsline {table}{\numberline {4.55}{\ignorespaces Comparison with Related Methods}}{66}{table.caption.230}%
-\contentsline {table}{\numberline {4.57}{\ignorespaces DCA-Trie v2 Results}}{69}{table.caption.233}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Generation Configuration}}{35}{table.caption.114}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Dataset Properties}}{36}{table.caption.116}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Ablation Summary}}{40}{table.caption.129}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Efficiency Summary}}{41}{table.caption.133}%
+\contentsline {table}{\numberline {4.9}{\ignorespaces GCR Reproduction Comparison}}{42}{table.caption.135}%
+\contentsline {table}{\numberline {4.11}{\ignorespaces Path Statistics Before and After TypeOracle Filtering}}{43}{table.caption.139}%
+\contentsline {table}{\numberline {4.13}{\ignorespaces TypeOracle Gate Decomposition}}{44}{table.caption.141}%
+\contentsline {table}{\numberline {4.15}{\ignorespaces False Negative Rates by Gate}}{45}{table.caption.144}%
+\contentsline {table}{\numberline {4.17}{\ignorespaces Main Results on WebQSP}}{47}{table.caption.149}%
+\contentsline {table}{\numberline {4.19}{\ignorespaces Statistical Significance of Accuracy Difference}}{48}{table.caption.153}%
+\contentsline {table}{\numberline {4.21}{\ignorespaces Execution Time by Method}}{50}{table.caption.161}%
+\contentsline {table}{\numberline {4.23}{\ignorespaces Faithful Reasoning Ratio}}{51}{table.caption.163}%
+\contentsline {table}{\numberline {4.25}{\ignorespaces Case Studies Illustrating Non-Monotone Behaviour}}{52}{table.caption.165}%
+\contentsline {table}{\numberline {4.27}{\ignorespaces Results on CWQ}}{53}{table.caption.167}%
+\contentsline {table}{\numberline {4.29}{\ignorespaces GCR vs.\ DCA-Trie Multi-Dimensional Comparison}}{54}{table.caption.169}%
+\contentsline {table}{\numberline {4.31}{\ignorespaces Comparison with Related Methods}}{54}{table.caption.170}%
+\contentsline {table}{\numberline {4.33}{\ignorespaces DCA-Trie v2 Results}}{57}{table.caption.173}%
+\addvspace {0\p@ }
+\addvspace {0\p@ }
 \addvspace {0\p@ }
 \contentsfinish 

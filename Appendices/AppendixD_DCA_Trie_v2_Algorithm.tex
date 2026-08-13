@@ -1,0 +1,54 @@
+% =============================================================================
+% APPENDIX D: DCA-TRIE V2 ALGORITHM
+% =============================================================================
+
+\chapter{DCA-Trie v2: Full Step-Wise Expansion Algorithm}
+\label{AppendixD}
+
+This appendix gives the full algorithm for DCA-Trie v2 (Chapter~3, Section~\ref{sec:ch3v2}). The algorithm combines autoregressive generation with symbolic TypeOracle expansion: the trie starts minimal and grows only at entity-commitment steps, so that at every decoding step the set of valid tokens remains both graph-valid and type-consistent.
+
+The procedure follows four steps: (1)~initialize a minimal trie containing only the root question entities; (2)~at each decoding step, look up valid tokens from the current trie and apply logit masking; (3)~when the LLM commits an entity token, fetch all structurally valid neighbours from the knowledge graph and apply \texttt{range\_gate} and \texttt{type\_gate} to each candidate; (4)~add candidates passing both gates to the trie. Relation-token steps do not trigger expansion.
+
+\begin{algorithm}[H]
+  \caption{DCA-Trie v2: Step-Wise Symbolic Expansion}
+  \label{alg:appd_v2}
+  \small
+  \begin{algorithmic}[1]
+    \Require Knowledge graph $\mathcal{G}$; question entities $\mathcal{E}_q$;
+    question $q$; TypeOracle $\mathcal{O}$; LLM with vocabulary $\mathcal{V}$
+    \Ensure Generated reasoning chain $y_1 \ldots y_T$
+
+    \State \textbf{Initialize trie} with entity nodes for $\mathcal{E}_q$:
+    $\mathcal{T}_0 \gets \{e_q : e_q \in \mathcal{E}_q\}$
+
+    \State \textbf{Infer answer types:}
+    $\mathcal{T}(q) \gets \mathcal{O}.\text{infer\_answer\_types}(q)$
+
+    \For{each step $t = 1$ \textbf{to} $T$}
+    \State $\mathcal{V}_t \gets \textsc{TrieLookup}(\mathcal{T}_{t-1}, y_{<t})$
+    \Comment{Valid tokens from current trie}
+    \State $\mathbf{m}_t[v] \gets \mathbf{1}[v \in \mathcal{V}_t]$ for all $v$
+    \State $\tilde{\boldsymbol{\alpha}}_t \gets \mathbf{m}_t \odot
+      \textsc{LLMLogits}(y_{<t}, x)$
+    \State $y_t \gets \text{beam-search-step}(\tilde{\boldsymbol{\alpha}}_t)$
+
+    \If{$y_t$ is an \textit{entity} token $e_t$}
+    \Comment{Expansion triggered at entity commits}
+    \For{each $(e_t, r, e') \in \mathcal{G}$}
+    \If{$\mathcal{O}.\text{range\_gate}(r, e')$}
+    \State $h \gets$ current hop depth in trie
+    \If{$\mathcal{O}.\text{type\_gate}(e', \mathcal{T}(q), h, L)$}
+    \State Add $(e_t, r, e')$ to $\mathcal{T}_t$
+    \EndIf
+    \EndIf
+    \EndFor
+    \Else
+    \State $\mathcal{T}_t \gets \mathcal{T}_{t-1}$
+    \Comment{No expansion at relation token steps}
+    \EndIf
+    \EndFor
+    \State \Return $y_1 \ldots y_T$
+  \end{algorithmic}
+\end{algorithm}
+
+Relative to DCA-Trie v1's offline filtering cost of $O(|\mathcal{P}| \cdot L)$, the expansion loop above examines $D$ neighbours per entity commitment at $O(1)$ per neighbour, giving a total expansion cost of $O(T_e \cdot D \cdot L)$ where $T_e$ is the number of entity commitments. In typical WebQSP questions, $T_e \cdot D$ is small relative to $|\mathcal{P}|$ (a 2-hop question commits to 2 entities, each with $D \approx 20$ neighbours), so the per-step oracle cost of v2 is cheaper than v1's offline cost. The practical trade-off is not this per-step cost but the trie-rebuild frequency: each rebuild in the \textbf{if} branch above changes the set of valid tokens the LLM's beam search depends on mid-generation, which is the source of the instability discussed in Chapter~3, Section~\ref{sec:ch3v2behavior}, and evaluated empirically in Chapter~4.

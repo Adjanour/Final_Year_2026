@@ -13,15 +13,15 @@ valid next-token set in $O(1)$ time. The constraint is absolute: every generated
 must trace back to a real triple on the graph. Hallucination in the reasoning path
 drops to zero.
 
-Despite this effectiveness, a structural limitation remains. The trie is constructed
+Despite this effectiveness, a structural limitation remains: the trie is constructed
 once before decoding and never updated. Its content depends only on the graph structure
 and the question entities:
 \begin{equation}
   \mathcal{W}_{\text{val}}^{\text{GCR}}(t) = f(\mathcal{G},\, \mathcal{E}_q)
   \quad \forall\, t
-  \label{eq:gcr_oracle}
+   \label{eq:gcr_oracle}
 \end{equation}
-It does not depend on the question $q$ or the partial reasoning chain $y^{<t}$. For a
+It does not depend on the question $q$ or the partial reasoning chain $y^{<t}$, so for a
 three-hop question with average out-degree $d \approx 20$ and three question entities,
 GCR admits roughly $3 \times 20^3 = 24{,}000$ structurally valid paths. Only one leads
 to the correct answer. The LLM must navigate among the remaining 23{,}999 using the
@@ -302,8 +302,8 @@ correctly from what remains.
 \label{sec:method:sir}
 % -----------------------------------------------------------------------------
 
-Hits@1 measures whether the LLM finds the correct answer. It does not measure whether
-the constraint oracle is doing its job. A system with SIR = 1.0 (all paths admitted)
+Hits@1 measures whether the LLM finds the correct answer, not whether the constraint
+oracle is doing its job. A system with SIR = 1.0 (all paths admitted)
 and a system with SIR = 0.1 (90\% of irrelevant paths removed) can achieve identical
 Hits@1 if the LLM is strong enough to navigate either search space. Without a metric
 that isolates constraint quality from answer quality, it is impossible to compare

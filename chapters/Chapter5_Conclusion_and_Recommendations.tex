@@ -10,11 +10,11 @@
 \label{sec:ch5conclusion}
 % -----------------------------------------------------------------------------
 
-This thesis set out to test whether tightening the constraint oracle in graph-constrained LLM decoding improves answer accuracy. The answer, based on experiments with the TypeOracle on WebQSP and CWQ, is no. Reducing the candidate path set by 14.5\% through symbolic type and range filtering produced 5.2\% lower Hits@1 on WebQSP and 5.7\% lower on CWQ, not higher. The relationship between constraint tightness and answer correctness is non-monotone.
+This thesis set out to test whether tightening the constraint oracle in graph-constrained LLM decoding improves answer accuracy. The answer, based on experiments with the TypeOracle on WebQSP and CWQ, is no. Reducing the candidate path set by 14.5\% through symbolic type and range filtering produced 5.2pp lower Hits@1 on WebQSP and 4.0pp lower on CWQ, not higher. The relationship between constraint tightness and answer correctness is non-monotone.
 
 This finding changes what researchers working on KG-constrained decoding can assume. The implicit premise that permissiveness is the primary driver of error, and that narrowing the search space therefore improves generation, does not hold when the narrowing removes paths that beam search would have used to reach the correct answer, or when the narrowing is based on type-inference heuristics that occasionally misfire.
 
-The TypeOracle itself works as designed: structural faithfulness holds by construction, path reduction is meaningful (14.5\% on WebQSP, 16.8\% on CWQ), and false negative rates stay below 5\%. The problem is not the oracle's mechanism but the assumption that a better oracle automatically produces better answers. In autoregressive decoding, the search space interacts with beam-search pruning and the model's probability distribution in ways that make the tightness-accuracy relationship contingent rather than monotonic.
+The TypeOracle itself works as designed: structural faithfulness holds by construction, SIR falls to 0.145 on WebQSP and 0.168 on CWQ, and false negative rates stay below 5\%. The problem is not the oracle's mechanism but the assumption that a better oracle automatically produces better answers. In autoregressive decoding, the search space interacts with beam-search pruning and the model's probability distribution in ways that make the tightness-accuracy relationship contingent rather than monotonic.
 
 The non-monotone result exposes a design tradeoff the community has not yet formalised: the balance between \textit{filtering} (removing paths the oracle deems irrelevant) and \textit{unfiltering} (preserving paths the LLM's parametric knowledge might resolve correctly). Filtering reduces noise while also reducing diversity. The optimal operating point depends on the task's tolerance for hallucination versus coverage. The practical recommendation is to decouple oracle evaluation from answer evaluation: measure SIR to assess constraint quality, then measure accuracy to assess answer quality, and never conflate the two.
 
@@ -30,7 +30,7 @@ In summary, our main findings are:
 
   \item \textbf{Tightening the oracle does not improve answer accuracy.} DCA-Trie v1 produces 5.2\% lower Hits@1 on WebQSP and 5.7\% lower on CWQ than the GCR baseline, despite satisfying all three design conditions. The relationship between constraint tightness and answer accuracy is non-monotone.
 
-  \item \textbf{The non-monotone result is statistically significant.} Paired comparison shows $p < 0.001$ with a 95\% confidence interval of $[-6.2\%, -3.8\%]$ for the accuracy drop. The result is not an artefact of any single evaluation measure: all metrics (Hits@1, F1, Precision, Recall) show consistent drops of approximately 5 percentage points.
+  \item \textbf{The non-monotone result is statistically significant.} The WebQSP comparison gives $p < 0.001$ for the Hits@1 drop. Hits@1, precision, and recall each fall by roughly 4 to 6 percentage points, while F1 drops by 10.5 points. The result is not an artefact of any single evaluation measure.
 
   \item \textbf{The TypeOracle adds negligible overhead.} DCA-Trie v1 adds 0.5\% to the total runtime relative to GCR (56 seconds over 2.87 hours). The oracle's $O(1)$ set lookups are invisible compared to LLM decoding time. No additional LLM calls or input tokens are required.
 

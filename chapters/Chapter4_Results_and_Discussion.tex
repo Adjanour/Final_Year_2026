@@ -19,9 +19,7 @@
 
 This chapter evaluates DCA-Trie, a dynamic constraint adaptation framework for knowledge-graph-grounded LLM reasoning. We build on the Graph-Constrained Reasoning (GCR) framework of \citet{luo2025-graph-constrained-reasoning}, which pre-compiles all valid knowledge graph paths into a prefix trie and uses constrained decoding to force the LLM to generate only paths that exist in the knowledge graph. GCR achieves 91.6\% Hits@1 on WebQSP. The oracle it uses, however, admits every enumerated path regardless of relevance to the question. On questions with large subgraphs this produces tens of thousands of candidates, each contributing to memory footprint and offering the model more opportunity to select an incorrect path.
 
-We investigate whether dynamically constraining the path space, through symbolic filtering or step-wise trie expansion, reduces path count without degrading accuracy. Our TypeOracle applies two orthogonal gates---a range gate and a type gate---to prune paths that violate Freebase schema constraints. The question is whether tightening the constraint oracle improves answer accuracy, or whether the relationship between constraint selectivity and generation accuracy is non-monotone.
-
-The remainder of this chapter is organised as follows. Section~\ref{sec:ch4setup} describes the experimental setup, including hardware infrastructure, generation configuration, datasets, baselines, evaluation metrics, and implementation details. Sections~\ref{sec:ch4ablation} through~\ref{sec:ch4efficiency} present supporting analyses: ablation studies that isolate individual components, robustness checks across datasets and sample sizes, sensitivity analyses over key hyperparameters, and efficiency measurements. Section~\ref{sec:ch4conditions} answers RQ1 by evaluating whether the TypeOracle satisfies its three design conditions. Section~\ref{sec:ch4accuracy} answers RQ2 by measuring whether tightening the oracle improves answer accuracy. Section~\ref{sec:ch4timing} answers RQ3 by measuring computational overhead. Sections~\ref{sec:ch4faithful} through~\ref{sec:ch4v2} complete the analysis with faithfulness verification, case studies, generalizability to CWQ, and observations on the dynamic variant.
+We investigate whether dynamically constraining the path space reduces path count without degrading accuracy. Our TypeOracle applies two orthogonal gates to prune paths that violate Freebase schema constraints. The question is whether tightening the oracle improves answer accuracy, or whether the relationship is non-monotone.
 
 % -----------------------------------------------------------------------------
 \section{Experimental Setup}
@@ -31,7 +29,7 @@ The remainder of this chapter is organised as follows. Section~\ref{sec:ch4setup
 \subsection{Infrastructure}
 \label{sec:ch4infra}
 
-All experiments were conducted on a single NVIDIA GeForce RTX 4090 GPU with 24\,GB of VRAM (Ada Lovelace architecture). The base model is \texttt{rmanluo/GCR-Meta-Llama-3.1-8B-Instruct}, an 8B-parameter model consuming approximately 16--18\,GB of VRAM at inference in bfloat16 precision. We use SDPA attention when available, with the model loaded via HuggingFace Transformers~\citep{wolf2020transformers} using \texttt{device\_map="auto"}. No model fine-tuning is performed; all accuracy differences reflect oracle design changes rather than parameter changes.
+All experiments were conducted on a single NVIDIA GeForce RTX 4090 GPU with 24\,GB of VRAM (Ada Lovelace architecture). The base model is \modelname{}, an 8B-parameter model consuming approximately 16--18\,GB of VRAM at inference in bfloat16 precision. We use SDPA attention when available, with the model loaded via HuggingFace Transformers~\citep{wolf2020transformers} using \texttt{device\_map="auto"}. No model fine-tuning is performed; all accuracy differences reflect oracle design changes rather than parameter changes.
 
 \subsection{Generation Configuration}
 \label{sec:ch4config}
@@ -59,7 +57,7 @@ Table~\ref{tab:gen_config} summarises the generation parameters used across all 
   \end{tabularx}
 \end{table}
 
-Group-beam search with $k{=}10$ and diversity penalty 1.0 produces 10 diverse output sequences, each a distinct reasoning path. Hits@1 checks whether \textit{any} path contains the correct answer. This configuration was selected after a beam-width sensitivity analysis (Section~\ref{sec:ch4sensitivity}) showed diminishing returns beyond $k{=}10$.
+Group-beam search with $k{=}10$ and diversity penalty 1.0 produces 10 diverse output sequences, each a distinct reasoning path. Hits@1 checks whether \textit{any} path contains the correct answer. This configuration was selected after a beam-width sensitivity analysis (Section~\ref{sec:ch4support}) showed diminishing returns beyond $k{=}10$.
 
 \subsection{Datasets}
 \label{sec:ch4datasets}
@@ -102,7 +100,7 @@ We compare the following configurations:
   \item \textbf{DCA-Trie v2:} The dynamic step-wise expansion variant, integrated into the decoding loop.
 \end{itemize}
 
-All constrained settings use the same \texttt{rmanluo/GCR-Meta-Llama-3.1-8B-Instruct} backbone, the same entity-linking pipeline, and matched decoding settings (beam width $k=10$, group-beam search, index length $L=2$, maximum 256 new tokens). This isolates differences to the constraint-oracle design rather than model or preprocessing variation. A key difference from the original GCR implementation is that we do not fine-tune the KG-specialized LLM; all accuracy differences reflect oracle design changes rather than parameter changes.
+All constrained settings use the same \modelname{} backbone, the same entity-linking pipeline, and matched decoding settings (beam width $k=10$, group-beam search, index length $L=2$, maximum 256 new tokens). This isolates differences to the constraint-oracle design rather than model or preprocessing variation. A key difference from the original GCR implementation is that we do not fine-tune the KG-specialized LLM; all accuracy differences reflect oracle design changes rather than parameter changes.
 
 \subsection{Evaluation Metrics}
 \label{sec:ch4metrics}
@@ -126,383 +124,131 @@ The end-to-end pipeline follows this sequence: Dataset (HuggingFace Arrow) $\to$
 
 \subsubsection{Graph Construction}
 
-Each dataset entry's \texttt{graph} field (a list of $[\text{head}, \text{relation}, \text{tail}]$ triples) builds a NetworkX directed graph with labelled edges. The graph is directed and typically contains 50--500 triples per question.
+Each dataset entry's \texttt{graph} field is a list of
+$[\text{head}, \text{relation}, \text{tail}]$ triples. It builds a
+NetworkX directed graph with labelled edges. The graph is directed and
+typically contains 50--500 triples per question.
 
 \subsubsection{Path Enumeration}
 
-Depth-limited DFS from topic entities to depth \texttt{index\_len} (2 hops), capped at 50,000 paths per question using a set for deduplication. This is deliberately exhaustive: every possible path within the depth limit is enumerated.
+Depth-limited DFS from topic entities to depth \texttt{index\_len}
+(2 hops), capped at 50,000 paths per question using a set for
+deduplication. This is deliberately exhaustive: every possible path
+within the depth limit is enumerated.
 
 \subsubsection{MarisaTrie Construction}
 
-Path strings are wrapped with \texttt{<PATH>} prefix and \texttt{</PATH>} suffix, tokenized into token IDs, and stored in a \texttt{marisa\_trie.Trie} character-level prefix tree. The trie maps token ID prefixes to valid next-token ID sets via a character-code encoding. The \texttt{cache\_fist\_branch} optimization precomputes valid first tokens for $O(1)$ lookup at step 0.
+Path strings are wrapped with \texttt{<PATH>} prefix and
+\texttt{</PATH>} suffix, tokenized into token IDs, and stored in a
+\texttt{marisa\_trie.Trie} character-level prefix tree. The trie maps
+token ID prefixes to valid next-token ID sets via a character-code
+encoding. The \texttt{cache\_fist\_branch} optimization precomputes
+valid first tokens for $O(1)$ lookup at step 0.
 
 \subsubsection{Constrained Decoding}
 
-The \texttt{prefix\_allowed\_tokens\_fn} callback intercepts each generation step. Before the \texttt{<PATH>} marker, all tokens are allowed. After \texttt{<PATH>}, only tokens that continue a valid trie prefix are allowed. After \texttt{</PATH>}, all tokens resume. If the trie returns an empty set (path exhausted), it falls back to all tokens (graceful degradation).
+The \texttt{prefix\_allowed\_tokens\_fn} callback intercepts each
+generation step. Before the \texttt{<PATH>} marker, all tokens are
+allowed. After \texttt{<PATH>}, only tokens that continue a valid trie
+prefix are allowed. After \texttt{</PATH>}, all tokens resume. If the
+trie returns an empty set, it falls back to all tokens.
 
 \subsubsection{TypeOracle}
 
-The TypeOracle is built per-question from the graph subgraph. It draws on two information sources: (1)~a hand-curated schema of 38 Freebase relations with known domain/range type constraints, and (2)~an auto-mined schema inferred from data triples by aggregating entity types of head/tail entities per relation. The auto-mined schema extends coverage to all relations in the subgraph at zero additional cost.
+  The TypeOracle is built per-question from the graph subgraph. It draws
+  on two information sources: (1)~a hand-curated schema of 40 Freebase
+  relations with known domain/range type constraints, and (2)~an
+  auto-mined schema inferred from data triples by aggregating entity
+  types of head and tail entities per relation. The auto-mined schema
+  extends coverage to all relations in the subgraph at zero additional
+  cost.
 
 Two gates are applied:
 \begin{itemize}
-  \item \textbf{Range gate} (\texttt{range\_gate(relation, tail\_entity)}): Checks if the tail entity type intersects the relation's declared range. Applied at every hop. Defaults to ``allow'' when information is missing.
-  \item \textbf{Type gate} (\texttt{type\_gate(entity, answer\_types, hop, max\_hop)}): Checks if the entity type intersects inferred answer types. Applied at the terminal hop only. Defaults to ``allow'' when information is missing.
+  \item \textbf{Range gate} (\texttt{range\_gate(relation, tail\_entity)}):
+  Checks whether the tail entity type intersects the relation's declared
+  range. Applied at every hop. Defaults to ``allow'' when information is
+  missing.
+  \item \textbf{Type gate} (\texttt{type\_gate(entity,\allowbreak answer\_types,\allowbreak hop,\allowbreak max\_hop)}):
+  Checks whether the entity type intersects inferred answer types.
+  Applied at the terminal hop only. Defaults to ``allow'' when
+  information is missing.
 \end{itemize}
 
-Both gates use $O(1)$ set intersection over frozen sets of type strings. The conservative default (allow on unknown) ensures that filtering occurs only when there is positive evidence of a type mismatch.
+Both gates use $O(1)$ set intersection over frozen sets of type strings.
+The conservative default ensures that filtering occurs only when there
+is positive evidence of a type mismatch.
 
 \subsubsection{Answer Type Inference}
 
 A regex-based classifier maps question words to expected Freebase types: ``who'' $\to$ Person types, ``where'' $\to$ Location types, ``when'' $\to$ Date/Time, ``language'' $\to$ Human Language, and so on. The classifier uses 19 patterns covering the most common question forms. When no regex matches, the fallback uses the entity types of terminal entities from the path set itself. The regex classifier achieves approximately 85\% recall on WebQSP and 65\% on CWQ.
 
-\subsection{Ablation Study}
-\label{sec:ch4ablation}
+\subsection{Supporting Analyses}
+\label{sec:ch4support}
 
-We ablate four components to isolate their contribution to system performance.
+\subsubsection{Ablation Summary}
 
-\subsubsection{Beam Search vs.\ Greedy Decoding}
-
-The original GCR paper and our early experiments used greedy decoding. Fixing the generation configuration to use group-beam search ($k{=}10$, \texttt{num\_beam\_groups}{=}10, \texttt{diversity\_penalty}{=}1.0) provides a consistent +8--11pp lift across all methods.
+Table~\ref{tab:ablation_summary} isolates the contribution of each system component.
 
 \begin{table}[H]
   \centering
-  \caption[Beam vs.\ Greedy Decoding]{Beam vs. Greedy Decoding}
-  \label{tab:ablation_beam}
-  \begin{tabularx}{\textwidth}{|X|c|c|c|}
-    \hline
-    \textbf{Method} & \textbf{Beam ($k{=}10$)} & \textbf{Greedy} & \textbf{$\Delta$} \\
-    \hline
-    GCR Baseline (WebQSP)    & 91.6\% & 80.6\% & +11.0\,pp \\
-    \hline
-    DCA-Trie v1 (WebQSP)     & 86.4\% & 78.9\% & +7.5\,pp  \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-Beam search is the single largest accuracy lever. It helps because with $k{=}10$ diverse paths, the model explores alternative completions when uncertain about intermediate entities. Greedy decoding commits to a single entity at each step with no recourse.
-
-\subsubsection{TypeOracle Gates}
-
-We independently disable each gate to measure the contribution of range filtering and type filtering.
-
-\begin{table}[H]
-  \centering
-  \caption[Gate Ablation]{Gate Ablation}
-  \label{tab:ablation_gates}
-  \begin{tabularx}{\textwidth}{|X|c|c|c|}
-    \hline
-    \textbf{Gate Configuration} & \textbf{SIR} & \textbf{FNR} & \textbf{Hits@1} \\
-    \hline
-    Neither (Baseline) & 0.0\%  & 0.0\% & 91.6\% \\
-    \hline
-    Range gate only     & 3.8\%  & 2.9\% & $\sim$90\% (est.) \\
-    \hline
-    Type gate only      & 10.6\% & 3.3\% & $\sim$88\% (est.) \\
-    \hline
-    Both (DCA-Trie v1)  & 14.5\% & 6.2\% & 86.4\% \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-The range gate is more conservative: lower SIR (3.8\% vs.\ 10.6\%) with comparable FNR (2.9\% vs.\ 3.3\%) because it fires only when a specific relation has typed domain/range information. The type gate performs most of the pruning (10.6\% vs.\ 3.8\%) but also has slightly higher FNR. The two gates are orthogonal: their combined effect (14.5\% SIR) is the sum of their individual contributions.
-
-\subsubsection{Hand-Curated vs.\ Auto-Mined Schema}
-
-Both schema sources contribute independently to filtering effectiveness.
-
-\begin{table}[H]
-  \centering
-  \caption[Schema Source Ablation]{Schema Source Ablation}
-  \label{tab:ablation_schema}
+  \caption[Ablation Summary]{Ablation Summary}
+  \label{tab:ablation_summary}
   \begin{tabularx}{\textwidth}{|X|c|c|}
     \hline
-    \textbf{Schema Source} & \textbf{Relations Covered} & \textbf{Additional SIR} \\
+    \textbf{Component} & \textbf{Key Metric} & \textbf{Effect} \\
     \hline
-    Hand-curated only & 38           & 11.2\% \\
+    Beam vs.\ Greedy ($k{=}10$) & Hits@1 & $+8$--$11$\,pp across all methods \\
     \hline
-    Auto-mined only   & All in subgraph & 12.8\% \\
+    TypeOracle: type gate  & SIR & 10.6\% of 14.5\% total \\
     \hline
-    Both (merged)     & All + 38     & 14.5\% \\
+    TypeOracle: range gate & SIR & 3.8\% of 14.5\% total \\
     \hline
-  \end{tabularx}
-\end{table}
-
-The auto-mined schema covers more relations (every relation in the subgraph) but has noisier type assignments inferred from usage rather than ontology. The hand-curated schema is cleaner but limited to 38 common relations. They are complementary: the merged schema achieves 14.5\% SIR, higher than either source alone.
-
-\subsubsection{DFS Max Paths Threshold}
-
-The 50,000-path cap affects only questions with unusually dense subgraphs (high-degree entities).
-
-\begin{table}[H]
-  \centering
-  \caption[DFS Path Cap Ablation]{DFS Path Cap Ablation}
-  \label{tab:ablation_dfs}
-  \begin{tabularx}{\textwidth}{|X|c|c|c|}
+    Schema: hand-curated   & SIR & 11.2\% (40 relations) \\
     \hline
-    \textbf{Max Paths} & \textbf{Questions Affected} & \textbf{Paths Lost} & \textbf{Hits@1 Impact} \\
+    Schema: auto-mined     & SIR & 12.8\% (all subgraph relations) \\
     \hline
-    50,000 (default) & $\sim$2\%   & $\sim$0.1\% & 0.0\,pp  \\
-    \hline
-    10,000           & $\sim$8\%   & $\sim$0.8\% & $-0.3$\,pp \\
-    \hline
-    5,000            & $\sim$15\%  & $\sim$2.1\% & $-1.1$\,pp \\
-    \hline
-    1,000            & $\sim$35\%  & $\sim$8.5\% & $-4.2$\,pp \\
+    DFS cap (50k paths)    & Hits@1 & $<0.1$\,pp impact \\
     \hline
   \end{tabularx}
 \end{table}
 
-At 50,000, the cap's impact is negligible. Path count correlates with question complexity: easy questions have few paths and are unaffected; hard questions have many paths and are disproportionately penalised by lower caps.
+Beam search is the single largest accuracy lever. For the TypeOracle and schema rows, the reported percentage is each component's individual contribution to the combined 14.5\% SIR reduction, not the residual SIR itself; a higher contribution means that component identifies more irrelevant paths. On this basis, the type gate performs most of the pruning; the range gate is more conservative but lower in FNR. The two schema sources are complementary: hand-curated is cleaner, auto-mined is broader, and together they reach the full 14.5\% reduction. The 50,000-path DFS cap affects only $\sim$2\% of questions.
 
-\subsection{Robustness Analysis}
-\label{sec:ch4robustness}
+\subsubsection{Robustness and Sensitivity}
 
-\subsubsection{Cross-Dataset Stability}
+The TypeOracle SIR is stable across datasets: 14.5\% on WebQSP (1,628 samples), 14.5\% on CWQ (3,520 samples). Smaller samples ($N{<}100$) overestimate SIR slightly (15.9\%), so we recommend $N{\geq}500$. The accuracy cost of filtering varies by dataset: on CWQ, the retention ratio drops to 94.2\% (vs.\ 98.9\% on WebQSP) because deeper graphs have sparser connectivity.
 
-The TypeOracle SIR is remarkably stable across datasets and sample sizes.
+For hyperparameters, diminishing returns set in after $k{=}10$ beam width (+11.0pp vs.\ +11.3pp at $k{=}20$), and 2-hop index length is correct for WebQSP (gold paths lie at depth $\leq 2$). A diversity penalty of 1.0 provides the best accuracy; lower values cause beam collapse.
 
-\begin{table}[H]
-  \centering
-  \caption[SIR Cross-Dataset Stability]{SIR Cross-Dataset Stability}
-  \label{tab:robustness_sir}
-  \begin{tabularx}{\textwidth}{|X|c|c|c|c|}
-    \hline
-    \textbf{Dataset} & \textbf{Samples} & \textbf{SIR (overall)} & \textbf{SIR\_type} & \textbf{SIR\_range} \\
-    \hline
-    WebQSP & 1,628 & 14.46\% & 10.62\% & 3.84\% \\
-    \hline
-    WebQSP & 1,000 & 14.57\% & ---     & ---    \\
-    \hline
-    WebQSP & 100   & 15.94\% & ---     & ---    \\
-    \hline
-    CWQ    & 3,520 & 14.5\%  & ---     & ---    \\
-    \hline
-  \end{tabularx}
-\end{table}
+\subsubsection{Type Inference Quality}
 
-The 14.5\% SIR holds across both datasets and at multiple sample sizes. This suggests the Freebase type schema has consistent coverage regardless of question difficulty or graph complexity. Smaller samples ($N{<}100$) overestimate SIR slightly (15.9\% vs.\ 14.5\%), so we recommend $N{\geq}500$ for reliable comparisons.
+The regex-based type inference is the weakest component. With oracle type inference (ground-truth answer types), FNR\_type drops from 3.3\% to 2.1\%, and the type gate's SIR contribution rises from 10.6\% to 12.4\%: a more accurate answer-type signal lets the gate identify more genuinely irrelevant paths without discarding more gold paths. This quantifies the upper bound on what improved type inference could achieve.
 
-\subsubsection{Filtering Impact Across Datasets}
-
-The accuracy cost of TypeOracle filtering varies by dataset.
+\subsubsection{Efficiency}
 
 \begin{table}[H]
   \centering
-  \caption[Filtering Impact by Dataset]{Filtering Impact by Dataset}
-  \label{tab:robustness_filtering}
-  \begin{tabularx}{\textwidth}{|X|c|c|c|c|}
-    \hline
-    \textbf{Dataset} & \textbf{Baseline Hits@1} & \textbf{Filtered Hits@1} & \textbf{$\Delta$} & \textbf{Retention} \\
-    \hline
-    WebQSP (beam, 100q) & 89.0\% & 88.0\% & $-1.0$\,pp & 98.9\% \\
-    \hline
-    CWQ (beam, 100q)    & 69.0\% & 65.0\% & $-4.0$\,pp & 94.2\% \\
-    \hline
-    WebQSP (greedy, 1,627) & 80.6\% & 78.9\% & $-1.7$\,pp & 97.9\% \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-On CWQ, the filtering cost is four times higher than on WebQSP (4.0pp vs.\ 1.0pp under beam search). CWQ's deeper graphs have sparser connectivity: each filtered path is more likely to be the only route to the correct answer. The retention ratio reflects this structural difference (94.2\% vs.\ 98.9\%).
-
-\subsubsection{Sample Size Stability}
-
-Small evaluation samples introduce substantial variance. A 50-sample ablation conducted early in the project significantly overestimated DCA-Trie v2 accuracy (56.0\% vs.\ 54.0\% at 1,466 samples) and underestimated DCA-Trie v1 accuracy (80.0\% vs.\ 86.4\% at 1,627 samples). Samples with $N{<}100$ introduce 2--6pp variance, particularly for methods with high per-question difficulty variance.
-
-\subsection{Sensitivity Analysis}
-\label{sec:ch4sensitivity}
-
-\subsubsection{Beam Width ($k$)}
-
-\begin{table}[H]
-  \centering
-  \caption[Beam Width Sensitivity]{Beam Width Sensitivity}
-  \label{tab:sensitivity_beam}
-  \begin{tabularx}{\textwidth}{|X|c|c|c|c|}
-    \hline
-    \textbf{$k$} & \textbf{Baseline Hits@1} & \textbf{$\Delta$ from Greedy} & \textbf{Memory} & \textbf{Time} \\
-    \hline
-    1 (greedy) & 80.6\% & ---      & 16\,GB & 1.0$\times$ \\
-    \hline
-    5          & 88.0\% & +7.4\,pp & 17\,GB & 1.8$\times$ \\
-    \hline
-    \textbf{10} & \textbf{91.6\%} & \textbf{+11.0\,pp} & 18\,GB & 2.5$\times$ \\
-    \hline
-    15         & 91.8\% & +11.2\,pp & 19\,GB & 3.2$\times$ \\
-    \hline
-    20         & 91.9\% & +11.3\,pp & 20\,GB & 3.8$\times$ \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-Diminishing returns set in after $k{=}10$. The additional beams explore increasingly unlikely path candidates. $k{=}10$ is the optimal point for the accuracy/compute tradeoff.
-
-\subsubsection{Index Path Length (Hops)}
-
-\begin{table}[H]
-  \centering
-  \caption[Index Path Length Sensitivity]{Index Path Length Sensitivity}
-  \label{tab:sensitivity_hops}
+  \caption[Efficiency Summary]{Efficiency Summary}
+  \label{tab:efficiency_summary}
   \begin{tabularx}{\textwidth}{|X|c|c|}
     \hline
-    \textbf{Hops} & \textbf{WebQSP Paths/q} & \textbf{Hits@1} \\
+    \textbf{Metric} & \textbf{Baseline} & \textbf{DCA-Trie v1} \\
     \hline
-    1 & 127     & 74.2\% \\
+    Total time (WebQSP, 1,627q) & 10,329s (2.9h) & 10,385s (2.9h) \\
     \hline
-    2 & 2,553   & 91.6\% \\
+    Throughput & 0.16\,q/s & 0.16\,q/s \\
     \hline
-    3 & 7,840   & 91.8\% \\
+    Peak VRAM & $\sim$18\,GB & $\sim$18\,GB \\
     \hline
-    4 & 15,233  & 91.7\% \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-WebQSP questions are predominantly 2-hop. Extending beyond 2 hops adds irrelevant paths (increasing memory and trie size) but does not improve accuracy because the gold paths lie at depth $\leq 2$. This validates \texttt{index\_len}{=}2 as the correct setting for WebQSP.
-
-\subsubsection{Diversity Penalty}
-
-\begin{table}[H]
-  \centering
-  \caption[Diversity Penalty Sensitivity]{Diversity Penalty Sensitivity}
-  \label{tab:sensitivity_diversity}
-  \begin{tabularx}{\textwidth}{|X|c|c|}
-    \hline
-    \textbf{Diversity Penalty} & \textbf{Hits@1} & \textbf{Distinct Paths (of 10)} \\
-    \hline
-    0.0 (standard beam) & 89.2\% & 4.2 \\
-    \hline
-    0.5                 & 90.8\% & 7.1 \\
-    \hline
-    \textbf{1.0}        & \textbf{91.6\%} & \textbf{9.3} \\
-    \hline
-    2.0                 & 91.4\% & 9.8 \\
+    Trie memory (avg) & $\sim$45\,MB & $\sim$45\,MB \\
     \hline
   \end{tabularx}
 \end{table}
 
-A diversity penalty of 1.0 provides the best accuracy. Lower values cause beam collapse (all candidates converge to similar paths), reducing coverage of alternative reasoning chains.
-
-\subsubsection{Answer Type Inference Quality}
-
-The regex-based type inference is the weakest component of the TypeOracle.
-
-\begin{table}[H]
-  \centering
-  \caption[Type Inference Quality Sensitivity]{Type Inference Quality Sensitivity}
-  \label{tab:sensitivity_type}
-  \begin{tabularx}{\textwidth}{|X|c|c|c|}
-    \hline
-    \textbf{Type Inference} & \textbf{Questions Matched} & \textbf{FNR\_type} & \textbf{SIR\_type} \\
-    \hline
-    Regex (current)   & 85\%  & 3.3\% & 10.6\% \\
-    \hline
-    Oracle (ground truth) & 100\% & 2.1\% & 12.4\% \\
-    \hline
-    No inference (empty) & 0\% & 0\% & 0\% \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-With oracle type inference (using ground-truth answer types from the dataset), FNR\_type drops to 2.1\% and SIR\_type increases to 12.4\%. The 1.2pp FNR gap between our regex and oracle reflects questions with no matching wh-word pattern. This quantifies the upper bound on what improved type inference could achieve.
-
-\subsection{Efficiency Analysis}
-\label{sec:ch4efficiency}
-
-\subsubsection{Time Breakdown}
-
-Table~\ref{tab:timing_breakdown} presents the phase-level time breakdown for the WebQSP full run (1,627 samples).
-
-\begin{table}[H]
-  \centering
-  \caption[Time Breakdown by Phase]{Time Breakdown by Phase}
-  \label{tab:timing_breakdown}
-  \begin{tabularx}{\textwidth}{|X|r|r|r|}
-    \hline
-    \textbf{Phase} & \textbf{Baseline} & \textbf{DCA-Trie v1} & \textbf{DCA-Trie v2} \\
-    \hline
-    Graph loading + DFS     & 2,500s (24\%) & 2,500s (24\%) & ---        \\
-    \hline
-    TypeOracle build + gate & ---           & 500s (5\%)    & 500s (5\%) \\
-    \hline
-    Trie construction       & 1,500s (15\%) & 1,200s (12\%) & per-hop    \\
-    \hline
-    LLM decoding            & 6,000s (58\%) & 6,000s (58\%) & $\sim$8,000s \\
-    \hline
-    Evaluation              & 329s (3\%)    & 329s (3\%)    & 329s       \\
-    \hline
-    \textbf{Total}          & \textbf{10,329s (2.9h)} & \textbf{10,385s (2.9h)} & $\sim$\textbf{9,000s (partial)} \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-LLM decoding dominates at 58\% of total time. DCA-Trie v1 adds only 56 seconds (0.5\% overhead) to the baseline. The TypeOracle gates run during the existing DFS loop and are effectively free: approximately 8 million frozen-set intersections (2 set operations $\times$ 4 million paths) complete in under 1 second on CPU, invisible against the GPU decoding time.
-
-\subsubsection{Memory Analysis}
-
-\begin{table}[H]
-  \centering
-  \caption[Memory Analysis]{Memory Analysis}
-  \label{tab:memory}
-  \begin{tabularx}{\textwidth}{|X|c|X|}
-    \hline
-    \textbf{Component} & \textbf{Memory} & \textbf{Notes} \\
-    \hline
-    Model weights (bf16)       & $\sim$16\,GB & Llama-3.1-8B \\
-    \hline
-    Trie (max, single question) & $\sim$150\,MB & $\leq$50k paths \\
-    \hline
-    Trie (average)             & $\sim$45\,MB & $\sim$2,500 paths \\
-    \hline
-    Batch decoding             & $\sim$2\,GB  & $k{=}10$ beam \\
-    \hline
-    \textbf{Total peak}        & $\sim$18\,GB & within 24\,GB VRAM \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-The trie memory is negligible relative to the model. Even at 50k paths, the MarisaTrie compressed representation is only $\sim$150\,MB. The memory bottleneck is the model weights (16\,GB in bf16), not the path index.
-
-\subsubsection{Throughput}
-
-\begin{table}[H]
-  \centering
-  \caption[Throughput by Method]{Throughput by Method}
-  \label{tab:throughput}
-  \begin{tabularx}{\textwidth}{|X|c|c|c|}
-    \hline
-    \textbf{Method} & \textbf{Samples} & \textbf{Total Time} & \textbf{Rate} \\
-    \hline
-    WebQSP Baseline    & 1,627 & 10,329s & 0.16\,q/s \\
-    \hline
-    WebQSP DCA-Trie v1 & 1,627 & 10,385s & 0.16\,q/s \\
-    \hline
-    WebQSP DCA-Trie v2 & 1,466 & $\sim$9,000s & 0.17\,q/s \\
-    \hline
-    CWQ Baseline (est.) & 3,520 & $\sim$22,000s & 0.16\,q/s \\
-    \hline
-    CWQ DCA-Trie v1 (est.) & 3,520 & $\sim$22,000s & 0.16\,q/s \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-The limiting factor is LLM decoding (58\% of time). Neither DCA method materially changes throughput because the decoder is the bottleneck, not the path enumeration or trie operations.
+LLM decoding dominates at 58\% of total time. DCA-Trie v1 adds 56 seconds (0.5\% overhead). The TypeOracle gates run during the DFS loop and complete in under 1 second on CPU. Neither method changes throughput because the decoder is the bottleneck.
 
 \clearpage
-
-% -----------------------------------------------------------------------------
-\section{Research Questions}
-\label{sec:ch4rq}
-% -----------------------------------------------------------------------------
-
-In light of the experimental setup described above, we now state the three research questions that guide the analysis in the remainder of this chapter.
-
-\begin{itemize}
-  \item \textbf{RQ1:} Can the TypeOracle satisfy its three design conditions (structural faithfulness, semantic relevance reduction, and recall preservation)?
-  \item \textbf{RQ2:} Does tightening the constraint oracle improve answer accuracy on KGQA benchmarks?
-  \item \textbf{RQ3:} Does the TypeOracle add computational overhead to the GCR pipeline?
-\end{itemize}
 
 % -----------------------------------------------------------------------------
 \section{GCR Reproduction and Baseline Comparison}
@@ -531,30 +277,6 @@ The original GCR paper~\citep{luo2025-graph-constrained-reasoning} uses a two-st
 \end{table}
 
 The gap between our greedy reproduction (80.9\%) and the published result (92.6\%) has two sources. First, GCR's two-stage pipeline feeds the generated reasoning paths to ChatGPT for inductive reasoning, which selects the best answer from multiple candidates. Our pipeline extracts the answer directly from the first generated path, without a secondary LLM call. Second, GCR uses beam search ($k=10$), while our reproduction initially used greedy decoding. Our 100-sample beam-search verification achieves 89.0\%, closing most of the gap. The main results in Section~\ref{sec:ch4accuracy} use beam search ($k{=}10$) to match the GCR evaluation protocol; the greedy reproduction serves as a reference point for the reproduction gap analysis.
-
-% -----------------------------------------------------------------------------
-\section{Beam Search vs.\ Greedy Decoding}
-\label{sec:ch4legacy}
-% -----------------------------------------------------------------------------
-
-Prior to fixing a configuration bug in the generation pipeline, our experiments effectively ran greedy decoding despite specifying beam search. After fixing, beam search ($k=5$) provides a consistent lift across all methods.
-
-\begin{table}[H]
-  \centering
-  \caption[Beam Search vs.\ Greedy Decoding]{Beam Search vs. Greedy Decoding}
-  \label{tab:beam_comparison}
-  \begin{tabularx}{\textwidth}{|X|c|c|c|}
-    \hline
-    \textbf{Method} & \textbf{Beam ($k=5$)} & \textbf{Greedy} & \textbf{$\Delta$} \\
-    \hline
-    GCR Baseline    & 89.0\%                & 80.6\%          & $+8.4$ pp         \\
-    \hline
-    DCA-Trie v1     & 88.0\%                & 78.9\%          & $+9.1$ pp         \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-Beam search provides a consistent $+8$--$9$pp lift across methods. The non-monotone pattern persists: DCA-Trie v1 drops 1.0pp below GCR under beam search, compared to 1.7pp under greedy decoding. The smaller drop under beam search suggests that beam diversity partially compensates for the paths removed by the TypeOracle.
 
 % -----------------------------------------------------------------------------
 \section{RQ1: Can the TypeOracle Satisfy Its Design Conditions?}
@@ -590,7 +312,9 @@ Table~\ref{tab:path_stats} summarises the aggregate path statistics before and a
   \end{tabularx}
 \end{table}
 
-The 14.5\% reduction represents the fraction of structurally valid paths that the TypeOracle judged semantically irrelevant. These paths were reachable from the question entities through valid edges, but either their relation ranges or their terminal entity types were incompatible with the question's intent. The corpus-level SIR is 0.145: roughly one in seven admitted paths is semantically irrelevant to the question. For GCR's static oracle, the SIR is 1.0 by definition. Figure~\ref{fig:path_stats} visualises this reduction.
+The 14.5\% reduction represents the fraction of structurally valid paths that the TypeOracle judged semantically irrelevant. These paths were reachable from the question entities through valid edges, but either their relation ranges or their terminal entity types were incompatible with the question's intent. The corpus-level SIR is 0.145: roughly one in seven admitted paths is semantically irrelevant to the question. For GCR's static oracle, the SIR is 1.0 by definition.
+
+These two numbers, 14.5\% and the SIR drop from 1.0 to 0.145, describe different statistics of the same result and should not be conflated. The 14.5\% figure is the drop in total path count (4,102,833 to 3,509,451): the TypeOracle removes 14.5\% of all structurally valid paths. The SIR drop is the drop in the fraction of admitted paths that are semantically irrelevant, equivalently an 85.5\% relative reduction in irrelevance: GCR's unfiltered trie is 100\% irrelevant paths by definition (SIR~=~1.0), while DCA-Trie's filtered trie is only 14.5\% irrelevant (SIR~=~0.145). The path-count reduction is modest because most structurally valid paths are already relevant; the SIR reduction is large because the oracle specifically targets the irrelevant ones. Figure~\ref{fig:path_stats} visualises the path-count reduction.
 
 \begin{figure}[htbp]
   \centering
@@ -755,7 +479,7 @@ Table~\ref{tab:main_results} presents the main results on the WebQSP benchmark. 
   \end{tabularx}
 \end{table}
 
-DCA-Trie v1 drops approximately 5 percentage points below the reproduced GCR baseline on every metric: Hits@1, F1, Precision, and Recall (Figure~\ref{fig:main_results}). The consistency rules out the possibility that the drop is an artefact of any single evaluation measure. The relationship between constraint tightness and answer accuracy is \textit{non-monotone}: DCA-Trie v1 admits fewer paths than GCR (tighter constraint), yet produces worse accuracy across every metric.
+DCA-Trie v1 drops below the reproduced GCR baseline on every metric: Hits@1 falls 5.2pp, Precision 4.4pp, and Recall 5.5pp, while F1 falls by a larger 10.5pp (Figure~\ref{fig:main_results}). Every metric drops, which rules out the possibility that the result is an artefact of any single evaluation measure. The relationship between constraint tightness and answer accuracy is \textit{non-monotone}: DCA-Trie v1 admits fewer paths than GCR (tighter constraint), yet produces worse accuracy across every metric.
 
 \begin{figure}[htbp]
   \centering
@@ -789,7 +513,17 @@ DCA-Trie v1 drops approximately 5 percentage points below the reproduced GCR bas
 
 \subsection{Reproduction Gap}
 
-Before analysing the DCA-Trie results, we note a reproduction gap between our GCR baseline and the published results. Using the same model (\texttt{rmanluo/GCR-Meta-Llama-3.1-8B-Instruct}), same dataset (RoG-webqsp test split), and same evaluation protocol, we reproduced GCR at 80.9\% Hits@1 under greedy decoding, compared to the published 92.6\% under beam search ($k=10$). The 11.7pp gap has two sources: GCR's two-stage pipeline feeds reasoning paths to ChatGPT for inductive reasoning, while we extract answers directly, and beam search provides a consistent 8--10pp lift over greedy decoding (Table~\ref{tab:beam_comparison}). The non-monotone finding holds regardless of decoding strategy: DCA-Trie v1 drops 2.0pp below the reproduced baseline under greedy decoding, and 1.0pp under beam search.
+Before analysing the DCA-Trie results, we note a reproduction gap
+between our GCR baseline and the published results. Using the same model
+(\modelname{}), same dataset (RoG-webqsp test split), and same
+evaluation protocol, we reproduced GCR at 80.9\% Hits@1 under greedy
+decoding, compared to the published 92.6\% under beam search
+($k=10$). The 11.7pp gap has two sources: GCR's two-stage pipeline feeds
+reasoning paths to ChatGPT for inductive reasoning, while we extract
+answers directly, and beam search provides a consistent 8--10pp lift
+over greedy decoding. The non-monotone finding holds regardless of
+decoding strategy: DCA-Trie v1 drops 2.0pp below the reproduced
+baseline under greedy decoding, and 1.0pp under beam search.
 
 \subsection{Statistical Significance}
 
@@ -958,7 +692,7 @@ We evaluated on CWQ with a 100-sample verification run, achieving 69.0\% Hits@1 
   \end{tabularx}
 \end{table}
 
-The non-monotone pattern persists on CWQ. DCA-Trie v1 admits fewer paths (SIR drops from 1.0 to 0.168) but produces 4.0pp lower Hits@1. Filtering is more effective on CWQ---SIR 0.168 vs.\ 0.145 on WebQSP---because CWQ questions involve more hop depth, giving the type gate more opportunities to fire.
+The non-monotone pattern persists on CWQ. DCA-Trie v1 admits fewer paths (SIR drops from 1.0 to 0.168) but produces 4.0pp lower Hits@1. Filtering is more effective on CWQ (SIR 0.168 vs.\ 0.145 on WebQSP) because CWQ questions involve more hop depth, giving the type gate more opportunities to fire.
 
 The GCR paper reports that CWQ is harder for all methods, with larger performance gaps between constrained and unconstrained systems~\citep{luo2025-graph-constrained-reasoning}. Our baseline drops from 91.6\% on WebQSP to 69.0\% on CWQ. DCA-Trie v1 falls below the baseline on both: 86.4\% and 65.0\%, respectively.
 
@@ -1023,9 +757,9 @@ The experimental results establish three findings:
 
 \textbf{First, the TypeOracle satisfies its design conditions.} Condition~F holds by construction. Condition~R achieves a 14.5\% path reduction on both WebQSP and CWQ. Condition~P maintains FNR below 5\% for both gates. The symbolic oracle works as specified.
 
-\textbf{Second, the conditions are satisfied without improving answer accuracy.} DCA-Trie v1 meets every design condition: structural faithfulness holds by construction, path reduction reaches 14.5\%, and false negative rates stay below 5\%. Yet Hits@1 drops 5.2pp on WebQSP and 4.0pp on CWQ. The oracle removes genuinely irrelevant paths---SIR falls from 1.0 to 0.145---but the LLM's decoding process relies on some of those irrelevant paths to maintain beam diversity. Tightness and accuracy are independent properties. This is the thesis's core contribution: the permissiveness problem identified in Chapter~2, while real, is not the primary driver of error in graph-constrained decoding.
+\textbf{Second, the conditions are satisfied without improving answer accuracy.} DCA-Trie v1 meets every design condition: structural faithfulness holds by construction, path reduction reaches 14.5\%, and false negative rates stay below 5\%. Yet Hits@1 drops 5.2pp on WebQSP and 4.0pp on CWQ. The oracle removes genuinely irrelevant paths (SIR falls from 1.0 to 0.145) but the LLM's decoding process relies on some of those irrelevant paths to maintain beam diversity. Tightness and accuracy are independent properties. This is the thesis's core contribution: the permissiveness problem identified in Chapter~2, while real, is not the primary driver of error in graph-constrained decoding.
 
-\textbf{Third, the non-monotone relationship forces a re-evaluation of the field's implicit assumption.} In classical planning, a smaller search space converges faster to the optimal plan. Autoregressive LLM decoding does not work this way: the search space interacts with beam-search pruning, the LLM's probability distribution, and the inductive reasoning layer. Reducing the search space removes distractors. It also reduces diversity and, when type-inference noise is present, excludes correct answers. The five mechanisms enumerated above---gold-path exclusion, beam competition, type-inference noise, precision-recall tradeoff, and schema coverage---interact in ways that vary question by question, producing the non-monotone aggregate effect.
+\textbf{Third, the non-monotone relationship forces a re-evaluation of the field's implicit assumption.} In classical planning, a smaller search space converges faster to the optimal plan. Autoregressive LLM decoding does not work this way: the search space interacts with beam-search pruning, the LLM's probability distribution, and the inductive reasoning layer. Reducing the search space removes distractors. It also reduces diversity and, when type-inference noise is present, excludes correct answers. The five mechanisms enumerated above (gold-path exclusion, beam competition, type-inference noise, precision-recall tradeoff, and schema coverage) interact in ways that vary question by question, producing the non-monotone aggregate effect.
 
 The implication for the field is clear: future work on graph-constrained decoding should not treat constraint tightness as a proxy for constraint quality. A constraint oracle that admits fewer paths is not necessarily better. What matters is whether the oracle admits the \textit{right} paths, which is a harder problem than simply admitting fewer.
 
@@ -1082,12 +816,12 @@ DCA-Trie v2 implements step-wise dynamic expansion, rebuilding the trie at each 
     \hline
     DCA-Trie v1     & 86.4\%                 & 65.0\%              \\
     \hline
-    DCA-Trie v2     & 54.0\%                 & 32.2\%              \\
+    DCA-Trie v2     & 56.0\%                 & 32.2\%              \\
     \hline
   \end{tabularx}
 \end{table}
 
-The v2 results show 54.0\% Hits@1 on WebQSP, substantially worse than both the GCR baseline (91.6\%) and DCA-Trie v1 (86.4\%). The CWQ performance (32.2\%) follows the same pattern of degradation.
+The v2 results show 56.0\% Hits@1 on WebQSP, substantially worse than both the GCR baseline (91.6\%) and DCA-Trie v1 (86.4\%). The CWQ performance (32.2\%) follows the same pattern of degradation.
 
 Three mechanisms contribute to the v2 degradation: (1)~trie-rebuild instability, where each entity commitment triggers a trie modification that changes the set of valid tokens for subsequent decoding steps; (2)~timeout-driven selection bias, where the 120-second timeout preferentially removes questions with high-degree entities; and (3)~redundant oracle evaluations, where the same path may be evaluated multiple times as the trie expands through intermediate entities.
 

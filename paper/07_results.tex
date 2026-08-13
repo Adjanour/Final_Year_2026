@@ -119,11 +119,11 @@ accuracy. The two metrics move in opposite directions.
 
     \end{tikzpicture}
   }%
-  \caption[SIR versus Hits@1 trade-off]{SIR versus Hits@1 across configurations. GCR achieves high Hits@1 (91.6\%) but high SIR (1.000), meaning it admits many irrelevant paths. DCA-Trie v1 reduces SIR to 0.145 (tighter constraint) but Hits@1 drops to 86.4\%. DCA-Trie v2 pushes SIR lower (0.089) but Hits@1 collapses to 54.0\%. The two metrics move in opposite directions: this is the non-monotone result.}
+  \caption[SIR versus Hits@1 trade-off]{SIR versus Hits@1 across configurations. GCR achieves high Hits@1 (91.6\%) but high SIR (1.000), meaning it admits many irrelevant paths. DCA-Trie v1 reduces SIR to 0.145 (tighter constraint) but Hits@1 drops to 86.4\%. DCA-Trie v2 pushes SIR lower (0.089) but Hits@1 collapses to 56.0\%. The two metrics move in opposite directions: this is the non-monotone result.}
   \label{fig:sir_hits}
 \end{figure}
 
-DCA-Trie v2 achieves only 54.0\% Hits@1, below the unconstrained LLM. The step-wise
+DCA-Trie v2 achieves only 56.0\% Hits@1, below the unconstrained LLM. The step-wise
 expansion introduces too many oracle calls per question, and each call has a small
 probability of excluding the correct path. The cumulative effect is catastrophic: by
 the time the final answer is generated, a substantial fraction of gold paths have been
@@ -156,7 +156,7 @@ drop. The combined oracle achieves 85.5\% SIR reduction but the Hits@1 drop
 the two gates compound their exclusion effect.
 
 The FNR values (2.9\% and 3.3\%) are low in absolute terms, but their impact on
-Hits@1 is non-trivial. This is because gold paths are not uniformly distributed: the
+Hits@1 is non-trivial because gold paths are not uniformly distributed: the
 correct path for a question is often a high-probability beam candidate. Removing even a
 small fraction of gold paths eliminates candidates that the beam search would have
 selected.
@@ -204,7 +204,7 @@ Table~\ref{tab:rq5} compares v1 and v2 across all metrics.
     \toprule
     Metric              & DCA-Trie v1 & DCA-Trie v2 \\
     \midrule
-    Hits@1              & 86.4\%      & 54.0\%      \\
+    Hits@1              & 86.4\%      & 56.0\%      \\
     SIR                 & 0.145       & 0.089       \\
     FNR (combined)      & 3.3\%       & 12.1\%      \\
     Latency overhead    & 0.6\%       & 13.2\%      \\

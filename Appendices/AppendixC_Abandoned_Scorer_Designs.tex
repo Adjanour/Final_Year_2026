@@ -1,0 +1,42 @@
+% =============================================================================
+% APPENDIX C: ABANDONED SCORER DESIGNS
+% =============================================================================
+
+\chapter{Abandoned Semantic Scorer Designs}
+\label{AppendixC}
+
+This appendix gives the full design rationale for the two embedding-based relevance scorers (Approaches 1 and 2) that preceded the final symbolic TypeOracle described in Chapter~3, Section~\ref{sec:ch3scorer}. Both designs were implemented and tested before being abandoned in favour of the ontology-gate formulation.
+
+\section{Approach 1: Cosine Similarity (Abandoned)}
+
+The initial design scored each candidate path by computing cosine similarity between a sentence-transformer embedding of the serialised path string and an embedding of the input question:
+\begin{equation}
+  \text{score}(p, q) = \cos\!\bigl(E(\text{str}(p)),\; E(q)\bigr)
+  \label{eq:appc_cosine_v1}
+\end{equation}
+A path was admitted if $\text{score}(p, q) \geq \tau$, where $\tau$ was a tuned threshold. This approach was abandoned for four reasons:
+
+\begin{enumerate}
+  \item \textit{Semantic collapse:} A single cosine score cannot distinguish \textit{why} a path is relevant. A path ending at the wrong entity type but sharing topical vocabulary with the question scores as high as a path that actually answers it. Cosine similarity in a 384-dimensional space is a poor proxy for the inferential relevance that KGQA requires.
+  \item \textit{Encoder cost:} Every candidate path requires a full forward pass through \texttt{all-MiniLM-L6-v2}. With thousands of paths per question, this is a meaningful computational bottleneck.
+  \item \textit{Threshold sensitivity:} The admission threshold $\tau$ is dataset-dependent and must be tuned on a validation split. Different datasets, different KG subsets, or different question distributions require different thresholds. At $\tau = 0.25$, 84\% of WebQSP queries produced empty path sets after filtering: the threshold was so aggressive that it rejected nearly all paths, leaving the LLM with nothing to generate. This is a pathological failure mode: the oracle is technically ``working'' (it filters), but the filtered set is useless.
+  \item \textit{Non-determinism:} Floating-point cosine similarity introduces non-deterministic admission decisions across runs, making the oracle difficult to reproduce exactly.
+\end{enumerate}
+
+\section{Approach 2: Decomposed Product Score (Abandoned)}
+
+The second design replaced the monolithic cosine score with a product of three interpretable components:
+\begin{equation}
+  \text{score}(e_t, r, e' \mid q) = \rho_r(r, q) \cdot \rho_e(e', q) \cdot \rho_{\text{traj}}(r, e', q)
+  \label{eq:appc_decomposed}
+\end{equation}
+where $\rho_r$ measures relational relevance through entity-masked encoding, $\rho_e$ is a hard type gate (binary, no encoder), and $\rho_{\text{traj}}$ measures trajectory relevance through cosine similarity of the (relation, entity) pair against the question.
+
+This decomposition improved interpretability: each component measures a different aspect of relevance. The hard type gate ($\rho_e$) pruned type-incompatible paths without any encoder call, saving compute. But two fundamental problems remained:
+
+\begin{enumerate}
+  \item \textit{Encoder dependency persists:} Both $\rho_r$ and $\rho_{\text{traj}}$ require sentence-transformer forward passes. The decomposed score reduces but does not eliminate encoder cost.
+  \item \textit{Threshold persists:} The admission threshold $\tau$ is still dataset-dependent. Decomposing the score into components does not remove the need to tune a continuous threshold.
+\end{enumerate}
+
+The partial success of the hard type gate in Approach 2, which removed the encoder dependency for one of the three components without any loss of admission quality, was the direct motivation for asking whether \textit{all} components could be replaced with deterministic set operations over KG ontology metadata. That question led to the symbolic TypeOracle described in Chapter~3, Section~\ref{sec:ch3oracle}.

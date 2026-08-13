@@ -5,13 +5,13 @@
 \chapter{LITERATURE REVIEW}
 
 
-While large language models (LLMs) are good at many tasks, their use of autoregressive generation makes them likely to produce fluent but incorrect information~\citep{ji2023survey}. For knowledge-intensive question answering, this unreliability is a major roadblock: the ability to verify reasoning against external facts is essential. To tackle this issue, recent studies have focused on grounding models in structured external facts through knowledge graphs. Still, keeping a model strictly aligned with these graphs during generation, without losing its natural flow, is a difficult challenge.
+While large language models (LLMs) are good at many tasks, their use of autoregressive generation makes them likely to produce fluent but incorrect information~\citep{ji2023survey}. For knowledge-intensive question answering, this unreliability is a major roadblock as the ability to verify reasoning against external facts is essential. To tackle this issue, recent studies have focused on grounding models in structured external facts through knowledge graphs. Still, keeping a model strictly aligned with these graphs during generation, without losing its natural flow, is a difficult challenge.
 
-This literature review looks at the current research on these challenges and examines how knowledge graph constraints might help ensure factual accuracy during multi-hop reasoning. Instead of immediately discussing the proposed solution, this chapter outlines the connections between language model hallucination, multi-step validation, and structured grounding. By assessing current strategies to reduce errors, from improved prompting to fixed decoding, this chapter shows where soft-grounding methods do not meet expectations, highlighting the specific technical gaps this project addresses.
+This literature review looks at the current research on these challenges and examines how knowledge graph constraints might help ensure factual accuracy during multi-hop reasoning. This chapter outlines the connections between language model hallucination, multi-step validation, and structured grounding. By assessing current strategies to reduce errors, from improved prompting to fixed decoding, this chapter shows where soft-grounding methods do not meet expectations, highlighting the specific technical gaps this project addresses.
 
 
 % -----------------------------------------------------------------------------
-\section{Large Language Models and the Hallucination Problem}
+\section{Large Language Models and Hallucination}
 \label{sec:llms}
 % -----------------------------------------------------------------------------
 
@@ -25,11 +25,11 @@ LLMs are pretrained on vast unlabelled text using next-token prediction. The GPT
 
 Hallucination in natural language generation refers to the production of content that is fluent and internally coherent yet factually unsupported by or in contradiction with verifiable sources~\citep{ji2023survey}. \citet{huang2023survey} refine this into \textit{intrinsic hallucination} (output contradicts provided source context) and \textit{extrinsic hallucination} (output contains claims unverifiable against any source). Both types appear at non-trivial rates: \citet{ji2023survey} survey over 30 works finding hallucination rates from 15\% to over 60\%, and \citet{luo2025-graph-constrained-reasoning} report that retrieval-augmented reasoning approaches produce hallucinated reasoning steps in approximately one-third of cases even with direct access to a knowledge graph.
 
-The primary cause is structural. Three aspects of the autoregressive mechanism make hallucination an ongoing risk. First, the generation distribution is based entirely on learned parameters, with no component that verifies tokens against an external source. Second, errors propagate forward: a hallucinated token at step $t$ becomes conditioning context for step $t{+}1$, producing fluent continuations of an incorrect chain. Third, the distribution is defined over the full vocabulary at every step, meaning any token has a positive chance of selection regardless of factual correctness~\citep{brown2020gpt3,huang2023survey,ji2023survey}.
+Hallucination is generally attributed to a combination of data, training, and inference-time factors~\citep{huang2023survey}. This work is concerned with the last of these: the autoregressive decoding mechanism itself makes hallucination structurally possible, independent of data quality or training procedure. Three properties of this mechanism are relevant. First, the generation distribution is based entirely on learned parameters, with no component that verifies tokens against an external source. Second, errors propagate forward: a hallucinated token at step $t$ becomes conditioning context for step $t{+}1$, producing fluent continuations of an incorrect chain. Third, the model imposes no hard constraint on which tokens are eligible at each step, so factually invalid continuations remain within the support of the output distribution~\citep{brown2020gpt3}.
 
 \subsection{The Scaling Paradox}
 
-A common argument is that larger models should eventually achieve factual reliability. Evidence does not support this. \citet{lin2022truthfulqa} introduce TruthfulQA and find that larger models do not outperform smaller ones in truthfulness and in some categories show \textit{inverse scaling}---they reproduce widespread incorrect beliefs more effectively. \citet{perez2022sycophancy} show that RLHF-trained models generate confident-sounding responses aligned with apparent user expectations rather than verifiable facts. \citet{kandpal2023large} demonstrate that larger models improve on frequently-seen entity combinations but not on compositional questions requiring unseen fact combinations---precisely the structure of multi-hop KG questions. \citet{mallen2023not} confirm significant hallucination rates for GPT-4 on tail-entity questions regardless of model size. Together, these findings establish hallucination as a structural feature of the autoregressive mechanism, not a scaling issue.
+A common argument is that larger models should eventually achieve factual reliability. Evidence does not support this. \citet{lin2022truthfulqa} introduce TruthfulQA and find that larger models do not outperform smaller ones in truthfulness and in some categories show \textit{inverse scaling}, reproducing widespread incorrect beliefs more effectively. \citet{perez2022sycophancy} show that RLHF-trained models generate confident-sounding responses aligned with apparent user expectations rather than verifiable facts. \citet{kandpal2023large} demonstrate that larger models improve on frequently-seen entity combinations but not on compositional questions requiring unseen fact combinations, precisely the structure of multi-hop KG questions. \citet{mallen2023not} confirm significant hallucination rates for GPT-4 on tail-entity questions regardless of model size. Together, these findings establish hallucination as a structural feature of the autoregressive mechanism, not a scaling issue.
 
 % -----------------------------------------------------------------------------
 \section{Chain-of-Thought and Its Limits}
@@ -38,17 +38,17 @@ A common argument is that larger models should eventually achieve factual reliab
 
 \subsection{Chain-of-Thought Prompting}
 
-Chain-of-thought (CoT) prompting~\citep{wei2022cot} is the dominant paradigm for eliciting multi-step reasoning from LLMs. By including worked examples that show intermediate reasoning steps, the model learns to decompose complex problems into simpler sub-problems. \citet{wei2022cot} demonstrate substantial accuracy improvements on arithmetic, commonsense, and multi-hop QA benchmarks, with the capability emerging at approximately 100 billion parameters. Zero-shot chain-of-thought~\citep{kojima2022zero} achieves similar benefits by adding ``Let's think step by step'' to the prompt.
+Chain-of-thought (CoT) prompting~\citep{wei2022cot} is the dominant paradigm for eliciting multi-step reasoning from LLMs. By including worked examples that show intermediate reasoning steps, the model learns to decompose complex problems into simpler sub-problems. \citet{wei2022cot} demonstrate accuracy improvements on arithmetic, commonsense, and multi-hop QA benchmarks, with the capability emerging at approximately 100 billion parameters. Zero-shot chain-of-thought~\citep{kojima2022zero} achieves similar benefits by adding ``Let's think step by step'' to the prompt.
 
 Despite these improvements, CoT has a fundamental structural limitation: each intermediate step is generated by the same autoregressive mechanism. An incorrect step propagates forward as conditioning context, and no mechanism verifies that any step corresponds to a fact in an external source. A CoT chain can be entirely fluent and internally coherent while containing factually fabricated steps.
 
-\subsection{Extensions: Self-Consistency and Tree-of-Thought}
+\subsection{Self-Consistency and Tree-of-Thought}
 
 Self-consistency~\citep{wang2023selfconsistency} samples several independent CoT chains and chooses the final answer by majority vote, reducing sensitivity to individual hallucinated chains. However, a majority of independently hallucinated chains can still produce an incorrect answer, especially on deep multi-hop questions. Tree-of-Thought~\citep{yao2023-tree-of-thought} treats generation as search through a tree of partial reasoning sequences, using the LLM as both generator and evaluator. The key limitation persists: pruning decisions rely on the model's own parameters without external verification of factual accuracy.
 
-\subsection{The Faithfulness Ceiling}
+\subsection{Why Prompting Cannot Guarantee Faithfulness}
 
-All prompting-based methods---few-shot, CoT, self-consistency, tree-of-thought---modify the \textit{input} to the LLM without modifying the \textit{generation mechanism}. Since decoding happens over the full vocabulary, each token has a strictly positive probability at every step. True structural faithfulness requires that invalid tokens receive exactly zero probability. This can only be achieved by directly changing the decoding algorithm~\citep{geng2023grammarconstrained, willard2023outlines}.
+All prompting-based methods (few-shot, CoT, self-consistency, tree-of-thought) modify the \textit{input} to the LLM without modifying the \textit{generation mechanism}. Since decoding happens over the full vocabulary, each token has a strictly positive probability at every step. True structural faithfulness requires that invalid tokens receive exactly zero probability. This can only be achieved by directly changing the decoding algorithm~\citep{geng2023grammarconstrained, willard2023outlines}.
 
 % -----------------------------------------------------------------------------
 \section{Knowledge Graphs and Knowledge Graph Question Answering}
@@ -65,15 +65,15 @@ A knowledge graph is a structured database of verified facts, represented as dir
   \label{fig:kg_example}
 \end{figure}
 
-The critical distinction between a KG and an unstructured text corpus is that every triplet has been explicitly verified and is machine-readable in deterministic form. This makes KGs suitable as sources for hard constraints on generation: a candidate token can be verified via exact lookup rather than probabilistic semantic matching. A multi-hop reasoning path of length $L$ is a sequence $(e_0, r_1, e_1, \ldots, r_L, e_L)$ in which each consecutive triplet $(e_{i-1}, r_i, e_i)$ is a verified member of $\mathcal{T}$~\citep{lan2022survey}.
+The critical distinction between a KG and an unstructured text corpus is that every triplet has been explicitly verified and is machine-readable in deterministic form. This makes KGs suitable as sources for hard constraints on generation: a candidate token can be verified via exact lookup rather than probabilistic semantic matching. A multi-hop reasoning path of length $L$ is a sequence $(e_0, r_1, e_1, \ldots, r_L, e_L)$ in which each consecutive triplet $(e_{i-1}, r_i, e_i)$ is a verified edge of $\mathcal{G}$~\citep{lan2022survey}.
 
 \subsection{Knowledge Graph Question Answering}
 
-KGQA requires a system to identify the answer entity $e_L$ to a natural language question $q$ by reasoning through a chain of verified KG triplets. Formally: given question $q$ with question entities $\mathcal{E}_q \subseteq \mathcal{E}$ identified by entity linking, identify the terminal entity of the correct reasoning path in $\mathcal{G}$~\citep{lan2022survey}. Early approaches relied on semantic parsing or information retrieval over KG subgraphs. More recent approaches use LLMs as retrievers, agents iteratively querying the KG, or generators conditioned on retrieved subgraph context~\citep{jiang2023structgpt, jin2024graphcot, luo2024rog}. The move toward LLM-based KGQA has improved fluency but brought back hallucination risks.
+KGQA requires a system to identify the answer entity $e_L$ to a natural language question $q$ by reasoning through a chain of verified KG triplets. Formally: given question $q$ with question entities $\mathcal{E}_q \subseteq \mathcal{E}$ identified by entity linking, identify the terminal entity of the correct reasoning path in $\mathcal{G}$~\citep{lan2022survey}. Early approaches relied on semantic parsing, information retrieval over KG subgraphs, or reinforcement-learning-based path traversal~\citep{das2017go}. More recent approaches use LLMs as retrievers, agents iteratively querying the KG and revising partial answers~\citep{mavromatis2022rearev}, generators conditioned on retrieved subgraph context~\citep{jiang2023structgpt, jin2024graphcot, luo2024rog}, unified retrieval-and-reasoning pipelines~\citep{jiang2022unikgqa}, or KG-infused pretrained representations~\citep{wang2021kepler}. The move toward LLM-based KGQA has improved fluency but brought back hallucination risks.
 
 \subsection{Evaluation Benchmarks}
 
-WebQSP~\citep{yih2016websqp} contains 4,737 questions on Freebase with reasoning depths of one to two hops, evaluated using Hits@1 and F1. ComplexWebQuestions (CWQ;~\citealt{talmor2018cwq}) builds on WebQSP through conjunction, composition, and comparative operations, resulting in about 34,000 questions requiring up to four hops. WebQSP illustrates a case where valid paths are relatively few; CWQ shows a case with many valid paths, making correct path selection harder.
+WebQSP~\citep{yih2016websqp} contains 4,737 questions on Freebase with reasoning depths of one to two hops, evaluated using Hits@1 and F1. ComplexWebQuestions (CWQ;~\citealt{talmor2018cwq}) builds on WebQSP through conjunction, composition, and comparative operations, resulting in about 34,000 questions requiring up to four hops. The two benchmarks stress different aspects of path selection: WebQSP questions reach the answer in one or two hops, so the valid path set stays small; CWQ questions reach up to four hops, so the valid paths are longer and correct selection depends on sustaining the right trajectory across more steps, not on filtering a larger candidate set.
 
 \subsection{Multi-Hop Complexity}
 
@@ -84,91 +84,25 @@ For an entity with average out-degree $d$ in the KG, the number of valid paths o
 \label{sec:constrained}
 % -----------------------------------------------------------------------------
 
-Constrained decoding restricts generation to a predefined valid set at each step by directly intervening in the decoding mechanism. Unlike prompting, which changes the input to the LLM, constrained decoding alters the token selection process itself. Invalid tokens receive zero probability before sampling, making their generation structurally impossible.
+Constrained decoding restricts generation to a predefined valid set at each step by directly intervening in the decoding mechanism. Unlike prompting, which changes the input to the LLM, constrained decoding alters the token selection process itself.
 
-\subsection{Logit Masking}
+\subsection{Format-Constrained Decoding}
 
-The main mechanism is logit masking~\citep{geng2023grammarconstrained, willard2023outlines}, which computes a binary mask over the vocabulary at each generation step, setting the log-probability of invalid tokens to $-\infty$ before the softmax. This forces their selection probability to exactly zero, making invalid tokens structurally impossible to generate.
-
-\subsection{Grammar- and Format-Constrained Decoding}
-
-\citet{geng2023grammarconstrained} introduce Grammar-Constrained Decoding (GCD), constraining generation to strings conforming to a context-free grammar via an Earley parser oracle. \citet{willard2023outlines} reduce the computational cost with an efficient finite-state machine (FSM) formulation, precomputing an index from automaton states to valid vocabulary subsets for amortised $O(1)$ lookup. \citet{decao2021autoregressive} introduce autoregressive entity retrieval (GENRE), limiting generation to entity names via a trie of known surface forms.
-
-Additional constrained decoding methods include Synchromesh~\citep{poesia2022synchromesh} for program synthesis, PICARD~\citep{scholak2021picard} for schema-constrained SQL parsing, NeuroLogic Decoding~\citep{lu2021neurologic} for propositional logic constraints over lexical items, and grid beam search~\citep{hokamp2017lexically} for complex lexical constraint sets. \citet{zhang2023tractable} analyse computational tractability under various constraint classes, confirming that finite-state constraints admit efficient enforcement via precomputed indices.
-
-The shared limitation of all these approaches is that they enforce output \textit{format} rather than \textit{factual content}. A grammatically valid output can contain entirely hallucinated facts. The extension from format constraints to KG path constraints requires a constraint oracle that encodes the relational structure of the knowledge graph itself.
+Logit masking~\citep{geng2023grammarconstrained, willard2023outlines} computes a binary mask over the vocabulary at each generation step, setting the log-probability of invalid tokens to $-\infty$ before the softmax. \citet{geng2023grammarconstrained} constrain generation to strings conforming to a context-free grammar via an Earley parser oracle. \citet{willard2023outlines} reduce the computational cost with an efficient finite-state machine (FSM) formulation, precomputing an index from automaton states to valid vocabulary subsets for amortised $O(1)$ lookup. Additional methods include Synchromesh~\citep{poesia2022synchromesh} for program synthesis, PICARD~\citep{scholak2021picard} for schema-constrained SQL parsing, NeuroLogic Decoding~\citep{lu2021neurologic} for propositional logic constraints, and GENRE~\citep{decao2021autoregressive} for trie-constrained entity retrieval. The shared limitation of all these approaches is that they enforce output \textit{format} rather than \textit{factual content}. The extension from format constraints to KG path constraints requires a constraint oracle that encodes the relational structure of the knowledge graph itself.
 
 \subsection{Knowledge Graph-Constrained Decoding}
 
 Applying constrained decoding to knowledge graph faithfulness uses the KG itself as the constraint oracle. At each generation step, only tokens corresponding to valid continuations of a KG reasoning path are allowed, making hallucination of KG facts structurally impossible.
 
-\textbf{Graph-Constrained Reasoning (GCR)}~\citep{luo2025-graph-constrained-reasoning} builds a KG-Trie (a prefix tree of all KG paths within $L$ hops of the question entities, created by BFS before generation) and uses it as the constraint oracle during beam-search decoding. GCR achieves 92.6 Hits@1 on WebQSP and 75.8 on CWQ with 100\% structural faithfulness, using a Llama-3.1-8B backbone. The trie is created once and remains unchanged: the valid token set is fixed regardless of what has been generated.
+\textbf{Graph-Constrained Reasoning (GCR)}~\citep{luo2025-graph-constrained-reasoning} builds a KG-Trie (a prefix tree of all KG paths within $L$ hops of the question entities, created by BFS before generation) and uses it as the constraint oracle during beam-search decoding. GCR achieves 92.6\% Hits@1 on WebQSP and 75.8\% on CWQ with 100\% structural faithfulness, using a Llama-3.1-8B backbone. The trie is created once and remains unchanged: the valid token set is fixed regardless of what has been generated.
 
-\textbf{Decoding on Graphs (DoG)}~\citep{li2024-decoding-on-graphs} presents step-wise trie expansion as a partial solution to GCR's static oracle. After locking in an entity, the constraint trie is expanded with all KG neighbors of that entity, making the oracle topologically dynamic. DoG achieves 90.99 Hits@1 on WebQSP and 76.08 on CWQ with 100\% structural faithfulness. However, the expansion rule includes all KG neighbors regardless of relevance to the question, and step-wise trie construction compromises the efficiency of precomputed structures.
+\textbf{Decoding on Graphs (DoG)}~\citep{li2024-decoding-on-graphs} presents step-wise trie expansion as a partial solution to GCR's static oracle. After locking in an entity, the constraint trie is expanded with all KG neighbors of that entity, making the oracle topologically dynamic. DoG achieves 90.99\% Hits@1 on WebQSP and 76.08\% on CWQ with 100\% structural faithfulness. However, the expansion rule includes all KG neighbors regardless of relevance to the question, and step-wise trie construction compromises the efficiency of precomputed structures.
 
 \textbf{RouterKGQA}~\citep{yuan2026routerkgqa} routes between a specialized KG-reasoning model and a general LLM based on question complexity. It uses SBERT embeddings (\texttt{nomic-embed-text-v1}) to filter candidate answers after generation. RouterKGQA's semantic scoring operates at the answer selection level rather than at the token constraint level: paths are created first and filtered afterward.
 
 \subsection{Beam Search and Trie-Based Constraints}
 
-\textbf{Beam Search.} First introduced in the HARPY system~\citep{lowerre1976harpy}, beam search keeps a set of the $k$ most promising partial hypotheses at all times. At each step, all $k$ hypotheses are expanded, ranked by total log-probability, and reduced to the top $k$~\citep{holtzman2020curious}. This reduces early-error multiplication while remaining computationally viable.
-
-\textbf{The Prefix Trie.} A trie~\citep{fredkin1960trie} is a tree-based data structure where a node's position indicates the prefix it represents and branches show valid next tokens. In constrained decoding, a pre-computed trie yields the valid next-token subset in $O(1)$ time, making it the most scalable option for factual constraints at inference speed~\citep{willard2023outlines}.
-
-\textbf{The KG-Trie.} GCR's KG-Trie~\citep{luo2025-graph-constrained-reasoning} serializes verified multi-hop paths from the KG into string format mapped to the LLM's token vocabulary. Each edge represents a specific valid token rather than a single character.
-
-When beam search is merged with a KG-Trie oracle as visualized in Figure~\ref{fig:kg_trie_search}, the decoding process transforms into a strictly bounded traversal of the prefix tree.
-\begin{figure}[H]
-  \centering
-  \resizebox{0.7\textwidth}{!}{
-    \begin{tikzpicture}[
-      node distance=1.2cm and 1.0cm,
-      trie/.style={circle, draw, minimum size=1.1cm, inner sep=1pt, align=center, font=\scriptsize\ttfamily},
-      leaf/.style={circle, draw, fill=gray!20, minimum size=1.1cm, inner sep=1pt, align=center, font=\scriptsize\ttfamily},
-      arrow/.style={-{Stealth[scale=1.0]}, thick},
-      invalid/.style={circle, draw, dashed, text=gray, minimum size=1.1cm, inner sep=1pt, align=center, font=\scriptsize\ttfamily},
-      invalidarrow/.style={-{Stealth[scale=1.0]}, dashed, draw=gray}
-      ]
-
-      % Root
-      \node[trie, fill=blue!10] (root) {State\\$s_0$};
-
-      % Level 1
-      \node[trie, below left=1.2cm and 1.5cm of root] (t1) {$\langle$par$\rangle$};
-      \node[trie, below right=1.2cm and 1.5cm of root, fill=blue!10] (t2) {Paris};
-
-      \node[invalid, left=0.6cm of t1] (inv1) {London};
-
-      % Level 2
-      \node[trie, below=1.2cm of t2, fill=blue!10] (t3) {\_is};
-      \node[trie, right=1.5cm of t2] (t4) {\_has};
-
-      % Level 3
-      \node[trie, below=1.2cm of t3, fill=blue!10] (t5) {\_in};
-      \node[leaf, below=1.2cm of t4] (t6) {$\langle$/par$\rangle$};
-
-      % Level 4
-      \node[leaf, below=1.2cm of t5, fill=blue!10] (t7) {France};
-
-      % Edges
-      \draw[invalidarrow] (root) -- node[above left, sloped, font=\scriptsize, gray] {$P=0$} (inv1);
-      \draw[arrow] (root) -- node[above left, font=\scriptsize] {"$\langle$par"} (t1);
-      \draw[arrow] (root) -- node[above right, font=\scriptsize] {"Par"} (t2);
-
-      \draw[arrow] (t2) -- node[left, font=\scriptsize] {" is"} (t3);
-      \draw[arrow] (t2) -- node[above right, font=\scriptsize] {" has"} (t4);
-
-      \draw[arrow] (t3) -- node[left, font=\scriptsize] {" in"} (t5);
-      \draw[arrow] (t4) -- node[right, font=\scriptsize] {" $\langle$/"} (t6);
-
-      \draw[arrow] (t5) -- node[left, font=\scriptsize] {" Fran"} (t7);
-
-    \end{tikzpicture}
-  }
-  \caption[Visualization of KG-Trie Constrained Generation]{KG-Trie Constrained Generation}
-  \label{fig:kg_trie_search}
-\end{figure}
-
-At each autoregressive step, the current beam hypotheses map to specific states in the KG-Trie. The language model calculates a probability distribution over its entire vocabulary, but a mathematical mask forces the probability of any candidate token not validly present as a child node in the trie to exactly zero ($-\infty$ prior to softmax normalization). The beam search then advances strictly down the permissible branches, restricting the LLM's autoregressive generation to pre-verified deterministic paths while still allowing the model to express internal preference among factually valid chains.
+Beam search~\citep{lowerre1976harpy, holtzman2020curious} keeps the $k$ most promising partial hypotheses at each step, reducing early-error multiplication. A prefix trie~\citep{fredkin1960trie, willard2023outlines} yields the valid next-token subset in $O(1)$ time. GCR's KG-Trie~\citep{luo2025-graph-constrained-reasoning} serializes verified multi-hop paths from the KG into string format mapped to the LLM's token vocabulary. When beam search is merged with a KG-Trie oracle, the decoding process becomes a strictly bounded traversal of the prefix tree: at each autoregressive step, the current beam hypotheses map to specific trie states, and a mathematical mask forces the probability of any token not present as a child node to zero. The beam search then advances strictly down permissible branches.
 
 % -----------------------------------------------------------------------------
 \section{Retrieval and Soft Grounding}
@@ -238,7 +172,7 @@ Despite their empirical improvements, all RAG approaches share a structural limi
 \end{figure}
 
 % -----------------------------------------------------------------------------
-\section{Synthesis: Three Unresolved Gaps}
+\section{Unresolved Gaps}
 \label{sec:synthesis}
 % -----------------------------------------------------------------------------
 
@@ -250,7 +184,7 @@ Three specific gaps emerge from this review.
 
 \textbf{Gap 2: The Static-Dynamic Efficiency Tradeoff.} GCR's precomputed static trie is efficient in computing but lacks semantic awareness and remains the same at every generation step. DoG's step-wise topological expansion adds some dynamism but requires reconstructing the trie at every step and does not include semantic filtering~\citep{li2024-decoding-on-graphs, willard2023outlines}. No current framework achieves semantic responsiveness, where the valid set narrows progressively as reasoning moves in a specific direction, while also maintaining the efficiency of precomputed constraint structures.
 
-\textbf{Gap 3: The Absence of a Constraint Quality Metric.} No existing work offers a metric that measures constraint permissiveness separately from the accuracy of downstream answers. Without this metric, it is not possible to track progress on reducing irrelevant paths in the valid set or to compare frameworks based on constraint quality without factoring in model quality. These three gaps highlight a key challenge at the intersection of the two research paths discussed in this chapter. This challenge involves integrating semantic relevance scoring directly into the constraint oracle and conditioning the valid token set based on the knowledge graph, question semantics, and the evolving state of generation.
+\textbf{Gap 3: The Absence of a Constraint Quality Metric.} No existing work offers a metric that measures constraint permissiveness separately from the accuracy of downstream answers. Without this metric, it is not possible to track progress on reducing irrelevant paths in the valid set or to compare frameworks based on constraint quality without factoring in model quality.
 
 Table~\ref{tab:related_summary} summarizes the key works reviewed in this chapter, categorizing them by their approach, whether they provide structural faithfulness guarantees, and whether they incorporate semantic conditioning into their constraint mechanisms.
 \newpage
@@ -282,7 +216,7 @@ Table~\ref{tab:related_summary} summarizes the key works reviewed in this chapte
   \citet{jiang2022unikgqa}                    & Unified retrieval and reasoning  & No                               & Partial                        \\ \hline
   \citet{wang2021kepler}                      & KG-pretrained language model     & No                               & Partial                        \\ \hline
   \citet{mavromatis2022rearev}                & Iterative reasoning revision     & No                               & Partial                        \\ \hline
-  \citet{he2021improving}                      & KG subgraph attention            & No                               & Partial                        \\ \hline
+  \citet{he2021improving}                     & KG subgraph attention            & No                               & Partial                        \\ \hline
   \citet{yasunaga2021qagnn}                   & Text-KG graph neural network     & No                               & Partial                        \\ \hline
   \citet{das2017go}                           & RL-based KG path traversal       & No                               & Soft                           \\ \hline
   \citet{saxena2022kgqa}                      & Embedding-based path selection   & No                               & Soft                           \\ \hline

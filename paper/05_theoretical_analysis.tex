@@ -5,8 +5,8 @@
 \section{Theoretical Analysis}
 \label{sec:theoretical}
 
-The previous section described the TypeOracle and its two gates. This section
-establishes three properties that govern when and why DCA-Trie works: structural
+Building on the TypeOracle and its two gates described in the previous section, this
+section establishes three properties that govern when and why DCA-Trie works: structural
 faithfulness is preserved by construction, the search space shrinks by a bounded
 factor, and tighter constraints do not guarantee higher accuracy. The third property
 is the paper's central theoretical contribution.
@@ -172,9 +172,8 @@ where $k$ is the beam width. The bound shows that Hits@1 is constrained by both 
 and $P$. Increasing $P$ while decreasing $R$ can leave Hits@1 unchanged or reduced.
 \end{proof}
 
-This result has a practical implication. Optimising the TypeOracle's gates to maximise
-precision (removing as many irrelevant paths as possible) does not guarantee better
-answers. The oracle must balance precision against recall, and the optimal balance
+Practically, this means optimising the TypeOracle's gates to maximise precision
+(removing as many irrelevant paths as possible) does not guarantee better answers. The oracle must balance precision against recall, and the optimal balance
 depends on the LLM's ability to navigate the remaining search space. SIR measures
 precision; Hits@1 measures the outcome of the balance. The two metrics answer different
 questions, and improving one does not imply improvement in the other.

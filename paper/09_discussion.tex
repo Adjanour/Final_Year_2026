@@ -87,14 +87,14 @@ support incremental ontology updates.
 
 The LLM is fine-tuned on GCR's training data, which uses a static trie. Fine-tuning on
 DCA-Trie's dynamic trie may teach the model to handle reduced diversity, potentially
-narrowing the Hits@1 gap. This is the most promising direction for future work.
+narrowing the Hits@1 gap, the most promising direction for future work.
 
 \subsection{Future Work}
 \label{sec:discussion:future}
 
 Training the LLM on DCA-Trie's filtered trie would teach it to operate with less
-diversity. This is the most direct path to closing the Hits@1 gap while retaining the
-SIR reduction.
+diversity, the most direct path to closing the Hits@1 gap while retaining the SIR
+reduction.
 
 Replacing the regex classifier with a fine-tuned encoder would improve type-inference
 accuracy and reduce FNR. The TypeOracle's range gate is already effective; the type gate

@@ -1,19 +1,19 @@
 \babel@toc {english}{}\relax 
 \addvspace {0\p@ }
 \addvspace {0\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Simplified Example of a Knowledge Graph Fragment}}{10}{figure.caption.45}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Visualization of KG-Trie Constrained Generation}}{14}{figure.caption.54}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Standard RAG vs. KG-Constrained Decoding}}{16}{figure.caption.57}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Simplified Example of a Knowledge Graph Fragment}}{10}{figure.caption.40}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Standard RAG vs. KG-Constrained Decoding}}{14}{figure.caption.50}%
 \addvspace {0\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces DCA-Trie System Architecture}}{24}{figure.caption.76}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces TypeOracle Admission Process}}{28}{figure.caption.99}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Static Symbolic Filtering Pipeline (DCA-Trie v1)}}{32}{figure.caption.116}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Step-Wise Symbolic Expansion Workflow (DCA-Trie v2)}}{35}{figure.caption.129}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces DCA-Trie System Architecture}}{21}{figure.caption.69}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces TypeOracle Admission Process}}{25}{figure.caption.81}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Static Symbolic Filtering Pipeline (DCA-Trie v1)}}{28}{figure.caption.92}%
 \addvspace {0\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Path Statistics (4.10M → 3.51M)}}{57}{figure.caption.200}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Gate Decomposition (Range: 3.8\%, Type: 10.6\%)}}{58}{figure.caption.202}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces False Negative Rates (<5\%)}}{59}{figure.caption.205}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Performance comparison on WebQSP.}}{60}{figure.caption.210}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Non-Monotone Relationship}}{68}{figure.caption.231}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Path Statistics (4.10M → 3.51M)}}{44}{figure.caption.140}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Gate Decomposition (Range: 3.8\%, Type: 10.6\%)}}{45}{figure.caption.142}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces False Negative Rates (<5\%)}}{46}{figure.caption.145}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Performance comparison on WebQSP.}}{47}{figure.caption.150}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Non-Monotone Relationship}}{56}{figure.caption.171}%
+\addvspace {0\p@ }
+\addvspace {0\p@ }
 \addvspace {0\p@ }
 \contentsfinish 

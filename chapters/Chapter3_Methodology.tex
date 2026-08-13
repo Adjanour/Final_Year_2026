@@ -6,20 +6,18 @@
 \label{Chapter3}
 
 % -----------------------------------------------------------------------------
-\section{Introduction}
+\section{Overview}
 \label{sec:ch3intro}
 % -----------------------------------------------------------------------------
 
-This chapter formalises the permissiveness problem identified in Chapter~2 and presents the Dynamic Context-Aware Trie (DCA-Trie) framework as a solution. The upgraded oracle specification and the Semantic Irrelevance Ratio (SIR) are defined first, with SIR serving as a diagnostic metric that measures constraint quality independently of answer accuracy. The chapter then traces the research evolution from an initial cosine-similarity scorer through a decomposed product score to the final symbolic TypeOracle, explaining why each earlier design was abandoned. The static pre-filtering design of v1 and the step-wise dynamic expansion design of v2 are described using the TypeOracle mechanism. The chapter closes with the baseline configurations, evaluation protocol, and scope boundaries that govern the experimental work in Chapter~4.
-
-Unlike earlier embedding-based formulations, the final methodology implements semantic filtering through a deterministic TypeOracle. The TypeOracle uses the knowledge graph's own ontology metadata, especially entity types and relation ranges, instead of sentence-transformer embeddings, cosine similarity, or tuned admission thresholds.
+This chapter formalises the permissiveness problem identified in Chapter~2 and presents the Dynamic Context-Aware Trie (DCA-Trie) framework as a solution. The upgraded oracle specification and the Semantic Irrelevance Ratio (SIR) are defined first, with SIR serving as a diagnostic metric that measures constraint quality independently of answer accuracy. The chapter then traces the research evolution from an initial cosine-similarity scorer through a decomposed product score to the final symbolic TypeOracle, explaining the rationale behind each design choice. The static pre-filtering design of v1 and the step-wise dynamic expansion design of v2 are described using the TypeOracle mechanism. The chapter closes with the baseline configurations, evaluation protocol, and scope boundaries that govern the experimental work in Chapter~4.
 
 % -----------------------------------------------------------------------------
 \section{Formal Problem Specification}
 \label{sec:ch3problem}
 % -----------------------------------------------------------------------------
 
-\subsection{Restating the Core Limitation of Existing Frameworks}
+\subsection{Core Limitation of Existing Frameworks}
 
 As established in Chapter~2, current graph-constrained frameworks (notably GCR \citep{luo2025-graph-constrained-reasoning} and DoG \citep{li2024-decoding-on-graphs}) rely on a deterministic oracle that looks only at the fixed graph $\mathcal{G}$ and the starting entities $\mathcal{E}_q$. Regardless of whether the system builds this oracle before decoding or expands it on the fly, the set of valid tokens at any step $t$ remains locked to structural logic:
 \begin{equation}
@@ -28,7 +26,7 @@ As established in Chapter~2, current graph-constrained frameworks (notably GCR \
   \label{eq:gcr_oracle}
 \end{equation}
 
-Equation~\eqref{eq:gcr_oracle} captures this static constraint model. By ignoring both the semantic intent of the question $q$ and the reasoning trajectory already captured in the prefix $y_{<t}$, this formulation treats every structurally reachable path as equally plausible. In dense, multi-hop Freebase environments, this causes substantial search space inflation. The oracle can admit over 8,000 paths at depth 3, even though only a single path logically answers the query.
+Equation~\eqref{eq:gcr_oracle} captures this static constraint model. By ignoring both the semantic intent of the question $q$ and the reasoning trajectory already captured in the prefix $y_{<t}$, this formulation treats every structurally reachable path as equally plausible. In dense, multi-hop Freebase environments, this causes substantial search space inflation. On WebQSP, the oracle admits an average of 2,553 paths per question (Chapter~4, Table~\ref{tab:datasets}), even though only a single path logically answers the query.
 
 Two separate requirements are in tension here. Structural validity ensures the LLM only generates tokens that correspond to real graph edges; current models do this well. Contextual relevance is the open problem: ensuring the LLM only generates tokens that logically connect to the specific question. Current models do not enforce this. The gap between structural compliance and semantic usefulness is the \textit{permissiveness problem}.
 
@@ -82,22 +80,25 @@ DCA-Trie focuses on the constraint oracle layer, so its architecture directly bu
   \item \textbf{Inductive Reasoning Layer (Unmodified):} After constrained decoding produces candidate reasoning paths, the answer synthesis component analyses these paths and produces the final natural language answer.
 \end{enumerate}
 
-Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint oracle layer to emphasise where the core symbolic intervention takes place. The TypeOracle box performs two deterministic set operations (range gate and type gate) rather than cosine scoring or embedding comparisons.
+Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint oracle layer to emphasise where the core symbolic intervention takes place.
 
-\begin{sidewaysfigure}[p]
+
+
+\begin{sidewaysfigure}
   \centering
   \resizebox{\textwidth}{!}{%
     \begin{tikzpicture}[
-        >=stealth, font=\sffamily,
+        >=stealth, font=\sffamily\Large,
         kgnode/.style={draw=gray!70,fill=blue!8,rounded corners=3pt,inner sep=4pt,font=\sffamily\scriptsize,align=center},
         pathbox/.style={draw=gray!50,fill=gray!5,rounded corners=4pt,inner sep=6pt,minimum width=5.0cm,align=left,font=\sffamily\scriptsize},
+        filtpath/.style={draw=gray!25,fill=gray!3,rounded corners=4pt,inner sep=6pt,minimum width=5.0cm,align=left,font=\sffamily\scriptsize,text=gray!45},
         ansbox/.style={draw=teal!60!black,fill=teal!8,rounded corners=4pt,inner sep=8pt,minimum width=3.0cm,align=left,font=\sffamily\scriptsize},
         stepbox/.style={draw=black!40,fill=white,rounded corners=3pt,inner sep=5pt,minimum width=2.6cm,minimum height=0.85cm,align=center,font=\sffamily\scriptsize},
         dcabox/.style={draw=teal!70!black,fill=teal!10,rounded corners=3pt,inner sep=5pt,minimum width=2.6cm,minimum height=0.85cm,align=center,font=\sffamily\scriptsize\bfseries},
-        gatebox/.style={draw=teal!50,fill=teal!5,rounded corners=3pt,inner sep=4pt,font=\sffamily\small,align=center},
         llmcirc/.style={circle,draw=gray!60,fill=blue!5,minimum size=1.1cm,align=center,font=\sffamily\scriptsize},
         bigllm/.style={circle,draw=teal!60,fill=teal!8,minimum size=1.25cm,align=center,font=\sffamily\scriptsize},
         arr/.style={->,thick,draw=gray!70},
+        rarr/.style={->,thick,draw=red!60},
         tarr/.style={->,thick,draw=teal!70!black},
       ]
 
@@ -122,43 +123,41 @@ Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint 
         font=\sffamily\scriptsize,minimum width=2.9cm]
       (qbox)at(2.5,-6.4){\textbf{Q:} Who is the spouse of\\the ex-president of USA?};
       \node[circle,draw=black!35,fill=black!6,font=\sffamily\footnotesize\bfseries,inner sep=3pt]at(-0.1,-5.1){1};
-      \node[font=\sffamily\scriptsize,text=black,align=center]at(1.6,-5.1){KG-Trie Construction};
+      \node[font=\sffamily\scriptsize,text=black!65,align=center]at(1.6,-5.1){KG-Trie Construction};
 
       % DCA-Trie Constraint Section
-      \draw[draw=teal!60!black,dashed,rounded corners=6pt,line width=1.2pt](6.0,0.6)rectangle(10.5,-7.4);
-      \node[font=\sffamily\footnotesize\bfseries,text=teal!70!black]at(8.25,0.3){DCA-Trie Constraint};
-      \node[dcabox,minimum width=3.8cm](vf)at(8.25,-0.5){TypeOracle\\Admission Gates};
+      \draw[draw=teal!60!black,dashed,rounded corners=6pt,line width=1.2pt](6.0,0.3)rectangle(10.5,-7.4);
+      \node[font=\sffamily\footnotesize\bfseries,text=teal!70!black]at(8.25,0.1){DCA-Trie Constraint};
+      \node[dcabox,minimum width=3.8cm](vf)at(8.25,-0.8){Semantic Filtering};
+      \node[draw=teal!45,fill=teal!5,rounded corners=4pt,minimum width=4.0cm,minimum height=2.4cm](triebox)at(8.25,-2.9){};
+      \node[font=\sffamily\scriptsize\bfseries,text=teal!80!black]at(8.25,-1.9){Filtered KG-Trie};
 
-      % TypeOracle gates inside the box
-      \node[gatebox,minimum width=3.2cm](rg)at(8.25,-1.5){range\_gate};
-      \node[gatebox,minimum width=3.2cm](tg)at(8.25,-2.2){type\_gate};
-
-      \node[draw=teal!45,fill=teal!5,rounded corners=4pt,minimum width=4.0cm,minimum height=2.2cm](triebox)at(8.25,-3.8){};
-      \node[font=\sffamily\scriptsize\bfseries,text=teal!80!black]at(8.25,-3.0){Filtered KG-Trie};
-
-      \node[circle,draw=teal!60,fill=teal!18,inner sep=2pt,font=\sffamily\tiny](tr)at(8.25,-3.5){USA};
-      \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tn1)at(7.25,-3.9){GWB};
-      \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tn2)at(8.25,-4.3){BO};
-      \node[circle,draw=gray!25,fill=gray!4,inner sep=1.5pt,font=\sffamily\tiny,text=black](tn3)at(9.25,-3.9){DT};
-      \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tl1)at(7.0,-4.6){LB};
-
+      \node[circle,draw=teal!60,fill=teal!18,inner sep=2pt,font=\sffamily\tiny](tr)at(8.25,-2.3){USA};
+      \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tn1)at(7.25,-2.9){GWB};
+      \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tn2)at(8.25,-2.9){BO};
+      \node[circle,draw=gray!25,fill=gray!4,inner sep=1.5pt,font=\sffamily\tiny,text=gray!40](tn3)at(9.25,-2.9){DT};
+      \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tl1)at(7.0,-3.5){LB};
+      \node[circle,draw=teal!50,fill=white,inner sep=1.5pt,font=\sffamily\tiny](tl2)at(8.5,-3.5){MO};
 
       \draw[teal!50,thin](tr)--(tn1); \draw[teal!50,thin](tr)--(tn2);
       \draw[gray!25,thin,dashed](tr)--(tn3);
+      \draw[teal!50,thin](tn1)--(tl1); \draw[teal!50,thin](tn2)--(tl2);
+      \node[font=\sffamily\tiny,text=gray!50,align=center]at(9.25,-3.5){pruned\\$<\!\tau$};
 
+      \node[draw=teal!35,fill=teal!5,rounded corners=3pt,inner sep=4pt,font=\sffamily\tiny,align=center]
+      (upd)at(8.25,-4.9){v2: step-wise update\\re-score $\mathcal{N}(e^{*})$ vs $(q,y_{<t})$};
       \node[llmcirc](kgllm)at(8.25,-6.5){KG-spec.\\LLM};
 
-      \draw[tarr](vf)--(rg);
-      \draw[tarr](rg)--(tg);
-      \draw[tarr](tg)--(triebox.north);
-      \draw[tarr](triebox.south)--(kgllm);
-
+      \draw[rarr,rounded corners](qbox.east)-- (5.6,-6.4) |- (vf.west);
+      \draw[tarr](vf)--(triebox.north);
+      \draw[tarr](triebox.south)--(upd.north);
+      \draw[tarr](upd)--(kgllm);
       \node[circle,draw=teal!70!black,fill=teal!10,font=\sffamily\footnotesize\bfseries,inner sep=3pt]at(6.5,-7){2};
 
       % Reasoning Paths and Hypothesis Answers Section
       \node[font=\sffamily\footnotesize\bfseries,align=center]at(13.5,0.2){Reasoning Paths and\\Hypothesis Answers};
-      \node[circle,draw=black!25,fill=black!6,font=\sffamily\footnotesize\bfseries,inner sep=3pt]at(11.7,-7.2){3};
-      \node[font=\sffamily\scriptsize,text=black]at(14.6,-7.2){Beam Search with DCA-Trie Constraints};
+      \node[circle,draw=black!35,fill=black!6,font=\sffamily\footnotesize\bfseries,inner sep=3pt]at(11.7,-7.2){3};
+      \node[font=\sffamily\scriptsize,text=black!65]at(14.6,-7.2){Beam Search with DCA-Trie Constraints};
       \node[pathbox](p1)at(13.7,-1.3){%
         \texttt{\# Reasoning Path (t=1):}\\[1pt]
         USA $\to$ G.W.\,Bush $\to$ Laura Bush\\[3pt]
@@ -167,11 +166,11 @@ Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint 
         \texttt{\# Reasoning Path (t=2):}\\[1pt]
         USA $\to$ B.\,Obama $\to$ Michelle Obama\\[3pt]
         \texttt{\# Answer: Michelle Obama}};
-      \node[pathbox,draw=gray!25,fill=gray!3,text=black](p3)at(13.7,-5.5){%
-        \texttt{[Excluded by TypeOracle]}\\[1pt]
+      \node[pathbox](p3)at(13.7,-5.5){%
+        \texttt{[Excluded by DCA-Trie]}\\[1pt]
         USA $\to$ D.\,Trump $\to$ Melania Trump\\[3pt]
-        type\_gate failed:\\
-        terminal entity type incompatible};
+        score $<\tau$: structurally valid,\\
+        semantically irrelevant};
 
       \draw[tarr,rounded corners](kgllm.east)-- (10.8,-6.5) |- (p1.west);
       \draw[tarr,rounded corners](kgllm.east)-- (10.8,-6.5) |- (p2.west);
@@ -186,9 +185,9 @@ Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint 
         \textbf{Laura Bush,}\\
         \textbf{Michelle Obama.}\\[4pt]
         \small\textit{(Trump path excluded}\\
-        \textit{by type gate)}};
+        \textit{by semantic filter)}};
       \node[circle,draw=black!35,fill=black!6,font=\sffamily\footnotesize\bfseries,inner sep=3pt]at(16.9,-0.8){4};
-      \node[font=\sffamily\scriptsize,text=black]at(18.5,-0.8){Inductive Reasoning};
+      \node[font=\sffamily\scriptsize,text=black!65]at(18.5,-0.8){Inductive Reasoning};
 
       \draw[arr,rounded corners](p1.east) -| (16.4,-1.8) -- (gllm.west);
       \draw[arr,rounded corners](p2.east) -| (16.4,-1.8) -- (gllm.west);
@@ -197,21 +196,22 @@ Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint 
       % Footer Steps Section
       \draw[gray!50,dashed](0,-7.8)--(20.0,-7.8);
       \node[stepbox]at(2.5,-8.6){1.\ KG-Trie Construction\\BFS from $\mathcal{E}_q$};
-      \node[stepbox]at(8.25,-8.6){2.\ TypeOracle Filtering\\range\_gate + type\_gate};
+      \node[dcabox]at(8.25,-8.6){2.\ DCA-Trie Filtering};
       \node[stepbox]at(13.5,-8.6){3.\ Constrained Beam Search\\$K$ hypothesis paths};
       \node[stepbox]at(18.6,-8.6){4.\ Inductive Reasoning\\synthesise answer};
 
-      \draw[arr](4.2,-8.6)--(6.55,-8.6);
-      \draw[arr](9.9,-8.6)--(11.5,-8.6);
-      \draw[arr](15.45,-8.6)--(17.0,-8.6);
+      \draw[arr](4.1,-8.6)--(6.7,-8.6);
+      \draw[tarr](9.8,-8.6)--(11.5,-8.6);
+      \draw[arr](15.5,-8.6)--(17.0,-8.6);
     \end{tikzpicture}
   }%
   \caption[DCA-Trie System Architecture]{DCA-Trie System Architecture.}
   \label{fig:architecture}
 \end{sidewaysfigure}
 
+
 % -----------------------------------------------------------------------------
-\section{The Semantic Irrelevance Ratio: Definition and Measurement}
+\section{Semantic Irrelevance Ratio}
 \label{sec:ch3sir}
 % -----------------------------------------------------------------------------
 
@@ -252,59 +252,18 @@ Equation~\eqref{eq:sir_aggregate} gives the corpus-level average, where $L_q$ is
 
 \subsection{Properties and Interpretation}
 
-By definition, $\overline{\text{SIR}} \in [0,1]$. A value near 1 indicates that most admitted paths are irrelevant, so the model still faces a large and noisy search space. A value near 0 indicates that the constraint set is tightly aligned with question semantics. Prior constrained frameworks such as GCR and DoG tend to show high SIR, especially at larger hop depths where path counts increase rapidly. DCA-Trie targets lower SIR by filtering semantically weak paths. The structurally valid ones stay. In reporting, SIR is analyzed by hop depth to evaluate how this effect scales with reasoning complexity.
+By definition, $\overline{\text{SIR}} \in [0,1]$. A value near 1 indicates that most admitted paths are irrelevant, so the model still faces a large and noisy search space. A value near 0 indicates that the constraint set is tightly aligned with question semantics. Prior constrained frameworks such as GCR and DoG tend to show high SIR, especially at larger hop depths where path counts increase rapidly. DCA-Trie targets lower SIR by filtering semantically weak paths. The structurally valid ones stay. Chapter~4 compares SIR across WebQSP and CWQ, whose differing hop depths give an indication of how this effect scales with reasoning complexity.
 
 % -----------------------------------------------------------------------------
 \section{Symbolic Relevance Scoring Mechanism}
 \label{sec:ch3scorer}
 % -----------------------------------------------------------------------------
 
-\subsection{Research Evolution: From Embeddings to Ontology Gates}
+\subsection{Design Evolution}
 
-The semantic relevance mechanism went through three designs before arriving at the final symbolic TypeOracle. Each iteration addressed specific weaknesses of its predecessor. This section traces that evolution and explains the design decisions.
+The semantic relevance mechanism went through three designs before arriving at the final symbolic TypeOracle. The initial cosine-similarity scorer~(Approach~1) used sentence-transformer embeddings to score each candidate path against the question. It suffered from semantic collapse (a single score cannot distinguish type-match from topical overlap), encoder cost (thousands of forward passes per question), threshold sensitivity ($\tau = 0.25$ produced empty path sets for 84\% of WebQSP queries), and non-determinism from floating-point arithmetic. The decomposed product score~(Approach~2) split the cosine score into relational, entity-type, and trajectory components. The entity-type component was already a hard binary gate rather than a continuous score, an early step toward the fully symbolic design, but the relational and trajectory components still required encoder forward passes. Approach 2 improved interpretability but retained both the encoder dependency and the threshold. The final TypeOracle~(Approach~3) eliminates the encoder and the threshold entirely, using only $O(1)$ set lookups over the KG's own ontology metadata.
 
-\subsubsection{Approach 1: Cosine Similarity (Abandoned)}
-
-The initial design scored each candidate path by computing cosine similarity between a sentence-transformer embedding of the serialised path string and an embedding of the input question:
-\begin{equation}
-  \text{score}(p, q) = \cos\!\bigl(E(\text{str}(p)),\; E(q)\bigr)
-  \label{eq:cosine_v1}
-\end{equation}
-A path was admitted if $\text{score}(p, q) \geq \tau$, where $\tau$ was a tuned threshold. This approach was abandoned for four reasons:
-
-\begin{enumerate}
-  \item \textit{Semantic collapse:} A single cosine score cannot distinguish \textit{why} a path is relevant. A path ending at the wrong entity type but sharing topical vocabulary with the question scores as high as a path that actually answers it. Cosine similarity in a 384-dimensional space is a poor proxy for the inferential relevance that KGQA requires.
-  \item \textit{Encoder cost:} Every candidate path requires a full
-        forward pass through
-        \texttt{all-MiniLM-L6-v2}. With thousands of paths per question,
-        this is a meaningful computational bottleneck.
-  \item \textit{Threshold sensitivity:} The admission threshold $\tau$ is dataset-dependent and must be tuned on a validation split. Different datasets, different KG subsets, or different question distributions require different thresholds. At $\tau = 0.25$, we observed that 84\% of WebQSP queries produced empty path sets after filtering---the threshold is so aggressive that it rejects nearly all paths, leaving the LLM with nothing to generate. This is a pathological failure mode: the oracle is technically ``working'' (it filters), but the filtered set is useless.
-  \item \textit{Non-determinism:} Floating-point cosine similarity introduces non-deterministic admission decisions across runs, making the oracle difficult to reproduce exactly.
-\end{enumerate}
-
-\subsubsection{Approach 2: Decomposed Product Score (Abandoned)}
-
-The second design replaced the monolithic cosine score with a product of three interpretable components:
-\begin{equation}
-  \text{score}(e_t, r, e' \mid q) = \rho_r(r, q) \cdot \rho_e(e', q) \cdot \rho_{\text{traj}}(r, e', q)
-  \label{eq:decomposed}
-\end{equation}
-where $\rho_r$ measures relational relevance through entity-masked encoding, $\rho_e$ is a hard type gate (binary, no encoder), and $\rho_{\text{traj}}$ measures trajectory relevance through cosine similarity of the (relation, entity) pair against the question.
-
-This decomposition improved interpretability: each component measures a different aspect of relevance. The hard type gate ($\rho_e$) pruned type-incompatible paths without any encoder call, saving compute. But two fundamental problems remained:
-
-\begin{enumerate}
-  \item \textit{Encoder dependency persists:} Both $\rho_r$ and $\rho_{\text{traj}}$ require sentence-transformer forward passes. The decomposed score reduces but does not eliminate encoder cost.
-  \item \textit{Threshold persists:} The admission threshold $\tau$ is still dataset-dependent. Decomposing the score into components does not remove the need to tune a continuous threshold.
-\end{enumerate}
-
-\subsubsection{Approach 3: Symbolic TypeOracle (Final)}
-
-The final design eliminates both the encoder and the threshold. The TypeOracle uses only the knowledge graph's own ontology metadata to decide whether a path is admissible. All admission decisions are made through set lookups over precomputed dictionaries rather than neural network forward passes.
-
-The transition from continuous similarity to discrete set membership is the key architectural shift. It trades the flexibility of learned representations for the determinism and speed of symbolic reasoning over the KG's schema, and it makes every admission decision interpretable: you can trace exactly why a path was accepted or rejected.
-
-Table~\ref{tab:approach_comparison} summarises the properties of all three designs.
+Table~\ref{tab:approach_comparison} summarises the properties of all three designs. Detailed design documents for Approaches~1 and~2 are provided in Appendix~\ref{AppendixC}.
 
 \begin{table}[H]
   \centering
@@ -372,8 +331,6 @@ The TypeOracle implements the transition from a static oracle $f(\mathcal{G}, \m
     \draw[arrow] (adm) -- node[left, font=\footnotesize] {both} (yes);
     \draw[arrow] (adm) -- node[above, font=\footnotesize] {fail} (no);
 
-    % Conservative fallback annotation
-    \node[font=\scriptsize, text=gray, align=left, below=0.3cm of yes] {conservative:\\admit if schema unknown};
   \end{tikzpicture}
   \caption[TypeOracle Admission Process]{TypeOracle Admission Process}
   \label{fig:scorer}
@@ -394,57 +351,34 @@ The combined admission check for a candidate edge $(r, e')$ at hop $h$ is:
 \end{equation}
 where $\mathcal{T}(q)$ is the set of expected answer types inferred from the question, $h$ is the current hop, and $L$ is the maximum hop depth. A candidate edge is admitted only if it passes all active gates.
 
-\subsection{Ontology Schema Construction}
+\subsection{Ontology Schema and Threshold-Free Design}
 \label{sec:ch3schema}
 
-The TypeOracle is constructed from the knowledge graph's own schema triples. The Freebase schema available in the WebQSP and CWQ subgraphs encodes ontology information such as:
+The TypeOracle is constructed from the knowledge graph's own schema triples. Freebase encodes entity types through \texttt{common.topic.notable\_types}, property domains through \texttt{rdf-schema\#domain}, and property ranges through \texttt{rdf-schema\#range}. From these, the oracle builds two lookup structures: \texttt{\_entity\_types} (entity-to-types) and \texttt{\_schema} (relation-to-range). Question type inference uses lightweight pattern matching (``who'' $\to$ person, ``where'' $\to$ location, etc.). If no pattern matches, the type gate admits candidates conservatively.
 
-\begin{enumerate}
-  \item Entity types through \texttt{common.topic.notable\_types} triples.
-  \item Property domains through \texttt{rdf-schema\#domain} triples.
-  \item Property ranges through \texttt{rdf-schema\#range} triples.
-\end{enumerate}
-
-From these triples, the oracle builds two main lookup structures:
-
-\begin{enumerate}
-  \item \texttt{\_entity\_types}: maps each entity to its set of Freebase types.
-  \item \texttt{\_schema}: maps each relation to its domain and range constraints.
-\end{enumerate}
-
-Question type inference uses lightweight pattern matching over the natural language question. Typical mappings include:
-\begin{verbatim}
-    "who" / "director" / "actor"  ->  person types
-    "country" / "city" / "where"  ->  location types
-    "film" / "movie"              ->  creative work types
-    "when" / "date" / "year"      ->  date types
-\end{verbatim}
-Multiple patterns may match, producing a union of expected answer types. If no pattern matches, the question remains unconstrained at the answer-type level, and the type gate admits candidates conservatively.
-
-\subsection{Threshold-Free Design}
-\label{sec:ch3threshold}
-
-The TypeOracle is threshold-free. The gates operate on discrete set membership rather than continuous similarity values:
+The gates operate on discrete set membership rather than continuous similarity values:
 \begin{align}
   \text{type\_gate}(e', \mathcal{T}(q), h, L) & = \begin{cases}
-                                                    \text{True}                                                     & h < L \text{ (intermediate hop)}                           \\
-                                                    \text{True}                                                     & \mathcal{T}(q) = \emptyset \text{ (no type inferred)}      \\
-                                                    \text{True}                                                     & \text{types}(e') = \emptyset \text{ (entity type unknown)} \\
+                                                    \text{True}                                                     & h < L                        \\
+                                                    \text{True}                                                     & \mathcal{T}(q) = \emptyset   \\
+                                                    \text{True}                                                     & \text{types}(e') = \emptyset \\
                                                     \mathbf{1}[\text{types}(e') \cap \mathcal{T}(q) \neq \emptyset] & \text{otherwise}
                                                   \end{cases}
   \label{eq:type_gate}
 \end{align}
 \begin{align}
   \text{range\_gate}(r, e') & = \begin{cases}
-                                  \text{True}                                                      & r \notin \mathcal{R} \text{ (schema unknown)} \\
-                                  \text{True}                                                      & \text{range}(r) = \emptyset                   \\
-                                  \text{True}                                                      & \text{types}(e') = \emptyset                  \\
+                                  \text{True}                                                      & r \notin \mathcal{R}         \\
+                                  \text{True}                                                      & \text{range}(r) = \emptyset  \\
+                                  \text{True}                                                      & \text{types}(e') = \emptyset \\
                                   \mathbf{1}[\text{types}(e') \cap \text{range}(r) \neq \emptyset] & \text{otherwise}
                                 \end{cases}
   \label{eq:range_gate}
 \end{align}
 
-Both gates are conservative: they return True when the relation is unknown, the entity type is unknown, the relation has no recorded range, or no answer type can be inferred from the question. This ensures that structural faithfulness is never compromised by the semantic filter and reduces the risk of false negatives caused by incomplete schema metadata. A direct consequence is that the TypeOracle never produces empty path sets: when schema metadata is absent, the gates default to admission, and the resulting constraint set is identical to GCR's unfiltered trie. This is a production-safe property that the cosine oracle lacks---at $\tau = 0.25$, 84\% of WebQSP queries yield empty tries (Section~\ref{sec:ch3scorer}).
+Both gates default to True when schema metadata is absent. This ensures structural faithfulness is never compromised and the TypeOracle never produces empty path sets. The design is threshold-free: no continuous similarity score requires tuning. The computational properties are summarised in Table~\ref{tab:computational_comparison}.
+
+\newpage
 
 \subsection{Computational Properties}
 
@@ -474,7 +408,7 @@ The symbolic design has different computational properties from the earlier embe
 These properties make the symbolic oracle the only design among the three that runs entirely on CPU, requires no threshold tuning, and produces deterministic results across runs.
 
 % -----------------------------------------------------------------------------
-\section{DCA-Trie v1: Static Symbolic Filtering}
+\section{DCA-Trie v1}
 \label{sec:ch3v1}
 % -----------------------------------------------------------------------------
 
@@ -594,7 +528,7 @@ DCA-Trie v1 maintains structural faithfulness by design. Every path kept in $\ma
 
 \subsection{Design Rationale}
 
-DCA-Trie v2 implements the dynamic oracle in Equation~\eqref{eq:dca_oracle} by conditioning constraints on the evolving prefix $y_{<t}$. Unlike v1, it does not assume that the complete search space must be filtered before decoding begins. As generation progresses, $y_{<t}$ reveals the path decisions already made, so the relevant neighbourhood can change step by step. For example, after selecting \textit{Elvis\_Presley $\to$ starred\_in $\to$ Blue\_Hawaii}, plausible next expansions should focus on \textit{Blue\_Hawaii} rather than the initial entity set.
+DCA-Trie v2 implements the dynamic oracle in Equation~\eqref{eq:dca_oracle} by conditioning constraints on the evolving prefix $y_{<t}$. Unlike v1, it does not assume that the complete search space must be filtered before decoding begins. As generation progresses, $y_{<t}$ reveals the path decisions already made, so the relevant neighbourhood can change step by step.
 
 Architecturally, v2 follows the step-wise traversal pattern in DoG \citep{li2024-decoding-on-graphs} but adds symbolic TypeOracle gating to each local expansion. After each committed entity $e_t$, the trie expands only to structurally valid neighbours that also satisfy the active type and range gates:
 \begin{equation}
@@ -604,135 +538,11 @@ Architecturally, v2 follows the step-wise traversal pattern in DoG \citep{li2024
   \text{type\_gate}(e', \mathcal{T}(q), h, L)\bigr\}
   \label{eq:v2expansion}
 \end{equation}
-In Equation~\eqref{eq:v2expansion}, $h$ is the current hop depth and $L$ is the maximum. The core difference from permissive dynamic expansion is therefore not when expansion happens, but how candidates are admitted: every step remains graph-valid and type-consistent. The full workflow is shown in Figure~\ref{fig:v2}.
+The core difference from permissive dynamic expansion is not when expansion happens, but how candidates are admitted: every step remains graph-valid and type-consistent.
 
-\begin{figure}[H]
-  \centering
+The expansion procedure follows four steps: (1)~initialize a minimal trie containing only the root question entities; (2)~at each decoding step, look up valid tokens from the current trie and apply logit masking; (3)~when the LLM commits an entity token, fetch all structurally valid neighbours from the knowledge graph and apply range\_gate and type\_gate to each candidate; (4)~add candidates passing both gates to the trie. Relation-token steps do not trigger expansion. The full algorithm is provided in Appendix~\ref{AppendixD}.
 
-  \begin{tikzpicture}[
-    box/.style={draw, rounded corners, minimum width=2.5cm, minimum height=0.8cm, align=center, font=\small},
-    gate/.style={draw, fill=teal!10, rounded corners, minimum width=2.8cm, minimum height=0.7cm, align=center, font=\small},
-    arrow/.style={-{Stealth[scale=1]}, thick},
-    node distance=1.2cm
-    ]
-
-    \node[box] (step) {Decoding Step $t$\\with partial $y_{<t}$};
-    \node[box, below=1cm of step] (llm) {LLM calculates\\logits for $y_t$};
-    \node[box, right=1.5cm of step] (trie) {Current KG-Trie $\mathcal{T}_{t-1}$};
-
-    \node[box, below=1cm of trie] (lookup) {Lookup Valid\\Tokens $\mathcal{V}_t$};
-
-    \node[box, fill=purple!10, below=1.5cm of $(llm)!0.5!(lookup)$] (mask) {Logit Masking};
-
-    \node[box, below=1cm of mask] (commit) {Commit Entity $e_t$};
-
-    \node[gate, text width=7.5cm, right=2.5cm of mask] (expand) {\textbf{TypeOracle Expansion}\\
-      1. Fetch $\mathcal{N}(e_t)$ from $\mathcal{G}$\\
-      2. For each $(e_t, r, e')$: if range\_gate$(r, e')$ \textbf{and}\\
-      \quad type\_gate$(e', \mathcal{T}(q), h, L)$, add to $\mathcal{T}_t$};
-
-    \draw[arrow] (step) -- (llm);
-    \draw[arrow] (trie) -- (lookup);
-    \draw[arrow] (llm) -- (mask);
-    \draw[arrow] (lookup) -- (mask);
-    \draw[arrow] (mask) -- node[left, font=\footnotesize] {Sample $y_t$} (commit);
-
-    \draw[arrow] (commit) -| node[pos=0.25, below, font=\footnotesize] {Trigger Expansion} (expand);
-    \draw[arrow] (expand) |- node[pos=0.75, above, font=\footnotesize] {Update to $\mathcal{T}_t$} (trie);
-  \end{tikzpicture}
-  \caption[Step-Wise Symbolic Expansion Workflow (DCA-Trie v2)]{Step-Wise Symbolic Expansion (DCA-Trie v2)}
-  \label{fig:v2}
-\end{figure}
-
-\newpage
-
-\subsection{Algorithm for DCA-Trie v2}
-
-Unlike the static approach in v1, Algorithm~\ref{alg:v2} combines generation and symbolic filtering. The process follows these steps:
-
-\begin{enumerate}
-  \item \textbf{Initialize a Minimal State:} The system starts with a basic trie containing only the root question entities and the inferred answer types.
-  \item \textbf{Generate under Current Constraints:} At each step $t$, the LLM produces a token strictly limited by the current trie boundaries.
-  \item \textbf{Check for Entity Commitment:} If the LLM generates an entity token, it triggers an expansion phase. Relation tokens do not trigger expansion.
-  \item \textbf{Apply Symbolic Expansion:} When an entity is committed, the system examines all structurally valid neighbours from the master KG. Each candidate is checked by range\_gate and, where applicable, type\_gate. Only candidates passing the active gates are added to the trie.
-\end{enumerate}
-
-This yields an adaptable oracle that builds the search space one step ahead of the model's reasoning state using deterministic set operations.
-
-\begin{algorithm}[H]
-  \caption{DCA-Trie v2: Step-Wise Symbolic Expansion}
-  \label{alg:v2}
-  \small
-  \begin{algorithmic}[1]
-    \Require Knowledge graph $\mathcal{G}$; question entities $\mathcal{E}_q$;
-    question $q$; TypeOracle $\mathcal{O}$; LLM with vocabulary $\mathcal{V}$
-    \Ensure Generated reasoning chain $y_1 \ldots y_T$
-
-    \State \textbf{Initialize trie} with entity nodes for $\mathcal{E}_q$:
-    $\mathcal{T}_0 \gets \{e_q : e_q \in \mathcal{E}_q\}$
-
-    \State \textbf{Infer answer types:}
-    $\mathcal{T}(q) \gets \mathcal{O}.\text{infer\_answer\_types}(q)$
-
-    \For{each step $t = 1$ \textbf{to} $T$}
-    \State $\mathcal{V}_t \gets \textsc{TrieLookup}(\mathcal{T}_{t-1}, y_{<t})$
-    \Comment{Valid tokens from current trie}
-    \State $\mathbf{m}_t[v] \gets \mathbf{1}[v \in \mathcal{V}_t]$ for all $v$
-    \State $\tilde{\boldsymbol{\alpha}}_t \gets \mathbf{m}_t \odot
-      \textsc{LLMLogits}(y_{<t}, x)$
-    \State $y_t \gets \text{beam-search-step}(\tilde{\boldsymbol{\alpha}}_t)$
-
-    \If{$y_t$ is an \textit{entity} token $e_t$}
-    \Comment{Expansion triggered at entity commits}
-    \For{each $(e_t, r, e') \in \mathcal{G}$}
-    \If{$\mathcal{O}.\text{range\_gate}(r, e')$}
-    \State $h \gets$ current hop depth in trie
-    \If{$\mathcal{O}.\text{type\_gate}(e', \mathcal{T}(q), h, L)$}
-    \State Add $(e_t, r, e')$ to $\mathcal{T}_t$
-    \EndIf
-    \EndIf
-    \EndFor
-    \Else
-    \State $\mathcal{T}_t \gets \mathcal{T}_{t-1}$
-    \Comment{No expansion at relation token steps}
-    \EndIf
-    \EndFor
-    \State \Return $y_1 \ldots y_T$
-  \end{algorithmic}
-\end{algorithm}
-
-\subsection{Complexity Analysis}
-
-DCA-Trie v2 has a different cost profile from v1. Where v1 builds the trie once in $O(|\mathcal{P}| \cdot L)$ time, v2 rebuilds the trie at each entity commitment. Let $T_e$ denote the number of entity tokens in the generated reasoning chain, $D$ the average out-degree of committed entities in $\mathcal{G}$, and $L$ the maximum hop depth.
-
-At each entity commitment, the expansion loop in Algorithm~\ref{alg:v2} examines all $D$ neighbours, applying one \texttt{range\_gate} check per neighbour and one \texttt{type\_gate} check for candidates that pass. Each check is $O(1)$, so the cost per commitment is $O(D \cdot L)$. Over $T_e$ commitments, the total expansion cost is $O(T_e \cdot D \cdot L)$.
-
-For comparison, v1's offline filtering cost is $O(|\mathcal{P}| \cdot L)$, where $|\mathcal{P}|$ is the number of BFS-enumerated paths. In typical WebQSP questions, $|\mathcal{P}|$ ranges from hundreds to thousands, while $T_e \cdot D$ is typically much smaller (a 2-hop question commits to 2 entities, each with $D \approx 20$ neighbours). The per-step trie lookup remains $O(d)$ during decoding, matching both GCR and v1.
-
-The practical trade-off is not in the oracle cost but in the trie-rebuild frequency. Each rebuild modifies the trie structure that the LLM's prefix-constrained decoding depends on. Frequent rebuilds can shift the probability distribution over valid tokens mid-generation, introducing instability that static pre-filtering avoids. This instability is a likely contributor to v2's degraded accuracy (Section~\ref{sec:ch4v2}), even though the oracle itself is cheaper per step.
-
-Table~\ref{tab:complexity_comparison} summarises the computational profiles of all three systems.
-
-\begin{table}[H]
-  \centering
-  \caption[Computational Profiles of GCR, DCA-Trie v1, and v2]{Computational Complexity}
-  \label{tab:complexity_comparison}
-  \begin{tabularx}{\textwidth}{|X|c|c|c|}
-    \hline
-    \textbf{Phase}      & \textbf{GCR}               & \textbf{DCA-Trie v1}         & \textbf{DCA-Trie v2}     \\
-    \hline
-    Path enumeration    & $O(|\mathcal{P}| \cdot L)$ & $O(|\mathcal{P}| \cdot L)$   & ---                      \\
-    \hline
-    Oracle filtering    & ---                        & $O(|\mathcal{P}| \cdot L)$   & $O(T_e \cdot D \cdot L)$ \\
-    \hline
-    Trie construction   & $O(|\mathcal{P}| \cdot L)$ & $O(|\mathcal{P}_f| \cdot L)$ & $O(T_e \cdot D \cdot L)$ \\
-    \hline
-    Decoding (per step) & $O(d)$                     & $O(d)$                       & $O(d)$                   \\
-    \hline
-    Decoding (total)    & $O(T \cdot d)$             & $O(T \cdot d)$               & $O(T \cdot d)$           \\
-    \hline
-  \end{tabularx}
-\end{table}
+At each entity commitment, the expansion loop examines all $D$ neighbours, applying one $O(1)$ set check per neighbour. Over $T_e$ commitments, the total expansion cost is $O(T_e \cdot D \cdot L)$. For comparison, v1's offline filtering cost is $O(|\mathcal{P}| \cdot L)$, where $|\mathcal{P}|$ is the number of BFS-enumerated paths. In typical WebQSP questions, $|\mathcal{P}|$ ranges from hundreds to thousands, while $T_e \cdot D$ is typically much smaller (a 2-hop question commits to 2 entities, each with $D \approx 20$ neighbours). The practical trade-off is not in the oracle cost but in the trie-rebuild frequency: each rebuild modifies the trie structure that the LLM's prefix-constrained decoding depends on, introducing instability that static pre-filtering avoids.
 
 \subsection{When v2 Helps and When It Hurts}
 \label{sec:ch3v2behavior}
@@ -746,7 +556,7 @@ The weakness is \textit{instability}: each trie rebuild changes the set of valid
 \label{sec:ch3baseline}
 % -----------------------------------------------------------------------------
 
-Four configurations are evaluated, all using the same \texttt{rmanluo/GCR-Meta-Llama-3.1-8B-Instruct} backbone and matched decoding settings (beam width $k{=}10$, group-beam search). This isolates differences to the constraint-oracle design:
+Four configurations are evaluated, all using the same \modelname{} backbone and matched decoding settings (beam width $k{=}10$, group-beam search). This isolates differences to the constraint-oracle design:
 
 \begin{itemize}
   \item \textbf{CoT Baseline:} Unconstrained chain-of-thought reasoning with no KG oracle.
@@ -762,11 +572,11 @@ Detailed configuration, dataset properties, and baseline reproduction results ar
 \label{sec:ch3eval}
 % -----------------------------------------------------------------------------
 
-Evaluation uses the RoG-webqsp test split (1,628 questions, 1--2 hops) over Freebase~\citep{bollacker2008freebase, yih2016websqp}. A 100-question validation split is used only for gate statistics. The primary metrics are Hits@1, Hits@k, Path Reduction, and False Negative Rate (FNR), with all major metrics stratified by hop depth (1--4). All experiments run on a single NVIDIA GeForce RTX 4090 using the \texttt{rmanluo/GCR-Meta-Llama-3.1-8B-Instruct} model in bfloat16 precision via HuggingFace Transformers~\citep{wolf2020transformers}. Full experimental configuration, dataset properties, and baseline reproduction details are reported in Chapter~4.
+Evaluation uses the RoG-webqsp test split (1,628 questions, 1--2 hops) over Freebase~\citep{bollacker2008freebase, yih2016websqp}, with the resulting pattern verified on a CWQ subset (2--4 hops). A 100-question validation split is used only for gate statistics. The primary metrics are Hits@1, F1, Path Reduction, and False Negative Rate (FNR). All experiments run on a single NVIDIA GeForce RTX 4090 using the \modelname{} model in bfloat16 precision via HuggingFace Transformers~\citep{wolf2020transformers}. Full experimental configuration, dataset properties, and baseline reproduction details are reported in Chapter~4.
 
 % -----------------------------------------------------------------------------
 \section{Scope Boundaries and Anticipated Limitations}
 \label{sec:ch3limitations}
 % -----------------------------------------------------------------------------
 
-This study is bounded as follows. Evaluation is restricted to WebQSP over Freebase; CWQ evaluation and cross-KG generalization are future work. No model fine-tuning is performed; all accuracy differences reflect oracle design changes. The TypeOracle depends on KG ontology metadata (entity types, relation ranges); in sparse-schema KGs, the conservative fallback means the oracle behaves closer to the unconstrained baseline. Condition~F is assessed empirically by checking generated paths against KG triplets, following established practice~\citep{luo2025-graph-constrained-reasoning, li2024-decoding-on-graphs}. Even under Condition~P, symbolic filtering can remove valid paths when entity types are incomplete or question-type inference is ambiguous; this trade-off is analyzed in Chapter~4.
+This study is bounded as follows. The primary evaluation is on WebQSP over Freebase; CWQ is used only to verify that the non-monotone pattern generalises, via a 100-sample subset comparing GCR against DCA-Trie v1. Full-scale CWQ evaluation across all four baselines, and cross-KG generalization beyond Freebase, are future work. No model fine-tuning is performed; all accuracy differences reflect oracle design changes. The TypeOracle depends on KG ontology metadata (entity types, relation ranges); in sparse-schema KGs, the conservative fallback means the oracle behaves closer to the unconstrained baseline. Condition~F is assessed empirically by checking generated paths against KG triplets, following established practice~\citep{luo2025-graph-constrained-reasoning, li2024-decoding-on-graphs}. Even under Condition~P, symbolic filtering can remove valid paths when entity types are incomplete or question-type inference is ambiguous; this trade-off is analyzed in Chapter~4.

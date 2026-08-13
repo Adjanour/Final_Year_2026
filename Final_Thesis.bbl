@@ -818,51 +818,6 @@
       \field{pages}{553\bibrangedash 561}
       \range{pages}{9}
     \endentry
-    \entry{hokamp2017lexically}{inproceedings}{}{}
-      \name{author}{2}{}{%
-        {{hash=e63b793e31c321842aedf5171a00d67c}{%
-           family={Hokamp},
-           familyi={H\bibinitperiod},
-           given={Chris},
-           giveni={C\bibinitperiod}}}%
-        {{hash=e51b2feac8da559d0f1d95788a6eaea4}{%
-           family={Liu},
-           familyi={L\bibinitperiod},
-           given={Qun},
-           giveni={Q\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Association for Computational Linguistics}%
-      }
-      \strng{namehash}{8e7fa5a7a2d02aa86f25ee0d3b7f3d0d}
-      \strng{fullhash}{8e7fa5a7a2d02aa86f25ee0d3b7f3d0d}
-      \strng{fullhashraw}{8e7fa5a7a2d02aa86f25ee0d3b7f3d0d}
-      \strng{bibnamehash}{8e7fa5a7a2d02aa86f25ee0d3b7f3d0d}
-      \strng{authorbibnamehash}{8e7fa5a7a2d02aa86f25ee0d3b7f3d0d}
-      \strng{authornamehash}{8e7fa5a7a2d02aa86f25ee0d3b7f3d0d}
-      \strng{authorfullhash}{8e7fa5a7a2d02aa86f25ee0d3b7f3d0d}
-      \strng{authorfullhashraw}{8e7fa5a7a2d02aa86f25ee0d3b7f3d0d}
-      \field{sortinit}{H}
-      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the 55th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)}
-      \field{title}{Lexically Constrained Decoding for Sequence Generation Using Grid Beam Search}
-      \field{year}{2017}
-      \field{pages}{1535\bibrangedash 1546}
-      \range{pages}{12}
-      \verb{doi}
-      \verb 10.18653/v1/p17-1141
-      \endverb
-      \verb{urlraw}
-      \verb http://dx.doi.org/10.18653/v1/p17-1141
-      \endverb
-      \verb{url}
-      \verb http://dx.doi.org/10.18653/v1/p17-1141
-      \endverb
-    \endentry
     \entry{holtzman2020curious}{inproceedings}{}{}
       \name{author}{5}{}{%
         {{hash=c32ace2a5a2590ef3542c3713e05925d}{%
@@ -3130,53 +3085,6 @@
       \field{journaltitle}{arXiv preprint arXiv:2603.20017}
       \field{title}{RouterKGQA: Specialized--General Model Routing for Constraint-Aware Knowledge Graph Question Answering}
       \field{year}{2026}
-    \endentry
-    \entry{zhang2023tractable}{inproceedings}{}{}
-      \name{author}{4}{}{%
-        {{hash=10a6f97ee137e3364dc233bcc956cce0}{%
-           family={Zhang},
-           familyi={Z\bibinitperiod},
-           given={Honghua},
-           giveni={H\bibinitperiod}}}%
-        {{hash=caeef8cd167d1082fac70ec532095987}{%
-           family={Dang},
-           familyi={D\bibinitperiod},
-           given={Meihua},
-           giveni={M\bibinitperiod}}}%
-        {{hash=0a0224799b3de09166a7aca43544b028}{%
-           family={Peng},
-           familyi={P\bibinitperiod},
-           given={Nanyun},
-           giveni={N\bibinitperiod}}}%
-        {{hash=64a4b1021bd9fabb2964d36331d0d999}{%
-           family={Van\bibnamedelimb den\bibnamedelima Broeck},
-           familyi={V\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim B\bibinitperiod},
-           given={Guy},
-           giveni={G\bibinitperiod}}}%
-      }
-      \strng{namehash}{67d01fd6e776d2f40d24a4671e27a4d8}
-      \strng{fullhash}{03c6d459569ab138e0026467ee66b297}
-      \strng{fullhashraw}{03c6d459569ab138e0026467ee66b297}
-      \strng{bibnamehash}{03c6d459569ab138e0026467ee66b297}
-      \strng{authorbibnamehash}{03c6d459569ab138e0026467ee66b297}
-      \strng{authornamehash}{67d01fd6e776d2f40d24a4671e27a4d8}
-      \strng{authorfullhash}{03c6d459569ab138e0026467ee66b297}
-      \strng{authorfullhashraw}{03c6d459569ab138e0026467ee66b297}
-      \field{sortinit}{Z}
-      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{International Conference on Machine Learning}
-      \field{title}{Tractable Control for Autoregressive Language Generation}
-      \field{year}{2023}
-      \verb{urlraw}
-      \verb https://icml.cc/virtual/2023/poster/23512
-      \endverb
-      \verb{url}
-      \verb https://icml.cc/virtual/2023/poster/23512
-      \endverb
     \endentry
   \enddatalist
 \endrefsection
