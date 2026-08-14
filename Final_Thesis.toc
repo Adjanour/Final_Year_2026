@@ -44,10 +44,10 @@
 \contentsline {subsection}{\numberline {3.2.1}Core Limitation of Existing Frameworks}{18}{subsection.55}%
 \contentsline {subsection}{\numberline {3.2.2}The Upgraded Oracle Specification}{19}{subsection.57}%
 \contentsline {section}{\numberline {3.3}System Architecture Overview}{20}{section.64}%
-\contentsline {section}{\numberline {3.4}Semantic Irrelevance Ratio}{22}{section.70}%
-\contentsline {subsection}{\numberline {3.4.1}Standard Metric Deficiencies}{22}{subsection.71}%
+\contentsline {section}{\numberline {3.4}Semantic Irrelevance Ratio}{20}{section.70}%
+\contentsline {subsection}{\numberline {3.4.1}Standard Metric Deficiencies}{20}{subsection.71}%
 \contentsline {subsection}{\numberline {3.4.2}Formal Definition of SIR}{22}{subsection.72}%
-\contentsline {subsection}{\numberline {3.4.3}Properties and Interpretation}{23}{subsection.76}%
+\contentsline {subsection}{\numberline {3.4.3}Properties and Interpretation}{22}{subsection.76}%
 \contentsline {section}{\numberline {3.5}Symbolic Relevance Scoring Mechanism}{23}{section.77}%
 \contentsline {subsection}{\numberline {3.5.1}Design Evolution}{23}{subsection.78}%
 \contentsline {subsection}{\numberline {3.5.2}TypeOracle Architecture}{24}{subsection.80}%
@@ -56,69 +56,53 @@
 \contentsline {section}{\numberline {3.6}DCA-Trie v1}{27}{section.90}%
 \contentsline {subsection}{\numberline {3.6.1}Design Rationale}{27}{subsection.91}%
 \contentsline {subsection}{\numberline {3.6.2}Algorithm for DCA-Trie v1}{29}{subsection.93}%
-\contentsline {subsection}{\numberline {3.6.3}Complexity Analysis}{30}{subsection.100}%
-\contentsline {subsection}{\numberline {3.6.4}Faithfulness Guarantee}{30}{subsection.101}%
-\contentsline {section}{\numberline {3.7}DCA-Trie v2: Step-Wise Symbolic Expansion}{30}{section.102}%
-\contentsline {subsection}{\numberline {3.7.1}Design Rationale}{30}{subsection.103}%
-\contentsline {subsection}{\numberline {3.7.2}When v2 Helps and When It Hurts}{31}{subsection.105}%
-\contentsline {section}{\numberline {3.8}DCA-Trie v3: Lazy Constrained Decoding}{32}{section.106}%
-\contentsline {section}{\numberline {3.9}Baseline Systems}{33}{section.108}%
-\contentsline {section}{\numberline {3.10}Evaluation Protocol}{33}{section.109}%
-\contentsline {section}{\numberline {3.11}Scope Boundaries and Anticipated Limitations}{34}{section.110}%
-\contentsline {chapter}{\numberline {4}RESULTS AND DISCUSSION}{35}{chapter.111}%
-\contentsline {section}{\numberline {4.1}Introduction}{35}{section.112}%
-\contentsline {section}{\numberline {4.2}Experimental Setup}{35}{section.113}%
-\contentsline {subsection}{\numberline {4.2.1}Infrastructure}{35}{subsection.114}%
-\contentsline {subsection}{\numberline {4.2.2}Generation Configuration}{36}{subsection.115}%
-\contentsline {subsection}{\numberline {4.2.3}Datasets}{36}{subsection.117}%
-\contentsline {subsection}{\numberline {4.2.4}Baselines}{37}{subsection.119}%
-\contentsline {subsection}{\numberline {4.2.5}Evaluation Metrics}{38}{subsection.120}%
-\contentsline {subsection}{\numberline {4.2.6}Implementation Details}{39}{subsection.121}%
-\contentsline {subsubsection}{Model Pipeline}{39}{subsubsection*.122}%
-\contentsline {subsubsection}{Graph Construction}{39}{subsubsection*.123}%
-\contentsline {subsubsection}{Path Enumeration}{39}{subsubsection*.124}%
-\contentsline {subsubsection}{MarisaTrie Construction}{40}{subsubsection*.125}%
-\contentsline {subsubsection}{Constrained Decoding}{40}{subsubsection*.126}%
-\contentsline {subsubsection}{TypeOracle}{40}{subsubsection*.127}%
-\contentsline {subsubsection}{Answer Type Inference}{41}{subsubsection*.128}%
-\contentsline {subsection}{\numberline {4.2.7}Supporting Analyses}{41}{subsection.129}%
-\contentsline {subsubsection}{Ablation Summary}{41}{subsubsection*.130}%
-\contentsline {subsubsection}{Robustness and Sensitivity}{42}{subsubsection*.132}%
-\contentsline {subsubsection}{Type Inference Quality}{42}{subsubsection*.133}%
-\contentsline {subsubsection}{Efficiency}{42}{subsubsection*.134}%
-\contentsline {section}{\numberline {4.3}GCR Reproduction and Baseline Comparison}{44}{section.136}%
-\contentsline {section}{\numberline {4.4}RQ1: Can the TypeOracle Satisfy Its Design Conditions?}{45}{section.138}%
-\contentsline {subsection}{\numberline {4.4.1}Condition F: Structural Faithfulness}{45}{subsection.139}%
-\contentsline {subsection}{\numberline {4.4.2}Condition R: Semantic Relevance Reduction}{45}{subsection.140}%
-\contentsline {subsection}{\numberline {4.4.3}Condition P: Recall Preservation}{48}{subsection.145}%
-\contentsline {subsection}{\numberline {4.4.4}RQ1 Summary}{49}{subsection.148}%
-\contentsline {section}{\numberline {4.5}RQ2: Does Tightening the Oracle Improve Answer Accuracy?}{49}{section.149}%
-\contentsline {subsection}{\numberline {4.5.1}Main Results}{49}{subsection.150}%
-\contentsline {subsection}{\numberline {4.5.2}Reproduction Gap}{50}{subsection.153}%
-\contentsline {subsection}{\numberline {4.5.3}Statistical Significance}{51}{subsection.154}%
-\contentsline {subsection}{\numberline {4.5.4}Why the Non-Monotone Result Occurs}{52}{subsection.156}%
-\contentsline {subsection}{\numberline {4.5.5}The Type-Inference Confound}{52}{subsection.161}%
-\contentsline {section}{\numberline {4.6}RQ3: Does the TypeOracle Add Computational Overhead?}{53}{section.162}%
-\contentsline {section}{\numberline {4.7}Faithful Reasoning Analysis}{54}{section.164}%
-\contentsline {section}{\numberline {4.8}DCA-Trie v3: Lazy Constrained Decoding}{55}{section.166}%
-\contentsline {subsection}{\numberline {4.8.1}Calibration: The Lazy Constraint Is Faithful}{55}{subsection.168}%
-\contentsline {section}{\numberline {4.9}Case Studies}{56}{section.169}%
-\contentsline {section}{\numberline {4.10}Generalizability to CWQ}{57}{section.171}%
-\contentsline {section}{\numberline {4.11}Discussion and Synthesis}{59}{section.173}%
-\contentsline {section}{\numberline {4.12}DCA-Trie v2: Observations}{62}{section.177}%
-\contentsline {subsection}{\numberline {4.12.1}The Collapse Is Architectural, Not the Gates}{63}{subsection.179}%
-\contentsline {subsection}{\numberline {4.12.2}Trie Volatility Is Not the Failure Mechanism}{63}{subsection.180}%
-\contentsline {subsection}{\numberline {4.12.3}Implication}{63}{subsection.181}%
-\contentsline {chapter}{\numberline {5}CONCLUSION AND RECOMMENDATIONS}{65}{chapter.182}%
-\contentsline {section}{\numberline {5.1}Conclusion}{65}{section.183}%
-\contentsline {section}{\numberline {5.2}Summary of Findings}{66}{section.184}%
-\contentsline {section}{\numberline {5.3}Contributions}{67}{section.192}%
-\contentsline {section}{\numberline {5.4}Limitations}{68}{section.193}%
-\contentsline {section}{\numberline {5.5}Future Work}{69}{section.194}%
-\contentsline {chapter}{\numberline {A}Abandoned Semantic Scorer Designs}{71}{appendix.195}%
-\contentsline {section}{\numberline {A.1}Approach 1: Cosine Similarity (Abandoned)}{71}{section.196}%
-\contentsline {section}{\numberline {A.2}Approach 2: Decomposed Product Score (Abandoned)}{72}{section.202}%
-\contentsline {chapter}{Appendices}{71}{section.194}%
-\contentsline {chapter}{\numberline {B}DCA-Trie v2: Full Step-Wise Expansion Algorithm}{73}{appendix.206}%
-\contentsline {chapter}{REFERENCES}{76}{algorithm.207}%
+\contentsline {subsection}{\numberline {3.6.3}Complexity Analysis}{30}{subsection.95}%
+\contentsline {subsection}{\numberline {3.6.4}Faithfulness Guarantee}{30}{subsection.96}%
+\contentsline {section}{\numberline {3.7}DCA-Trie v2: Step-Wise Symbolic Expansion}{30}{section.97}%
+\contentsline {subsection}{\numberline {3.7.1}Design Rationale}{30}{subsection.98}%
+\contentsline {subsection}{\numberline {3.7.2}When v2 Helps and When It Hurts}{31}{subsection.100}%
+\contentsline {section}{\numberline {3.8}DCA-Trie v3: Lazy Constrained Decoding}{31}{section.101}%
+\contentsline {section}{\numberline {3.9}Baseline Systems}{32}{section.103}%
+\contentsline {section}{\numberline {3.10}Evaluation Protocol}{33}{section.104}%
+\contentsline {section}{\numberline {3.11}Scope Boundaries and Anticipated Limitations}{33}{section.105}%
+\contentsline {chapter}{\numberline {4}RESULTS AND DISCUSSION}{35}{chapter.106}%
+\contentsline {section}{\numberline {4.1}Introduction}{35}{section.107}%
+\contentsline {section}{\numberline {4.2}Experimental Setup}{35}{section.108}%
+\contentsline {subsection}{\numberline {4.2.1}Infrastructure}{35}{subsection.109}%
+\contentsline {subsection}{\numberline {4.2.2}Generation Configuration}{36}{subsection.110}%
+\contentsline {subsection}{\numberline {4.2.3}Datasets}{36}{subsection.112}%
+\contentsline {subsection}{\numberline {4.2.4}Baselines}{37}{subsection.114}%
+\contentsline {subsection}{\numberline {4.2.5}Evaluation Metrics}{38}{subsection.115}%
+\contentsline {subsection}{\numberline {4.2.6}Implementation Details}{39}{subsection.116}%
+\contentsline {subsection}{\numberline {4.2.7}Supporting Analyses}{40}{subsection.117}%
+\contentsline {subsubsection}{Ablation Summary}{40}{subsubsection*.118}%
+\contentsline {subsubsection}{Robustness and Sensitivity}{40}{subsubsection*.120}%
+\contentsline {subsubsection}{Type Inference Quality}{40}{subsubsection*.121}%
+\contentsline {subsubsection}{Efficiency}{41}{subsubsection*.122}%
+\contentsline {section}{\numberline {4.3}GCR Reproduction and Baseline Comparison}{42}{section.124}%
+\contentsline {section}{\numberline {4.4}RQ1: Can the TypeOracle Satisfy Its Design Conditions?}{43}{section.126}%
+\contentsline {subsection}{\numberline {4.4.1}Condition F: Structural Faithfulness}{43}{subsection.127}%
+\contentsline {subsection}{\numberline {4.4.2}Condition R: Semantic Relevance Reduction}{43}{subsection.128}%
+\contentsline {subsection}{\numberline {4.4.3}Condition P: Recall Preservation}{45}{subsection.132}%
+\contentsline {subsection}{\numberline {4.4.4}RQ1 Summary}{46}{subsection.134}%
+\contentsline {section}{\numberline {4.5}RQ2: Does Tightening the Oracle Improve Answer Accuracy?}{46}{section.135}%
+\contentsline {subsection}{\numberline {4.5.1}Main Results}{46}{subsection.136}%
+\contentsline {subsection}{\numberline {4.5.2}Statistical Significance}{47}{subsection.139}%
+\contentsline {subsection}{\numberline {4.5.3}Why the Non-Monotone Result Occurs}{48}{subsection.141}%
+\contentsline {subsection}{\numberline {4.5.4}The Type-Inference Confound}{49}{subsection.142}%
+\contentsline {section}{\numberline {4.6}RQ3: Does the TypeOracle Add Computational Overhead?}{49}{section.143}%
+\contentsline {section}{\numberline {4.7}Faithful Reasoning Analysis}{50}{section.145}%
+\contentsline {section}{\numberline {4.8}DCA-Trie v3: Lazy Constrained Decoding}{50}{section.147}%
+\contentsline {subsection}{\numberline {4.8.1}Calibration: The Lazy Constraint Is Faithful}{51}{subsection.149}%
+\contentsline {section}{\numberline {4.9}Case Studies}{52}{section.150}%
+\contentsline {section}{\numberline {4.10}Generalizability to CWQ}{53}{section.152}%
+\contentsline {section}{\numberline {4.11}Discussion and Synthesis}{54}{section.154}%
+\contentsline {section}{\numberline {4.12}DCA-Trie v2: Observations}{56}{section.158}%
+\contentsline {chapter}{\numberline {5}CONCLUSION AND RECOMMENDATIONS}{59}{chapter.160}%
+\contentsline {section}{\numberline {5.1}Conclusion}{59}{section.161}%
+\contentsline {section}{\numberline {5.2}Summary of Findings}{60}{section.162}%
+\contentsline {section}{\numberline {5.3}Contributions}{61}{section.170}%
+\contentsline {section}{\numberline {5.4}Limitations}{62}{section.171}%
+\contentsline {section}{\numberline {5.5}Future Work}{63}{section.172}%
+\contentsline {chapter}{REFERENCES}{65}{section.172}%
 \contentsfinish 

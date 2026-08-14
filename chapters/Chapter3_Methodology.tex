@@ -10,7 +10,7 @@
 \label{sec:ch3intro}
 % -----------------------------------------------------------------------------
 
-This chapter formalises the permissiveness problem identified in Chapter~2 and presents the Dynamic Context-Aware Trie (DCA-Trie) framework as a solution. The upgraded oracle specification and the Semantic Irrelevance Ratio (SIR) are defined first, with SIR serving as a diagnostic metric that measures constraint quality independently of answer accuracy. The chapter then traces the research evolution from an initial cosine-similarity scorer through a decomposed product score to the final symbolic TypeOracle, explaining the rationale behind each design choice. The static pre-filtering design of v1 and the step-wise dynamic expansion design of v2 are described using the TypeOracle mechanism. The chapter closes with the baseline configurations, evaluation protocol, and scope boundaries that govern the experimental work in Chapter~4.
+This chapter formalises the permissiveness problem identified in Chapter~2 and presents the Dynamic Context-Aware Trie (DCA-Trie) framework as a solution. It defines the upgraded oracle specification and the Semantic Irrelevance Ratio (SIR), a diagnostic metric that measures constraint quality independently of answer accuracy. The chapter traces the research evolution from a cosine-similarity scorer through a decomposed product score to the final symbolic TypeOracle, then describes the static pre-filtering design of v1 and the step-wise dynamic expansion of v2. It closes with the baseline configurations and evaluation protocol that govern the experimental work in Chapter~4.
 
 % -----------------------------------------------------------------------------
 \section{Formal Problem Specification}
@@ -19,7 +19,7 @@ This chapter formalises the permissiveness problem identified in Chapter~2 and p
 
 \subsection{Core Limitation of Existing Frameworks}
 
-As established in Chapter~2, current graph-constrained frameworks (notably GCR \citep{luo2025-graph-constrained-reasoning} and DoG \citep{li2024-decoding-on-graphs}) rely on a deterministic oracle that looks only at the fixed graph $\mathcal{G}$ and the starting entities $\mathcal{E}_q$. Regardless of whether the system builds this oracle before decoding or expands it on the fly, the set of valid tokens at any step $t$ remains locked to structural logic:
+As established in Chapter~2, current graph-constrained frameworks (specifically GCR \citep{luo2025-graph-constrained-reasoning} and DoG \citep{li2024-decoding-on-graphs}) rely on a deterministic oracle that looks only at the fixed graph $\mathcal{G}$ and the starting entities $\mathcal{E}_q$. Whether this oracle is built before decoding or expanded on the fly, the set of valid tokens at any step $t$ remains locked to structural logic:
 \begin{equation}
   \mathcal{W}_{\text{val}}^{\text{GCR}}(t) = f(\mathcal{G},\, \mathcal{E}_q)
   \quad \forall\, t
@@ -28,7 +28,7 @@ As established in Chapter~2, current graph-constrained frameworks (notably GCR \
 
 Equation~\eqref{eq:gcr_oracle} captures this static constraint model. By ignoring both the semantic intent of the question $q$ and the reasoning trajectory already captured in the prefix $y_{<t}$, this formulation treats every structurally reachable path as equally plausible. In dense, multi-hop Freebase environments, this causes substantial search space inflation. On WebQSP, the oracle admits an average of 2,553 paths per question (Chapter~4, Table~\ref{tab:datasets}), even though only a single path logically answers the query.
 
-Two separate requirements are in tension here. Structural validity ensures the LLM only generates tokens that correspond to real graph edges; current models do this well. Contextual relevance is the open problem: ensuring the LLM only generates tokens that logically connect to the specific question. Current models do not enforce this. The gap between structural compliance and semantic usefulness is the \textit{permissiveness problem}.
+Two requirements are in tension here. Structural validity ensures the LLM only generates tokens that correspond to real graph edges; current models do this well. Contextual relevance is the open problem: ensuring the LLM only generates tokens that logically connect to the specific question. Current models do not enforce this. The gap between structural compliance and semantic usefulness is the \textit{permissiveness problem}.
 
 \subsection{The Upgraded Oracle Specification}
 
@@ -41,7 +41,7 @@ DCA-Trie addresses this problem by defining a constraint oracle that conditions 
 where $q$ is the natural language query and $y_{<t} = (y_1, \ldots, y_{t-1})$ is the generated prefix at step $t$. The upgraded oracle must satisfy three conditions aligned with the project objectives in Chapter~1:
 
 \begin{enumerate}
-  \item \textbf{Structural Faithfulness (Condition~F):} Every candidate token $v \in \mathcal{W}_{\text{val}}^{\text{DCA}}(t)$ must correspond to a valid prefix of a path $p \in \mathcal{G}$ at every step $t$. This preserves the 100\% structural faithfulness guarantee achieved by GCR and DoG and prevents ungrounded tokens from entering the valid set.
+  \item \textbf{Structural Faithfulness (Condition~F):} Every candidate token $v \in \mathcal{W}_{\text{val}}^{\text{DCA}}(t)$ must correspond to a valid prefix of a path $p \in \mathcal{G}$ at every step $t$. This preserves the 100\% structural faithfulness guarantee achieved by GCR and DoG.
 
   \item \textbf{Semantic Relevance Reduction (Condition~R):} The Semantic Irrelevance Ratio (SIR) under DCA-Trie must be lower than the corresponding SIR under GCR when averaged over the evaluation corpus. Using SIR as defined in Section~\ref{sec:ch3sir}:
         \begin{equation}
@@ -58,9 +58,9 @@ where $q$ is the natural language query and $y_{<t} = (y_1, \ldots, y_{t-1})$ is
           \label{eq:fnr}
         \end{equation}
         where $p^*_q$ is the gold path for question $q$ and $\mathcal{Q}_{\text{val}}$ is the held-out 100-question validation set.
-
-        These three conditions are not guaranteed to be jointly satisfiable. Tightening the oracle to satisfy Condition~R (reduce irrelevance) can directly threaten Condition~P (remove gold paths) when the semantic signal mismatches the lexical form of correct answers. This tension is the central axis of the Chapter~4 results.
 \end{enumerate}
+
+These three conditions are not guaranteed to be jointly satisfiable. Tightening the oracle to satisfy Condition~R (reduce irrelevance) can directly threaten Condition~P (remove gold paths) when the semantic signal mismatches the lexical form of correct answers. This tension is the central axis of the Chapter~4 results.
 
 
 % -----------------------------------------------------------------------------
@@ -68,16 +68,16 @@ where $q$ is the natural language query and $y_{<t} = (y_1, \ldots, y_{t-1})$ is
 \label{sec:ch3arch}
 % -----------------------------------------------------------------------------
 
-DCA-Trie focuses on the constraint oracle layer, so its architecture directly builds on the baseline pipeline from Graph-Constrained Reasoning (GCR) \citep{luo2025-graph-constrained-reasoning}. This reuse helps isolate the experimental effects of the proposed oracle. The four layers work as follows:
+DCA-Trie focuses on the constraint oracle layer, so its architecture directly builds on the baseline pipeline from Graph-Constrained Reasoning (GCR) \citep{luo2025-graph-constrained-reasoning}. This reuse isolates the experimental effects of the proposed oracle. The pipeline has four layers:
 
 \begin{enumerate}
-  \item \textbf{Entity Linking Layer (Unmodified):} A named entity recognition or entity-linking component identifies the core query entities $\mathcal{E}_q$ from the raw natural language question $q$. These entities dictate where downstream graph exploration begins.
+  \item \textbf{Entity Linking (Unmodified):} Identifies the core query entities $\mathcal{E}_q$ from the question $q$. These dictate where downstream graph exploration begins.
 
-  \item \textbf{Constraint Oracle Layer (DCA-Trie Contribution):} This layer controls which tokens the LLM can generate. In GCR, this layer creates a KG-Trie that includes structurally reachable paths within $L$ hops of the starting entities. DCA-Trie modifies this layer by applying symbolic ontology checks through a TypeOracle. Through either static pre-filtering (v1) or dynamic step-wise expansion (v2), the oracle ensures that admitted paths remain graph-valid and type-consistent.
+  \item \textbf{Constraint Oracle (DCA-Trie Contribution):} Controls which tokens the LLM can generate. In GCR, this layer creates a KG-Trie of structurally reachable paths within $L$ hops. DCA-Trie modifies this layer by applying symbolic ontology checks through a TypeOracle, via either static pre-filtering (v1) or dynamic step-wise expansion (v2), so that admitted paths remain graph-valid and type-consistent.
 
-  \item \textbf{Constrained Decoding Layer (Unmodified):} During autoregressive generation, the decoding layer intercepts the LLM logit distribution and applies a binary mask retrieved from the oracle layer. The LLM is therefore restricted to tokens that are currently valid under the trie.
+  \item \textbf{Constrained Decoding (Unmodified):} During autoregressive generation, the decoding layer intercepts the LLM logit distribution and applies a binary mask retrieved from the oracle layer. The LLM is restricted to tokens that are currently valid under the trie.
 
-  \item \textbf{Inductive Reasoning Layer (Unmodified):} After constrained decoding produces candidate reasoning paths, the answer synthesis component analyses these paths and produces the final natural language answer.
+  \item \textbf{Inductive Reasoning (Unmodified):} After constrained decoding produces candidate reasoning paths, the answer synthesis component produces the final natural language answer.
 \end{enumerate}
 
 Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint oracle layer to emphasise where the core symbolic intervention takes place.
@@ -217,13 +217,13 @@ Figure~\ref{fig:architecture} shows the full pipeline, isolating the constraint 
 
 \subsection{Standard Metric Deficiencies}
 
-Current performance markers for knowledge graph decoding, such as Hits@1, F1, and structural faithfulness ratios, have a significant drawback: they focus on output instead of the process. While these metrics show whether a framework found the correct answer and stayed within the graph, they do not reveal how the framework reached that answer. A model may solve the correct gold path, but it could wander through a large number of irrelevant paths that waste resources.
+Current performance markers for knowledge graph decoding, such as Hits@1, F1, and structural faithfulness ratios, focus on output instead of process. They show whether a framework found the correct answer and stayed within the graph, but not how it reached that answer. A model may solve the correct gold path while wandering through a large number of irrelevant paths that waste resources.
 
-Confirming accuracy is not enough; the constraint mechanism itself must be measured. To assess how permissive the oracle is, independently of final answer accuracy, this thesis presents a diagnostic metric called the Semantic Irrelevance Ratio (SIR).
+To assess how permissive the oracle is, independently of final answer accuracy, this thesis presents a diagnostic metric called the Semantic Irrelevance Ratio (SIR).
 
 \subsection{Formal Definition of SIR}
 
-Suppose $\mathcal{P}(q, t)$ represents all paths that the constraint oracle allows at decoding step $t$ for question $q$. To calculate SIR, the system must first define irrelevance. An individual candidate path $p \in \mathcal{P}(q, t)$ is structurally valid, but it fails the semantic stringency test if its terminal entity type is incompatible with the inferred answer types, or if any edge in the path violates the property range constraint:
+Suppose $\mathcal{P}(q, t)$ represents all paths that the constraint oracle allows at decoding step $t$ for question $q$. An individual candidate path $p \in \mathcal{P}(q, t)$ is structurally valid, but it fails the semantic stringency test if its terminal entity type is incompatible with the inferred answer types, or if any edge in the path violates the property range constraint:
 \begin{equation}
   \text{irrelevant}(p, q) = \mathbf{1}\!\left[
     \neg\,\text{type\_gate}(p, q) \;\lor\;
@@ -234,25 +234,24 @@ Suppose $\mathcal{P}(q, t)$ represents all paths that the constraint oracle allo
 \end{equation}
 Equation~\eqref{eq:irrelevant} defines the binary irrelevance indicator. Here, type\_gate checks whether the terminal entity's type matches the expected answer types inferred from the question, and range\_gate checks whether each edge respects the ontology's declared property ranges. Both gates are deterministic set operations over the KG's own schema, defined in Section~\ref{sec:ch3oracle}.
 
-The step-level SIR for question $q$ at decoding step $t$ is then defined as:
+The step-level SIR for question $q$ at decoding step $t$ is then the fraction of admitted paths that are irrelevant:
 \begin{equation}
   \text{SIR}(q, t) = \frac{\sum_{p \in \mathcal{P}(q,t)}
     \text{irrelevant}(p, q)}{|\mathcal{P}(q, t)|}
   \label{eq:sir_step}
 \end{equation}
-As shown in Equation~\eqref{eq:sir_step}, this quantity is the fraction of admitted paths at step $t$ that are semantically irrelevant.
 
-Corpus-level SIR is computed by averaging over all questions and all valid decoding steps up to depth $L$:
+Corpus-level SIR averages over all questions and all valid decoding steps up to depth $L$:
 \begin{equation}
   \overline{\text{SIR}} = \frac{1}{|\mathcal{Q}|} \sum_{q \in \mathcal{Q}}
   \frac{1}{L_q} \sum_{t=1}^{L_q} \text{SIR}(q, t)
   \label{eq:sir_aggregate}
 \end{equation}
-Equation~\eqref{eq:sir_aggregate} gives the corpus-level average, where $L_q$ is the hop length of the generated reasoning chain for question $q$.
+where $L_q$ is the hop length of the generated reasoning chain for question $q$.
 
 \subsection{Properties and Interpretation}
 
-By definition, $\overline{\text{SIR}} \in [0,1]$. A value near 1 indicates that most admitted paths are irrelevant, so the model still faces a large and noisy search space. A value near 0 indicates that the constraint set is tightly aligned with question semantics. Prior constrained frameworks such as GCR and DoG tend to show high SIR, especially at larger hop depths where path counts increase rapidly. DCA-Trie targets lower SIR by filtering semantically weak paths. The structurally valid ones stay. Chapter~4 compares SIR across WebQSP and CWQ, whose differing hop depths give an indication of how this effect scales with reasoning complexity.
+By definition, $\overline{\text{SIR}} \in [0,1]$. A value near 1 indicates that most admitted paths are irrelevant, so the model faces a large and noisy search space. A value near 0 indicates that the constraint set is tightly aligned with question semantics. Prior constrained frameworks such as GCR and DoG tend to show high SIR, especially at larger hop depths where path counts increase rapidly. DCA-Trie targets lower SIR by filtering semantically weak paths while keeping the structurally valid ones. Chapter~4 compares SIR across WebQSP and CWQ.
 
 % -----------------------------------------------------------------------------
 \section{Symbolic Relevance Scoring Mechanism}
@@ -261,9 +260,9 @@ By definition, $\overline{\text{SIR}} \in [0,1]$. A value near 1 indicates that 
 
 \subsection{Design Evolution}
 
-The semantic relevance mechanism went through three designs before arriving at the final symbolic TypeOracle. The initial cosine-similarity scorer~(Approach~1) used sentence-transformer embeddings to score each candidate path against the question. It suffered from semantic collapse (a single score cannot distinguish type-match from topical overlap), encoder cost (thousands of forward passes per question), threshold sensitivity ($\tau = 0.25$ produced empty path sets for 84\% of WebQSP queries), and non-determinism from floating-point arithmetic. The decomposed product score~(Approach~2) split the cosine score into relational, entity-type, and trajectory components. The entity-type component was already a hard binary gate rather than a continuous score, an early step toward the fully symbolic design, but the relational and trajectory components still required encoder forward passes. Approach 2 improved interpretability but retained both the encoder dependency and the threshold. The final TypeOracle~(Approach~3) eliminates the encoder and the threshold entirely, using only $O(1)$ set lookups over the KG's own ontology metadata.
+The semantic relevance mechanism went through three designs before arriving at the final symbolic TypeOracle. The initial cosine-similarity scorer~(Approach~1) embedded each candidate path and scored it against the question. It failed on four counts: semantic collapse (a single score cannot distinguish type-match from topical overlap), encoder cost (thousands of forward passes per question), threshold sensitivity ($\tau = 0.25$ produced empty path sets for 84\% of WebQSP queries), and non-determinism from floating-point arithmetic. The decomposed product score~(Approach~2) split the cosine score into relational, entity-type, and trajectory components. The entity-type component was already a hard binary gate rather than a continuous score, an early step toward the fully symbolic design, but the relational and trajectory components still required encoder forward passes. Approach~2 improved interpretability but retained both the encoder dependency and the threshold. The final TypeOracle~(Approach~3) eliminates the encoder and the threshold entirely, using only $O(1)$ set lookups over the KG's own ontology metadata.
 
-Table~\ref{tab:approach_comparison} summarises the properties of all three designs. Detailed design documents for Approaches~1 and~2 are provided in Appendix~\ref{AppendixC}.
+Table~\ref{tab:approach_comparison} summarises the properties of all three designs.
 
 \begin{table}[H]
   \centering
@@ -339,9 +338,9 @@ The TypeOracle implements the transition from a static oracle $f(\mathcal{G}, \m
 The oracle consists of two complementary gates:
 
 \begin{enumerate}
-  \item \textbf{Answer Type Gate} ($\rho_e$, terminal hop only): Applied at the final hop of a candidate path. It checks whether the candidate answer entity's type matches what the question asks for. For example, a question beginning with ``who'' infers person-type entities as valid answers.
+  \item \textbf{Answer Type Gate} ($\rho_e$, terminal hop only): Applied at the final hop of a candidate path. It checks whether the candidate answer entity's type matches what the question asks for. A question beginning with ``who'' infers person-type entities as valid answers.
 
-  \item \textbf{Property Range Gate} ($\rho_r$, every hop): Applied at every edge in the path. It checks whether the tail entity's type is compatible with the relation's declared range in the ontology. For example, if a relation expects a location as its range, then only entities typed as locations are admitted when type information is available.
+  \item \textbf{Property Range Gate} ($\rho_r$, every hop): Applied at every edge in the path. It checks whether the tail entity's type is compatible with the relation's declared range in the ontology. If a relation expects a location as its range, then only entities typed as locations are admitted when type information is available.
 \end{enumerate}
 
 The combined admission check for a candidate edge $(r, e')$ at hop $h$ is:
@@ -376,7 +375,7 @@ The gates operate on discrete set membership rather than continuous similarity v
   \label{eq:range_gate}
 \end{align}
 
-Both gates default to True when schema metadata is absent. This ensures structural faithfulness is never compromised and the TypeOracle never produces empty path sets. The design is threshold-free: no continuous similarity score requires tuning. The computational properties are summarised in Table~\ref{tab:computational_comparison}.
+Both gates default to True when schema metadata is absent. This ensures structural faithfulness is never compromised and the TypeOracle never produces empty path sets. The design is threshold-free: no continuous similarity score requires tuning.
 
 \newpage
 
@@ -501,15 +500,7 @@ Figure~\ref{fig:v1} summarises this offline filtering workflow.
   \end{algorithmic}
 \end{algorithm}
 
-The process unfolds in five stages:
-
-\begin{enumerate}
-  \item \textbf{Infer Answer Types:} The system pattern-matches question words against predefined patterns to determine what entity types the answer should have.
-  \item \textbf{Enumerate the Structural Space:} Standard BFS maps out every possible graph path starting from the question entities up to maximum depth $L$. This matches the baseline GCR approach.
-  \item \textbf{Apply TypeOracle Filtering:} For each enumerated path, the oracle checks whether every edge respects the relation's declared range and whether the terminal entity type matches the inferred answer types.
-  \item \textbf{Construct the Static Trie:} The remaining paths are compiled into a static prefix tree $\mathcal{T}^{\text{v1}}$.
-  \item \textbf{Perform Autoregressive Decoding:} During generation, the LLM queries the pre-built trie at each token step, receiving only tokens that follow pre-approved, type-consistent paths.
-\end{enumerate}
+The algorithm follows four stages. First, the system pattern-matches question words against predefined patterns to infer the answer types $\mathcal{T}(q)$. Second, standard BFS maps out every possible graph path from the question entities up to maximum depth $L$, matching the baseline GCR approach. Third, the oracle checks whether every edge respects the relation's declared range and whether the terminal entity type matches the inferred answer types, keeping only paths that pass all gates. Fourth, the remaining paths are compiled into a static prefix tree, which the LLM queries at each token step during decoding.
 
 \subsection{Complexity Analysis}
 
@@ -538,11 +529,9 @@ Architecturally, v2 follows the step-wise traversal pattern in DoG \citep{li2024
   \text{type\_gate}(e', \mathcal{T}(q), h, L)\bigr\}
   \label{eq:v2expansion}
 \end{equation}
-The core difference from permissive dynamic expansion is not when expansion happens, but how candidates are admitted: every step remains graph-valid and type-consistent.
+The expansion procedure has four steps: (1)~initialize a minimal trie containing only the root question entities; (2)~at each decoding step, look up valid tokens from the current trie and apply logit masking; (3)~when the LLM commits an entity token, fetch all structurally valid neighbours from the knowledge graph and apply range\_gate and type\_gate to each candidate; (4)~add candidates passing both gates to the trie. Relation-token steps do not trigger expansion.
 
-The expansion procedure follows four steps: (1)~initialize a minimal trie containing only the root question entities; (2)~at each decoding step, look up valid tokens from the current trie and apply logit masking; (3)~when the LLM commits an entity token, fetch all structurally valid neighbours from the knowledge graph and apply range\_gate and type\_gate to each candidate; (4)~add candidates passing both gates to the trie. Relation-token steps do not trigger expansion. The full algorithm is provided in Appendix~\ref{AppendixD}.
-
-At each entity commitment, the expansion loop examines all $D$ neighbours, applying one $O(1)$ set check per neighbour. Over $T_e$ commitments, the total expansion cost is $O(T_e \cdot D \cdot L)$. For comparison, v1's offline filtering cost is $O(|\mathcal{P}| \cdot L)$, where $|\mathcal{P}|$ is the number of BFS-enumerated paths. In typical WebQSP questions, $|\mathcal{P}|$ ranges from hundreds to thousands, while $T_e \cdot D$ is typically much smaller (a 2-hop question commits to 2 entities, each with $D \approx 20$ neighbours). The practical trade-off is not in the oracle cost but in the trie-rebuild frequency: each rebuild modifies the trie structure that the LLM's prefix-constrained decoding depends on, introducing instability that static pre-filtering avoids.
+At each entity commitment, the expansion loop examines all $D$ neighbours, applying one $O(1)$ set check per neighbour. Over $T_e$ commitments, the total expansion cost is $O(T_e \cdot D \cdot L)$, versus v1's offline $O(|\mathcal{P}| \cdot L)$. In typical WebQSP questions $T_e \cdot D$ is smaller than $|\mathcal{P}|$ (a 2-hop question commits to 2 entities, each with $D \approx 20$ neighbours). The practical trade-off is not the per-step oracle cost but the trie-rebuild frequency: each rebuild modifies the trie structure that the LLM's prefix-constrained decoding depends on, introducing instability that static pre-filtering avoids.
 
 \subsection{When v2 Helps and When It Hurts}
 \label{sec:ch3v2behavior}
@@ -580,10 +569,10 @@ Six configurations are evaluated, all using the same \modelname{} backbone and m
 \begin{itemize}
   \item \textbf{CoT Baseline:} Unconstrained chain-of-thought reasoning with no KG oracle.
   \item \textbf{GCR:} Static KG-Trie constraints $\mathcal{W}_{\text{val}}(t)=f(\mathcal{G},\mathcal{E}_q)$~\citep{luo2025-graph-constrained-reasoning}. Primary constrained baseline.
-  \item \textbf{DCA-Trie v1:} Static symbolic filtering (Section~\ref{sec:ch3v1}), implemented as a preprocessing step.
-  \item \textbf{DCA-Trie v2:} Dynamic step-wise expansion (Section~\ref{sec:ch3v2}), integrated into the decoding loop.
+  \item \textbf{DCA-Trie v1:} Static symbolic filtering (Section~\ref{sec:ch3v1}).
+  \item \textbf{DCA-Trie v2:} Dynamic step-wise expansion (Section~\ref{sec:ch3v2}).
   \item \textbf{DCA-Trie v2-no-gates:} The v2 architecture with both TypeOracle gates disabled, admitting every graph neighbour at each hop. This ablation isolates the cost of the v2 architecture from the cost of the gates.
-  \item \textbf{DCA-Trie v3:} Lazy constrained decoding (Section~\ref{sec:ch3v3}), which materialises the trie on the fly along the paths the beams actually reach, with TypeOracle gating applied at the frontier.
+  \item \textbf{DCA-Trie v3:} Lazy constrained decoding (Section~\ref{sec:ch3v3}).
 \end{itemize}
 
 Detailed configuration, dataset properties, and baseline reproduction results are reported in Chapter~4.
@@ -593,11 +582,11 @@ Detailed configuration, dataset properties, and baseline reproduction results ar
 \label{sec:ch3eval}
 % -----------------------------------------------------------------------------
 
-Evaluation uses the RoG-webqsp test split (1,628 questions, 1--2 hops) over Freebase~\citep{bollacker2008freebase, yih2016websqp}. Because every method in this thesis re-uses the same LLM weights and decoding settings, the paired comparison is run on a fixed 300-question subset sampled with seed~42; all conditions (GCR baseline, v1, v2, v2-no-gates, v3) decode the identical question set, so differences are attributable to the constraint-oracle design alone. The full test set is used for the GCR reproduction study (Section~\ref{sec:ch4repro}) and for the gate-decomposition analysis at index length $L{=}4$. The resulting pattern is verified on a CWQ subset (2--4 hops). A 100-question validation split is used only for gate statistics. The primary metrics are Hits@1, F1, Path Reduction, False Negative Rate (FNR), and the Semantic Irrelevance Ratio (SIR) of Section~\ref{sec:ch3sir}. All experiments run on a single NVIDIA GeForce RTX 4090 using the \modelname{} model in bfloat16 precision via HuggingFace Transformers~\citep{wolf2020transformers}, with a 120-second per-sample timeout. Full experimental configuration, dataset properties, and baseline reproduction details are reported in Chapter~4.
+Evaluation uses the RoG-webqsp test split (1,628 questions, 1--2 hops) over Freebase~\citep{bollacker2008freebase, yih2016websqp}. Because every method re-uses the same LLM weights and decoding settings, the paired comparison is run on a fixed 300-question subset sampled with seed~42; all conditions decode the identical question set, so differences are attributable to the constraint-oracle design alone. The full test set is used for the GCR reproduction study (Section~\ref{sec:ch4repro}) and for the gate-decomposition analysis at index length $L{=}4$. The pattern is verified on a CWQ subset (2--4 hops). A 100-question validation split is used only for gate statistics. The primary metrics are Hits@1, F1, Path Reduction, False Negative Rate (FNR), and the Semantic Irrelevance Ratio (SIR) of Section~\ref{sec:ch3sir}. All experiments run on a single NVIDIA GeForce RTX 4090 using \modelname{} in bfloat16 precision via HuggingFace Transformers~\citep{wolf2020transformers}, with a 120-second per-sample timeout.
 
 % -----------------------------------------------------------------------------
 \section{Scope Boundaries and Anticipated Limitations}
 \label{sec:ch3limitations}
 % -----------------------------------------------------------------------------
 
-This study is bounded as follows. The primary evaluation is on WebQSP over Freebase, on a controlled 300-question subset paired across all five constrained conditions plus the unconstrained baseline; CWQ is used to verify that the non-monotone pattern generalises, via a controlled 300-question run covering the GCR baseline, v1, v3, and the v3-no-gates calibration control. Full-scale CWQ evaluation across all six configurations, and cross-KG generalization beyond Freebase, are future work. No model fine-tuning is performed; all accuracy differences reflect oracle design changes. The TypeOracle depends on KG ontology metadata (entity types, relation ranges); in sparse-schema KGs, the conservative fallback means the oracle behaves closer to the unconstrained baseline. Condition~F is assessed empirically by checking generated paths against KG triplets, following established practice~\citep{luo2025-graph-constrained-reasoning, li2024-decoding-on-graphs}. Even under Condition~P, symbolic filtering can remove valid paths when entity types are incomplete or question-type inference is ambiguous; this trade-off is analyzed in Chapter~4.
+The primary evaluation is on WebQSP over Freebase, on a controlled 300-question subset paired across all five constrained conditions plus the unconstrained baseline; CWQ is used to verify that the non-monotone pattern generalises, via a controlled 300-question run covering the GCR baseline, v1, v3, and the v3-no-gates calibration control. Full-scale CWQ evaluation across all six configurations, and cross-KG generalization beyond Freebase, are future work. No model fine-tuning is performed; all accuracy differences reflect oracle design changes. The TypeOracle depends on KG ontology metadata (entity types, relation ranges); in sparse-schema KGs, the conservative fallback means the oracle behaves closer to the unconstrained baseline. Condition~F is assessed empirically by checking generated paths against KG triplets, following established practice~\citep{luo2025-graph-constrained-reasoning, li2024-decoding-on-graphs}. Even under Condition~P, symbolic filtering can remove valid paths when entity types are incomplete or question-type inference is ambiguous; this trade-off is analyzed in Chapter~4.
