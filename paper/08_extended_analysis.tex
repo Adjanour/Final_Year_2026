@@ -5,199 +5,125 @@
 \section{Extended Analysis}
 \label{sec:analysis}
 
-This section extends the core results with ablation studies, oracle analysis, sensitivity
-experiments, and efficiency breakdowns. The goal is to isolate the mechanisms behind the
-non-monotone finding and characterise the operating regime where DCA-Trie provides value.
+This section extends the core results with ablation studies, oracle analysis, and
+efficiency measurements. The goal is to isolate the mechanisms behind the non-monotone
+finding and characterise the operating regime where DCA-Trie provides value.
 
-\subsection{Ablation: Gate Contribution}
+\subsection{Ablation: Gates Are Not the Source of v2's Collapse}
 \label{sec:ablation:gates}
 
-Table~\ref{tab:ablation_gates} decomposes the contribution of each gate across three
-metrics: SIR, Hits@1, and FNR. The combined oracle achieves 85.5\% SIR reduction, but
-the Hits@1 drop ($-5.2$pp) is larger than the sum of the individual drops ($-2.5$pp
-and $-3.3$pp). This super-additive effect arises because the gates overlap on
-approximately 8\% of paths: paths that satisfy one constraint but violate the other.
-Removing these paths eliminates candidates that the beam search would have diversified
-across.
+Table~\ref{tab:ablation_gates} reports the decisive ablation: DCA-Trie v2 with both
+TypeOracle gates disabled.
 
 \begin{table}[htpb]
   \centering
-  \caption{Gate ablation on WebQSP.}
+  \caption{Gate ablation on the controlled WebQSP subset.}
   \label{tab:ablation_gates}
-  \begin{tabular}{@{}lcccc@{}}
-    \toprule
-    Configuration     & SIR   & Hits@1  & FNR  & Latency \\
-    \midrule
-    No oracle         & 1.000 & 91.6\%  & ---  & 342\,ms \\
-    Range gate only   & 0.312 & 89.1\%  & 2.9\% & 343\,ms \\
-    Type gate only    & 0.285 & 88.3\%  & 3.3\% & 343\,ms \\
-    Both gates        & 0.145 & 86.4\%  & 3.3\% & 344\,ms \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-The latency overhead is negligible for all configurations (1 to 2\,ms), confirming that
-gate evaluation is $O(1)$ per candidate triple and does not dominate the decoding
-budget.
-
-\subsection{Oracle Analysis: FNR Breakdown}
-\label{sec:analysis:fnr}
-
-The combined FNR of 3.3\% requires closer examination. Table~\ref{tab:fnr_breakdown}
-decomposes FNR by question depth and type-inference accuracy.
-
-\begin{table}[htpb]
-  \centering
-  \caption{FNR breakdown by question depth (WebQSP).}
-  \label{tab:fnr_breakdown}
   \begin{tabular}{@{}lccc@{}}
     \toprule
-    Depth & FNR (type) & FNR (range) & FNR (combined) \\
+    Configuration     & Hits@1 & BUR & max volatility \\
     \midrule
-    1 hop & 1.8\%      & 2.1\%       & 2.8\%          \\
-    2 hop & 3.9\%      & 3.2\%       & 4.1\%          \\
+    GCR baseline      & 85.7\% & --- & --- \\
+    DCA-Trie v2       & 60.7\% & 0.440 & 0.000 \\
+    DCA-Trie v2 (no gates) & 60.7\% & 0.463 & 0.000 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-Deeper questions have higher FNR because the oracle must correctly classify types at
-each hop. A misclassification at hop 1 propagates to hop 2: if the oracle removes a
-path at the first hop, the second hop never appears. The 3.3\% combined FNR is a
-weighted average across depths, dominated by 2-hop questions (which constitute 74\% of
-WebQSP).
+Disabling both gates leaves the score unchanged at 60.7\%, and only 11 of 300
+predictions differ at all (96.3\% byte-identical; McNemar $p = 1.0$). The 25-point gap
+versus the baseline is therefore architectural, caused by the per-hop beam-wise trie
+rebuilding and the path-length loop, not by the type/range gates. This contradicts the
+hypothesis that the DoG-proxy gates are what cost accuracy.
 
-The type gate contributes more to FNR at depth 2 (3.9\% vs 3.2\% for range) because
-type inference depends on the regex classifier's accuracy. The classifier achieves
-approximately 85\% accuracy on WebQSP questions, and each misclassification has a
-cascading effect across hops.
+\subsection{Oracle Analysis: Trie Volatility Is Not the Failure Mechanism}
+\label{sec:analysis:volatility}
 
-\subsection{Sensitivity: Type-Inference Accuracy}
-\label{sec:sensitivity:type}
-
-The regex-based question classifier is the weakest component of the TypeOracle.
-Table~\ref{tab:sensitivity_type} estimates how SIR and Hits@1 change with classifier
-accuracy.
+Table~\ref{tab:mechanism} reports the per-question mechanism metrics for v2 and its
+no-gates variant.
 
 \begin{table}[htpb]
   \centering
-  \caption{Sensitivity to type-inference accuracy (estimated).}
-  \label{tab:sensitivity_type}
-  \begin{tabular}{@{}lccc@{}}
-    \toprule
-    Accuracy & SIR   & Hits@1  & FNR \\
-    \midrule
-    70\%     & 0.172 & 85.1\%  & 4.8\% \\
-    85\%     & 0.145 & 86.4\%  & 3.3\% \\
-    95\%     & 0.128 & 87.2\%  & 2.1\% \\
-    100\%    & 0.118 & 87.8\%  & 1.2\% \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-A perfect type classifier (100\% accuracy) would reduce FNR to 1.2\% and improve
-Hits@1 to 87.8\%, a 1.4pp gain over the current system. This suggests that the
-non-monotone result is partly attributable to classifier noise, but even with perfect
-classification, the Hits@1 drop from GCR would be 3.8pp. The remaining gap is
-explained by beam competition and the precision-recall trade-off, which are structural
-properties of constrained beam search, not artifacts of the oracle.
-
-\subsection{Sensitivity: Ontology Coverage}
-\label{sec:sensitivity:ontology}
-
-The TypeOracle depends on Freebase's ontology. Relations or entities without schema
-information are conservatively admitted (both gates pass). Table~\ref{tab:sensitivity_onto}
-estimates the effect of ontology coverage on SIR.
-
-\begin{table}[htpb]
-  \centering
-  \caption{Sensitivity to ontology coverage (estimated).}
-  \label{tab:sensitivity_onto}
+  \caption{Mechanism metrics, v2 versus v2-no-gates (per-question means).}
+  \label{tab:mechanism}
   \begin{tabular}{@{}lcc@{}}
     \toprule
-    Coverage & SIR   & FNR \\
+    Metric & v2 dynamic & v2 no-gates \\
     \midrule
-    50\%     & 0.218 & 2.1\% \\
-    75\%     & 0.172 & 2.7\% \\
-    100\%    & 0.145 & 3.3\% \\
+    Beam utilization ratio (BUR) & 0.440 & 0.463 \\
+    BUR entropy                  & 0.738 & 0.823 \\
+    SIR decay slope              & $+0.0285$ & 0.0000 \\
+    Max constraint volatility    & 0.000 & 0.000 \\
+    Max relative volume          & 0.205 & 0.000 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-Lower ontology coverage reduces both SIR reduction and FNR. With 50\% coverage, the
-oracle cannot filter as many paths (SIR 0.218 vs 0.145), but it also excludes fewer
-gold paths (FNR 2.1\% vs 3.3\%). The trade-off favours higher coverage: the SIR
-reduction from 50\% to 100\% coverage (0.073) is worth the FNR increase (1.2pp) given
-the modest Hits@1 impact.
+Beams collapse to roughly 2.2 distinct terminals of 5 in both runs, so diversity
+collapse is present but identical with and without the gates. Trie volatility is zero in
+both runs: the per-hop tries are stable, and the rebuild-instability hypothesis is
+falsified as the failure mechanism. The hop profile is consistent: hop 1 starts with one
+beam and expands to five, hop 2 holds five beams, and the trie holds roughly 405 to 455
+candidates per hop. The evidence points instead to tokenization misalignment in the
+per-hop trie construction as the root cause: entity boundaries that the tokenizer splits
+differently in-context than in isolation, so valid tokens are mis-locked at each hop.
 
-\subsection{Efficiency Breakdown}
+\subsection{Efficiency: The Lazy v3 Variant}
 \label{sec:efficiency}
 
-Table~\ref{tab:efficiency} decomposes the latency of DCA-Trie v1 by component.
+Table~\ref{tab:lazy} reports the construction cost of the lazy v3 variant.
 
 \begin{table}[htpb]
   \centering
-  \caption{Latency breakdown per question (WebQSP, DCA-Trie v1).}
-  \label{tab:efficiency}
-  \begin{tabular}{@{}lc@{}}
+  \caption{Lazy construction cost per question (controlled WebQSP subset).}
+  \label{tab:lazy}
+  \begin{tabular}{@{}lcc@{}}
     \toprule
-    Component                & Time (ms) \\
+    Metric & Static (baseline/v1) & Lazy (v3) \\
     \midrule
-    Trie construction (BFS)  & 12.3      \\
-    TypeOracle evaluation    & 4.8       \\
-    Beam search (10 beams)   & 324.6     \\
-    Other (tokenisation, etc.) & 2.3    \\
-    \midrule
-    Total                    & 344.0     \\
+    Candidates materialised & 2,637 (avg) & 754.7 (avg, max 3,480, min 29) \\
+    DFS runs & full enumeration & 0 in every question \\
+    Frontier builds & --- & 18.4 (avg) \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-The TypeOracle accounts for 1.4\% of total latency. The dominant cost is beam search
-(94.4\%), which is identical to GCR. The oracle's $O(1)$ gate evaluation and the small
-number of candidate triples per question (mean 28.4) keep the overhead negligible.
+The static trie enumerates the full DFS path set before decoding; v3 renders only what
+the beams reach, materialising an average of 754.7 candidates per question versus 2,637
+for the static trie, roughly a 3.5$\times$ reduction in construction cost, with no DFS
+performed at all. Construction work therefore tracks the actual decoding trajectory
+rather than the worst-case path space.
 
-\subsection{Robustness: Beam Width}
-\label{sec:robustness:beam}
+\subsection{Calibration: The Lazy Mechanism Is Faithful}
+\label{sec:calibration}
 
-Table~\ref{tab:robustness_beam} examines how Hits@1 varies with beam width for GCR and
-DCA-Trie v1.
-
-\begin{table}[htpb]
-  \centering
-  \caption{Hits@1 versus beam width (WebQSP).}
-  \label{tab:robustness_beam}
-  \begin{tabular}{@{}lccc@{}}
-    \toprule
-    Beam width & GCR     & DCA-Trie v1 & $\Delta$ \\
-    \midrule
-    1          & 78.2\%  & 73.5\%      & $-4.7$pp \\
-    5          & 87.1\%  & 82.8\%      & $-4.3$pp \\
-    10         & 91.6\%  & 86.4\%      & $-5.2$pp \\
-    20         & 92.3\%  & 87.1\%      & $-5.2$pp \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-The Hits@1 gap between GCR and DCA-Trie v1 is consistent across beam widths (4.3 to
-5.2pp). At beam width 1, both systems perform poorly because there is no beam diversity.
-At width 20, GCR gains 0.7pp over width 10, but DCA-Trie v1 gains the same amount. The
-gap does not narrow with wider beams, confirming that the non-monotone result is not an
-artifact of beam width.
+A sceptical reader could attribute v3's 81.0\% to a leakier constraint rather than a
+faithful one. The calibration run answers this. With both TypeOracle gates disabled,
+v3 reproduces the GCR baseline exactly: 257/300 (85.7\%) on both conditions, with
+100\% per-question agreement. With the gates off, the lazy constraint admits precisely
+the same language as the static baseline trie, question for question. The mechanism is
+faithful; every gated-number difference is attributable to the gates themselves, not to
+the lazy decoding.
 
 \subsection{Summary}
 \label{sec:analysis:summary}
 
-The extended analysis isolates four mechanisms behind the non-monotone result.
-Gold-path exclusion explains part of the drop: the TypeOracle's FNR of 3.3\% removes
-gold paths that the beam search would have selected. The effect is super-additive when
-both gates overlap. Beam competition explains another part: fewer paths reduce diversity
-in the beam, causing beams to converge to similar solutions. The correct answer may
-appear in a pruned beam. Type-inference noise contributes as well: the regex classifier's
-85\% accuracy introduces misclassifications that propagate across hops. Even a perfect
-classifier would leave a 3.8pp gap from GCR, attributable to structural effects. The
-precision-recall trade-off underlies all of these: tighter constraints improve precision
-(fewer irrelevant paths) but reduce recall (fewer total paths). Accuracy depends on both.
+The extended analysis isolates three findings behind the non-monotone result.
 
-These mechanisms are not specific to the TypeOracle. Any constraint oracle that removes
-paths will exhibit similar trade-offs. The non-monotone result is a structural property
-of constrained beam search, not an artifact of our particular oracle design.
+First, the accuracy cost is attributable to the gates, not the mechanism. Calibration
+shows the ungated lazy constraint reproduces the baseline exactly, so the 4.0pp (v1)
+and 4.7pp (v3) drops are entirely explained by the type/range gates.
+
+Second, the v2 collapse is architectural. The 25-point gap is unchanged when both gates
+are disabled, only 11 of 300 predictions differ, and trie volatility is zero. Step-wise
+trie rebuilding itself, not semantic filtering, is the failure mode.
+
+Third, static and lazy type-gating are equivalent in accuracy ($p = 0.77$, ns): the
+lazy frontier matches the static trie at roughly 3.5$\times$ lower construction cost,
+in a single decoding pass. The lazy mechanism is the efficient way to pay constraint
+construction cost only where decoding actually goes.
+
+These findings are not specific to the TypeOracle. Any constraint oracle that removes
+paths will exhibit similar trade-offs, and any step-wise trie-rebuilding decoder faces
+the architectural risk that v2 demonstrates. The non-monotone result is a structural
+property of constrained beam search, not an artifact of our particular oracle design.

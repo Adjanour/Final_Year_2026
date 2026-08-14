@@ -7,23 +7,24 @@
 \contentsline {table}{\numberline {3.1}{\ignorespaces \normalfont Comparison of Oracle Designs}}{24}{table.caption.79}%
 \contentsline {table}{\numberline {3.3}{\ignorespaces Computational Properties: Embedding vs. Symbolic}}{27}{table.caption.89}%
 \addvspace {0\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Generation Configuration}}{35}{table.caption.114}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Dataset Properties}}{36}{table.caption.116}%
-\contentsline {table}{\numberline {4.5}{\ignorespaces Ablation Summary}}{40}{table.caption.129}%
-\contentsline {table}{\numberline {4.7}{\ignorespaces Efficiency Summary}}{41}{table.caption.133}%
-\contentsline {table}{\numberline {4.9}{\ignorespaces GCR Reproduction Comparison}}{42}{table.caption.135}%
-\contentsline {table}{\numberline {4.11}{\ignorespaces Path Statistics Before and After TypeOracle Filtering}}{43}{table.caption.139}%
-\contentsline {table}{\numberline {4.13}{\ignorespaces TypeOracle Gate Decomposition}}{44}{table.caption.141}%
-\contentsline {table}{\numberline {4.15}{\ignorespaces False Negative Rates by Gate}}{45}{table.caption.144}%
-\contentsline {table}{\numberline {4.17}{\ignorespaces Main Results on WebQSP}}{47}{table.caption.149}%
-\contentsline {table}{\numberline {4.19}{\ignorespaces Statistical Significance of Accuracy Difference}}{48}{table.caption.153}%
-\contentsline {table}{\numberline {4.21}{\ignorespaces Execution Time by Method}}{50}{table.caption.161}%
-\contentsline {table}{\numberline {4.23}{\ignorespaces Faithful Reasoning Ratio}}{51}{table.caption.163}%
-\contentsline {table}{\numberline {4.25}{\ignorespaces Case Studies Illustrating Non-Monotone Behaviour}}{52}{table.caption.165}%
-\contentsline {table}{\numberline {4.27}{\ignorespaces Results on CWQ}}{53}{table.caption.167}%
-\contentsline {table}{\numberline {4.29}{\ignorespaces GCR vs.\ DCA-Trie Multi-Dimensional Comparison}}{54}{table.caption.169}%
-\contentsline {table}{\numberline {4.31}{\ignorespaces Comparison with Related Methods}}{54}{table.caption.170}%
-\contentsline {table}{\numberline {4.33}{\ignorespaces DCA-Trie v2 Results}}{57}{table.caption.173}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Generation Configuration}}{36}{table.caption.116}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Dataset Properties}}{37}{table.caption.118}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Ablation Summary}}{41}{table.caption.131}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Efficiency Summary}}{42}{table.caption.135}%
+\contentsline {table}{\numberline {4.9}{\ignorespaces GCR Reproduction Comparison}}{44}{table.caption.137}%
+\contentsline {table}{\numberline {4.11}{\ignorespaces Path Statistics Before and After TypeOracle Filtering}}{46}{table.caption.141}%
+\contentsline {table}{\numberline {4.13}{\ignorespaces TypeOracle Gate Decomposition}}{47}{table.caption.143}%
+\contentsline {table}{\numberline {4.15}{\ignorespaces False Negative Rates by Gate}}{48}{table.caption.146}%
+\contentsline {table}{\numberline {4.17}{\ignorespaces Main Results on WebQSP (controlled 300-question subset)}}{50}{table.caption.151}%
+\contentsline {table}{\numberline {4.19}{\ignorespaces Statistical Significance of Accuracy Differences}}{51}{table.caption.155}%
+\contentsline {table}{\numberline {4.21}{\ignorespaces Execution Time by Method}}{53}{table.caption.163}%
+\contentsline {table}{\numberline {4.23}{\ignorespaces Faithful Reasoning Ratio}}{54}{table.caption.165}%
+\contentsline {table}{\numberline {4.25}{\ignorespaces DCA-Trie v3 Results}}{55}{table.caption.167}%
+\contentsline {table}{\numberline {4.27}{\ignorespaces Case Studies Illustrating Non-Monotone Behaviour}}{57}{table.caption.170}%
+\contentsline {table}{\numberline {4.29}{\ignorespaces Results on CWQ}}{58}{table.caption.172}%
+\contentsline {table}{\numberline {4.31}{\ignorespaces GCR vs.\ DCA-Trie Multi-Dimensional Comparison}}{59}{table.caption.174}%
+\contentsline {table}{\numberline {4.33}{\ignorespaces Comparison with Related Methods}}{60}{table.caption.175}%
+\contentsline {table}{\numberline {4.35}{\ignorespaces DCA-Trie v2 Results}}{62}{table.caption.178}%
 \addvspace {0\p@ }
 \addvspace {0\p@ }
 \addvspace {0\p@ }

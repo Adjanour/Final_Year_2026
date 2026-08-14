@@ -85,9 +85,9 @@ $|\mathcal{E}_q|$ paths (when only the gold path survives per question entity).
 
 The bounds are trivial: the upper bound is GCR (no filtering), the lower bound is one
 path per question entity. The empirical reduction depends on the ontology's structure.
-On WebQSP, the TypeOracle achieves $\rho = 0.855$: 85.5\% of paths are removed. This
-is not a theoretical guarantee but an empirical observation grounded in the Freebase
-ontology's type system.
+On the controlled WebQSP subset, the TypeOracle removes $\rho = 0.138$ of paths (13.8\%
+of the candidate set). This is not a theoretical guarantee but an empirical observation
+grounded in the Freebase ontology's type system.
 
 \begin{proposition}[Per-Step Complexity]
 \label{prop:complexity}
@@ -115,7 +115,7 @@ concentrated at construction time.
 % -----------------------------------------------------------------------------
 
 The empirical result from Section~\ref{sec:intro:results} shows that reducing SIR from
-1.0 to 0.145 does not improve Hits@1. This is the non-monotone result: constraint
+1.0 to 0.138 does not improve Hits@1. This is the non-monotone result: constraint
 tightness and answer accuracy are not monotonically related. This section provides the
 formal argument for why this must hold.
 

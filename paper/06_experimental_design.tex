@@ -23,8 +23,9 @@ The experiments address five questions:
         type gate versus the range gate?
   \item \textbf{Latency.} What is the overhead of step-wise oracle evaluation relative to
         GCR's static trie construction?
-  \item \textbf{v1 vs v2.} When does step-wise dynamic expansion (v2) outperform static
-        filtering (v1)?
+  \item \textbf{v2 vs v3.} Is step-wise dynamic expansion (v2) beneficial, and does lazy
+        constrained decoding (v3) recover the efficiency of dynamic adaptation without the
+        architectural risk?
 \end{enumerate}
 
 RQ1 and RQ2 address the core question: whether constraint tightness and answer
@@ -40,9 +41,15 @@ We evaluate on WebQuestionSP (WebQSP) \citep{yih2016websqp} and Complex WebQuest
 
 WebQSP contains 5,813 questions with an average of 2.1 entities per answer and 2 hops
 of reasoning depth. We use the standard train/test split (3,034 train, 2,502 test; we
-report on the test split with 1,628 questions following GCR's partition). CWQ contains
-34,211 questions requiring multi-hop reasoning over Freebase, with more complex
-compositional structure. We use the standard split (27,639 train, 3,531 test).
+report on the test split with 1,628 questions following GCR's partition). Because every
+method in this paper re-uses the same LLM weights and decoding settings, the paired
+comparison runs on a fixed 300-question subset sampled with seed 42; all conditions
+decode the identical question set. The full test set is used for the GCR reproduction
+study and the gate-decomposition analysis at index length $L{=}4$. CWQ contains 34,211
+questions requiring multi-hop reasoning over Freebase, with more complex compositional
+structure. We use the standard split (27,639 train, 3,531 test). A controlled
+300-question CWQ run following the same paired protocol covers the baseline, v1, v3, and
+the v3-no-gates calibration control.
 
 Freebase contains 122 million entities, 10,904 relations, and 1.5 billion triples. We
 use the same Freebase snapshot as GCR \citep{luo2025-graph-constrained-reasoning}. For
@@ -61,8 +68,13 @@ without any structural constraint.
 \textbf{GCR} \citep{luo2025-graph-constrained-reasoning}. The direct baseline. GCR
 constructs a static trie from all 2-hop paths before decoding begins and constrains
 beam search to paths present in the trie. Our re-implementation achieves 91.6\% Hits@1
-on WebQSP, matching the reported result. We use the same trie construction, beam
-parameters, and LLM checkpoint.
+on the full WebQSP test set (within 1.0pp of the published 92.6\%, which adds a ChatGPT
+second stage), and 85.7\% on the controlled 300-question subset that is the primary
+paired comparison throughout this paper. We use the same trie construction, beam
+parameters, and LLM checkpoint. DoG~\citep{li2024-decoding-on-graphs} is included as a
+published reference: at 90.99\% Hits@1 on the full test set with single-stage answer
+extraction, it is the one official number directly comparable to our single-stage
+protocol.
 
 \textbf{Why these two?} The unconstrained baseline tells us whether KG grounding helps
 at all. GCR tells us whether dynamic constraint adjustment adds value beyond static
@@ -104,9 +116,9 @@ in GCR's reported results.
 \textbf{Hardware.} All experiments run on a single NVIDIA RTX 4090 (24\,GB VRAM) with
 bfloat16 precision.
 
-\textbf{Decoding.} We use group beam search with $k=10$ beams, a diversity penalty of
-1.0, and a maximum generation length of 256 tokens. The index path length is 2 hops,
-matching GCR's configuration.
+\textbf{Decoding.} We use plain beam search with $k=10$ beams and a maximum generation
+length of 256 tokens. The index path length is 2 hops for the controlled paired
+comparison and 4 hops for the full-set reproduction study, matching GCR's configuration.
 
 \textbf{TypeOracle.} The type gate uses a regex-based question classifier that maps
 question patterns (e.g., ``what is the capital of X'' $\rightarrow$ \texttt{Location})

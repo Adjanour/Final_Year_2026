@@ -1,15 +1,15 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'Final_Thesis.blg'
-[59] biber:342> INFO - === Thu Aug 13, 2026, 14:57:11
-[75] Biber.pm:421> INFO - Reading 'Final_Thesis.bcf'
-[147] Biber.pm:1002> INFO - Found 51 citekeys in bib section 0
-[161] Biber.pm:4487> INFO - Processing section 0
-[170] Biber.pm:4678> INFO - Looking for bibtex file 'references.bib' for section 0
-[171] bibtex.pm:1713> INFO - LaTeX decoding ...
-[210] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
-[860] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[860] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[860] Biber.pm:4307> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'en-US'
-[860] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
-[924] bbl.pm:676> INFO - Writing 'Final_Thesis.bbl' with encoding 'UTF-8'
-[956] bbl.pm:779> INFO - Output to Final_Thesis.bbl
+[59] biber:342> INFO - === Thu Aug 13, 2026, 19:44:43
+[76] Biber.pm:421> INFO - Reading 'Final_Thesis.bcf'
+[159] Biber.pm:1002> INFO - Found 51 citekeys in bib section 0
+[175] Biber.pm:4487> INFO - Processing section 0
+[184] Biber.pm:4678> INFO - Looking for bibtex file 'references.bib' for section 0
+[186] bibtex.pm:1713> INFO - LaTeX decoding ...
+[229] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[878] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[878] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[878] Biber.pm:4307> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[878] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[950] bbl.pm:676> INFO - Writing 'Final_Thesis.bbl' with encoding 'UTF-8'
+[981] bbl.pm:779> INFO - Output to Final_Thesis.bbl

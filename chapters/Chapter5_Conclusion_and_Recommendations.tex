@@ -10,11 +10,13 @@
 \label{sec:ch5conclusion}
 % -----------------------------------------------------------------------------
 
-This thesis set out to test whether tightening the constraint oracle in graph-constrained LLM decoding improves answer accuracy. The answer, based on experiments with the TypeOracle on WebQSP and CWQ, is no. Reducing the candidate path set by 14.5\% through symbolic type and range filtering produced 5.2pp lower Hits@1 on WebQSP and 4.0pp lower on CWQ, not higher. The relationship between constraint tightness and answer correctness is non-monotone.
+This thesis set out to test whether tightening the constraint oracle in graph-constrained LLM decoding improves answer accuracy. The answer, based on controlled paired experiments with the TypeOracle on WebQSP, is no. Reducing the candidate path set by 13.8\% through symbolic type and range filtering produced 4.0pp lower Hits@1 for the static DCA-Trie v1 and 4.7pp lower for the lazy v3, not higher. The relationship between constraint tightness and answer correctness is non-monotone.
 
 This finding changes what researchers working on KG-constrained decoding can assume. The implicit premise that permissiveness is the primary driver of error, and that narrowing the search space therefore improves generation, does not hold when the narrowing removes paths that beam search would have used to reach the correct answer, or when the narrowing is based on type-inference heuristics that occasionally misfire.
 
-The TypeOracle itself works as designed: structural faithfulness holds by construction, SIR falls to 0.145 on WebQSP and 0.168 on CWQ, and false negative rates stay below 5\%. The problem is not the oracle's mechanism but the assumption that a better oracle automatically produces better answers. In autoregressive decoding, the search space interacts with beam-search pruning and the model's probability distribution in ways that make the tightness-accuracy relationship contingent rather than monotonic.
+The TypeOracle itself works as designed: structural faithfulness holds by construction, SIR falls to 0.138 on the controlled WebQSP subset, and false negative rates stay below 5\%. Calibration confirms the mechanism is faithful: with the gates disabled, the lazy constraint reproduces the baseline exactly, question for question. The problem is not the oracle's mechanism but the assumption that a better oracle automatically produces better answers. In autoregressive decoding, the search space interacts with beam-search pruning and the model's probability distribution in ways that make the tightness-accuracy relationship contingent rather than monotonic.
+
+The results also isolate the architectural failure mode. DCA-Trie v2, the per-hop, beam-wise trie-rebuilding variant, collapses to 60.7\% Hits@1---25 points below baseline---and disabling both TypeOracle gates changes nothing: the no-gates variant scores identically, with 96.3\% of predictions byte-identical. The v2 collapse is architectural, not attributable to the gates.
 
 The non-monotone result exposes a design tradeoff the community has not yet formalised: the balance between \textit{filtering} (removing paths the oracle deems irrelevant) and \textit{unfiltering} (preserving paths the LLM's parametric knowledge might resolve correctly). Filtering reduces noise while also reducing diversity. The optimal operating point depends on the task's tolerance for hallucination versus coverage. The practical recommendation is to decouple oracle evaluation from answer evaluation: measure SIR to assess constraint quality, then measure accuracy to assess answer quality, and never conflate the two.
 
@@ -26,17 +28,19 @@ The non-monotone result exposes a design tradeoff the community has not yet form
 In summary, our main findings are:
 
 \begin{enumerate}
-  \item \textbf{The TypeOracle satisfies its design conditions.} Structural faithfulness holds by construction (Condition~F). The semantic irrelevance ratio drops from 1.0 (GCR) to 0.145 (DCA-Trie v1) on WebQSP and to 0.168 on CWQ (Condition~R). False negative rates stay below 5\% for both gates: type gate 3.3\%, range gate 2.9\% (Condition~P). The symbolic oracle works as specified.
+  \item \textbf{The TypeOracle satisfies its design conditions.} Structural faithfulness holds by construction (Condition~F). The semantic irrelevance ratio drops from 1.0 (GCR) to 0.138 (DCA-Trie v1) on the controlled WebQSP subset (Condition~R). False negative rates stay below 5\% for both gates: type gate 3.3\%, range gate 2.9\% (Condition~P). The symbolic oracle works as specified.
 
-  \item \textbf{Tightening the oracle does not improve answer accuracy.} DCA-Trie v1 produces 5.2\% lower Hits@1 on WebQSP and 5.7\% lower on CWQ than the GCR baseline, despite satisfying all three design conditions. The relationship between constraint tightness and answer accuracy is non-monotone.
+  \item \textbf{Tightening the oracle does not improve answer accuracy.} DCA-Trie v1 produces 4.0pp lower Hits@1 than the GCR baseline and the lazy v3 produces 4.7pp lower, despite satisfying all three design conditions. The relationship between constraint tightness and answer accuracy is non-monotone.
 
-  \item \textbf{The non-monotone result is statistically significant.} The WebQSP comparison gives $p < 0.001$ for the Hits@1 drop. Hits@1, precision, and recall each fall by roughly 4 to 6 percentage points, while F1 drops by 10.5 points. The result is not an artefact of any single evaluation measure.
+  \item \textbf{The non-monotone result is statistically significant.} On the paired 300-question run, the v1 drop is significant at $p = 0.0018$ and the v3 drop at $p = 0.0001$ (two-sided McNemar). v1 and v3 are statistically indistinguishable from each other ($p = 0.77$), confirming that static and lazy type-gating behave identically in accuracy.
 
-  \item \textbf{The TypeOracle adds negligible overhead.} DCA-Trie v1 adds 0.5\% to the total runtime relative to GCR (56 seconds over 2.87 hours). The oracle's $O(1)$ set lookups are invisible compared to LLM decoding time. No additional LLM calls or input tokens are required.
+  \item \textbf{The v2 collapse is architectural, not a gate failure.} The step-wise per-hop trie variant collapses 25 points below baseline (60.7\%). Disabling both gates leaves the score unchanged, with 96.3\% of predictions byte-identical; trie volatility is zero in both runs. The architecture itself, not the semantic filtering, is the failure mode.
+
+  \item \textbf{The TypeOracle gates are not the source of the accuracy cost.} The calibration run is the cleanest evidence: with the gates disabled, the lazy constraint reproduces the GCR baseline exactly (257/300 on both), with 100\% per-question agreement. Every gated-number difference is attributable to the gates themselves, and the gates alone explain the full gap.
+
+  \item \textbf{The TypeOracle adds negligible runtime overhead.} The lazy v3 variant is essentially free: 7.92s per question versus 8.12s for the baseline, while materialising an average of 755 candidates instead of 2,637 full DFS paths. No additional LLM calls or input tokens are required.
 
   \item \textbf{The TypeOracle preserves 100\% structural faithfulness.} Every generated path is verifiable against the knowledge graph. The accuracy drop does not come from hallucinated paths but from the oracle's effect on beam-search dynamics.
-
-  \item \textbf{The non-monotone pattern generalises to CWQ.} The accuracy drop is consistent across WebQSP (5.2pp) and CWQ (5.7pp), suggesting the finding is not specific to simple 1--2 hop questions. The TypeOracle's filtering is more effective on CWQ (SIR 0.168 vs.\ 0.145) because longer reasoning chains provide more opportunities for semantic filtering, yet the accuracy drop is slightly larger, consistent with the beam-competition mechanism.
 \end{enumerate}
 
 % -----------------------------------------------------------------------------
@@ -44,13 +48,15 @@ In summary, our main findings are:
 \label{sec:ch5contributions}
 % -----------------------------------------------------------------------------
 
-This thesis makes three contributions to the field of knowledge graph-constrained LLM decoding:
+This thesis makes four contributions to the field of knowledge graph-constrained LLM decoding:
 
 \textbf{The Semantic Irrelevance Ratio (SIR).} SIR quantifies what a constraint oracle filters out of the candidate path set, independent of the LLM's decoding behaviour. Two oracles applied to the same model can be compared on SIR alone, because the model's contribution to answer quality cancels out. The design principle is that oracles should be evaluated on SIR, not just on downstream accuracy. SIR fills a gap identified in Chapter~2: no existing metric measures constraint permissiveness separately from answer quality. Without SIR, it is impossible to compare oracles on constraint quality without conflating model capability with oracle design.
 
-\textbf{The TypeOracle design.} Two symbolic gates replace embedding-based scoring: a range gate checking property ranges at each hop, and a type gate checking terminal entity types at the final hop. Both are threshold-free, deterministic, and $O(1)$ per path. The TypeOracle requires no encoder, no threshold calibration, and no fine-tuning. Its conservative fallback policy (admit when schema is unknown) ensures that structural faithfulness is never compromised. The design demonstrates that symbolic ontology checks can achieve meaningful path reduction (14.5\% on WebQSP, 16.8\% on CWQ) without the computational cost of embedding-based scoring.
+\textbf{The TypeOracle design.} Two symbolic gates replace embedding-based scoring: a range gate checking property ranges at each hop, and a type gate checking terminal entity types at the final hop. Both are threshold-free, deterministic, and $O(1)$ per path. The TypeOracle requires no encoder, no threshold calibration, and no fine-tuning. Its conservative fallback policy (admit when schema is unknown) ensures that structural faithfulness is never compromised. The design demonstrates that symbolic ontology checks can achieve meaningful path reduction (13.8\% on the controlled WebQSP subset) without the computational cost of embedding-based scoring.
 
-\textbf{The non-monotone finding.} DCA-Trie v1 satisfies all three design conditions (structural faithfulness, relevance reduction, recall preservation) yet produces 5.2\% lower Hits@1 than GCR on WebQSP and 5.7\% lower on CWQ. Tightness and accuracy are decoupled in graph-constrained LLM decoding. This is the thesis's primary contribution: it provides the first empirical evidence that the permissiveness problem identified in prior work, while real, is not the sole or even the primary driver of error. The field cannot assume a monotonic relationship between constraint selectivity and generation accuracy.
+\textbf{The lazy constrained-decoding mechanism.} DCA-Trie v3 renders the constraint on demand, expanding the graph only at the frontiers the beams actually reach, with gating applied at the frontier. It matches v1's accuracy at roughly $3.5\times$ lower construction cost---755 candidates per question versus 2,637 full DFS paths---while keeping a single, stable decoding pass. Calibration proves the mechanism is faithful: with gates disabled, it reproduces the baseline exactly. v3 gives the field an efficient way to pay constraint-construction cost only where decoding actually goes.
+
+\textbf{The non-monotone finding, with the gates isolated.} DCA-Trie v1 satisfies all three design conditions (structural faithfulness, relevance reduction, recall preservation) yet produces 4.0pp lower Hits@1 than GCR on the controlled WebQSP subset; v3 produces 4.7pp lower. Tightness and accuracy are decoupled in graph-constrained LLM decoding. Calibration shows the entire gap is attributable to the gates, and the v2 no-gates ablation shows the step-wise architecture---not the gates---causes its 25-point collapse. This is the thesis's primary contribution: it provides the first controlled evidence that the permissiveness problem identified in prior work, while real, is not the sole or even the primary driver of error. The field cannot assume a monotonic relationship between constraint selectivity and generation accuracy.
 
 % -----------------------------------------------------------------------------
 \section{Limitations}
@@ -61,9 +67,11 @@ This thesis makes three contributions to the field of knowledge graph-constraine
 
 \textbf{Heuristic type inference.} The 19-pattern regex classifier introduces errors that propagate through the type gate. This bounds effectiveness on questions with ambiguous type signals. An LLM-based extractor could address this limitation.
 
-\textbf{Schema coverage.} The implementation covers 40 of approximately 24,000 Freebase relations. The range gate's low contribution (3.8\% of path reduction) is a direct consequence. Extending coverage would shift the balance.
+\textbf{Schema coverage.} The implementation covers 40 of approximately 24,000 Freebase relations. The range gate's low contribution (3.8\% of the full-set path reduction) is a direct consequence. Extending coverage would shift the balance.
 
 \textbf{No model fine-tuning.} The Llama-3.1-8B backbone is used without adaptation. Fine-tuning could change the tightness-accuracy relationship, but that is a different research question.
+
+\textbf{Controlled-subset evaluation.} The paired comparison runs on 300 questions (seed 42) to keep every condition matched on identical inputs; the full test set is used for the reproduction study and gate decomposition. A larger paired run would narrow the confidence intervals on the significance tests.
 
 \textbf{Fixed oracle design.} The TypeOracle applies the same filtering strength to all questions regardless of complexity. Adaptive filtering by hop depth could navigate the filtering-unfiltering tradeoff more effectively.
 
@@ -74,10 +82,12 @@ This thesis makes three contributions to the field of knowledge graph-constraine
 
 The non-monotone finding opens several directions for future work. The TypeOracle's conservative design (admit when schema is unknown) limits its filtering power: extending relation-range coverage and replacing the regex classifier with LLM-based type extraction would shift the oracle from a near-pass-through to a more aggressive filter. Adaptive filtering by hop depth (looser for 1-hop, stricter for 3-hop) could navigate the filtering-unfiltering tradeoff more effectively than a fixed oracle.
 
-The beam-competition mechanism suggests that preserving diversity during decoding is critical. Future work should explore diversity penalties that prevent beam collapse, hybrid approaches that combine v1-style full exploration with v2-style terminal filtering, and multiple entity commitments per hop to maintain beam diversity.
+The beam-competition mechanism suggests that preserving diversity during decoding is critical. Future work should explore diversity penalties that prevent beam collapse and hybrid approaches that combine v1-style full exploration with the lazy v3 mechanism, which already recovers most of the efficiency of dynamic adaptation in a single, stable decoding pass.
+
+The step-wise v2 result is a caution for per-hop decoding architectures. Its 25-point collapse, with zero trie volatility and identical no-gates performance, implicates the per-hop trie construction and its tokenizer-boundary misalignments rather than the semantic gates. Rebuilding the constraint structure mid-decoding, as DoG-style step-wise traversal does, appears to be a risky design choice; future step-wise work should benchmark its collapse rate and compare directly against a lazy mechanism such as v3 before adopting the pattern.
 
 The TypeOracle and ORT \citep{liu2025ort} are composable components: ORT plans, the TypeOracle verifies. A hybrid system that uses ORT for ontology-guided path planning and the TypeOracle for constraint verification during decoding could combine the strengths of both approaches. Similarly, combining the TypeOracle with RouterKGQA's answer-level filtering \citep{yuan2026routerkgqa} could mitigate the beam-competition effect by preserving diversity during decoding and filtering at answer selection.
 
 Cross-domain transfer remains an open question. The TypeOracle's symbolic design enables transfer across KGs sharing the same ontology: a trie built from label-level paths can be instantiated with entities from any KG. Evaluating DCA-Trie on Wikidata, ConceptNet, or biomedical KGs (UMLS, DrugBank) would test this generalisability. The biomedical domain is particularly promising because schema coverage is high (entity types and relation ranges are well-defined), reducing the cost of the conservative fallback policy.
 
-Finally, the relationship between constraint tightness and hallucination rate in the inductive reasoning layer remains unexplored. While DCA-Trie v1 achieves 100\% structural faithfulness, whether the TypeOracle's filtering reduces hallucination in the final answer (even if it does not improve Hits@1) is an empirical question with practical implications for high-stakes applications.
+Finally, the relationship between constraint tightness and hallucination rate in the inductive reasoning layer remains unexplored. While DCA-Trie achieves 100\% structural faithfulness, whether the TypeOracle's filtering reduces hallucination in the final answer (even if it does not improve Hits@1) is an empirical question with practical implications for high-stakes applications.

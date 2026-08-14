@@ -8,11 +8,11 @@
 \contentsline {figure}{\numberline {3.2}{\ignorespaces TypeOracle Admission Process}}{24}{figure.caption.81}%
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Static Symbolic Filtering Pipeline (DCA-Trie v1)}}{28}{figure.caption.92}%
 \addvspace {0\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Path Statistics (4.10M → 3.51M)}}{44}{figure.caption.140}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Gate Decomposition (Range: 3.8\%, Type: 10.6\%)}}{45}{figure.caption.142}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces False Negative Rates (<5\%)}}{46}{figure.caption.145}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Performance comparison on WebQSP.}}{47}{figure.caption.150}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Non-Monotone Relationship}}{56}{figure.caption.171}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Path Statistics (790,984 → 682,222)}}{47}{figure.caption.142}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Gate Decomposition (Range: 3.8\%, Type: 10.6\%)}}{48}{figure.caption.144}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces False Negative Rates (<5\%)}}{49}{figure.caption.147}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Performance comparison on WebQSP (controlled 300-question subset).}}{51}{figure.caption.152}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Non-Monotone Relationship}}{62}{figure.caption.176}%
 \addvspace {0\p@ }
 \addvspace {0\p@ }
 \addvspace {0\p@ }

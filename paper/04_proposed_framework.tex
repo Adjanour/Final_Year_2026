@@ -380,7 +380,7 @@ structurally valid paths without any semantic filtering, so its SIR serves as th
 reference point against which other oracles are measured. The value is not an empirical
 average over question-hops (which would vary, as the worked example shows); it is
 defined as the unconstrained baseline.} DCA-Trie achieves
-$\overline{\text{SIR}} = 0.145$ (85.5\% of irrelevant paths removed). The gap between
+$\overline{\text{SIR}} = 0.138$ (13.8\% of paths removed). The gap between
 these numbers measures how much the TypeOracle narrows the search space. Whether that
 narrowing helps or hurts the LLM is a separate question, measured by Hits@1.
 
@@ -390,23 +390,23 @@ separate from the oracle's mechanism: this ensures that SIR improvements cannot 
 attributed to a shared encoder bias. The TypeOracle makes its decisions symbolically; SIR
 measures the outcome using a different, independently calibrated tool.
 
-Table~\ref{tab:sir_result} shows the SIR results on WebQSP. The TypeOracle reduces
-$\overline{\text{SIR}}$ from 1.0 to 0.145 --- an 85.5\% reduction in semantically
-irrelevant paths. This is the constraint quality improvement. Whether this improvement
-translates to better answers is a separate question, addressed in Section
+Table~\ref{tab:sir_result} shows the SIR results on the controlled WebQSP subset. The
+TypeOracle reduces $\overline{\text{SIR}}$ from 1.0 to 0.138 --- a 13.8\% reduction in
+the candidate path set. This is the constraint quality improvement. Whether this
+improvement translates to better answers is a separate question, addressed in Section
 \ref{sec:results}.
 
 \begin{table}[htpb]
   \centering
-  \caption{Semantic Irrelevance Ratio on WebQSP. Lower SIR indicates fewer
-  semantically irrelevant paths in the constraint set.}
+  \caption{Semantic Irrelevance Ratio on the controlled WebQSP subset. Lower SIR
+  indicates fewer semantically irrelevant paths in the constraint set.}
   \label{tab:sir_result}
   \begin{tabular}{@{}lcc@{}}
     \toprule
-    Method           & $\overline{\text{SIR}}$ & Irrelevant paths removed \\
+    Method           & $\overline{\text{SIR}}$ & Paths removed \\
     \midrule
-    GCR (baseline)   & 1.000                    &                          \\
-    DCA-Trie v1      & 0.145                    & 85.5\%                   \\
+    GCR (baseline)   & 1.000                    & ---           \\
+    DCA-Trie v1      & 0.138                    & 13.8\%        \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -633,14 +633,16 @@ intent alone cannot distinguish relevant from irrelevant paths.
 % -----------------------------------------------------------------------------
 
 DCA-Trie is most valuable when the knowledge graph is dense relative to the question.
-On WebQSP, where average out-degree is 20 and hop depth is 2, GCR admits roughly 400
-paths per question entity. DCA-Trie removes 85.5\% of these. On sparser graphs or
+On WebQSP, where average out-degree is 20 and hop depth is 2, GCR admits roughly 2,637
+paths per question on average. DCA-Trie removes 13.8\% of these. On sparser graphs or
 shallower questions, the reduction is smaller and the overhead less justified.
 
 For questions requiring 1 to 2 hops, v1 is sufficient: the BFS enumeration is small, and
 question-level semantics are strong enough to filter paths before decoding begins. For
-questions requiring 3 or more hops, v2 is preferred: the relevant neighbourhood shifts
-with each committed entity, and v1's static filter cannot track this shift.
+questions requiring 3 or more hops, the lazy v3 variant is preferred: it expands the
+trie only at the frontiers the beams actually reach, avoiding both the static filter's
+inability to track the shifting neighbourhood and the per-hop trie-rebuilding cost that
+v2 demonstrates to be harmful.
 
 The TypeOracle depends on the Freebase ontology's type system. Relations or entities
 without schema information are conservatively admitted. On KGs with sparser ontologies

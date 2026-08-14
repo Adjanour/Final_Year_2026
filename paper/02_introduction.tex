@@ -46,22 +46,24 @@ of structurally valid paths that are semantically irrelevant to the question. SI
 separates constraint quality from answer accuracy: a system can have excellent SIR
 (tight constraints) and poor Hits@1 (wrong answer), or poor SIR (loose constraints) and
 excellent Hits@1 (correct answer). Without SIR, these two dimensions are entangled. A
-system with 91.6\% Hits@1 and SIR = 1.0 (all paths admitted) looks identical to one
+system with 85.7\% Hits@1 and SIR = 1.0 (all paths admitted) looks identical to one
 with the same accuracy and SIR = 0.1 (90\% filtered) if only Hits@1 is reported. SIR
 reveals which scenario holds.
 
-On WebQSP, DCA-Trie reduces SIR from 1.0 to 0.145, an 85.5\% removal of
-irrelevant paths, while maintaining a false negative rate below 5\%. The TypeOracle
-that drives this filtering is purely symbolic: two ontology gates, $O(1)$ per candidate
-triple, no neural encoder, no learned threshold.
+On a controlled 300-question WebQSP subset, DCA-Trie reduces SIR from 1.0 to 0.138, a
+13.8\% reduction in the candidate path set, while maintaining a false negative rate
+below 5\%. The TypeOracle that drives this filtering is purely symbolic: two ontology
+gates, $O(1)$ per candidate triple, no neural encoder, no learned threshold.
 
 SIR also reveals that constraint tightness and answer accuracy are independently
 controlled variables. Tighter constraints reduce the search space but do not improve
-Hits@1. Four mechanisms govern this relationship: gold-path exclusion (the TypeOracle
-occasionally removes the correct path), beam competition (fewer paths reduce diversity
-in beam search), type-inference noise (the regex-based question classifier has
-imperfect accuracy), and the precision-recall trade-off (tighter constraints improve
-precision but reduce recall). The result holds across ablation conditions.
+Hits@1: the static variant drops 4.0pp and the lazy variant 4.7pp below the baseline.
+Calibration isolates the cause: with the TypeOracle gates disabled, the lazy constraint
+reproduces the baseline exactly, question for question, so every gated-number
+difference is attributable to the gates themselves. A per-hop architectural variant,
+which rebuilds the trie at each entity commitment, collapses by 25 points regardless of
+its gates, identifying the step-wise architecture---not semantic filtering---as the
+failure mode. The result holds across ablation conditions.
 
 \label{sec:intro:results}
 The contributions of this work are:
@@ -71,11 +73,12 @@ The contributions of this work are:
             constrained decoding filters versus what the LLM actually uses.
       \item We propose DCA-Trie, a dynamic constrained decoding framework that conditions
             the valid token set on the question and partial output via a TypeOracle with two
-            ontology gates, reducing SIR by 85.5\% with negligible latency overhead.
+            ontology gates, and its lazy variant, which materialises the constraint on demand
+            at the frontiers the beams actually reach.
       \item We establish that constraint tightness and answer accuracy are independently
-            controlled variables, and characterise the four mechanisms (gold-path exclusion,
-            beam competition, type-inference noise, and the precision-recall trade-off) that
-            govern their relationship.
+            controlled variables, and show via calibration that the gates---not the decoding
+            mechanism---are the source of the accuracy cost, while a per-hop architectural
+            variant collapses independently of its gates.
 \end{enumerate}
 
 The remainder of this paper is organized as follows. Section~\ref{sec:related} reviews

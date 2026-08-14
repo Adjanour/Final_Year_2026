@@ -8,7 +8,9 @@
 The central finding of this work is that constraint tightness and answer accuracy are
 independently controlled variables. Tighter constraints reduce the search space but do
 not improve Hits@1. This result is counterintuitive: reducing the number of irrelevant
-paths should make the LLM's task easier. Four mechanisms explain why it does not.
+paths should make the LLM's task easier. Calibration and the v2 ablation isolate why it
+does not: the gates themselves are the source of the accuracy cost, and step-wise trie
+rebuilding is an architectural risk that costs far more than any semantic filtering.
 
 \subsection{Interpreting the Non-Monotone Result}
 \label{sec:discussion:interpretation}
@@ -23,9 +25,10 @@ complexity.
 For practitioners, the TypeOracle provides a way to measure where a system sits on this
 spectrum. SIR quantifies constraint tightness independently of accuracy. A system with
 SIR close to 1.0 is under-constrained; a system with SIR close to 0 is over-constrained.
-The current results suggest that SIR in the range of 0.2 to 0.4 (where the range gate
-alone falls) may be closer to optimal for WebQSP, though this hypothesis requires
-further investigation.
+The current results show that even the modest SIR reduction of DCA-Trie v1 (from 1.0 to
+0.138, a 13.8\% path reduction) costs 4.0pp of Hits@1, so the operating point that
+balances diversity and relevance must be found empirically for each task rather than
+assumed from the oracle's selectivity.
 
 For researchers, the non-monotone result means that Hits@1 alone is insufficient to
 evaluate constrained decoding systems. A system that achieves high Hits@1 with high SIR
@@ -37,24 +40,28 @@ accuracy depends on structural constraint (fragile) or on the LLM's reasoning ca
 \subsection{Comparison with Prior Work}
 \label{sec:discussion:comparison}
 
-GCR~\citep{luo2025-graph-constrained-reasoning} achieves 91.6\% Hits@1 on WebQSP with
-SIR $= 1.0$. Our re-implementation matches this result. GCR's strength is that it
-preserves full trie diversity: the beam search sees all structurally valid paths, and the
-LLM learns to discriminate relevant from irrelevant structure during fine-tuning.
-DCA-Trie's oracle removes this diversity, and the LLM cannot compensate.
+GCR~\citep{luo2025-graph-constrained-reasoning} achieves 92.6\% Hits@1 on WebQSP with
+SIR $= 1.0$ using a two-stage pipeline; our single-stage reproduction reaches 91.6\%
+on the full test set, on par with DoG's published 90.99\%, and the residual gap to the
+published figure is the ChatGPT second stage. GCR's strength is that it preserves full
+trie diversity: the beam search sees all structurally valid paths, and the LLM learns to
+discriminate relevant from irrelevant structure during fine-tuning. DCA-Trie's oracle
+removes this diversity, and the LLM cannot compensate.
 
 DoG~\citep{li2024-decoding-on-graphs} constrains decoding to well-formed chains and
 demonstrates that structural validity improves faithfulness. DoG does not measure SIR,
 but its chains are structurally valid by construction (SIR $= 1.0$ for valid chains).
-Our results suggest that DoG's chains may also benefit from less aggressive filtering,
-though this hypothesis requires testing on DoG's specific chain-generation task.
+Our v2 result is directly relevant to DoG: v2 follows DoG's step-wise pattern of
+expanding the trie after each entity commitment, and that architecture alone costs 25
+points of Hits@1, independent of the gates. The step-wise trie-rebuilding design, shared
+with DoG, is the risk our controlled experiments identify.
 
 ToG~\citep{sun2024tog} uses an LLM-based oracle to explore the KG and generate
 reasoning paths. ToG's oracle is adaptive (it reasons at each step), similar in spirit
-to DCA-Trie v2. Our v2 results show that per-entity oracle evaluation compounds FNR,
-driving Hits@1 below the unconstrained baseline. ToG avoids this by using a
-general-purpose LLM for oracle decisions, which has lower FNR than a symbolic oracle but
-higher latency.
+to DCA-Trie v2. Our v2 results show that per-entity oracle evaluation compounds error,
+driving Hits@1 25 points below the baseline. The lazy v3 variant achieves the adaptivity
+that motivates such step-wise methods, but in a single stable decoding pass, at 3.5$\times$
+lower construction cost than the static trie.
 
 GNN-RAG~\citep{mavromatis2022rearev} retrieves relevant subgraphs using GNNs and
 achieves 90.7\% Hits@1 on WebQSP. GNN-RAG's retrieval step is analogous to our oracle:
@@ -66,27 +73,30 @@ hard constraints, explaining GNN-RAG's strong performance.
 \subsection{Limitations}
 \label{sec:discussion:limitations}
 
-All results are on WebQSP. CWQ results are pending. The non-monotone finding may differ
-on CWQ, which has more complex compositional structure and deeper reasoning chains. We
-report only on WebQSP because the CWQ evaluation requires a separate fine-tuning step
-that we have not yet completed.
+The paired comparison runs on a controlled 300-question WebQSP subset (seed 42) to keep
+every condition matched on identical inputs; the full test set is used for the
+reproduction study and gate decomposition. A larger paired run would narrow the
+confidence intervals on the significance tests. The published GCR and DoG numbers are
+reported as reference, with the protocol differences (two-stage versus single-stage,
+$L{=}2$ index versus full set) stated explicitly; DCA-Trie is not claimed to exceed
+them.
 
 All experiments use Llama-3.1-8B fine-tuned on GCR data. Larger models (Llama-70B,
 GPT-4) may handle diversity loss better, potentially reducing the Hits@1 gap. Smaller
 models (Llama-7B without fine-tuning) may be more sensitive to diversity loss. The
 generalizability across model scales is untested.
 
-The type gate's 85\% accuracy is the weakest component. A neural type classifier would
-improve FNR and potentially narrow the Hits@1 gap. However, even a perfect classifier
-leaves a 3.8pp gap (Section~\ref{sec:sensitivity:type}), confirming that the
-non-monotone result is not primarily caused by classifier noise.
+The type gate's regex classifier is the weakest component. A neural type classifier
+would improve FNR and potentially narrow the Hits@1 gap. However, the calibration
+result shows the full gated-number gap is attributable to the gates, so improving the
+classifier, not the decoding mechanism, is the lever.
 
 Freebase's ontology is fixed. Dynamic KGs (e.g., Wikidata with frequent updates) would
 require the TypeOracle to update its type and range metadata. The current system does not
 support incremental ontology updates.
 
 The LLM is fine-tuned on GCR's training data, which uses a static trie. Fine-tuning on
-DCA-Trie's dynamic trie may teach the model to handle reduced diversity, potentially
+DCA-Trie's filtered trie may teach the model to handle reduced diversity, potentially
 narrowing the Hits@1 gap, the most promising direction for future work.
 
 \subsection{Future Work}
@@ -104,6 +114,11 @@ Rather than a hard binary gate, a soft oracle that assigns confidence scores to 
 could allow the beam search to re-rank paths based on both structural relevance and LLM
 confidence. This would preserve diversity while filtering irrelevant paths.
 
-CWQ, FreebaseQA, and zero-shot transfer experiments would test whether the non-monotone
-finding generalises beyond WebQSP. CWQ's deeper questions may benefit more from v2's
-dynamic expansion, provided the FNR can be reduced.
+The non-monotone finding generalises beyond WebQSP. A controlled 300-question CWQ run
+using the same paired protocol (baseline, v1, v3, and the v3-no-gates calibration
+control) reproduces every result: v1 drops 5.3pp Hits@1 (43.7\% vs.\ 49.0\%, McNemar
+$p=0.002$), v3 stays within noise ($-1.0$pp, $p=0.37$) while remaining the fastest
+condition (9.17\,s vs.\ 9.64\,s per question), and v3 without gates reproduces the
+baseline exactly (100\% per-question agreement, $p=1.0$). SIR is stable across datasets
+(0.132 on CWQ vs.\ 0.138 on WebQSP). Zero-shot transfer beyond Freebase remains future
+work.

@@ -552,17 +552,38 @@ The v2 design has a structural advantage and a structural weakness. The advantag
 The weakness is \textit{instability}: each trie rebuild changes the set of valid tokens the LLM can generate. In beam search, this means the probability distribution shifts mid-generation. A path that was valid at step $t$ may become invalid at step $t+1$, causing beam candidates to be pruned not because the model scored them poorly, but because the constraint structure changed. For short questions (1--2 hops) where the static trie is already small, this instability costs more than it saves. Chapter~4 evaluates this trade-off empirically.
 
 % -----------------------------------------------------------------------------
+\section{DCA-Trie v3: Lazy Constrained Decoding}
+\label{sec:ch3v3}
+% -----------------------------------------------------------------------------
+
+v2's step-wise rebuild trades the static trie's stability for per-step focus, but rebuilds the constraint structure itself. v3 instead changes \textit{when} the constraint is materialised, not what it admits. The full DFS enumeration of v1 and GCR is replaced by lazy expansion: the trie is built incrementally only along the frontiers the beams actually reach, with TypeOracle gating applied at each expansion point. A single \texttt{generate()} call runs over one probability space, so the constraint never changes mid-decoding as in v2; it only grows.
+
+Formally, let $\mathcal{F}_t$ be the set of frontier nodes the live beams have committed to at step $t$. The trie at step $t$ is
+\begin{equation}
+  \mathcal{T}_t = \mathcal{T}_{t-1} \;\cup\; \bigcup_{e \in \mathcal{F}_t}\,
+  \{(e,\, r,\, e') : (e, r, e') \in \mathcal{G} \;\land\;
+  \text{range\_gate}(r, e') \;\land\;
+  \text{type\_gate}(e', \mathcal{T}(q), h, L)\}.
+  \label{eq:v3expansion}
+\end{equation}
+Expansion is demand-driven: a node is expanded only once the beams commit to it, and only its type-consistent neighbours are added. The construction cost tracks the actual decoding trajectory rather than the worst-case path space, so high-degree questions no longer pay the full DFS enumeration cost.
+
+The design retains v1's faithfulness properties by construction: any token the decoder can produce under $\mathcal{T}_t$ is also valid in the fully enumerated trie, and with the gates disabled the admitted language equals the GCR baseline exactly, question for question (Chapter~4, Section~\ref{sec:ch4v3}). Its complexity is $O(T_e \cdot D \cdot L)$ with $T_e$ the number of committed entities and $D$ their average neighbour count, identical to v2's expansion cost but without the rebuild-induced instability. Chapter~4 shows it matches v1's accuracy at roughly $3.5\times$ lower construction cost.
+
+% -----------------------------------------------------------------------------
 \section{Baseline Systems}
 \label{sec:ch3baseline}
 % -----------------------------------------------------------------------------
 
-Four configurations are evaluated, all using the same \modelname{} backbone and matched decoding settings (beam width $k{=}10$, group-beam search). This isolates differences to the constraint-oracle design:
+Six configurations are evaluated, all using the same \modelname{} backbone and matched decoding settings (plain beam search, width $k{=}10$). This isolates differences to the constraint-oracle design:
 
 \begin{itemize}
   \item \textbf{CoT Baseline:} Unconstrained chain-of-thought reasoning with no KG oracle.
   \item \textbf{GCR:} Static KG-Trie constraints $\mathcal{W}_{\text{val}}(t)=f(\mathcal{G},\mathcal{E}_q)$~\citep{luo2025-graph-constrained-reasoning}. Primary constrained baseline.
   \item \textbf{DCA-Trie v1:} Static symbolic filtering (Section~\ref{sec:ch3v1}), implemented as a preprocessing step.
   \item \textbf{DCA-Trie v2:} Dynamic step-wise expansion (Section~\ref{sec:ch3v2}), integrated into the decoding loop.
+  \item \textbf{DCA-Trie v2-no-gates:} The v2 architecture with both TypeOracle gates disabled, admitting every graph neighbour at each hop. This ablation isolates the cost of the v2 architecture from the cost of the gates.
+  \item \textbf{DCA-Trie v3:} Lazy constrained decoding (Section~\ref{sec:ch3v3}), which materialises the trie on the fly along the paths the beams actually reach, with TypeOracle gating applied at the frontier.
 \end{itemize}
 
 Detailed configuration, dataset properties, and baseline reproduction results are reported in Chapter~4.
@@ -572,11 +593,11 @@ Detailed configuration, dataset properties, and baseline reproduction results ar
 \label{sec:ch3eval}
 % -----------------------------------------------------------------------------
 
-Evaluation uses the RoG-webqsp test split (1,628 questions, 1--2 hops) over Freebase~\citep{bollacker2008freebase, yih2016websqp}, with the resulting pattern verified on a CWQ subset (2--4 hops). A 100-question validation split is used only for gate statistics. The primary metrics are Hits@1, F1, Path Reduction, and False Negative Rate (FNR). All experiments run on a single NVIDIA GeForce RTX 4090 using the \modelname{} model in bfloat16 precision via HuggingFace Transformers~\citep{wolf2020transformers}. Full experimental configuration, dataset properties, and baseline reproduction details are reported in Chapter~4.
+Evaluation uses the RoG-webqsp test split (1,628 questions, 1--2 hops) over Freebase~\citep{bollacker2008freebase, yih2016websqp}. Because every method in this thesis re-uses the same LLM weights and decoding settings, the paired comparison is run on a fixed 300-question subset sampled with seed~42; all conditions (GCR baseline, v1, v2, v2-no-gates, v3) decode the identical question set, so differences are attributable to the constraint-oracle design alone. The full test set is used for the GCR reproduction study (Section~\ref{sec:ch4repro}) and for the gate-decomposition analysis at index length $L{=}4$. The resulting pattern is verified on a CWQ subset (2--4 hops). A 100-question validation split is used only for gate statistics. The primary metrics are Hits@1, F1, Path Reduction, False Negative Rate (FNR), and the Semantic Irrelevance Ratio (SIR) of Section~\ref{sec:ch3sir}. All experiments run on a single NVIDIA GeForce RTX 4090 using the \modelname{} model in bfloat16 precision via HuggingFace Transformers~\citep{wolf2020transformers}, with a 120-second per-sample timeout. Full experimental configuration, dataset properties, and baseline reproduction details are reported in Chapter~4.
 
 % -----------------------------------------------------------------------------
 \section{Scope Boundaries and Anticipated Limitations}
 \label{sec:ch3limitations}
 % -----------------------------------------------------------------------------
 
-This study is bounded as follows. The primary evaluation is on WebQSP over Freebase; CWQ is used only to verify that the non-monotone pattern generalises, via a 100-sample subset comparing GCR against DCA-Trie v1. Full-scale CWQ evaluation across all four baselines, and cross-KG generalization beyond Freebase, are future work. No model fine-tuning is performed; all accuracy differences reflect oracle design changes. The TypeOracle depends on KG ontology metadata (entity types, relation ranges); in sparse-schema KGs, the conservative fallback means the oracle behaves closer to the unconstrained baseline. Condition~F is assessed empirically by checking generated paths against KG triplets, following established practice~\citep{luo2025-graph-constrained-reasoning, li2024-decoding-on-graphs}. Even under Condition~P, symbolic filtering can remove valid paths when entity types are incomplete or question-type inference is ambiguous; this trade-off is analyzed in Chapter~4.
+This study is bounded as follows. The primary evaluation is on WebQSP over Freebase, on a controlled 300-question subset paired across all five constrained conditions plus the unconstrained baseline; CWQ is used to verify that the non-monotone pattern generalises, via a controlled 300-question run covering the GCR baseline, v1, v3, and the v3-no-gates calibration control. Full-scale CWQ evaluation across all six configurations, and cross-KG generalization beyond Freebase, are future work. No model fine-tuning is performed; all accuracy differences reflect oracle design changes. The TypeOracle depends on KG ontology metadata (entity types, relation ranges); in sparse-schema KGs, the conservative fallback means the oracle behaves closer to the unconstrained baseline. Condition~F is assessed empirically by checking generated paths against KG triplets, following established practice~\citep{luo2025-graph-constrained-reasoning, li2024-decoding-on-graphs}. Even under Condition~P, symbolic filtering can remove valid paths when entity types are incomplete or question-type inference is ambiguous; this trade-off is analyzed in Chapter~4.
