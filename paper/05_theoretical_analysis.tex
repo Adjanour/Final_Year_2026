@@ -6,108 +6,56 @@
 \label{sec:theoretical}
 
 Building on the TypeOracle and its two gates described in the previous section, this
-section establishes three properties that govern when and why DCA-Trie works: structural
+section explains three properties that govern when and why DCA-Trie works: structural
 faithfulness is preserved by construction, the search space shrinks by a bounded
 factor, and tighter constraints do not guarantee higher accuracy. The third property
-is the paper's central theoretical contribution.
+is the paper's central finding.
 
 % -----------------------------------------------------------------------------
 \subsection{Structural Faithfulness}
 \label{sec:theoretical:faithfulness}
 % -----------------------------------------------------------------------------
 
-\begin{proposition}[Faithfulness Preservation]
-\label{prop:faithfulness}
-Let $\mathcal{G} = (\mathcal{E}, \mathcal{R}, \mathcal{T})$ be a knowledge graph
-and $\mathcal{P}(\mathcal{G}, \mathcal{E}_q, L)$ the set of all paths within $L$ hops
-of the question entities $\mathcal{E}_q$. If the TypeOracle admits a path $p \in
-\mathcal{P}$, then every triplet $(e_{i-1}, r_i, e_i)$ in $p$ is a member of
-$\mathcal{T}$.
-\end{proposition}
+Faithfulness is preserved by construction. The TypeOracle operates as a filter on the
+set $\mathcal{P}(\mathcal{G}, \mathcal{E}_q, L)$ of all paths within $L$ hops of the
+question entities $\mathcal{E}_q$: it inspects each path and either admits or rejects
+it, but it never constructs new paths, introduces new triplets, or modifies existing
+ones. The admitted set is therefore a subset of $\mathcal{P}$, and every triplet in
+every admitted path is a member of $\mathcal{T}$. The range gate and type gate are
+predicates over existing triplets; they cannot fabricate new ones.
 
-\begin{proof}
-The TypeOracle operates as a filter on $\mathcal{P}$: it inspects each path and
-either admits or rejects it. It does not construct new paths, introduce new triplets,
-or modify existing ones. Formally, let $\text{admit}(p) \in \{\text{true},
-\text{false}\}$ be the oracle's decision on path $p$. The admitted set is
-$\mathcal{P}_{\text{admitted}} = \{p \in \mathcal{P} : \text{admit}(p) =
-\text{true}\}$. Since $\mathcal{P}_{\text{admitted}} \subseteq \mathcal{P}$ and every
-$p \in \mathcal{P}$ consists entirely of triplets from $\mathcal{T}$, every triplet in
-every admitted path is in $\mathcal{T}$. The range gate and type gate are predicates
-over existing triplets; they cannot fabricate new ones.
-\end{proof}
-
-This result holds regardless of which gates are used or how they are parameterised.
+This property holds regardless of which gates are used or how they are parameterised.
 Any filter applied after BFS enumeration preserves faithfulness, because filtering
-removes paths without introducing new tokens. The TypeOracle's specific gates (range
-and type) determine which paths survive; the faithfulness guarantee comes from the
-filtering architecture itself.
-
-\begin{corollary}[Faithfulness of v1 and v2]
-\label{cor:faithfulness_v1v2}
-Both DCA-Trie v1 (static filtering) and DCA-Trie v2 (step-wise expansion) satisfy
-Condition~F: every token in $\mathcal{W}_{\text{val}}^{\text{DCA}}(t)$ corresponds to
-a valid prefix of a path in $\mathcal{G}$ at every step $t$.
-\end{corollary}
-
-\begin{proof}
-In v1, the trie is built from $\mathcal{P}_{\text{admitted}} \subseteq \mathcal{P}$.
-By Proposition~\ref{prop:faithfulness}, every path in the trie consists of valid
-triplets. Trie lookup returns only tokens that are children of the current node in the
-trie, so every returned token corresponds to a valid triplet prefix.
-
-In v2, the trie is expanded at entity commits by adding only triplets $(e_t, r, e')$
-that exist in $\mathcal{G}$ and pass both gates. The expansion rule
-(Equation~\ref{eq:v2_expansion}) explicitly requires $(e_t, r, e') \in \mathcal{G}$.
-Newly added tokens therefore correspond to valid triplets, and the same trie-lookup
-argument applies.
-\end{proof}
+removes paths without introducing new tokens. In v1, the trie is built from the
+admitted subset, so trie lookup returns only tokens that correspond to valid triplet
+prefixes. In v2, the trie is expanded at entity commits by adding only triplets
+$(e_t, r, e')$ that exist in $\mathcal{G}$ and pass both gates
+(Equation~\ref{eq:v2_expansion}), so newly added tokens correspond to valid triplets
+and the same lookup argument applies.
 
 % -----------------------------------------------------------------------------
 \subsection{Search-Space Reduction}
 \label{sec:theoretical:reduction}
 % -----------------------------------------------------------------------------
 
-\begin{proposition}[Reduction Bound]
-\label{prop:reduction}
-Let $|\mathcal{P}|$ be the number of BFS-enumerated paths and
-$|\mathcal{P}_{\text{admitted}}|$ the number surviving the TypeOracle. The
-reduction ratio is:
-\begin{equation}
-  \rho = 1 - \frac{|\mathcal{P}_{\text{admitted}}|}{|\mathcal{P}|}
-  \label{eq:reduction}
-\end{equation}
-For a question with average out-degree $d$ and hop depth $L$, GCR admits
-$|\mathcal{P}| = |\mathcal{E}_q| \cdot d^L$ paths. DCA-Trie admits at most
-$|\mathcal{P}|$ paths (when both gates admit everything) and at least
-$|\mathcal{E}_q|$ paths (when only the gold path survives per question entity).
-\end{proposition}
+The search-space reduction is bounded by construction. Let $|\mathcal{P}|$ be the
+number of BFS-enumerated paths and $|\mathcal{P}_{\text{admitted}}|$ the number
+surviving the TypeOracle. The reduction ratio
+$\rho = 1 - |\mathcal{P}_{\text{admitted}}| / |\mathcal{P}|$ is bounded below by GCR
+(no filtering, $\rho = 0$) and above by one path per question entity, since at least
+one gold path must survive for a question to be answerable. The bounds themselves are
+trivial; the empirical reduction depends on the ontology's structure. On the controlled
+WebQSP subset, the TypeOracle removes $\rho = 0.138$ of paths (13.8\% of the candidate
+set). This is not a theoretical guarantee but an empirical observation grounded in the
+Freebase ontology's type system.
 
-The bounds are trivial: the upper bound is GCR (no filtering), the lower bound is one
-path per question entity. The empirical reduction depends on the ontology's structure.
-On the controlled WebQSP subset, the TypeOracle removes $\rho = 0.138$ of paths (13.8\%
-of the candidate set). This is not a theoretical guarantee but an empirical observation
-grounded in the Freebase ontology's type system.
-
-\begin{proposition}[Per-Step Complexity]
-\label{prop:complexity}
-Let $|\mathcal{N}(e)|$ be the number of outgoing neighbours of entity $e$. At each
-decoding step, trie lookup costs $O(L)$ where $L$ is the path length. In v2, gate
-evaluation at entity commits costs $O(|\mathcal{N}(e_t)|)$, with each gate evaluation
-being $O(1)$. The amortised cost across all steps is $O(|\mathcal{G}|)$ in the worst
-case.
-\end{proposition}
-
-\begin{proof}
-Trie lookup traverses at most $L$ nodes, one per hop. At entity commits, v2 evaluates
-both gates for each outgoing neighbour of the committed entity $e_t$. Each evaluation
-involves a set intersection over the entity's type set and the relation's range set
-(or the answer type set). Under Freebase, both sets have bounded size (typically 1 to
-5 types per entity), making each gate $O(1)$. The total gate evaluations across all
-entity commits is at most $|\mathcal{G}|$, the number of triplets in the graph. This
-is the same order as BFS enumeration in v1 but distributed across decoding rather than
-concentrated at construction time.
-\end{proof}
+At each decoding step, trie lookup costs $O(L)$ where $L$ is the path length. In v2,
+gate evaluation at entity commits costs $O(|\mathcal{N}(e_t)|)$, with each gate
+evaluation being $O(1)$ because Freebase type sets are small (typically 1 to 5 types
+per entity). The total gate evaluations across all entity commits is at most
+$|\mathcal{G}|$, the number of triplets in the graph, so the amortised cost across all
+steps is $O(|\mathcal{G}|)$ in the worst case, the same order as BFS enumeration in v1
+but distributed across decoding rather than concentrated at construction time.
 
 % -----------------------------------------------------------------------------
 \subsection{Why Tighter Constraints Do Not Improve Accuracy}
@@ -116,79 +64,26 @@ concentrated at construction time.
 
 The empirical result from Section~\ref{sec:intro:results} shows that reducing SIR from
 1.0 to 0.138 does not improve Hits@1. This is the non-monotone result: constraint
-tightness and answer accuracy are not monotonically related. This section provides the
-formal argument for why this must hold.
+tightness and answer accuracy are not monotonically related. The reason is that the
+TypeOracle trades off precision against recall.
 
-\begin{proposition}[Non-Monotonicity]
-\label{prop:nonmonotone}
-Let $\mathcal{W}_1 \subseteq \mathcal{W}_2$ be two constraint sets where $\mathcal{W}_1$
-is strictly tighter (fewer admitted paths). Let $p^*$ be the gold path. There exist
-distributions over questions and LLMs such that constraining to $\mathcal{W}_1$ reduces
-Hits@1 relative to $\mathcal{W}_2$, even when $p^* \in \mathcal{W}_1$.
-\end{proposition}
-
-\begin{proof}[Argument]
-Consider a beam search with beam width $k$. At each step, the beam retains the $k$
-highest-scoring partial paths. Under $\mathcal{W}_2$ (GCR), the beam contains $k$
-diverse paths, some of which may be semantically irrelevant but structurally valid.
-Under $\mathcal{W}_1$ (DCA-Trie), the beam contains fewer paths, and the diversity of
-the beam is reduced.
-
-Two mechanisms drive Hits@1 degradation:
-
-\textit{Beam competition.} With fewer paths in the constraint set, the beam has less
-diversity. If the gold path $p^*$ receives a low LLM probability at an early step (due
-to the model's uncertainty), it may be dropped from the beam. Under GCR, the extra
-irrelevant paths provide redundancy: even if $p^*$ is temporarily outranked, it can
-reappear in later steps as other paths are pruned. Under DCA-Trie, this redundancy is
-removed. The gold path must compete in a smaller, more homogeneous beam.
-
-\textit{Precision-recall trade-off.} Let $R$ be the recall of the oracle (fraction of
-gold paths admitted) and $P$ be the precision (fraction of admitted paths that are
-relevant). Tightening the constraint increases $P$ but may decrease $R$ if the oracle
-incorrectly removes the gold path. Hits@1 depends on both: the LLM must find the gold
-path among the admitted paths (requiring $R > 0$) and rank it first (requiring low
-noise from irrelevant paths, which $P$ controls). Optimising $P$ at the expense of $R$
-does not necessarily improve Hits@1.
-
-\textit{Derivation of the bound.} The gold path must be both admitted (probability $R$)
-and ranked first by the beam search. Given $k$ beams, the probability that at least one
-irrelevant path outranks the gold path is $1 - (1-P)^k$ when irrelevant paths are
-distributed uniformly across beam positions. The probability that the gold path is
-admitted and ranked first is therefore at most $R \cdot (1 - P)^k$. But the beam can
-also select the gold path from a position that was not the top scorer: the bound
-relaxes to $\text{Hits@1} \leq \min(R,\; 1 - (1-P)^k)$. When $R$ is high but $P$ is
-low (many irrelevant paths), the second term dominates: even though the gold path is
-admitted, beam noise prevents it from ranking first. When $P$ is high but $R$ is low
-(gold path frequently excluded), the first term dominates: the gold path is not in the
-beam at all.
-
-\begin{equation}
-  \text{Hits@1} \leq \min\!\bigl(R,\; 1 - (1 - P)^k\bigr)
-  \label{eq:hits_bound}
-\end{equation}
-
-where $k$ is the beam width. The bound shows that Hits@1 is constrained by both $R$
-and $P$. Increasing $P$ while decreasing $R$ can leave Hits@1 unchanged or reduced.
-\end{proof}
+Let $R$ be the recall of the oracle (the fraction of gold paths admitted) and $P$ its
+precision (the fraction of admitted paths that are relevant). Tightening the constraint
+increases $P$ but may decrease $R$ if the oracle incorrectly removes the gold path.
+Hits@1 depends on both: the LLM must find the gold path among the admitted paths
+(requiring $R > 0$) and rank it first (requiring low noise from irrelevant paths,
+which $P$ controls). A second mechanism operates through the beam search. With beam
+width $k$, the beam retains the $k$ highest-scoring partial paths at each step. Fewer
+admitted paths mean a smaller, more homogeneous beam; if the gold path receives a low
+LLM probability at an early step, the redundant paths that GCR retains can keep it in
+the beam long enough to recover, whereas DCA-Trie has removed that redundancy. The
+combined effect is that Hits@1 is constrained by the weaker of $R$ and the beam's
+ability to rank the gold path first, so increasing $P$ while decreasing $R$ can leave
+Hits@1 unchanged or reduced.
 
 Practically, this means optimising the TypeOracle's gates to maximise precision
-(removing as many irrelevant paths as possible) does not guarantee better answers. The oracle must balance precision against recall, and the optimal balance
-depends on the LLM's ability to navigate the remaining search space. SIR measures
-precision; Hits@1 measures the outcome of the balance. The two metrics answer different
-questions, and improving one does not imply improvement in the other.
-
-\begin{table}[htpb]
-  \centering
-  \caption{The three properties established in this section and their implications.}
-  \label{tab:theory_summary}
-  \begin{tabular}{@{}lll@{}}
-    \toprule
-    Property & What it guarantees & Implication \\
-    \midrule
-    Faithfulness & Every admitted token is graph-valid & No hallucination via oracle \\
-    Reduction & $\rho \in [0, 1 - 1/d^L]$ & Bounded search-space shrinkage \\
-    Non-monotonicity & Tighter $\not\Rightarrow$ better & Optimise $P$ and $R$ jointly \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+(removing as many irrelevant paths as possible) does not guarantee better answers. The
+oracle must balance precision against recall, and the optimal balance depends on the
+LLM's ability to navigate the remaining search space. SIR measures precision; Hits@1
+measures the outcome of the balance. The two metrics answer different questions, and
+improving one does not imply improvement in the other.

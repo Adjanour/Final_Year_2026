@@ -71,10 +71,13 @@ problem.
 The third, which we adopt, uses two symbolic gates derived from the Freebase ontology.
 No neural encoder. No learned threshold. No per-dataset calibration. Gate evaluation is
 $O(1)$ per candidate triple. We call this module the TypeOracle.
+Figure~\ref{fig:oracle_arch} shows its architecture: a candidate triple $(h, r, t)$
+passes first through the range gate and then through the type gate, each checking a
+different condition at a different hop.
 
 \begin{figure}[htpb]
   \centering
-  \resizebox{0.95\textwidth}{!}{%
+  \resizebox{0.78\textwidth}{!}{%
     \begin{tikzpicture}[
       >=stealth, font=\sffamily,
       box/.style={draw, rounded corners, minimum width=2.6cm, minimum height=0.85cm,
@@ -172,18 +175,6 @@ question beginning with ``who'' infers \{Person\}; ``where'' infers \{Location\}
 gate fires only at the final hop, because intermediate entities need not match the answer
 type; they are waypoints, not endpoints of the reasoning chain.
 
-\subsubsection{Why the range gate fires at every hop but the type gate only at the end}
-
-Consider: ``Who is the spouse of the ex-president of USA?'' The question entity is USA.
-At hop 1, the LLM generates a relation (\texttt{ex\_president}) and a tail entity (a
-specific ex-president). At hop 2, it generates another relation (\texttt{spouse\_of})
-and a final entity (the spouse). The range gate must fire at both hops: at hop 1 to
-verify that the ex-president is a Person, at hop 2 to verify that the spouse is a
-Person. But the type gate must fire only at hop 2, because the intermediate entity
-(USA, a Country) is not of the answer type (Person). Applying the type gate at hop 1
-would reject USA, breaking the chain. The range gate catches type violations at every
-step; the type gate enforces the answer constraint only where it matters, at the end.
-
 \subsubsection{Type Inference and Unknown Schema}
 
 Answer types are inferred from the question using a regex classifier with 19 patterns.
@@ -197,12 +188,12 @@ path.
 \subsubsection{Walkthrough: TypeOracle in Action}
 
 Consider the question: ``Who is the spouse of the ex-president of USA?'' The question
-entity is USA. Figure~\ref{fig:walkthrough} shows theKG fragment and how the TypeOracle
+entity is USA. Figure~\ref{fig:walkthrough} shows the KG fragment and how the TypeOracle
 filters paths at each hop.
 
 \begin{figure}[htpb]
   \centering
-  \resizebox{0.95\textwidth}{!}{%
+  \resizebox{0.78\textwidth}{!}{%
     \begin{tikzpicture}[
       >=stealth, font=\sffamily,
       entity/.style={circle, draw, fill=blue!8, minimum size=1.0cm, inner sep=1pt,
@@ -276,7 +267,7 @@ filters paths at each hop.
   \caption[Walkthrough of TypeOracle filtering for a 2-hop question]{Walkthrough of
   TypeOracle filtering. At hop 1, the range gate admits all three ex-presidents (all
   are Persons). At hop 2, the type gate admits Laura Bush and Michelle Obama (both
-  Persons). Melania Trump passes the type gate but is excluded by beam competition, the
+  Persons). Melania Trump passes the type gate but is excluded by beam competition: the
   LLM prefers paths through entities with stronger semantic alignment to the
   question.}
   \label{fig:walkthrough}
@@ -288,12 +279,9 @@ checks each candidate against the relation's range: \texttt{ex\_president} has r
 terminal entities against \{Person\}: Laura Bush and Michelle Obama pass. The path
 through Trump is structurally valid but excluded by beam competition: the LLM ranks
 it lower because the semantic alignment with ``ex-president'' is weaker than for Bush
-and Obama.
-
-This example illustrates what the TypeOracle does and does not do. It does not
-guarantee that only the correct answer survives. It narrows the search space from all
+and Obama. The TypeOracle therefore narrows the search space from all
 structurally valid paths to those that are both structurally valid \textit{and}
-ontologically consistent. The LLM still selects among the survivors. The SIR metric
+ontologically consistent, while the LLM still selects among the survivors. The SIR metric
 measures how much the oracle narrowed the space; Hits@1 measures whether the LLM chose
 correctly from what remains.
 
@@ -376,7 +364,7 @@ hop 2 is $0/2 = 0.0$: only the two relevant paths remain in the constraint set.
 
 Corpus-level, GCR achieves $\overline{\text{SIR}} = 1.0$ (all paths admitted, no
 filtering).\footnote{GCR's SIR = 1.0 is a normalisation convention: GCR admits all
-structurally valid paths without any semantic filtering, so its SIR serves as the
+structurally valid paths without any semantic filtering, so its SIR is the
 reference point against which other oracles are measured. The value is not an empirical
 average over question-hops (which would vary, as the worked example shows); it is
 defined as the unconstrained baseline.} DCA-Trie achieves
@@ -391,7 +379,7 @@ attributed to a shared encoder bias. The TypeOracle makes its decisions symbolic
 measures the outcome using a different, independently calibrated tool.
 
 Table~\ref{tab:sir_result} shows the SIR results on the controlled WebQSP subset. The
-TypeOracle reduces $\overline{\text{SIR}}$ from 1.0 to 0.138 --- a 13.8\% reduction in
+TypeOracle reduces $\overline{\text{SIR}}$ from 1.0 to 0.138, a 13.8\% reduction in
 the candidate path set. This is the constraint quality improvement. Whether this
 improvement translates to better answers is a separate question, addressed in Section
 \ref{sec:results}.
@@ -554,7 +542,7 @@ ontology's density.
 
 \begin{figure}[htpb]
   \centering
-  \resizebox{0.95\textwidth}{!}{%
+  \resizebox{0.78\textwidth}{!}{%
     \begin{tikzpicture}[
       >=stealth, font=\sffamily,
       box/.style={draw, rounded corners, minimum width=2.8cm, minimum height=0.85cm,
@@ -642,7 +630,7 @@ question-level semantics are strong enough to filter paths before decoding begin
 questions requiring 3 or more hops, the lazy v3 variant is preferred: it expands the
 trie only at the frontiers the beams actually reach, avoiding both the static filter's
 inability to track the shifting neighbourhood and the per-hop trie-rebuilding cost that
-v2 demonstrates to be harmful.
+v2 shows to be harmful.
 
 The TypeOracle depends on the Freebase ontology's type system. Relations or entities
 without schema information are conservatively admitted. On KGs with sparser ontologies

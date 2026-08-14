@@ -117,7 +117,7 @@ pipeline. Every DCA-Trie row is paired against the reproduced baseline on the id
 from 1.000 to 0.138 but Hits@1 drops from 85.7\% to 81.7\% ($-4.0$\,pp). Tighter
 constraint does not produce higher accuracy.
 
-The significance of these drops is established with the exact binomial McNemar test on
+The significance of these drops is assessed with the exact binomial McNemar test on
 the 300 matched questions (Table~\ref{tab:significance}).
 
 \begin{table}[htpb]
@@ -141,7 +141,7 @@ the 300 matched questions (Table~\ref{tab:significance}).
 Every gated deviation from baseline is one-directional: the gated conditions lose on
 13--14 questions and win on 0--1. The v3 drop relative to baseline is significant
 ($p = 0.0001$), but v1 and v3 are statistically indistinguishable from each other
-($p = 0.77$), confirming that static and lazy type-gating behave identically in
+($p = 0.77$), showing that static and lazy type-gating behave identically in
 accuracy. The v2 pairs are decisive: 75 questions lose and none win, and disabling the
 gates changes nothing at all ($p = 1.0$).
 
@@ -241,7 +241,7 @@ the 2,637 paths the static trie enumerates: roughly a 3.5$\times$ reduction in
 construction cost, with no DFS performed at all ($n_{\text{dfs}} = 0$ in every
 question).
 
-Calibration confirms the mechanism is faithful. With both TypeOracle gates disabled,
+Calibration shows the mechanism is faithful. With both TypeOracle gates disabled,
 v3 reproduces the GCR baseline exactly: 257/300 (85.7\%) on both conditions, with
 100\% per-question agreement. With the gates off, the lazy constraint admits precisely
 the same language as the static baseline trie, question for question. Every gated-number
@@ -251,7 +251,7 @@ mechanism.
 \subsection{Summary of Findings}
 \label{sec:results:summary}
 
-The experiments establish four findings.
+The experiments support four findings.
 
 The TypeOracle works as designed. It reduces SIR from 1.0 to 0.138 (13.8\% path
 reduction) with modest runtime overhead. The type gate performs most of the pruning
@@ -259,7 +259,7 @@ reduction) with modest runtime overhead. The type gate performs most of the prun
 FNR. False negative rates stay below 5\% for both gates.
 
 Tighter constraint does not improve accuracy. DCA-Trie v1 filters the irrelevant paths
-but Hits@1 drops by 4.0pp (v3 by 4.7pp), both significant. Calibration proves the
+but Hits@1 drops by 4.0pp (v3 by 4.7pp), both significant. Calibration shows the
 mechanism is faithful: the gates alone explain the full gap.
 
 The v2 collapse is architectural. The step-wise per-hop trie variant scores 60.7\%,
@@ -282,7 +282,7 @@ significantly ($-5.3$pp, 43.7\% vs.\ 49.0\%, McNemar $p=0.002$) while reducing S
 stays within noise of the baseline ($-1.0$pp, $p=0.37$) and is the fastest condition
 (9.17\,s vs.\ 9.64\,s per question, 0.109 vs.\ 0.104 q/s). The calibration control is
 exact: v3 without gates reproduces the baseline prediction for all 300 questions
-(100\% agreement, both 147/300 correct, $p=1.0$), confirming on a second dataset that
+(100\% agreement, both 147/300 correct, $p=1.0$), showing on a second dataset that
 the TypeOracle gates, not the decoding mechanism, cause v1's accuracy cost. The accuracy
 cost is slightly larger on CWQ ($-5.3$ vs.\ $-4.0$pp) because deeper graphs expose the
 beam search to more gate-rejection windows.

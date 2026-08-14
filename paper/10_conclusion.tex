@@ -13,8 +13,8 @@ materialises the constraint on demand at the frontiers the beams actually reach.
 
 On a controlled 300-question WebQSP subset, the TypeOracle reduces SIR from 1.000 to
 0.138 (a 13.8\% reduction in candidate paths) while maintaining a false negative rate
-below 5\%. These results demonstrate that purely symbolic gates, operating in $O(1)$
-per candidate triple, can achieve substantial search-space reduction without neural
+below 5\%. These results show that purely symbolic gates, operating in $O(1)$
+per candidate triple, reduce the search space substantially without neural
 inference or learned thresholds.
 
 The paper's central finding is that constraint tightness and answer accuracy are
@@ -23,25 +23,25 @@ independent variables. DCA-Trie v1 filters the irrelevant paths, but Hits@1 drop
 with the gates disabled, the lazy constraint reproduces the baseline exactly, so every
 gated-number difference is attributable to the gates themselves. A per-hop architectural
 variant collapses by 25 points regardless of its gates, identifying step-wise trie
-rebuilding---not semantic filtering---as the failure mode. The result holds across
+rebuilding, not semantic filtering, as the failure mode. The result holds across
 ablation conditions and is statistically significant (baseline vs.\ v1 $p = 0.0018$,
 baseline vs.\ v3 $p = 0.0001$, two-sided McNemar). This finding challenges the implicit
 assumption in GCR and DoG that tightening the search space necessarily improves
 reasoning.
 
-The Semantic Irrelevance Ratio (SIR) provides the first metric that measures constraint
-quality independently of answer accuracy. SIR enables systematic comparison of oracles
-without conflating structural filtering with downstream performance. A system can have
+The Semantic Irrelevance Ratio (SIR) measures
+constraint quality independently of answer accuracy. SIR enables systematic comparison
+of oracles without conflating structural filtering with downstream performance. A system can have
 excellent SIR (tight constraints) and poor Hits@1 (wrong answer), or poor SIR (loose
 constraints) and excellent Hits@1 (correct answer). Before SIR, these two dimensions
 were entangled.
 
-The contributions are threefold. First, the TypeOracle demonstrates that symbolic gates
+The contributions are threefold. First, the TypeOracle shows that symbolic gates
 can replace embedding-based oracles with $O(1)$ complexity, no threshold tuning, and
 deterministic behaviour, and that a lazy rendering of the constraint recovers the
 efficiency of dynamic adaptation in a single, stable decoding pass. Second, SIR provides
 a diagnostic metric for constraint quality that complements Hits@1. Third, the
-non-monotone finding establishes that structural constraint quality and reasoning
+non-monotone finding shows that structural constraint quality and reasoning
 accuracy should be optimised independently, not assumed to be correlated, and that the
 step-wise trie-rebuilding architecture is the failure mode to avoid.
 

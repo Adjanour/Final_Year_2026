@@ -8,16 +8,16 @@
 Large language models reason through generation by sampling each token from a distribution conditioned on all previous tokens~\citep{brown2020gpt3,touvron2023llama}. This process produces fluent text, but fluency is not factual accuracy. LLMs hallucinate, generating confident claims that contradict source material or cannot be verified against any authoritative
 source~\citep{ji2023survey,huang2023survey}. The problem worsens with scale where larger models hallucinate more convincingly, not less~\citep{lin2022truthfulqa}.
 
-Despite this, many studies utilize knowledge graphs (KGs), which encapsulate extensive factual information in a structured format, to improve the reasoning abilities of LLMs~\citep{pan2024survey,luo2024rog}. Because of the unstructured nature of LLMs, directly applying them to reason on KGs is challenging. Existing KG-enhanced LLM reasoning methods can be roughly categorized into three threads. Retrieval-based methods train specialized subgraph retrievers to extract question-focused subgraphs from the complete KG~\citep{luo2024rog,mavromatis2022rearev}. The concentrated subgraph is then fed to the LLM for answer prediction. These methods shift the burden of graph traversal to the retriever while the LLM merely selects from a pre-filtered set of candidates. Training the retriever requires annotated data, and the trained retriever may struggle with out-of-domain scenarios where the KG taxonomy differs from the training distribution~\citep{li2024-decoding-on-graphs}.
+Despite this, many studies use knowledge graphs (KGs), which store factual information in a structured format, to improve the reasoning abilities of LLMs~\citep{pan2024survey,luo2024rog}. Because of the unstructured nature of LLMs, directly applying them to reason on KGs is challenging. Existing KG-enhanced LLM reasoning methods fall into three broad categories. Retrieval-based methods train specialized subgraph retrievers to extract question-focused subgraphs from the complete KG~\citep{luo2024rog,mavromatis2022rearev}. The concentrated subgraph is then fed to the LLM for answer prediction. These methods shift the burden of graph traversal to the retriever while the LLM merely selects from a pre-filtered set of candidates. Training the retriever requires annotated data, and the trained retriever may struggle with out-of-domain scenarios where the KG taxonomy differs from the training distribution~\citep{li2024-decoding-on-graphs}.
 
 Agent-based methods take the opposite approach where the LLM itself interacts with the KG iteratively, executing operations such as neighbor exploration and path selection~\citep{jiang2023structgpt}. These methods demand substantial computational resources and place high demands on the LLM's instruction-following ability, which limits their applicability to small-scale models~\citep{li2024-decoding-on-graphs}.
 
-Constrained decoding methods occupy a middle ground. Graph Constrained Reasoning~\citep{luo2025-graph-constrained-reasoning}, the leading framework, converts the KG into a trie-based index and constrains the LLM's output to valid paths, achieving zero hallucination in the reasoning trace. Decoding on Graphs~\citep{li2024-decoding-on-graphs} extends this by dynamically expanding the local trie as reasoning proceeds, adapting the constraint set to the partially generated chain. Both methods, however, share a common assumption: every structurally valid path should be admitted. Within $L$ hops, GCR admits everything. At each step, DoG admits every topologically adjacent path. Neither filters for semantic relevance: whether a path is actually related to the question being asked.
+Constrained decoding methods occupy a middle ground. Graph Constrained Reasoning~\citep{luo2025-graph-constrained-reasoning}, the leading framework, converts the KG into a trie-based index and constrains the LLM's output to valid paths, achieving zero hallucination in the reasoning trace. Decoding on Graphs~\citep{li2024-decoding-on-graphs} extends this by dynamically expanding the local trie as reasoning proceeds, adapting the constraint set to the partially generated chain. Both methods share a common assumption: every structurally valid path should be admitted. Within $L$ hops, GCR admits everything. At each step, DoG admits every topologically adjacent path. Neither filters for semantic relevance, that is, whether a path is actually related to the question being asked.
 
 The constraint is indifferent to what the question asks. In the worst case, a
 three-hop query with twenty out-degree relations and three question entities admits
 roughly 24{,}000 structurally valid paths. On WebQSP, where questions average 2.1
-entities and 2 hops of reasoning depth, GCR still admits roughly 1{,}600 paths per
+entities and 2 hops of reasoning depth, GCR still admits roughly 2{,}637 paths per
 question. Only one leads to the correct answer. The LLM must navigate among the rest
 using the same internal knowledge that produced hallucination in the first place.
 Tightening the constraint, filtering out irrelevant paths, seems like the obvious fix.
@@ -62,22 +62,22 @@ Calibration isolates the cause: with the TypeOracle gates disabled, the lazy con
 reproduces the baseline exactly, question for question, so every gated-number
 difference is attributable to the gates themselves. A per-hop architectural variant,
 which rebuilds the trie at each entity commitment, collapses by 25 points regardless of
-its gates, identifying the step-wise architecture---not semantic filtering---as the
+its gates, identifying the step-wise architecture, not semantic filtering, as the
 failure mode. The result holds across ablation conditions.
 
 \label{sec:intro:results}
 The contributions of this work are:
 \begin{enumerate}[label=(\arabic*)]
       \item We introduce the Semantic Irrelevance Ratio (SIR), a metric that separates
-            constraint quality from answer accuracy, enabling independent evaluation of what
-            constrained decoding filters versus what the LLM actually uses.
+            constraint quality from answer accuracy and measures what
+            constrained decoding filters independently of what the LLM uses.
       \item We propose DCA-Trie, a dynamic constrained decoding framework that conditions
             the valid token set on the question and partial output via a TypeOracle with two
             ontology gates, and its lazy variant, which materialises the constraint on demand
             at the frontiers the beams actually reach.
-      \item We establish that constraint tightness and answer accuracy are independently
-            controlled variables, and show via calibration that the gates---not the decoding
-            mechanism---are the source of the accuracy cost, while a per-hop architectural
+      \item We show that constraint tightness and answer accuracy are independently
+            controlled variables, and that the gates, not the decoding
+            mechanism, are the source of the accuracy cost, while a per-hop architectural
             variant collapses independently of its gates.
 \end{enumerate}
 

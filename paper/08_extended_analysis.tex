@@ -5,42 +5,11 @@
 \section{Extended Analysis}
 \label{sec:analysis}
 
-This section extends the core results with ablation studies, oracle analysis, and
-efficiency measurements. The goal is to isolate the mechanisms behind the non-monotone
-finding and characterise the operating regime where DCA-Trie provides value.
-
-\subsection{Ablation: Gates Are Not the Source of v2's Collapse}
-\label{sec:ablation:gates}
-
-Table~\ref{tab:ablation_gates} reports the decisive ablation: DCA-Trie v2 with both
-TypeOracle gates disabled.
-
-\begin{table}[htpb]
-  \centering
-  \caption{Gate ablation on the controlled WebQSP subset.}
-  \label{tab:ablation_gates}
-  \begin{tabular}{@{}lccc@{}}
-    \toprule
-    Configuration     & Hits@1 & BUR & max volatility \\
-    \midrule
-    GCR baseline      & 85.7\% & --- & --- \\
-    DCA-Trie v2       & 60.7\% & 0.440 & 0.000 \\
-    DCA-Trie v2 (no gates) & 60.7\% & 0.463 & 0.000 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-Disabling both gates leaves the score unchanged at 60.7\%, and only 11 of 300
-predictions differ at all (96.3\% byte-identical; McNemar $p = 1.0$). The 25-point gap
-versus the baseline is therefore architectural, caused by the per-hop beam-wise trie
-rebuilding and the path-length loop, not by the type/range gates. This contradicts the
-hypothesis that the DoG-proxy gates are what cost accuracy.
-
-\subsection{Oracle Analysis: Trie Volatility Is Not the Failure Mechanism}
-\label{sec:analysis:volatility}
-
-Table~\ref{tab:mechanism} reports the per-question mechanism metrics for v2 and its
-no-gates variant.
+This section isolates the mechanism behind the non-monotone finding. RQ5 established
+that the v2 collapse is architectural: disabling both gates leaves Hits@1 unchanged at
+60.7\%, only 11 of 300 predictions differ (96.3\% byte-identical; McNemar $p = 1.0$),
+and the per-hop, beam-wise trie rebuilding itself costs 25 points. The mechanism
+metrics below characterise how that collapse manifests per question.
 
 \begin{table}[htpb]
   \centering
@@ -64,66 +33,11 @@ collapse is present but identical with and without the gates. Trie volatility is
 both runs: the per-hop tries are stable, and the rebuild-instability hypothesis is
 falsified as the failure mechanism. The hop profile is consistent: hop 1 starts with one
 beam and expands to five, hop 2 holds five beams, and the trie holds roughly 405 to 455
-candidates per hop. The evidence points instead to tokenization misalignment in the
-per-hop trie construction as the root cause: entity boundaries that the tokenizer splits
-differently in-context than in isolation, so valid tokens are mis-locked at each hop.
-
-\subsection{Efficiency: The Lazy v3 Variant}
-\label{sec:efficiency}
-
-Table~\ref{tab:lazy} reports the construction cost of the lazy v3 variant.
-
-\begin{table}[htpb]
-  \centering
-  \caption{Lazy construction cost per question (controlled WebQSP subset).}
-  \label{tab:lazy}
-  \begin{tabular}{@{}lcc@{}}
-    \toprule
-    Metric & Static (baseline/v1) & Lazy (v3) \\
-    \midrule
-    Candidates materialised & 2,637 (avg) & 754.7 (avg, max 3,480, min 29) \\
-    DFS runs & full enumeration & 0 in every question \\
-    Frontier builds & --- & 18.4 (avg) \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-The static trie enumerates the full DFS path set before decoding; v3 renders only what
-the beams reach, materialising an average of 754.7 candidates per question versus 2,637
-for the static trie, roughly a 3.5$\times$ reduction in construction cost, with no DFS
-performed at all. Construction work therefore tracks the actual decoding trajectory
-rather than the worst-case path space.
-
-\subsection{Calibration: The Lazy Mechanism Is Faithful}
-\label{sec:calibration}
-
-A sceptical reader could attribute v3's 81.0\% to a leakier constraint rather than a
-faithful one. The calibration run answers this. With both TypeOracle gates disabled,
-v3 reproduces the GCR baseline exactly: 257/300 (85.7\%) on both conditions, with
-100\% per-question agreement. With the gates off, the lazy constraint admits precisely
-the same language as the static baseline trie, question for question. The mechanism is
-faithful; every gated-number difference is attributable to the gates themselves, not to
-the lazy decoding.
-
-\subsection{Summary}
-\label{sec:analysis:summary}
-
-The extended analysis isolates three findings behind the non-monotone result.
-
-First, the accuracy cost is attributable to the gates, not the mechanism. Calibration
-shows the ungated lazy constraint reproduces the baseline exactly, so the 4.0pp (v1)
-and 4.7pp (v3) drops are entirely explained by the type/range gates.
-
-Second, the v2 collapse is architectural. The 25-point gap is unchanged when both gates
-are disabled, only 11 of 300 predictions differ, and trie volatility is zero. Step-wise
-trie rebuilding itself, not semantic filtering, is the failure mode.
-
-Third, static and lazy type-gating are equivalent in accuracy ($p = 0.77$, ns): the
-lazy frontier matches the static trie at roughly 3.5$\times$ lower construction cost,
-in a single decoding pass. The lazy mechanism is the efficient way to pay constraint
-construction cost only where decoding actually goes.
+candidates per hop. The evidence is consistent with tokenization misalignment in the
+per-hop trie construction as a likely cause: entity boundaries that the tokenizer splits
+differently in-context than in isolation could mis-lock valid tokens at each hop.
 
 These findings are not specific to the TypeOracle. Any constraint oracle that removes
-paths will exhibit similar trade-offs, and any step-wise trie-rebuilding decoder faces
-the architectural risk that v2 demonstrates. The non-monotone result is a structural
-property of constrained beam search, not an artifact of our particular oracle design.
+paths faces a similar precision-recall trade-off, and any step-wise trie-rebuilding
+decoder faces the architectural risk that v2 shows. The non-monotone result is a
+structural property of constrained beam search, not an artifact of this oracle design.

@@ -10,7 +10,7 @@ independently controlled variables. Tighter constraints reduce the search space 
 not improve Hits@1. This result is counterintuitive: reducing the number of irrelevant
 paths should make the LLM's task easier. Calibration and the v2 ablation isolate why it
 does not: the gates themselves are the source of the accuracy cost, and step-wise trie
-rebuilding is an architectural risk that costs far more than any semantic filtering.
+rebuilding is an architectural risk that costs 25 points of Hits@1, more than the 4.0--4.7 points the gates cost.
 
 \subsection{Interpreting the Non-Monotone Result}
 \label{sec:discussion:interpretation}
@@ -68,7 +68,7 @@ achieves 90.7\% Hits@1 on WebQSP. GNN-RAG's retrieval step is analogous to our o
 both filter the KG before decoding. The key difference is that GNN-RAG uses a learned
 retriever (with implicit soft constraints) while DCA-Trie uses symbolic gates (hard
 constraints). Our results suggest that soft constraints may preserve more diversity than
-hard constraints, explaining GNN-RAG's strong performance.
+hard constraints, which is consistent with GNN-RAG's strong performance.
 
 \subsection{Limitations}
 \label{sec:discussion:limitations}
@@ -98,27 +98,3 @@ support incremental ontology updates.
 The LLM is fine-tuned on GCR's training data, which uses a static trie. Fine-tuning on
 DCA-Trie's filtered trie may teach the model to handle reduced diversity, potentially
 narrowing the Hits@1 gap, the most promising direction for future work.
-
-\subsection{Future Work}
-\label{sec:discussion:future}
-
-Training the LLM on DCA-Trie's filtered trie would teach it to operate with less
-diversity, the most direct path to closing the Hits@1 gap while retaining the SIR
-reduction.
-
-Replacing the regex classifier with a fine-tuned encoder would improve type-inference
-accuracy and reduce FNR. The TypeOracle's range gate is already effective; the type gate
-is the bottleneck.
-
-Rather than a hard binary gate, a soft oracle that assigns confidence scores to each path
-could allow the beam search to re-rank paths based on both structural relevance and LLM
-confidence. This would preserve diversity while filtering irrelevant paths.
-
-The non-monotone finding generalises beyond WebQSP. A controlled 300-question CWQ run
-using the same paired protocol (baseline, v1, v3, and the v3-no-gates calibration
-control) reproduces every result: v1 drops 5.3pp Hits@1 (43.7\% vs.\ 49.0\%, McNemar
-$p=0.002$), v3 stays within noise ($-1.0$pp, $p=0.37$) while remaining the fastest
-condition (9.17\,s vs.\ 9.64\,s per question), and v3 without gates reproduces the
-baseline exactly (100\% per-question agreement, $p=1.0$). SIR is stable across datasets
-(0.132 on CWQ vs.\ 0.138 on WebQSP). Zero-shot transfer beyond Freebase remains future
-work.
