@@ -7,7 +7,7 @@
 
 While large language models (LLMs) are good at many tasks, their use of autoregressive generation makes them likely to produce fluent but incorrect information~\citep{ji2023survey}. For knowledge-intensive question answering, this unreliability is a major roadblock as the ability to verify reasoning against external facts is essential. To tackle this issue, recent studies have focused on grounding models in structured external facts through knowledge graphs. Still, keeping a model strictly aligned with these graphs during generation, without losing its natural flow, is a difficult challenge.
 
-This literature review looks at the current research on these challenges and examines how knowledge graph constraints might help ensure factual accuracy during multi-hop reasoning. This chapter outlines the connections between language model hallucination, multi-step validation, and structured grounding. By assessing current strategies to reduce errors, from improved prompting to fixed decoding, this chapter shows where soft-grounding methods do not meet expectations, highlighting the specific technical gaps this project addresses.
+This chapter reviews the current research on these challenges and examines how knowledge graph constraints might help ensure factual accuracy during multi-hop reasoning. It outlines the connections between language model hallucination, multi-step validation, and structured grounding, and shows where soft-grounding methods do not meet expectations, highlighting the specific technical gaps this project addresses.
 
 
 % -----------------------------------------------------------------------------
@@ -29,7 +29,7 @@ Hallucination is generally attributed to a combination of data, training, and in
 
 \subsection{The Scaling Paradox}
 
-A common argument is that larger models should eventually achieve factual reliability. Evidence does not support this. \citet{lin2022truthfulqa} introduce TruthfulQA and find that larger models do not outperform smaller ones in truthfulness and in some categories show \textit{inverse scaling}, reproducing widespread incorrect beliefs more effectively. \citet{perez2022sycophancy} show that RLHF-trained models generate confident-sounding responses aligned with apparent user expectations rather than verifiable facts. \citet{kandpal2023large} demonstrate that larger models improve on frequently-seen entity combinations but not on compositional questions requiring unseen fact combinations, precisely the structure of multi-hop KG questions. \citet{mallen2023not} confirm significant hallucination rates for GPT-4 on tail-entity questions regardless of model size. Together, these findings establish hallucination as a structural feature of the autoregressive mechanism, not a scaling issue.
+A common argument is that larger models should eventually achieve factual reliability. Evidence does not support this. \citet{lin2022truthfulqa} introduce TruthfulQA and find that larger models do not outperform smaller ones in truthfulness and in some categories show \textit{inverse scaling}, reproducing widespread incorrect beliefs more effectively. \citet{perez2022sycophancy} show that RLHF-trained models generate confident-sounding responses aligned with apparent user expectations rather than verifiable facts. \citet{kandpal2023large} demonstrate that larger models improve on frequently-seen entity combinations but not on compositional questions requiring unseen fact combinations, precisely the structure of multi-hop KG questions. \citet{mallen2023not} confirm significant hallucination rates for GPT-4 on tail-entity questions regardless of model size. These findings establish hallucination as a structural feature of the autoregressive mechanism, not a scaling issue.
 
 % -----------------------------------------------------------------------------
 \section{Chain-of-Thought and Its Limits}
@@ -44,7 +44,7 @@ Despite these improvements, CoT has a fundamental structural limitation: each in
 
 \subsection{Self-Consistency and Tree-of-Thought}
 
-Self-consistency~\citep{wang2023selfconsistency} samples several independent CoT chains and chooses the final answer by majority vote, reducing sensitivity to individual hallucinated chains. However, a majority of independently hallucinated chains can still produce an incorrect answer, especially on deep multi-hop questions. Tree-of-Thought~\citep{yao2023-tree-of-thought} treats generation as search through a tree of partial reasoning sequences, using the LLM as both generator and evaluator. The key limitation persists: pruning decisions rely on the model's own parameters without external verification of factual accuracy.
+Self-consistency~\citep{wang2023selfconsistency} samples several independent CoT chains and chooses the final answer by majority vote, reducing sensitivity to individual hallucinated chains. However, a majority of independently hallucinated chains can still produce an incorrect answer, especially on deep multi-hop questions. Tree-of-Thought~\citep{yao2023-tree-of-thought} treats generation as search through a tree of partial reasoning sequences, using the LLM as both generator and evaluator. The key limitation persists: pruning decisions rely on the model's own parameters without external verification.
 
 \subsection{Why Prompting Cannot Guarantee Faithfulness}
 
@@ -98,7 +98,7 @@ Applying constrained decoding to knowledge graph faithfulness uses the KG itself
 
 \textbf{Decoding on Graphs (DoG)}~\citep{li2024-decoding-on-graphs} presents step-wise trie expansion as a partial solution to GCR's static oracle. After locking in an entity, the constraint trie is expanded with all KG neighbors of that entity, making the oracle topologically dynamic. DoG achieves 90.99\% Hits@1 on WebQSP and 76.08\% on CWQ with 100\% structural faithfulness. However, the expansion rule includes all KG neighbors regardless of relevance to the question, and step-wise trie construction compromises the efficiency of precomputed structures.
 
-\textbf{RouterKGQA}~\citep{yuan2026routerkgqa} routes between a specialized KG-reasoning model and a general LLM based on question complexity. It uses SBERT embeddings (\texttt{nomic-embed-text-v1}) to filter candidate answers after generation. RouterKGQA's semantic scoring operates at the answer selection level rather than at the token constraint level: paths are created first and filtered afterward.
+\textbf{RouterKGQA}~\citep{yuan2026routerkgqa} routes between a specialized KG-reasoning model and a general LLM based on question complexity. It uses SBERT embeddings (\texttt{nomic-embed-text-v1}) to filter candidate answers after generation. RouterKGQA's semantic scoring operates at the answer-selection level rather than at the token-constraint level: paths are created first and filtered afterward.
 
 \subsection{Beam Search and Trie-Based Constraints}
 
@@ -115,61 +115,7 @@ In the KGQA context, several approaches enhance RAG with structured context. \ci
 
 \subsection{The Structural Limitation of Soft Grounding}
 
-Despite their empirical improvements, all RAG approaches share a structural limitation: retrieved context is a soft influence on generation. As shown in Figure~\ref{fig:rag_vs_constrained}, the retriever determines what the LLM sees; it does not determine what the LLM is permitted to generate. Because the generation mechanism remains unchanged, there exists a nonzero probability of generating any token at any step, including tokens that correspond to no verified KG fact. Structural faithfulness with probability one cannot be achieved under any architecture that modifies only the input context without modifying the token selection mechanism~\citep{luo2025-graph-constrained-reasoning, geng2023grammarconstrained}.
-
-\begin{figure}[H]
-  \centering
-  \resizebox{\textwidth}{!}{
-    \begin{tikzpicture}[>=latex, font=\sffamily\footnotesize]
-      % Styles
-      \tikzstyle{block} = [draw, rectangle, rounded corners, minimum height=1cm, minimum width=2.5cm, align=center, fill=blue!5]
-      \tikzstyle{data} = [draw, fill=gray!10, rounded corners, inner sep=5pt, align=center]
-      \tikzstyle{redanno} = [text=red!80!black, font=\sffamily\footnotesize\bfseries, align=center]
-      \tikzstyle{greenanno} = [text=green!60!black, font=\sffamily\footnotesize\bfseries, align=center]
-
-      % LEFT PANEL: RAG
-      \node[font=\sffamily\normalsize\bfseries] at (-3, 3.5) {RAG Pipeline};
-      \node[data] (q_left) at (-3, 2.3) {Question $q$};
-      \node[block, fill=orange!10] (ret) at (-5.5, 1.2) {Retriever \\ (Soft Context)};
-      \node[data] (ctx) at (-5.5, -0.5) {Retrieved \\ Subgraph/Text};
-      \node[block] (llm_left) at (-3, -2) {LLM \\ (Autoregressive)};
-
-      \draw[->, thick] (q_left) -| (ret);
-      \draw[->, thick] (ret) -- (ctx);
-      \draw[->, thick] (ctx) |- (llm_left);
-      \draw[->, thick] (q_left) -- (llm_left);
-
-      \node[data] (out_left) at (-3, -4) {Any token $v \in \mathcal{V}$ \\ possible};
-      \draw[->, thick] (llm_left) -- (out_left);
-
-      % RIGHT PANEL: Constrained Decoding
-      \node[font=\sffamily\normalsize\bfseries] at (4, 3.5) {Constrained Decoding Pipeline};
-      \node[data] (q_right) at (4, 2.3) {Question $q$ \\ \& Prefix $y_{<t}$};
-      \node[block, fill=teal!10] (oracle) at (1.5, 1) {Constraint Oracle \\ (KG-Trie)};
-      \node[block] (llm_right) at (6.5, 1) {LLM \\ (Raw Logits)};
-
-      \node[data] (mask) at (1.5, -0.9) {Binary Mask \\ $\alpha_t \in \{0, -\infty\}$};
-      \node[data] (logits) at (6.5, -0.9) {Logits \\ $P(v \mid y_{<t}, x)$};
-      \node[draw, circle, inner sep=3pt, fill=blue!10] (mul) at (4, -0.9) {\textbf{+}};
-
-      \draw[->, thick] (q_right) -| (oracle);
-      \draw[->, thick] (q_right) -| (llm_right);
-      \draw[->, thick] (oracle) -- (mask);
-      \draw[->, thick] (llm_right) -- (logits);
-      \draw[->, thick] (mask) -- (mul);
-      \draw[->, thick] (logits) -- (mul);
-
-      \node[data] (out_right) at (4, -4) {Only valid KG tokens \\ $v \in \mathcal{W}_{\text{val}}(t)$ possible};
-      \draw[->, thick] (mul) -- (4, -1.2) -- (out_right);
-      \node[anchor=west, font=\scriptsize] at (4.1, -1.8) {Masked Logits};
-
-      % Divider
-      \draw[dashed, gray, thick] (-0.5, -5) -- (-0.5, 4);
-
-    \end{tikzpicture}
-  }
-  \caption[Standard RAG vs. KG-Constrained Decoding]{Standard RAG vs. KG-Constrained Decoding}\label{fig:rag_vs_constrained}
-\end{figure}
+Despite their empirical improvements, all RAG approaches share a structural limitation: retrieved context is a soft influence on generation. The retriever determines what the LLM sees; it does not determine what the LLM is permitted to generate. Because the generation mechanism remains unchanged, there exists a nonzero probability of generating any token at any step, including tokens that correspond to no verified KG fact. Structural faithfulness with probability one cannot be achieved under any architecture that modifies only the input context without modifying the token selection mechanism~\citep{luo2025-graph-constrained-reasoning, geng2023grammarconstrained}.
 
 % -----------------------------------------------------------------------------
 \section{Unresolved Gaps}
@@ -187,7 +133,6 @@ Three specific gaps emerge from this review.
 \textbf{Gap 3: The Absence of a Constraint Quality Metric.} No existing work offers a metric that measures constraint permissiveness separately from the accuracy of downstream answers. Without this metric, it is not possible to track progress on reducing irrelevant paths in the valid set or to compare frameworks based on constraint quality without factoring in model quality.
 
 Table~\ref{tab:related_summary} summarizes the key works reviewed in this chapter, categorizing them by their approach, whether they provide structural faithfulness guarantees, and whether they incorporate semantic conditioning into their constraint mechanisms.
-\newpage
 
 \begin{longtable}[htpb]{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{3cm}|}
   \caption[Summary of Key Related Works]{Summary of Key Related Works} \label{tab:related_summary}                                                   \\

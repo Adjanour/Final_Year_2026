@@ -161,6 +161,8 @@ The regex-based type inference is the weakest component. With oracle type infere
 
 \subsubsection{Efficiency}
 
+Table~\ref{tab:efficiency_summary} compares the three conditions' runtime and memory footprint.
+
 \begin{table}[H]
   \centering
   \caption[Efficiency Summary]{Efficiency Summary}
@@ -182,14 +184,12 @@ The regex-based type inference is the weakest component. With oracle type infere
 
 LLM decoding dominates at 58\% of total time. DCA-Trie v1 adds 176 seconds (7.2\% overhead), with the TypeOracle gates completing in under 1 second on CPU during the DFS loop. The v3 lazy variant is the fastest of the constrained methods because it never builds the full trie; its slightly higher peak VRAM (16.6 vs.\ 16.0\,GB) reflects the frontier-tracking structures, not a larger path table.
 
-\clearpage
-
 % -----------------------------------------------------------------------------
 \section{GCR Reproduction and Baseline Comparison}
 \label{sec:ch4repro}
 % -----------------------------------------------------------------------------
 
-The original GCR paper~\citep{luo2025-graph-constrained-reasoning} uses a two-stage pipeline: a fine-tuned KG-specialized LLM generates reasoning paths via graph-constrained decoding, then a general-purpose LLM (ChatGPT or GPT-4o-mini) performs inductive reasoning over those paths. Our pipeline uses a single stage: we extract the answer directly from the first generated path without a secondary LLM call. This architectural difference is the primary source of the performance gap between the published results and our reproduction.
+The original GCR paper~\citep{luo2025-graph-constrained-reasoning} uses a two-stage pipeline: a fine-tuned KG-specialized LLM generates reasoning paths via graph-constrained decoding, then a general-purpose LLM (ChatGPT or GPT-4o-mini) performs inductive reasoning over those paths. Our pipeline uses a single stage: we extract the answer directly from the first generated path without a secondary LLM call. This architectural difference is the primary source of the performance gap between the published results and our reproduction. Table~\ref{tab:repro} summarises the published and reproduced numbers.
 
 \begin{table}[H]
   \centering
@@ -229,97 +229,33 @@ Structural faithfulness requires every token admitted by the constraint oracle t
 
 \subsection{Condition R: Semantic Relevance Reduction}
 
-Table~\ref{tab:path_stats} summarises the aggregate path statistics before and after TypeOracle filtering.
-
-\begin{table}[H]
-  \centering
-  \caption[Path Statistics Before and After TypeOracle Filtering]{Path Statistics: Before vs. After Filtering (controlled 300-question subset)}
-  \label{tab:path_stats}
-  \begin{tabularx}{\textwidth}{|X|r|r|}
-    \hline
-    \textbf{Metric}            & \textbf{Before} & \textbf{After}  \\
-    \hline
-    Total candidate paths      & 790,984         & 682,222         \\
-    \hline
-    Average paths per question & 2,637           & 2,274           \\
-    \hline
-    Paths removed              & ---             & 108,762         \\
-    \hline
-    \textbf{Path Reduction}    & ---             & \textbf{13.8\%} \\
-    \hline
-  \end{tabularx}
-\end{table}
+The TypeOracle reduces the candidate path set from 790,984 to 682,222 total paths (2,637 to 2,274 per question), a 13.8\% reduction on the controlled 300-question subset.
 
 The 13.8\% reduction represents the fraction of structurally valid paths that the TypeOracle judged semantically irrelevant. These paths were reachable through valid edges, but either their relation ranges or their terminal entity types were incompatible with the question's intent. The corpus-level SIR is 0.138: roughly one in seven admitted paths is semantically irrelevant. For GCR's static oracle, the SIR is 1.0 by definition.
 
-These two numbers, 13.8\% and the SIR drop from 1.0 to 0.138, describe different statistics of the same result. The 13.8\% figure is the drop in total path count (790,984 to 682,222). The SIR drop is the drop in the fraction of admitted paths that are semantically irrelevant, equivalently an 86.2\% relative reduction in irrelevance: GCR's unfiltered trie is 100\% irrelevant by definition (SIR~=~1.0), while DCA-Trie's filtered trie is only 13.8\% irrelevant (SIR~=~0.138). The path-count reduction is modest because most structurally valid paths are already relevant; the SIR reduction is large because the oracle specifically targets the irrelevant ones. Figure~\ref{fig:path_stats} visualises the path-count reduction.
+These two numbers, 13.8\% and the SIR drop from 1.0 to 0.138, describe different statistics of the same result. The 13.8\% figure is the drop in total path count (790,984 to 682,222). The SIR drop is the drop in the fraction of admitted paths that are semantically irrelevant, equivalently an 86.2\% relative reduction in irrelevance: GCR's unfiltered trie is 100\% irrelevant by definition (SIR~=~1.0), while DCA-Trie's filtered trie is only 13.8\% irrelevant (SIR~=~0.138). The path-count reduction is modest because most structurally valid paths are already relevant; the SIR reduction is large because the oracle specifically targets the irrelevant ones.
 
-\begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-        ybar,
-        bar width=28pt,
-        width=0.9\textwidth,
-        height=9cm,
-        ylabel={Number of Paths},
-        symbolic x coords={Total (thousands), Per Question},
-        xtick=data,
-        ymin=0,
-        ymax=900,
-        legend style={at={(0.5,-0.22)}, anchor=north, legend columns=-1},
-        nodes near coords,
-        every node near coord/.append style={font=\small},
-        grid=major,
-        grid style={dashed, black!60},
-        line width=0.8pt,
-        tick style={line width=0.5pt},
-      ]
-      \addplot[fill=gcrgold!70] coordinates {(Total (thousands), 791) (Per Question, 2637)};
-      \addplot[fill=dcagreen!70] coordinates {(Total (thousands), 682) (Per Question, 2274)};
-      \legend{Before (GCR), After (DCA-Trie)}
-    \end{axis}
-  \end{tikzpicture}
-  \caption{Path Statistics (790,984 → 682,222)}
-  \label{fig:path_stats}
-\end{figure}
-
-The total reduction decomposes into two independent gate contributions, as shown in Table~\ref{tab:gate_decomp}. The decomposition was measured on the full test set at index length $L{=}4$, where the total reduction reaches 14.5\%; the gate split is the same gate logic applied to the larger path space.
-
-\begin{table}[H]
-  \centering
-  \caption[TypeOracle Gate Decomposition]{Gate Decomposition (full test set, $L{=}4$)}
-  \label{tab:gate_decomp}
-  \begin{tabularx}{\textwidth}{|X|r|r|r|}
-    \hline
-    \textbf{Gate} & \textbf{Paths Blocked} & \textbf{\% of Total} & \textbf{Cumulative} \\
-    \hline
-    Range gate    & 157,485                & 3.8\%                & 3.8\%               \\
-    \hline
-    Type gate     & 435,897                & 10.6\%               & 14.5\%              \\
-    \hline
-    Total removed & 593,382                & 14.5\%               & ---                 \\
-    \hline
-  \end{tabularx}
-\end{table}
+The total reduction decomposes into two independent gate contributions, as shown in Table~\ref{tab:gates}. The decomposition was measured on the full test set at index length $L{=}4$, where the total reduction reaches 14.5\%; the gate split is the same gate logic applied to the larger path space.
 
 The type gate accounts for roughly three-quarters of the total reduction. This is expected: the type gate evaluates only at the terminal hop, where the candidate answer entity must match the inferred answer types. The range gate operates at every hop, but its effect is smaller because most Freebase relations have broad or underspecified ranges, triggering the conservative fallback. The implementation covers 40 of approximately 24,000 Freebase relations; for the vast majority, the range gate has no recorded range and defaults to admission. Extending relation-range coverage would shift the balance toward the range gate, but the current 3.8\% figure is a lower bound on what a more complete ontology could achieve.
 
 \subsection{Condition P: Recall Preservation}
 
-Table~\ref{tab:fnr} reports the false negative rates for each TypeOracle gate on the WebQSP validation split.
+Table~\ref{tab:gates} reports both the gate decomposition and the false negative rates for each TypeOracle gate; the FNR figures use the WebQSP validation split.
 
 \begin{table}[H]
   \centering
-  \caption[False Negative Rates by Gate]{False Negative Rates by Gate}
-  \label{tab:fnr}
-  \begin{tabularx}{\textwidth}{|X|r|r|}
+  \caption[TypeOracle Gate Analysis]{TypeOracle Gate Analysis}
+  \label{tab:gates}
+  \begin{tabularx}{\textwidth}{|X|r|r|r|r|}
     \hline
-    \textbf{Gate} & \textbf{Gold Paths Excluded} & \textbf{FNR} \\
+    \textbf{Gate} & \textbf{Paths Blocked} & \textbf{\% of Total} & \textbf{Gold Paths Excluded} & \textbf{FNR} \\
     \hline
-    Type gate     & 490 / 14,829                 & 3.3\%        \\
+    Type gate     & 435,897                & 10.6\%               & 490 / 14,829                 & 3.3\%        \\
     \hline
-    Range gate    & 424 / 14,829                 & 2.9\%        \\
+    Range gate    & 157,485                & 3.8\%                & 424 / 14,829                 & 2.9\%        \\
+    \hline
+    Total removed & 593,382                & 14.5\%               & ---                          & ---          \\
     \hline
   \end{tabularx}
 \end{table}
@@ -366,34 +302,6 @@ Every constrained variant lies below the reproduced GCR baseline, which rules ou
 
 Two results stand out. First, the v2 collapse is large ($-25.0$pp) but the no-gates variant collapses identically: disabling both TypeOracle gates leaves the score unchanged at 60.7\%, and 96.3\% of individual predictions are byte-identical. The v2 drop is therefore architectural, not attributable to the gates. Second, v3 lazy decoding lands at 81.0\%, statistically indistinguishable from v1 (Section~\ref{sec:ch4significance}), while materialising roughly two orders of magnitude fewer candidates per question than the static trie (Section~\ref{sec:ch4v3}).
 
-\begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-        ybar,
-        bar width=22pt,
-        width=0.9\textwidth,
-        height=9cm,
-        ylabel={Hits@1 (\%)},
-        symbolic x coords={Baseline, v1, v2, v2-no-gates, v3},
-        xtick=data,
-        ymin=40,
-        ymax=100,
-        legend style={at={(0.5,-0.22)}, anchor=north, legend columns=-1},
-        nodes near coords,
-        every node near coord/.append style={font=\small},
-        grid=major,
-        grid style={dashed, black!60},
-        line width=0.8pt,
-        tick style={line width=0.5pt},
-      ]
-      \addplot[fill=gcrgold!70] coordinates {(Baseline, 85.7) (v1, 81.7) (v2, 60.7) (v2-no-gates, 60.7) (v3, 81.0)};
-    \end{axis}
-  \end{tikzpicture}
-  \caption{Performance comparison on WebQSP (controlled 300-question subset).}
-  \label{fig:main_results}
-\end{figure}
-
 \subsection{Statistical Significance}
 \label{sec:ch4significance}
 
@@ -432,7 +340,7 @@ Four mechanisms contribute to the non-monotone behaviour: gold-path exclusion (t
 
 A skeptical reader could attribute the non-monotone result to the quality of the type-inference heuristic rather than to a genuine tightness-accuracy decoupling: if the regex classifier were perfect, the TypeOracle might improve accuracy. This objection has merit. The 19-pattern regex classifier is the weakest component of the pipeline, and Case~1 in Section~\ref{sec:ch4cases} shows a concrete failure where misclassification directly causes an incorrect answer.
 
-The confound does not fully explain the result. The type gate's false negative rate is below 5\% (Table~\ref{tab:fnr}), which accounts for only a fraction of the 4.0pp accuracy drop. The remainder comes from beam-competition effects and precision-recall tradeoffs independent of type-inference quality. Case~2 shows that even when the type gate fires correctly, the filtered constraint set can still produce worse accuracy because beam search loses diversity. The SIR reduction from 1.0 to 0.138 shows the filtering is directionally correct: the problem is not that the oracle filters the wrong paths, but that the decoding process needs some of those irrelevant paths to maintain beam diversity. The cleanest evidence is the calibration run in Section~\ref{sec:ch4v3}: with the gates disabled, the lazy constraint reproduces the baseline exactly, so every gated-number difference is attributable to the gates themselves.
+The confound does not fully explain the result. The type gate's false negative rate is below 5\% (Table~\ref{tab:gates}), which accounts for only a fraction of the 4.0pp accuracy drop. The remainder comes from beam-competition effects and precision-recall tradeoffs independent of type-inference quality. Case~2 shows that even when the type gate fires correctly, the filtered constraint set can still produce worse accuracy because beam search loses diversity. The SIR reduction from 1.0 to 0.138 shows the filtering is directionally correct: the problem is not that the oracle filters the wrong paths, but that the decoding process needs some of those irrelevant paths to maintain beam diversity. The cleanest evidence is the calibration run in Section~\ref{sec:ch4v3}: with the gates disabled, the lazy constraint reproduces the baseline exactly, so every gated-number difference is attributable to the gates themselves.
 
 % -----------------------------------------------------------------------------
 \section{RQ3: Does the TypeOracle Add Computational Overhead?}
@@ -469,28 +377,7 @@ DCA-Trie v1 adds approximately 176 seconds (7.2\%) to the total runtime relative
 \label{sec:ch4faithful}
 % -----------------------------------------------------------------------------
 
-GCR achieves 100\% faithful reasoning ratio on both WebQSP and CWQ: every generated path can be found in the knowledge graph~\citep{luo2025-graph-constrained-reasoning}. DCA-Trie inherits this property by construction, as Table~\ref{tab:faithful} confirms.
-
-\begin{table}[H]
-  \centering
-  \caption[Faithful Reasoning Ratio]{Faithful Reasoning Ratio}
-  \label{tab:faithful}
-  \begin{tabularx}{\textwidth}{|X|c|c|}
-    \hline
-    \textbf{Method} & \textbf{WebQSP Faithful} & \textbf{CWQ Faithful} \\
-    \hline
-    GCR Baseline    & 100\%                    & 100\%                 \\
-    \hline
-    DCA-Trie v1     & 100\%                    & 100\%                 \\
-    \hline
-    DCA-Trie v2     & 100\%                    & 100\%                 \\
-    \hline
-    DCA-Trie v3     & 100\%                    & 100\%                 \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-This is a critical property: even though the DCA-Trie variants produce lower answer accuracy than GCR, every path they generate is verifiable against the knowledge graph. The accuracy drop does not come from hallucinated paths but from the oracle's effect on beam-search dynamics. This distinguishes DCA-Trie from unconstrained LLM baselines, where accuracy gains often come at the cost of faithful reasoning~\citep{luo2025-graph-constrained-reasoning}.
+GCR achieves a 100\% faithful reasoning ratio on both WebQSP and CWQ: every generated path can be found in the knowledge graph~\citep{luo2025-graph-constrained-reasoning}. DCA-Trie inherits this property by construction: even though the DCA-Trie variants produce lower answer accuracy than GCR, every path they generate is structurally valid. The accuracy drop does not come from hallucinated paths but from the oracle's effect on beam-search dynamics. This distinguishes DCA-Trie from unconstrained LLM baselines, where accuracy gains often come at the cost of faithful reasoning~\citep{luo2025-graph-constrained-reasoning}.
 
 % -----------------------------------------------------------------------------
 \section{DCA-Trie v3: Lazy Constrained Decoding}
@@ -638,92 +525,20 @@ Table~\ref{tab:katamanso_criterion} summarises the multi-dimensional comparison 
   \end{tabularx}
 \end{table}
 
-GCR leads on accuracy; DCA-Trie leads on search-space quality, semantic filtering, and analytical interpretability. Table~\ref{tab:method_comparison} positions DCA-Trie against related constrained-decoding methods. DCA-Trie is the only method that combines dynamic constraint adaptation with a symbolic oracle operating over the full KG schema.
-
-\begin{table}[H]
-  \centering
-  \caption[Comparison with Related Methods]{Comparison with Related Methods}
-  \label{tab:method_comparison}
-  \begin{tabularx}{\textwidth}{|X|c|c|c|c|}
-    \hline
-    \textbf{Method}  & \textbf{Structural Constraint} & \textbf{Dynamic} & \textbf{Semantic} & \textbf{Oracle} \\
-    \hline
-    GCR              & \checkmark                      & ---              & ---               & ---             \\
-    \hline
-    DoG              & \checkmark                      & Partial          & ---               & Topology        \\
-    \hline
-    RouterKGQA       & ---                             & \checkmark       & \checkmark        & Retrieval       \\
-    \hline
-    DCA-Trie (proposed) & \checkmark                   & \checkmark       & \checkmark        & Schema ontology \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-Each method trades a different pair of properties. GCR achieves structural faithfulness without dynamic or semantic filtering; DoG adds partial dynamic expansion but no semantic oracle; RouterKGQA provides retrieval-based semantic adaptation outside the KG structure. DCA-Trie is the only framework that combines structural faithfulness, dynamic expansion (v2), and semantic filtering in a single oracle, applying type-theoretic constraints derived from the Freebase ontology rather than learning relevance from data.
+GCR leads on accuracy; DCA-Trie leads on search-space quality, semantic filtering, and analytical interpretability. Across the methods reviewed in Section~\ref{sec:constrained}, DCA-Trie is the only framework that combines structural faithfulness, dynamic expansion (v2), and semantic filtering in a single oracle, applying type-theoretic constraints derived from the Freebase ontology rather than learning relevance from data.
 
 The experimental results support four findings. First, the TypeOracle satisfies its design conditions (Section~\ref{sec:ch4conditions}). Second, those conditions are satisfied without improving answer accuracy: the oracle removes genuinely irrelevant paths (SIR falls from 1.0 to 0.138) but the decoding process relies on some of those paths to maintain beam diversity, so Hits@1 drops 4.0pp (v1) and 4.7pp (v3). Tightness and accuracy are independent properties; this is the thesis's core contribution, since the permissiveness problem identified in Chapter~2, while real, is not the primary driver of error. Third, the v2 collapse is architectural and gate-independent (Section~\ref{sec:ch4v2}). Fourth, the non-monotone relationship forces a re-evaluation of the field's implicit assumption: in classical planning a smaller search space converges faster, but autoregressive decoding does not work this way. The search space interacts with beam-search pruning and the model's probability distribution, so reducing it removes distractors while also reducing diversity and, when type-inference noise is present, excluding correct answers.
 
 The implication is clear: future work should not treat constraint tightness as a proxy for constraint quality. An oracle that admits fewer paths is not necessarily better; what matters is whether it admits the \textit{right} paths. The oracle hierarchy (structural $\to$ ontology $\to$ question $\to$ useful) is not a ladder to climb but a landscape to navigate, and the filtering-unfiltering tradeoff is its central axis: every admission decision either removes noise or removes diversity, with the balance varying by question.
 
-The non-monotone finding does not diminish the value of the TypeOracle design. It reveals that the relationship between constraint quality and answer quality is more nuanced than previously assumed. The TypeOracle satisfies its design conditions, maintains 100\% structural faithfulness, and adds negligible overhead; the accuracy drop is a consequence of the interaction between semantic filtering and beam-search dynamics, not a flaw in the oracle itself. Figure~\ref{fig:non_monotone} visualises this relationship.
-
-\begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-        width=0.9\textwidth,
-        height=9cm,
-        xlabel={Constraint Tightness (SIR)},
-        ylabel={Hits@1 (\%)},
-        xmin=-0.05,
-        xmax=1.1,
-        ymin=70,
-        ymax=95,
-        grid=major,
-        grid style={dashed, black!60},
-        axis lines=left,
-        line width=0.8pt,
-        tick style={line width=0.5pt},
-      ]
-      \addplot[mark=*, mark size=4pt, gcrgold, thick] coordinates {(1.0, 85.7)};
-      \node[right, font=\small] at (axis cs:1.0, 85.7) {GCR Baseline (SIR=1.0, 85.7\%)};
-      \addplot[mark=square*, mark size=4pt, dcagreen, thick] coordinates {(0.138, 81.7)};
-      \node[right, font=\small] at (axis cs:0.138, 81.7) {DCA-Trie v1 (SIR=0.138, 81.7\%)};
-      \draw[->, thick, red, dashed] (axis cs:0.85, 85.0) -- (axis cs:0.3, 82.2);
-      \node[red, font=\small, align=center] at (axis cs:0.55, 84.0) {Tighter oracle\\does not improve accuracy};
-    \end{axis}
-  \end{tikzpicture}
-  \caption{Non-Monotone Relationship}
-  \label{fig:non_monotone}
-\end{figure}
+The non-monotone finding does not diminish the value of the TypeOracle design. It reveals that the relationship between constraint quality and answer quality is more nuanced than previously assumed. The TypeOracle satisfies its design conditions, maintains 100\% structural faithfulness, and adds negligible overhead; the accuracy drop is a consequence of the interaction between semantic filtering and beam-search dynamics, not a flaw in the oracle itself.
 
 % -----------------------------------------------------------------------------
 \section{DCA-Trie v2: Observations}
 \label{sec:ch4v2}
 % -----------------------------------------------------------------------------
 
-DCA-Trie v2 implements step-wise dynamic expansion, rebuilding the trie at each entity commitment. Table~\ref{tab:v2_results} presents the results.
-
-\begin{table}[H]
-  \centering
-  \caption[DCA-Trie v2 Results]{DCA-Trie v2 results on WebQSP (300 questions).}
-  \label{tab:v2_results}
-  \begin{tabularx}{\textwidth}{|X|c|c|}
-    \hline
-    \textbf{Method} & \textbf{WebQSP Hits@1} & \textbf{CWQ Hits@1} \\
-    \hline
-    GCR Baseline    & 85.7\%                 & 49.0\% (300q)       \\
-    \hline
-    DCA-Trie v1     & 81.7\%                 & 43.7\% (300q)       \\
-    \hline
-    DCA-Trie v2     & 60.7\%                 & ---                 \\
-    \hline
-    DCA-Trie v2 (no gates) & 60.7\%          & ---                 \\
-    \hline
-  \end{tabularx}
-\end{table}
-
-The v2 results show 60.7\% Hits@1 on WebQSP, substantially worse than both the GCR baseline (85.7\%) and DCA-Trie v1 (81.7\%). v2 was not run on CWQ; the CWQ column reports the controlled 300-question results for the configurations that were evaluated there (Table~\ref{tab:cwq_results}).
+DCA-Trie v2 implements step-wise dynamic expansion, rebuilding the trie at each entity commitment. Table~\ref{tab:main_results} reports its WebQSP result: 60.7\% Hits@1, substantially worse than both the GCR baseline (85.7\%) and DCA-Trie v1 (81.7\%). v2 was not run on CWQ.
 
 The decisive ablation is v2-no-gates: with both TypeOracle gates disabled, v2 scores identically at 60.7\%, and 96.3\% of individual predictions are byte-identical to the gated run. The 25-point collapse is therefore caused by the v2 \textit{architecture} (the per-hop, beam-wise trie rebuilding and the path-length loop), not by the type/range gates. This contradicts the hypothesis that the DoG-proxy gates are what cost accuracy.
 

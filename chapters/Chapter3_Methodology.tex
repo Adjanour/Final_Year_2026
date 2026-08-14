@@ -43,7 +43,7 @@ where $q$ is the natural language query and $y_{<t} = (y_1, \ldots, y_{t-1})$ is
 \begin{enumerate}
   \item \textbf{Structural Faithfulness (Condition~F):} Every candidate token $v \in \mathcal{W}_{\text{val}}^{\text{DCA}}(t)$ must correspond to a valid prefix of a path $p \in \mathcal{G}$ at every step $t$. This preserves the 100\% structural faithfulness guarantee achieved by GCR and DoG.
 
-  \item \textbf{Semantic Relevance Reduction (Condition~R):} The Semantic Irrelevance Ratio (SIR) under DCA-Trie must be lower than the corresponding SIR under GCR when averaged over the evaluation corpus. Using SIR as defined in Section~\ref{sec:ch3sir}:
+  \item \textbf{Semantic Relevance Reduction (Condition~R):} The Semantic Irrelevance Ratio (SIR) under DCA-Trie must be lower than the corresponding SIR under GCR when averaged over the evaluation corpus. Using SIR as defined in Section~\ref{sec:ch3sir}, the condition formalised in Equation~\eqref{eq:sir_condition} is
         \begin{equation}
           \overline{\text{SIR}}\!\left(\mathcal{W}^{\text{DCA}}\right) <
           \overline{\text{SIR}}\!\left(\mathcal{W}^{\text{GCR}}\right)
@@ -343,7 +343,7 @@ The oracle consists of two complementary gates:
   \item \textbf{Property Range Gate} ($\rho_r$, every hop): Applied at every edge in the path. It checks whether the tail entity's type is compatible with the relation's declared range in the ontology. If a relation expects a location as its range, then only entities typed as locations are admitted when type information is available.
 \end{enumerate}
 
-The combined admission check for a candidate edge $(r, e')$ at hop $h$ is:
+The combined admission check for a candidate edge $(r, e')$ at hop $h$, formalised in Equation~\eqref{eq:admissible}, is:
 \begin{equation}
   \text{is\_admissible}(r, e', \mathcal{T}(q), h, L) = \text{type\_gate}(e', \mathcal{T}(q), h, L) \;\land\; \text{range\_gate}(r, e')
   \label{eq:admissible}
@@ -355,7 +355,7 @@ where $\mathcal{T}(q)$ is the set of expected answer types inferred from the que
 
 The TypeOracle is constructed from the knowledge graph's own schema triples. Freebase encodes entity types through \texttt{common.topic.notable\_types}, property domains through \texttt{rdf-schema\#domain}, and property ranges through \texttt{rdf-schema\#range}. From these, the oracle builds two lookup structures: \texttt{\_entity\_types} (entity-to-types) and \texttt{\_schema} (relation-to-range). Question type inference uses lightweight pattern matching (``who'' $\to$ person, ``where'' $\to$ location, etc.). If no pattern matches, the type gate admits candidates conservatively.
 
-The gates operate on discrete set membership rather than continuous similarity values:
+The gates operate on discrete set membership rather than continuous similarity values, as defined in Equations~\eqref{eq:type_gate} and \eqref{eq:range_gate}:
 \begin{align}
   \text{type\_gate}(e', \mathcal{T}(q), h, L) & = \begin{cases}
                                                     \text{True}                                                     & h < L                        \\
@@ -376,8 +376,6 @@ The gates operate on discrete set membership rather than continuous similarity v
 \end{align}
 
 Both gates default to True when schema metadata is absent. This ensures structural faithfulness is never compromised and the TypeOracle never produces empty path sets. The design is threshold-free: no continuous similarity score requires tuning.
-
-\newpage
 
 \subsection{Computational Properties}
 
@@ -500,7 +498,7 @@ Figure~\ref{fig:v1} summarises this offline filtering workflow.
   \end{algorithmic}
 \end{algorithm}
 
-The algorithm follows four stages. First, the system pattern-matches question words against predefined patterns to infer the answer types $\mathcal{T}(q)$. Second, standard BFS maps out every possible graph path from the question entities up to maximum depth $L$, matching the baseline GCR approach. Third, the oracle checks whether every edge respects the relation's declared range and whether the terminal entity type matches the inferred answer types, keeping only paths that pass all gates. Fourth, the remaining paths are compiled into a static prefix tree, which the LLM queries at each token step during decoding.
+Algorithm~\ref{alg:v1} follows four stages. First, the system pattern-matches question words against predefined patterns to infer the answer types $\mathcal{T}(q)$. Second, standard BFS maps out every possible graph path from the question entities up to maximum depth $L$, matching the baseline GCR approach. Third, the oracle checks whether every edge respects the relation's declared range and whether the terminal entity type matches the inferred answer types, keeping only paths that pass all gates. Fourth, the remaining paths are compiled into a static prefix tree, which the LLM queries at each token step during decoding.
 
 \subsection{Complexity Analysis}
 
@@ -521,7 +519,7 @@ DCA-Trie v1 maintains structural faithfulness by design. Every path kept in $\ma
 
 DCA-Trie v2 implements the dynamic oracle in Equation~\eqref{eq:dca_oracle} by conditioning constraints on the evolving prefix $y_{<t}$. Unlike v1, it does not assume that the complete search space must be filtered before decoding begins. As generation progresses, $y_{<t}$ reveals the path decisions already made, so the relevant neighbourhood can change step by step.
 
-Architecturally, v2 follows the step-wise traversal pattern in DoG \citep{li2024-decoding-on-graphs} but adds symbolic TypeOracle gating to each local expansion. After each committed entity $e_t$, the trie expands only to structurally valid neighbours that also satisfy the active type and range gates:
+Architecturally, v2 follows the step-wise traversal pattern in DoG \citep{li2024-decoding-on-graphs} but adds symbolic TypeOracle gating to each local expansion. After each committed entity $e_t$, the trie expands only to structurally valid neighbours that also satisfy the active type and range gates, as formalised in Equation~\eqref{eq:v2expansion}:
 \begin{equation}
   \mathcal{T}_{t+1} = \mathcal{T}_t \;\cup\; \bigl\{(e_t,\, r,\, e') :
   (e_t, r, e') \in \mathcal{G} \;\land\;
@@ -532,6 +530,54 @@ Architecturally, v2 follows the step-wise traversal pattern in DoG \citep{li2024
 The expansion procedure has four steps: (1)~initialize a minimal trie containing only the root question entities; (2)~at each decoding step, look up valid tokens from the current trie and apply logit masking; (3)~when the LLM commits an entity token, fetch all structurally valid neighbours from the knowledge graph and apply range\_gate and type\_gate to each candidate; (4)~add candidates passing both gates to the trie. Relation-token steps do not trigger expansion.
 
 At each entity commitment, the expansion loop examines all $D$ neighbours, applying one $O(1)$ set check per neighbour. Over $T_e$ commitments, the total expansion cost is $O(T_e \cdot D \cdot L)$, versus v1's offline $O(|\mathcal{P}| \cdot L)$. In typical WebQSP questions $T_e \cdot D$ is smaller than $|\mathcal{P}|$ (a 2-hop question commits to 2 entities, each with $D \approx 20$ neighbours). The practical trade-off is not the per-step oracle cost but the trie-rebuild frequency: each rebuild modifies the trie structure that the LLM's prefix-constrained decoding depends on, introducing instability that static pre-filtering avoids.
+
+\subsection{Algorithm for DCA-Trie v2}
+
+Algorithm~\ref{alg:v2} formalises the step-wise expansion procedure. The trie starts minimal and grows only at entity-commitment steps, so that at every decoding step the set of valid tokens remains both graph-valid and type-consistent.
+
+\begin{algorithm}[H]
+  \caption{DCA-Trie v2: Step-Wise Symbolic Expansion}
+  \label{alg:v2}
+  \small
+  \begin{algorithmic}[1]
+    \Require Knowledge graph $\mathcal{G}$; question entities $\mathcal{E}_q$;
+    question $q$; TypeOracle $\mathcal{O}$; LLM with vocabulary $\mathcal{V}$
+    \Ensure Generated reasoning chain $y_1 \ldots y_T$
+
+    \State \textbf{Initialize trie} with entity nodes for $\mathcal{E}_q$:
+    $\mathcal{T}_0 \gets \{e_q : e_q \in \mathcal{E}_q\}$
+
+    \State \textbf{Infer answer types:}
+    $\mathcal{T}(q) \gets \mathcal{O}.\text{infer\_answer\_types}(q)$
+
+    \For{each step $t = 1$ \textbf{to} $T$}
+    \State $\mathcal{V}_t \gets \textsc{TrieLookup}(\mathcal{T}_{t-1}, y_{<t})$
+    \Comment{Valid tokens from current trie}
+    \State $\mathbf{m}_t[v] \gets \mathbf{1}[v \in \mathcal{V}_t]$ for all $v$
+    \State $\tilde{\boldsymbol{\alpha}}_t \gets \mathbf{m}_t \odot
+      \textsc{LLMLogits}(y_{<t}, x)$
+    \State $y_t \gets \text{beam-search-step}(\tilde{\boldsymbol{\alpha}}_t)$
+
+    \If{$y_t$ is an \textit{entity} token $e_t$}
+    \Comment{Expansion triggered at entity commits}
+    \For{each $(e_t, r, e') \in \mathcal{G}$}
+    \If{$\mathcal{O}.\text{range\_gate}(r, e')$}
+    \State $h \gets$ current hop depth in trie
+    \If{$\mathcal{O}.\text{type\_gate}(e', \mathcal{T}(q), h, L)$}
+    \State Add $(e_t, r, e')$ to $\mathcal{T}_t$
+    \EndIf
+    \EndIf
+    \EndFor
+    \Else
+    \State $\mathcal{T}_t \gets \mathcal{T}_{t-1}$
+    \Comment{No expansion at relation token steps}
+    \EndIf
+    \EndFor
+    \State \Return $y_1 \ldots y_T$
+  \end{algorithmic}
+\end{algorithm}
+
+The key structural difference from v1 is in lines 8--16 of Algorithm~\ref{alg:v2}. Expansion is triggered only when the model commits an entity token, not at every step. At that moment, all structurally valid neighbours of $e_t$ are fetched from the knowledge graph and passed through the range and type gates; only candidates that pass both are added to the trie. At relation-token steps the trie is held constant, so no gate evaluation occurs. This concentrates computation at entity decision points while keeping per-step overhead predictable.
 
 \subsection{When v2 Helps and When It Hurts}
 \label{sec:ch3v2behavior}
@@ -547,7 +593,7 @@ The weakness is \textit{instability}: each trie rebuild changes the set of valid
 
 v2's step-wise rebuild trades the static trie's stability for per-step focus, but rebuilds the constraint structure itself. v3 instead changes \textit{when} the constraint is materialised, not what it admits. The full DFS enumeration of v1 and GCR is replaced by lazy expansion: the trie is built incrementally only along the frontiers the beams actually reach, with TypeOracle gating applied at each expansion point. A single \texttt{generate()} call runs over one probability space, so the constraint never changes mid-decoding as in v2; it only grows.
 
-Formally, let $\mathcal{F}_t$ be the set of frontier nodes the live beams have committed to at step $t$. The trie at step $t$ is
+Formally, let $\mathcal{F}_t$ be the set of frontier nodes the live beams have committed to at step $t$. The trie at step $t$, defined in Equation~\eqref{eq:v3expansion}, is
 \begin{equation}
   \mathcal{T}_t = \mathcal{T}_{t-1} \;\cup\; \bigcup_{e \in \mathcal{F}_t}\,
   \{(e,\, r,\, e') : (e, r, e') \in \mathcal{G} \;\land\;

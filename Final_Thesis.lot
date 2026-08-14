@@ -2,28 +2,23 @@
 \addvspace {0\p@ }
 \contentsline {table}{\numberline {1.1}{\ignorespaces Implemented Software Tools}}{4}{table.caption.27}%
 \addvspace {0\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Summary of Key Related Works}}{16}{table.2.1}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Summary of Key Related Works}}{15}{table.2.1}%
 \addvspace {0\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces \normalfont Comparison of Oracle Designs}}{24}{table.caption.79}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Computational Properties: Embedding vs. Symbolic}}{27}{table.caption.89}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces \normalfont Comparison of Oracle Designs}}{23}{table.caption.78}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Computational Properties: Embedding vs. Symbolic}}{25}{table.caption.88}%
 \addvspace {0\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Generation Configuration}}{36}{table.caption.111}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Dataset Properties}}{37}{table.caption.113}%
-\contentsline {table}{\numberline {4.5}{\ignorespaces Ablation Summary}}{40}{table.caption.119}%
-\contentsline {table}{\numberline {4.7}{\ignorespaces Efficiency Summary}}{41}{table.caption.123}%
-\contentsline {table}{\numberline {4.9}{\ignorespaces GCR Reproduction Comparison}}{42}{table.caption.125}%
-\contentsline {table}{\numberline {4.11}{\ignorespaces Path Statistics Before and After TypeOracle Filtering}}{43}{table.caption.129}%
-\contentsline {table}{\numberline {4.13}{\ignorespaces TypeOracle Gate Decomposition}}{45}{table.caption.131}%
-\contentsline {table}{\numberline {4.15}{\ignorespaces False Negative Rates by Gate}}{45}{table.caption.133}%
-\contentsline {table}{\numberline {4.17}{\ignorespaces Main Results on WebQSP (controlled 300-question subset)}}{46}{table.caption.137}%
-\contentsline {table}{\numberline {4.19}{\ignorespaces Statistical Significance of Accuracy Differences}}{48}{table.caption.140}%
-\contentsline {table}{\numberline {4.21}{\ignorespaces Execution Time by Method}}{49}{table.caption.144}%
-\contentsline {table}{\numberline {4.23}{\ignorespaces Faithful Reasoning Ratio}}{50}{table.caption.146}%
-\contentsline {table}{\numberline {4.25}{\ignorespaces DCA-Trie v3 Results}}{51}{table.caption.148}%
-\contentsline {table}{\numberline {4.27}{\ignorespaces Case Studies Illustrating Non-Monotone Behaviour}}{52}{table.caption.151}%
-\contentsline {table}{\numberline {4.29}{\ignorespaces Results on CWQ}}{53}{table.caption.153}%
-\contentsline {table}{\numberline {4.31}{\ignorespaces GCR vs.\ DCA-Trie Multi-Dimensional Comparison}}{54}{table.caption.155}%
-\contentsline {table}{\numberline {4.33}{\ignorespaces Comparison with Related Methods}}{55}{table.caption.156}%
-\contentsline {table}{\numberline {4.35}{\ignorespaces DCA-Trie v2 Results}}{57}{table.caption.159}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Generation Configuration}}{35}{table.caption.112}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Dataset Properties}}{36}{table.caption.114}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Ablation Summary}}{39}{table.caption.120}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Efficiency Summary}}{40}{table.caption.124}%
+\contentsline {table}{\numberline {4.9}{\ignorespaces GCR Reproduction Comparison}}{41}{table.caption.126}%
+\contentsline {table}{\numberline {4.11}{\ignorespaces TypeOracle Gate Analysis}}{43}{table.caption.131}%
+\contentsline {table}{\numberline {4.13}{\ignorespaces Main Results on WebQSP (controlled 300-question subset)}}{44}{table.caption.135}%
+\contentsline {table}{\numberline {4.15}{\ignorespaces Statistical Significance of Accuracy Differences}}{45}{table.caption.137}%
+\contentsline {table}{\numberline {4.17}{\ignorespaces Execution Time by Method}}{47}{table.caption.141}%
+\contentsline {table}{\numberline {4.19}{\ignorespaces DCA-Trie v3 Results}}{48}{table.caption.144}%
+\contentsline {table}{\numberline {4.21}{\ignorespaces Case Studies Illustrating Non-Monotone Behaviour}}{49}{table.caption.147}%
+\contentsline {table}{\numberline {4.23}{\ignorespaces Results on CWQ}}{50}{table.caption.149}%
+\contentsline {table}{\numberline {4.25}{\ignorespaces GCR vs.\ DCA-Trie Multi-Dimensional Comparison}}{51}{table.caption.151}%
 \addvspace {0\p@ }
 \contentsfinish 

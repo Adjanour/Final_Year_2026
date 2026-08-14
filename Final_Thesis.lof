@@ -1,15 +1,11 @@
 \babel@toc {english}{}\relax 
 \addvspace {0\p@ }
 \addvspace {0\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Simplified Example of a Knowledge Graph Fragment}}{10}{figure.caption.40}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Standard RAG vs. KG-Constrained Decoding}}{14}{figure.caption.50}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Simplified Example of a Knowledge Graph Fragment}}{9}{figure.caption.40}%
 \addvspace {0\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces DCA-Trie System Architecture}}{21}{figure.caption.69}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces TypeOracle Admission Process}}{24}{figure.caption.81}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Static Symbolic Filtering Pipeline (DCA-Trie v1)}}{28}{figure.caption.92}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces DCA-Trie System Architecture}}{20}{figure.caption.68}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces TypeOracle Admission Process}}{23}{figure.caption.80}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Static Symbolic Filtering Pipeline (DCA-Trie v1)}}{26}{figure.caption.91}%
 \addvspace {0\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Path Statistics (790,984 → 682,222)}}{44}{figure.caption.130}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Performance comparison on WebQSP (controlled 300-question subset).}}{47}{figure.caption.138}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Non-Monotone Relationship}}{56}{figure.caption.157}%
 \addvspace {0\p@ }
 \contentsfinish 
